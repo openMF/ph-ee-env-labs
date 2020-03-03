@@ -1,0 +1,110 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ tpl .Values.global.zeebe . | quote }}
+  labels:
+    app.kubernetes.io/name: {{ include "zeebe-cluster.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app: {{ tpl .Values.global.zeebe . | quote }}
+{{- toYaml  .Values.labels | nindent 4 }}
+  annotations:
+    {{- range $key, $value := .Values.annotations }}
+    {{ $key }}: {{ $value | quote }}
+    {{- end }}   
+spec:
+  replicas: {{ .Values.clusterSize  }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "zeebe-cluster.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+      app: {{ tpl .Values.global.zeebe . | quote }}
+  serviceName: {{ tpl .Values.global.zeebe . | quote }}
+  updateStrategy:
+    type: RollingUpdate
+  podManagementPolicy: Parallel
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "zeebe-cluster.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        app: {{ tpl .Values.global.zeebe . | quote }}
+      annotations:
+        {{- range $key, $value := .Values.podAnnotations }}
+        {{ $key }}: {{ $value | quote }}
+        {{- end }}   
+    spec:
+      initContainers:
+        {{- if .Values.extraInitContainers }}
+        {{ tpl .Values.extraInitContainers . | indent 8 | trim }}
+        {{- end }}    
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        env:
+        - name: ZEEBE_LOG_LEVEL
+          value: debug
+        - name: ZEEBE_PARTITIONS_COUNT
+          value: {{ .Values.partitionCount | quote }}
+        - name: ZEEBE_CLUSTER_SIZE
+          value: {{ .Values.clusterSize | quote }}
+        - name: ZEEBE_REPLICATION_FACTOR
+          value: {{ .Values.replicationFactor | quote }}
+        - name: JAVA_TOOL_OPTIONS
+          value: 
+           {{- toYaml .Values.JavaOpts | nindent 12}}
+        ports:
+        - containerPort: 9600
+          name: http
+        - containerPort: 26500
+          name: gateway
+        - containerPort: 26501
+          name: command
+        - containerPort: 26502
+          name: internal
+        readinessProbe:
+          httpGet:
+            path: {{ .Values.probePath }}
+            port: {{ .Values.service.http.port }}
+          periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+          successThreshold: {{ .Values.readinessProbe.successThreshold }}
+          timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+        resources:
+          {{- toYaml .Values.resources | nindent 12 }}
+        volumeMounts:
+        - name: config
+          mountPath: /usr/local/zeebe/conf/zeebe.cfg.toml
+          subPath: zeebe.cfg.toml
+        - name: config
+          mountPath: /usr/local/bin/startup.sh
+          subPath: startup.sh
+        - name: data
+          mountPath: /usr/local/zeebe/data
+      volumes:
+      - name: config
+        configMap:
+          name: {{ tpl .Values.global.zeebe . | quote }}
+          defaultMode: 0744
+      securityContext:
+{{ toYaml .Values.podSecurityContext | indent 8 }}
+{{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+{{- end }}
+{{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+{{- end }}
+{{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+{{- end }}
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes: {{ .Values.pvcAccessModes }}
+      storageClassName: {{ .Values.pvcStorageClassName }}
+      resources:
+        requests:
+          storage: {{ .Values.pvcSize | quote }}
