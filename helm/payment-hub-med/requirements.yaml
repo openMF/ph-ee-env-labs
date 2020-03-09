@@ -1,5 +1,0 @@
-dependencies:
-- name: ph-ee-engine
-  repository: http://localhost/ph-ee-engine/
-  version: 1.0.0-SNAPSHOT
-

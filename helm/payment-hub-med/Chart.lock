@@ -1,6 +1,6 @@
 dependencies:
-- name: phee-engine
-  repository: http://localhost
+- name: ph-ee-engine
+  repository: http://localhost/
   version: 1.0.0-SNAPSHOT
-digest: sha256:5c2a54746952efa558b08f6aa930bfc30f813d8bf11547347b37d7f0332add8f
-generated: "2020-03-09T21:15:26.166798719+01:00"
+digest: sha256:f1f9fc6ad5bf32cf9cc606fb62ca4532287cea76f45c23f1cb758657fbff2292
+generated: "2020-03-09T21:58:40.101217931+01:00"
