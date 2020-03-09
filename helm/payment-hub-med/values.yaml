@@ -8,6 +8,7 @@ ph-ee-engine:
   replicationFactor: "3"
   elasticsearch:
     replicas: 3
+    clusterName: "ph-ee-med-elasticsearch"
 
 replicaCount: 1
 
