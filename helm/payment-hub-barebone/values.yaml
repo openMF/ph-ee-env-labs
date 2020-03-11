@@ -8,7 +8,7 @@ ph-ee-engine:
   replicationFactor: "1"
   elasticsearch:
     replicas: 1
-    clusterName: "ph-ee-barebone-elasticsearch"
+    clusterName: "ph-ee-elasticsearch"
 
 replicaCount: 1
 
