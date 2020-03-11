@@ -59,8 +59,8 @@ USE `tn05`;
 SET @client_name = 'InteropCustomer';
 SET @saving_account_no = '9062b90de19b43989005';
 SET @saving_account_ext_id = '9062b90de19b43989005d9';
-SET @IBAN = 'IC11in02tn05' + @saving_account_ext_id;
-SET @MSISDN = '27710205999';
+SET @IBAN = 'IC11in03tn05' + @saving_account_ext_id;
+SET @MSISDN = '27710305999';
 
 INSERT INTO `m_client` (`account_no`, `external_id`, `status_enum`, `sub_status`, `activation_date`, `office_joining_date`,
                         `office_id`, `transfer_to_office_id`, `staff_id`, `firstname`, `middlename`, `lastname`, `fullname`,
@@ -173,8 +173,8 @@ USE `tn06`;
 SET @client_name = 'InteropMerchant';
 SET @saving_account_no = 'a6b6c10b2aaa4778ac2f';
 SET @saving_account_ext_id = 'a6b6c10b2aaa4778ac2fc9';
-SET @IBAN = 'IC11in02tn06' + @saving_account_ext_id;
-SET @MSISDN = '27710206999';
+SET @IBAN = 'IC11in03tn06' + @saving_account_ext_id;
+SET @MSISDN = '27710306999';
 
 INSERT INTO `m_client` (`account_no`, `external_id`, `status_enum`, `sub_status`, `activation_date`, `office_joining_date`,
                         `office_id`, `transfer_to_office_id`, `staff_id`, `firstname`, `middlename`, `lastname`, `fullname`,
