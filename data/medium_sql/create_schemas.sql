@@ -1,0 +1,5 @@
+-- STEP 1 create schemas
+CREATE SCHEMA IF NOT EXISTS `mifosplatform-tenants`;
+CREATE SCHEMA IF NOT EXISTS `mifostenant-default`;
+CREATE SCHEMA IF NOT EXISTS `tn05`;
+CREATE SCHEMA IF NOT EXISTS `tn06`;
