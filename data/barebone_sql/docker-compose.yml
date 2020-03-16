@@ -1,0 +1,26 @@
+version: '2'
+services:
+  fineractmysql:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql
+    ports:
+      - "3306:3306"
+
+  fineract-server:
+    image: paymenthubee.azurecr.io/fineract_fineract-server:1.2
+    environment:
+      SPRING_PROFILES_ACTIVE: basicauth
+      JAVA_OPTS: '-agentlib:jdwp=transport=dt_socket,server=y,address=5006,suspend=n'
+    ports:
+      - 8443:8443
+      - 5006:5006
+    restart: always
+    depends_on:
+      - fineractmysql
+      
+  community-app:
+    image: paymenthubee.azurecr.io/fineract/community-app
+    ports:
+      - 9002:80
