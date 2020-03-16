@@ -9,6 +9,8 @@ ph-ee-engine:
   elasticsearch:
     replicas: 3
     clusterName: "ph-ee-elasticsearch"
+  ph_ee_connector_ams_mifos:
+    SPRING_PROFILES_ACTIVE: "fin12,med"
   
   zeebe-operate: 
     global:
