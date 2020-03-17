@@ -8,5 +8,5 @@ appVersion: 1.16.0
 
 dependencies:
 - name: ph-ee-engine
-  repository: http://localhost/
+  repository: http://jenkins.mifos.io:8082/
   version: 1.0.0-SNAPSHOT

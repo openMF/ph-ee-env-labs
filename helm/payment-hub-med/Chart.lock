@@ -1,6 +1,6 @@
 dependencies:
 - name: ph-ee-engine
-  repository: http://localhost/
+  repository: http://jenkins.mifos.io:8082/
   version: 1.0.0-SNAPSHOT
-digest: sha256:f1f9fc6ad5bf32cf9cc606fb62ca4532287cea76f45c23f1cb758657fbff2292
-generated: "2020-03-09T21:58:40.101217931+01:00"
+digest: sha256:adda8282439f449f4e641475b78a1629751db7a99fa4c083709da580c9182d89
+generated: "2020-03-17T23:20:32.159607475+01:00"
