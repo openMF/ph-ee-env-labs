@@ -54,7 +54,6 @@ INSERT INTO `m_charge`
 VALUES (@charge_name, 'TZS', 2, 5, 1, NULL, 1.000000, NULL, NULL, NULL, 0, 0, 0, NULL, NULL, NULL, @fee_gl_id, NULL);
 
 -- STEP 2 add tn05
-USE `tn05`;
 
 SET @client_name = 'InteropCustomer';
 SET @saving_account_no = '9062b90de19b43989005';
@@ -168,7 +167,6 @@ INSERT INTO `m_charge`
 VALUES (@charge_name, 'TZS', 2, 5, 1, NULL, 1.000000, NULL, NULL, NULL, 0, 0, 0, NULL, NULL, NULL, @fee_gl_id, NULL);
 
 -- STEP 3 add tn06
-USE `tn06`;
 
 SET @client_name = 'InteropMerchant';
 SET @saving_account_no = 'a6b6c10b2aaa4778ac2f';
@@ -191,8 +189,6 @@ VALUES (@saving_account_no, NULL, 300, NULL, ADDDATE(curdate(), -100), NULL, 1, 
 -- saving product, account
 SET @last_saving_prod_id = -1;
 SELECT COALESCE(max(id), 1) into @last_saving_prod_id from m_savings_product;
-
-select * from m_savings_product;
 
 SET @saving_prod_name = concat('Saving Product', @last_saving_prod_id);
 SET @saving_prod_id = -1;
