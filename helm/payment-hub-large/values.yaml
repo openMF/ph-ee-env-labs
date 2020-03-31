@@ -17,6 +17,9 @@ ph-ee-engine:
       elasticsearch:
         host: "ph-ee-elasticsearch-master"
         clusterName: "ph-ee-elasticsearch-master"
+
+  kibana:
+    elasticsearchHosts: "http://ph-ee-elasticsearch-master:9200/"
   
 
 replicaCount: 1
