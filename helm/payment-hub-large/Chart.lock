@@ -1,6 +1,9 @@
 dependencies:
-- name: ph-ee-engine
-  repository: http://jenkins.mifos.io:8082/
-  version: 1.0.0-SNAPSHOT
-digest: sha256:adda8282439f449f4e641475b78a1629751db7a99fa4c083709da580c9182d89
-generated: "2020-03-17T23:20:32.159607475+01:00"
+- name: elasticsearch
+  repository: http://helm.elastic.co
+  version: 7.5.1
+- name: kibana
+  repository: http://helm.elastic.co
+  version: 7.5.1
+digest: sha256:e3f03d19a3ce942874480209c14e154ab93a42ff287341b6dbc367a81c746c98
+generated: "2020-04-06T13:06:04.082771278+02:00"
