@@ -4,18 +4,18 @@
 
 elasticsearch:
   replicas: 1
-  clusterName: "operate-elasticsearch"
+  clusterName: "operator-elasticsearch"
 
 kibana:
-  elasticsearchHosts: "http://operate-elasticsearch-master:9200"
-  fullnameOverride: "operate-kibana"
+  elasticsearchHosts: "http://operator-elasticsearch-master:9200"
+  fullnameOverride: "operator-kibana"
 
 mysql:
   mysqlRootPassword: "ethieTieCh8ahv"
   mysqlUser: "mifos"
   mysqlPassword: "password"
-  mysqlDatabase: "operate"
-  fullnameOverride: operate-mysql
+  mysqlDatabase: "operator"
+  fullnameOverride: operator-mysql
 
 ph-ee-engine:
   clusterSize: "3"
