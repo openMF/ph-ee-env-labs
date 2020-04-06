@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ph-ee-importer-es
+  labels:
+    app: ph-ee-importer-es
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ph-ee-importer-es
+  template:
+    metadata:
+      labels:
+        app: ph-ee-importer-es
+    spec:
+      containers:
+        - name: ph-ee-importer-es
+          image: paymenthubee.azurecr.io/phee/importer-es
+

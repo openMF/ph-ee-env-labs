@@ -10,6 +10,13 @@ kibana:
   elasticsearchHosts: "http://operate-elasticsearch-master:9200"
   fullnameOverride: "operate-kibana"
 
+mysql:
+  mysqlRootPassword: "ethieTieCh8ahv"
+  mysqlUser: "mifos"
+  mysqlPassword: "password"
+  mysqlDatabase: "operate"
+  fullnameOverride: operate-mysql
+
 ph-ee-engine:
   clusterSize: "3"
   partitionCount: "3"
