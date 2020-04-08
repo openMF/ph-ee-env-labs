@@ -19,3 +19,15 @@ spec:
           image: paymenthubee.azurecr.io/phee/importer-rdbms
           ports:
             - containerPort: 8000
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: ph-ee-importer-rdbms
+spec:
+  selector:
+    app: ph-ee-importer-rdbms
+  ports:
+    - protocol: TCP
+      port: 8000
