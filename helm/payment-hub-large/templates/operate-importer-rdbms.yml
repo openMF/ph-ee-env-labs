@@ -17,4 +17,5 @@ spec:
       containers:
         - name: ph-ee-importer-rdbms
           image: paymenthubee.azurecr.io/phee/importer-rdbms
-
+          ports:
+            - containerPort: 8000

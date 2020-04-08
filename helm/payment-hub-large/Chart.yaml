@@ -24,4 +24,13 @@ dependencies:
 - name: ph-ee-engine
   repository: http://jenkins.mifos.io:8082/
   version: 1.0.0-SNAPSHOT
+- name: elasticsearch
+  repository: http://helm.elastic.co 
+  version: 7.5.1
+- name: kibana
+  repository: http://helm.elastic.co 
+  version: 7.5.1
+- name: mysql
+  version: 1.6.2
+  repository: "https://kubernetes-charts.storage.googleapis.com"
 
