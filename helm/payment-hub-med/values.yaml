@@ -11,6 +11,8 @@ ph-ee-engine:
     clusterName: "ph-ee-elasticsearch"
   ph_ee_connector_ams_mifos:
     SPRING_PROFILES_ACTIVE: "fin12,med"
+  ph_ee_connector_mojaloop:
+    SPRING_PROFILES_ACTIVE: "med"
   
   zeebe-operate: 
     global:
