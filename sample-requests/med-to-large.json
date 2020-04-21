@@ -1,0 +1,25 @@
+{
+	"payer": {
+		"partyIdInfo": {
+			"partyIdType": "MSISDN",
+			"partyIdentifier": "27710305999",
+			"fspId": "in03tn05"
+		}
+	},
+	"payee": {
+		"partyIdInfo": {
+			"partyIdType": "MSISDN",
+			"partyIdentifier": "27710101999"
+		}
+	},
+	"amount": {
+		"amount": 207,
+		"currency": "TZS"
+	},
+	"transactionType": {
+		"scenario": "WITHDRAWAL",
+		"initiator": "PAYER",
+		"initiatorType": "CONSUMER"
+	}
+}
+
