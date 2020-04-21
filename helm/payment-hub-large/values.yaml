@@ -18,11 +18,11 @@ mysql:
   fullnameOverride: operator-mysql
 
 ph-ee-engine:
-  clusterSize: "3"
-  partitionCount: "3"
-  replicationFactor: "3"
+  clusterSize: "1"
+  partitionCount: "1"
+  replicationFactor: "1"
   elasticsearch:
-    replicas: 3
+    replicas: 1
     clusterName: "ph-ee-elasticsearch"
   ph_ee_connector_ams_mifos:
     SPRING_PROFILES_ACTIVE: "fincn,large"
