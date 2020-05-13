@@ -33,4 +33,8 @@ dependencies:
 - name: mysql
   version: 1.6.2
   repository: "https://kubernetes-charts.storage.googleapis.com"
-
+  alias: operatorMysql
+- name: mysql
+  version: 1.6.2
+  repository: "https://kubernetes-charts.storage.googleapis.com"
+  alias: identityMysql

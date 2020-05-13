@@ -10,12 +10,19 @@ kibana:
   elasticsearchHosts: "http://operator-elasticsearch-master:9200"
   fullnameOverride: "operator-kibana"
 
-mysql:
+operatorMysql:
   mysqlRootPassword: "ethieTieCh8ahv"
   mysqlUser: "mifos"
   mysqlPassword: "password"
   mysqlDatabase: "operator"
   fullnameOverride: operator-mysql
+
+identityMysql:
+  mysqlRootPassword: "ethieTieCh8ahv"
+  mysqlUser: "mifos"
+  mysqlPassword: "password"
+  mysqlDatabase: "tenants"
+  fullnameOverride: identity-mysql
 
 ph-ee-engine:
   clusterSize: "1"
