@@ -1,22 +1,31 @@
 ph-ee-engine:
   zeebe-cluster:
+    clusterSize: "1"
+    partitionCount: "1"
+    replicationFactor: "1"
+    
     elasticsearch:
       enabled: false
     kibana:
       enabled: false
-  clusterSize: "1"
-  partitionCount: "1"
-  replicationFactor: "1"
+
+  zeebe-operate:
+    enabled: false
+
   elasticsearch:
-    enabled: true
+    enabled: false
     replicas: 1
     clusterName: "ph-ee-elasticsearch"
-  ph_ee_connector_ams_mifos:
-    SPRING_PROFILES_ACTIVE: "fin12,bb"
-  ph_ee_connector_mojaloop:
-    SPRING_PROFILES_ACTIVE: "bb"
-    
+
   kibana:
-    enabled: true
+    enabled: false
     elasticsearchHosts: "http://ph-ee-elasticsearch-master:9200/"
 
+  ph_ee_connector_ams_mifos:
+    SPRING_PROFILES_ACTIVE: "fin12,bb"
+
+  ph_ee_connector_mojaloop:
+    SPRING_PROFILES_ACTIVE: "bb"
+
+  ph_ee_connector_channel:
+    SPRING_PROFILES_ACTIVE: "bb"
