@@ -29,4 +29,4 @@ ph-ee-engine:
 
   ph_ee_connector_channel:
     SPRING_PROFILES_ACTIVE: "bb"
-    hostname: "barebone-channel.mifos.io"
+    hostname: "barebone-dfsp-channels.mifos.io"

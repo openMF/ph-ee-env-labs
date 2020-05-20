@@ -19,6 +19,27 @@ spec:
           image: paymenthubee.azurecr.io/phee/operations-web
           ports:
             - containerPort: 4200
+          volumeMounts:
+            - name: ph-ee-operations-web-config
+              mountPath: "/app/src/assets/configuration.properties"
+              subPath: "configuration.properties"
+      volumes:
+        - name: ph-ee-operations-web-config
+          configMap:
+            name: ph-ee-operations-web-config
+
+---
+apiVersion: v1
+data:
+  configuration.properties: |
+    oauth.enabled true
+    oauth.basicAuth true
+    oauth.basicAuthToken Y2xpZW50Og==
+    oauth.serverUrl http://identity-provider.mifos.io
+    serverUrl http://large-dfsp-operator.mifos.io
+kind: ConfigMap
+metadata:
+  name: ph-ee-operations-web-config
 
 ---
 kind: Service
