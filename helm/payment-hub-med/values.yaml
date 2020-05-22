@@ -61,3 +61,5 @@ ph-ee-engine:
     SPRING_PROFILES_ACTIVE: "med"
     hostname: "med-dfsp-channels.mifos.io"
 
+  ph_ee_identity_provider:
+    SPRING_PROFILES_ACTIVE: "med"
