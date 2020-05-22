@@ -63,3 +63,8 @@ ph-ee-engine:
 
   ph_ee_identity_provider:
     SPRING_PROFILES_ACTIVE: "med"
+    hostname: "med-identity.mifos.io"
+
+  ph_ee_operations:
+    hostname: "med-operations.mifos.io"
+    webhost: "med-operations-ui.mifos.io"

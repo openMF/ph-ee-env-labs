@@ -63,3 +63,8 @@ ph-ee-engine:
 
   ph_ee_identity_provider:
     SPRING_PROFILES_ACTIVE: "large"
+    hostname: "large-identity.mifos.io"
+
+  ph_ee_operations:
+    hostname: "large-operations.mifos.io"
+    webhost: "large-operations-ui.mifos.io"

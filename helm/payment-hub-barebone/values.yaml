@@ -36,3 +36,8 @@ ph-ee-engine:
 
   ph_ee_identity_provider:
     SPRING_PROFILES_ACTIVE: "bb"
+    hostname: "barebone-identity.mifos.io"
+
+  ph_ee_operations:
+    hostname: "barebone-operations.mifos.io"
+    webhost: "barebone-operations-ui.mifos.io"
