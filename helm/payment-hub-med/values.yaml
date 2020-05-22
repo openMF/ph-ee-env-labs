@@ -6,26 +6,6 @@ kibana:
   elasticsearchHosts: "http://operator-elasticsearch-master:9200"
   fullnameOverride: "operator-kibana"
 
-operatorMysql:
-  mysqlRootPassword: "ethieTieCh8ahv"
-  mysqlUser: "mifos"
-  mysqlPassword: "password"
-  mysqlDatabase: "operator"
-  fullnameOverride: operator-mysql
-
-identityMysql:
-  mysqlRootPassword: "ethieTieCh8ahv"
-  mysqlUser: "mifos"
-  mysqlPassword: "password"
-  mysqlDatabase: "tenants"
-  fullnameOverride: identity-mysql
-  initializationFiles:
-    setup.sql: |-
-      CREATE DATABASE tn05;
-      CREATE DATABASE tn06;
-      GRANT ALL PRIVILEGES ON tn05.* TO 'mifos';
-      GRANT ALL PRIVILEGES ON tn06.* TO 'mifos';
-
 ph-ee-engine:
   zeebe-cluster:
     clusterSize: "1"
@@ -52,6 +32,24 @@ ph-ee-engine:
   kibana:
     enabled: true
     elasticsearchHosts: "http://ph-ee-elasticsearch-master:9200/"
+
+  operationsMysql:
+    mysqlRootPassword: "ethieTieCh8ahv"
+    mysqlUser: "mifos"
+    mysqlPassword: "password"
+    mysqlDatabase: "operator"
+
+  identityMysql:
+    mysqlRootPassword: "ethieTieCh8ahv"
+    mysqlUser: "mifos"
+    mysqlPassword: "password"
+    mysqlDatabase: "tenants"
+    initializationFiles:
+      setup.sql: |-
+        CREATE DATABASE tn05;
+        CREATE DATABASE tn06;
+        GRANT ALL PRIVILEGES ON tn05.* TO 'mifos';
+        GRANT ALL PRIVILEGES ON tn06.* TO 'mifos';
 
   ph_ee_connector_ams_mifos:
     SPRING_PROFILES_ACTIVE: "fin12,med"
