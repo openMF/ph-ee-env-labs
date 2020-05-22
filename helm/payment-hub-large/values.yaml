@@ -37,7 +37,7 @@ ph-ee-engine:
     mysqlRootPassword: "ethieTieCh8ahv"
     mysqlUser: "mifos"
     mysqlPassword: "password"
-    mysqlDatabase: "operator"
+    mysqlDatabase: "operations"
 
   identityMysql:
     mysqlRootPassword: "ethieTieCh8ahv"
