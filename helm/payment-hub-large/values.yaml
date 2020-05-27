@@ -8,30 +8,24 @@ kibana:
 
 ph-ee-engine:
   zeebe-cluster:
-    clusterSize: "1"
-    partitionCount: "1"
-    replicationFactor: "1"
+    clusterSize: "3"
+    partitionCount: "3"
+    replicationFactor: "3"
 
     elasticsearch:
-      enabled: false
+      enabled: true
     kibana:
-      enabled: false
+      enabled: true
 
   zeebe-operate:
-    enabled: false
-    global:
-      elasticsearch:
-        host: "ph-ee-elasticsearch-master"
-        clusterName: "ph-ee-elasticsearch-master"
+    enabled: true
 
   elasticsearch:
     enabled: true
     replicas: 1
-    clusterName: "ph-ee-elasticsearch"
 
   kibana:
     enabled: true
-    elasticsearchHosts: "http://ph-ee-elasticsearch-master:9200/"
 
   operationsMysql:
     mysqlRootPassword: "ethieTieCh8ahv"

@@ -1,11 +1,3 @@
-elasticsearch:
-  replicas: 1
-  clusterName: "operator-elasticsearch"
-
-kibana:
-  elasticsearchHosts: "http://operator-elasticsearch-master:9200"
-  fullnameOverride: "operator-kibana"
-
 ph-ee-engine:
   zeebe-cluster:
     clusterSize: "1"
@@ -19,10 +11,6 @@ ph-ee-engine:
 
   zeebe-operate:
     enabled: false
-    global:
-      elasticsearch:
-        host: "ph-ee-elasticsearch-master"
-        clusterName: "ph-ee-elasticsearch-master"
 
   elasticsearch:
     enabled: true
