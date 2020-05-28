@@ -5,7 +5,7 @@ ph-ee-engine:
     replicationFactor: "1"
 
     elasticsearch:
-      enabled: false
+      enabled: true
     kibana:
       enabled: false
 

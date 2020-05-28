@@ -10,5 +10,5 @@ spec:
       http:
         paths:
         - backend:
-            serviceName: ph-ee-connector-mojaloop-java-svc
+            serviceName: ph-ee-connector-mojaloop-java
             servicePort: 80
