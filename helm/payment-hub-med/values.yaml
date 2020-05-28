@@ -10,7 +10,7 @@ ph-ee-engine:
       enabled: false
 
   zeebe-operate:
-    enabled: false
+    enabled: true
 
   elasticsearch:
     enabled: true

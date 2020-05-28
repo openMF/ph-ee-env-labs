@@ -1,8 +1,8 @@
 ph-ee-engine:
   zeebe-cluster:
-    clusterSize: "3"
-    partitionCount: "3"
-    replicationFactor: "3"
+    clusterSize: "1"
+    partitionCount: "5"
+    replicationFactor: "1"
 
     elasticsearch:
       enabled: true
