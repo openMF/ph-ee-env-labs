@@ -15,11 +15,9 @@ ph-ee-engine:
   elasticsearch:
     enabled: true
     replicas: 1
-    clusterName: "ph-ee-elasticsearch"
 
   kibana:
     enabled: true
-    elasticsearchHosts: "http://ph-ee-elasticsearch-master:9200/"
 
   operations:
     enabled: false
