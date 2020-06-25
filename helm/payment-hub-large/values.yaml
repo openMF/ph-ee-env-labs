@@ -44,11 +44,14 @@ ph-ee-engine:
     SPRING_PROFILES_ACTIVE: "large"
     hostname: "large-dfsp-channels.mifos.io"
 
-  ph_ee_identity_provider:
+  ph_ee_operations_app:
     SPRING_PROFILES_ACTIVE: "large"
-    hostname: "large-identity.mifos.io"
+    hostname: "large-operations.mifos.io"
 
   ph_ee_operations:
     SPRING_PROFILES_ACTIVE: "large"
     hostname: "large-operations.mifos.io"
     webhost: "large-operations-ui.mifos.io"
+
+  ph_ee_identity:
+    hostname: "large-identity.mifos.io"
