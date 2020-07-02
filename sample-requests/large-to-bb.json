@@ -15,10 +15,5 @@
 	"amount": {
 		"amount": 420,
 		"currency": "TZS"
-	},
-	"transactionType": {
-		"scenario": "WITHDRAWAL",
-		"initiator": "PAYER",
-		"initiatorType": "CONSUMER"
 	}
 }
