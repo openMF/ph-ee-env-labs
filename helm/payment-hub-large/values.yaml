@@ -42,7 +42,7 @@ ph-ee-engine:
 
   ph_ee_connector_channel:
     SPRING_PROFILES_ACTIVE: "large"
-    hostname: "large-connector-channels.mifos.io"
+    hostname: "large-connector-channel.mifos.io"
 
   ph_ee_operations_app:
     SPRING_PROFILES_ACTIVE: "large"
