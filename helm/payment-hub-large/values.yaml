@@ -1,8 +1,8 @@
 ph-ee-engine:
   zeebe-cluster:
-    clusterSize: "1"
-    partitionCount: "5"
-    replicationFactor: "1"
+    clusterSize: "3"
+    partitionCount: "3"
+    replicationFactor: "3"
 
     cpuThreadCount: "4"
     ioThreadCount: "4"
@@ -11,6 +11,14 @@ ph-ee-engine:
       enabled: true
     kibana:
       enabled: true
+
+    resources: 
+      requests:
+        cpu: 4000m
+        memory: 4Gi
+      limits:
+        cpu: 8000m
+        memory: 16Gi
 
   zeebe-operate:
     enabled: true
