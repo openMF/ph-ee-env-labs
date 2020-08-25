@@ -7,6 +7,8 @@ ph-ee-engine:
     cpuThreadCount: "4"
     ioThreadCount: "4"
 
+    pvcStorageClassName: "managed-premium"
+
     elasticsearch:
       enabled: true
     kibana:
