@@ -7,7 +7,7 @@ ph-ee-engine:
     cpuThreadCount: "4"
     ioThreadCount: "4"
 
-    pvcStorageClassName: "managed-premium"
+    pvcStorageClassName: "fast-disks"
 
     elasticsearch:
       enabled: true
