@@ -22,6 +22,9 @@ ph-ee-engine:
         cpu: 8000m
         memory: 16Gi
 
+    nodeSelector:
+      agentpool: defaultv4ssd
+
   zeebe-operate:
     enabled: true
 
