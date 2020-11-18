@@ -4,11 +4,12 @@ ph-ee-engine:
     partitionCount: "15"
     replicationFactor: "2"
 
-    cpuThreadCount: "2"
+    cpuThreadCount: "6"
     ioThreadCount: "2"
 
-    pvcStorageClassName: "fast-disks"
+    #pvcStorageClassName: "fast-disks"
     JavaOpts: "-Xms32g -Xmx32g -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:MaxRAMPercentage=25.0 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -XX:+PrintFlagsFinal"
+    #JavaOpts: "-Xms32g -Xmx32g -XX:+UseParallelGC -XX:+PrintFlagsFinal"
 
     elasticsearch:
       enabled: true
@@ -29,7 +30,7 @@ ph-ee-engine:
       prometheus.io/path: '/metrics'
 
     nodeSelector:
-      agentpool: defaultv5
+      agentpool: defaultv6
 
   zeebe-operate:
     enabled: true
