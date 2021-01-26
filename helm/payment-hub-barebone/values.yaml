@@ -1,5 +1,9 @@
 ph-ee-engine:
   zeebe-cluster:
+    global:
+      elasticsearch:
+        host: "ph-ee-elasticsearch"
+
     clusterSize: "1"
     partitionCount: "1"
     replicationFactor: "1"
@@ -20,7 +24,19 @@ ph-ee-engine:
     enabled: true
 
   operations:
-    enabled: false
+    enabled: true
+
+  operationsMysql:
+    mysqlRootPassword: "ethieTieCh8ahv"
+    mysqlUser: "mifos"
+    mysqlPassword: "password"
+    mysqlDatabase: "tenants"
+    initializationFiles:
+      setup.sql: |-
+        CREATE DATABASE tn03;
+        CREATE DATABASE tn04;
+        GRANT ALL PRIVILEGES ON tn03.* TO 'mifos';
+        GRANT ALL PRIVILEGES ON tn04.* TO 'mifos';
 
   ph_ee_connector_ams_mifos:
     SPRING_PROFILES_ACTIVE: "fin12,bb"
