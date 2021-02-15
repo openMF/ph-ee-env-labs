@@ -12,7 +12,7 @@
       <stringProp name="TestPlan.user_define_classpath"></stringProp>
     </TestPlan>
     <hashTree>
-      <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Request Defaults" enabled="false">
+      <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Request Defaults" enabled="true">
         <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
           <collectionProp name="Arguments.arguments"/>
         </elementProp>
@@ -51,14 +51,14 @@
       <com.blazemeter.jmeter.threads.arrivals.ArrivalsThreadGroup guiclass="com.blazemeter.jmeter.threads.arrivals.ArrivalsThreadGroupGui" testclass="com.blazemeter.jmeter.threads.arrivals.ArrivalsThreadGroup" testname="bzm - Arrivals Thread Group" enabled="true">
         <elementProp name="ThreadGroup.main_controller" elementType="com.blazemeter.jmeter.control.VirtualUserController"/>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
-        <stringProp name="TargetLevel">6000</stringProp>
-        <stringProp name="RampUp">0.2</stringProp>
+        <stringProp name="TargetLevel">10</stringProp>
+        <stringProp name="RampUp">0</stringProp>
         <stringProp name="Steps"></stringProp>
-        <stringProp name="Hold">3</stringProp>
+        <stringProp name="Hold">50</stringProp>
         <stringProp name="LogFilename"></stringProp>
         <stringProp name="Iterations"></stringProp>
         <stringProp name="ConcurrencyLimit"></stringProp>
-        <stringProp name="Unit">M</stringProp>
+        <stringProp name="Unit">S</stringProp>
       </com.blazemeter.jmeter.threads.arrivals.ArrivalsThreadGroup>
       <hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP Request" enabled="true">
@@ -71,8 +71,7 @@
 	&quot;payer&quot;: {&#xd;
 		&quot;partyIdInfo&quot;: {&#xd;
 			&quot;partyIdType&quot;: &quot;MSISDN&quot;,&#xd;
-			&quot;partyIdentifier&quot;: &quot;666627710101999&quot;,&#xd;
-			&quot;fspId&quot;: &quot;in01tn01&quot;&#xd;
+			&quot;partyIdentifier&quot;: &quot;27710101999&quot;&#xd;
 		}&#xd;
 	},&#xd;
 	&quot;payee&quot;: {&#xd;
@@ -84,19 +83,14 @@
 	&quot;amount&quot;: {&#xd;
 		&quot;amount&quot;: ${count},&#xd;
 		&quot;currency&quot;: &quot;TZS&quot;&#xd;
-	},&#xd;
-	&quot;transactionType&quot;: {&#xd;
-		&quot;scenario&quot;: &quot;WITHDRAWAL&quot;,&#xd;
-		&quot;initiator&quot;: &quot;PAYER&quot;,&#xd;
-		&quot;initiatorType&quot;: &quot;CONSUMER&quot;&#xd;
 	}&#xd;
 }</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
           </elementProp>
-          <stringProp name="HTTPSampler.domain">localhost</stringProp>
-          <stringProp name="HTTPSampler.port">5000</stringProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
           <stringProp name="HTTPSampler.protocol"></stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
           <stringProp name="HTTPSampler.path">/channel/transfer</stringProp>
@@ -106,6 +100,7 @@
           <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
           <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
           <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.implementation">Java</stringProp>
           <stringProp name="HTTPSampler.connect_timeout"></stringProp>
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
         </HTTPSamplerProxy>
