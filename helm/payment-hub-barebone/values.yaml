@@ -23,17 +23,17 @@ ph-ee-engine:
     #Single Node Solution
     clusterHealthCheckParams: "wait_for_status=yellow&timeout=100s" 
     master:
-        readinessProbe:
-          httpGet:
-            path: /_cluster/health?wait_for_status=yellow&timeout=5s
-            port: 9200
-          initialDelaySeconds: 30
-      data:
-        readinessProbe:
-          httpGet:
-            path: /_cluster/health?wait_for_status=yellow&timeout=5s
-            port: 9200
-          initialDelaySeconds: 30
+      readinessProbe:
+        httpGet:
+          path: /_cluster/health?wait_for_status=yellow&timeout=5s
+          port: 9200
+        initialDelaySeconds: 30
+    data:
+      readinessProbe:
+        httpGet:
+          path: /_cluster/health?wait_for_status=yellow&timeout=5s
+          port: 9200
+        initialDelaySeconds: 30
 
     esConfig:
       elasticsearch.yml: |
