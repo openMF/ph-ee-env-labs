@@ -39,7 +39,6 @@ ph-ee-engine:
     enabled: true
     replicas: 1
     imageTag: 7.13.2
-    minimumMasterNodes: 1
 
     #Single Node Solution
     clusterHealthCheckParams: "wait_for_status=yellow&timeout=100s" 
@@ -55,15 +54,6 @@ ph-ee-engine:
           path: /_cluster/health?wait_for_status=yellow&timeout=5s
           port: 9200
         initialDelaySeconds: 30
-
-    esConfig:
-      elasticsearch.yml: |
-        discovery:
-          type: single-node
-          seed_hosts: ""
-        xpack:
-          security:
-          enabled: false
 
     # Shrink default JVM heap.
     esJavaOpts: "-Xmx128m -Xms128m"
