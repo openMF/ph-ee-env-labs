@@ -58,12 +58,10 @@ ph-ee-engine:
 
     esConfig:
       elasticsearch.yml: |
-        discovery:
-          type: single-node
-          seed_hosts: ""
-        xpack:
-          security:
-          enabled: false
+        path:
+          data: /usr/share/elasticsearch/data
+        cluster:
+          initial_master_nodes: ph-ee-elasticsearch-0
 
     # Shrink default JVM heap.
     esJavaOpts: "-Xmx128m -Xms128m"
