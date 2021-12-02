@@ -56,26 +56,17 @@ ph-ee-engine:
           port: 9200
         initialDelaySeconds: 30
 
-    esConfig:
-      elasticsearch.yml: |
-        discovery:
-          type: single-node
-          seed_hosts: ""
-        xpack:
-          security:
-          enabled: false
-
     # Shrink default JVM heap.
-    esJavaOpts: "-Xmx128m -Xms128m"
+    esJavaOpts: "-Xmx512m -Xms512m"
 
     # Allocate smaller chunks of memory per pod.
     resources:
       requests:
-        cpu: "100m"
-        memory: "512M"
+        cpu: "200m"
+        memory: "1024M"
       limits:
         cpu: "1000m"
-        memory: "512M"
+        memory: "1024M"
     volumeClaimTemplate:
       accessModes: [ "ReadWriteOnce" ]
       storageClassName: "standard"
