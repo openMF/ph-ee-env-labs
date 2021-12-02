@@ -130,5 +130,8 @@ ph-ee-engine:
   ph_ee_identity:
     hostname: "barebone-identity.mifos.io"
 
+  ph-ee-connector-mpesa:
+    hostname: "mpesa.ibank.financial"
+
   ph_ee_connector_gsma:
     SPRING_PROFILES_ACTIVE: "bb"
