@@ -56,6 +56,7 @@ ph-ee-engine:
           port: 9200
         initialDelaySeconds: 30
 
+
     # Shrink default JVM heap.
     esJavaOpts: "-Xmx512m -Xms512m"
 

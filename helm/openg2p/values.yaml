@@ -63,7 +63,7 @@ ph-ee-engine:
           seed_hosts: ""
         xpack:
           security:
-          enabled: false
+            enabled: false
 
     # Shrink default JVM heap.
     esJavaOpts: "-Xmx128m -Xms128m"
