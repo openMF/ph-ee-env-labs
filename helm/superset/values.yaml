@@ -101,6 +101,7 @@ ph-ee-engine:
         CREATE DATABASE tn03;
         CREATE DATABASE tn04;
         GRANT ALL ON *.* TO 'root'@'%';
+        GRANT ALL PRIVILEGES ON messagegateway.* TO 'mifos';
         GRANT ALL PRIVILEGES ON tn03.* TO 'mifos';
         GRANT ALL PRIVILEGES ON tn04.* TO 'mifos';
 
@@ -133,6 +134,7 @@ ph-ee-engine:
 
   ph_ee_mpesa:
     SPRING_PROFILES_ACTIVE: "bb"
+    hostname: "mpesa.ibank.financial"
 
   ph_ee_pesa:
     SPRING_PROFILES_ACTIVE: "bb"
