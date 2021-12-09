@@ -1,1 +1,45 @@
-OAF
+Barebones
+
+cd ph-ee-env-template
+cd helm/ph-ee-engine
+rm -f Chart.lock requirements.lock charts/*
+helm dep up
+cd ..
+helm package ph-ee-engine
+helm repo index .
+
+scp -i /Users/avik/Downloads/fynarfin.pem index.yaml ph-ee-engine-1.0.0-SNAPSHOT.tgz ec2-user@13.233.68.128:~/
+ssh -i /Users/avik/Downloads/fynarfin.pem ec2-user@13.233.68.128
+sudo mv index.yaml /apps/apache-tomcat-7.0.82/webapps/ROOT/images/
+sudo mv ph-ee-engine-1.0.0-SNAPSHOT.tgz /apps/apache-tomcat-7.0.82/webapps/ROOT/images/
+exit
+
+cd ../..
+cd ph-ee-env-labs/helm/payment-hub-barebone/
+rm -f Chart.lock requirements.lock charts/*
+helm dep up
+cd ..
+helm upgrade -f payment-hub-barebone/values.yaml payment-hub-barebone-1599042110  payment-hub-barebone
+cd ../..
+
+
+helm install -f payment-hub-barebone/values.yaml payment-hub-barebone payment-hub-barebone
+
+https://paymenthub.qa.oneacrefund.org/channel
+https://paymenthub.qa.oneacrefund.org/identity
+https://paymenthub.qa.oneacrefund.org/ops-bk
+https://paymenthub.qa.oneacrefund.org/ops
+https://paymenthub.qa.oneacrefund.org/analytics
+https://paymenthub.qa.oneacrefund.org/zeebe
+https://paymenthub.qa.oneacrefund.org/mpesa
+https://paymenthub.qa.oneacrefund.org/notifications
+https://paymenthub.qa.oneacrefund.org/roster
+
+
+
+- Supertset (gsma + intl remittance + oaf + g2p) ph-ee-engine (env-template) and helm chart (env labs) added. 
+- Simplified Superset Chart Deployment (https://docs.google.com/document/d/13c4whmzEYv3BbTT4yEk1BRLJSkzyva8x177El0peC94/edit?usp=sharing)
+
+- . 
+
+
