@@ -98,12 +98,8 @@ ph-ee-engine:
     initializationFiles:
       setup.sql: |-
         CREATE DATABASE messagegateway;
-        CREATE DATABASE tn03;
-        CREATE DATABASE tn04;
         GRANT ALL ON *.* TO 'root'@'%';
         GRANT ALL PRIVILEGES ON messagegateway.* TO 'mifos';
-        GRANT ALL PRIVILEGES ON tn03.* TO 'mifos';
-        GRANT ALL PRIVILEGES ON tn04.* TO 'mifos';
 
   mifos_connector:
     SPRING_PROFILES_ACTIVE: "fin12,bb"
