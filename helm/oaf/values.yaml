@@ -1,4 +1,4 @@
-ph-ee-engine:  
+ph-ee-engine-oaf:  
   zeebe:
     broker:
       contactpoint: "zeebe-zeebe-gateway:26500"
@@ -37,6 +37,16 @@ ph-ee-engine:
       elasticsearch:
         host: "ph-ee-elasticsearch"
         clusterName: "ph-ee-elasticsearch"
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: "kong"
+        konghq.com/strip-path: "true"   
+      path: /
+      host: paymenthub.qa.oneacrefund.org
+      tls:
+        enabled: true
+        secretName: oafqa-tls
 
   elasticsearch:
     enabled: true
@@ -103,20 +113,20 @@ ph-ee-engine:
 
   channel:
     SPRING_PROFILES_ACTIVE: "bb"
-    hostname: "channel.ibank.financial"
+    hostname: "paymenthub.qa.oneacrefund.org"
     AWS_ACCESS_KEY: "xxx"
     AWS_SECRET_KEY: "xxx"
     image: "oaftech.azurecr.io/phee-ns/ph-ee-connector-channel"
 
   operations_app:
     SPRING_PROFILES_ACTIVE: "bb"
-    hostname: "ops-bk.ibank.financial"
+    hostname: "paymenthub.qa.oneacrefund.org"
     image: "oaftech.azurecr.io/phee-ns/ph-ee-operations-app"
 
   operations_web:
     SPRING_PROFILES_ACTIVE: "bb"
-    hostname: "ops-bk.ibank.financial"
-    webhost: "ops.ibank.financial"
+    hostname: "paymenthub.qa.oneacrefund.org"
+    webhost: "paymenthub.qa.oneacrefund.org/opsweb"
     image: "oaftech.azurecr.io/phee-ns/ops-web"
 
   identity:
@@ -124,7 +134,7 @@ ph-ee-engine:
 
   mpesa:
     SPRING_PROFILES_ACTIVE: "bb"
-    hostname: "oaftech.azurecr.io/mpesa"
+    hostname: "paymenthub.qa.oneacrefund.org"
     image: "oaftech.azurecr.io/phee-ns/ph-ee-connector-mpesa"
 
   roster_connector:
@@ -142,7 +152,7 @@ ph-ee-engine:
     image: "oaftech.azurecr.io/phee-ns/message-gateway"
 
   importer_es:
-    image: "oaftech.azurecr.io/phee-ns/phee-es-importer"
+    image: "oaftech.azurecr.io/phee-ns/ph-ee-importer-es"
 
   importer_rdbms:
-    image: "oaftech.azurecr.io/phee-ns/importer-rdbms"
+    image: "oaftech.azurecr.io/phee-ns/ph-ee-importer-rdbms"
