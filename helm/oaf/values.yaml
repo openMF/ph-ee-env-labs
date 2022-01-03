@@ -92,6 +92,21 @@ ph-ee-engine-oaf:
   kibana:
     enabled: true
     imageTag: 7.13.2
+    ingress:
+      enabled: false
+      className: "nginx"
+      pathtype: ImplementationSpecific
+      annotations: {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+      hosts:
+        - host: paymenthub.qa.oneacrefund.org
+          paths:
+            - path: analytics
+      #tls: []
+      #  - secretName: chart-example-tls
+      #    hosts:
+      #      - chart-example.local
 
     kibanaConfig:
       kibana.yml: |
