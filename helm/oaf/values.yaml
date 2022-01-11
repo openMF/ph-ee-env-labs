@@ -150,6 +150,7 @@ ph-ee-engine-oaf:
 
   messagegateway:
     image: "oaftech.azurecr.io/phee-ns/message-gateway"
+    MESSAGEGATEWAYCONFIG_HOST: "paymenthub.qa.oneacrefund.org/messagegateway"
 
   importer_es:
     image: "oaftech.azurecr.io/phee-ns/ph-ee-importer-es"
