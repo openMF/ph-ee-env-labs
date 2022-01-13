@@ -23,7 +23,7 @@ ph-ee-engine-oaf:
       - name: init-ph-ee-kafka-exporter
         image: busybox:1.28
         command: ['/bin/sh', '-c']
-        args: ['wget -O /exporters/ph-ee-kafka-exporter.jar "https://paymenthub-ee-dev.s3.us-east-2.amazonaws.com/jars/exporter-1.0.0-SNAPSHOT.jar"; ls -al /exporters/; wget -O exporters/mpesa-flow.bpmn "https://fynarfin.io/images/mpesa-flow.bpmn"; ls -al /exporters/' ]
+        args: ['wget -O /exporters/ph-ee-kafka-exporter.jar "https://paymenthub-ee-dev.s3.us-east-2.amazonaws.com/jars/exporter-1.0.0-SNAPSHOT.jar"; ls -al /exporters/']
         volumeMounts:
         - name: exporters
           mountPath: /exporters/
