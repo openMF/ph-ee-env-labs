@@ -82,6 +82,21 @@ ph-ee-engine:
   kibana:
     enabled: true
     imageTag: 7.13.2
+    ingress:
+      enabled: false
+      className: "nginx"
+      pathtype: ImplementationSpecific
+      annotations: {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+      hosts:
+        - host: analytics.ibank.financial
+          paths:
+            - path: /
+      #tls: []
+      #  - secretName: chart-example-tls
+      #    hosts:
+      #      - chart-example.local
 
     kibanaConfig:
       kibana.yml: |

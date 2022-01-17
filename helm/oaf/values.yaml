@@ -39,14 +39,32 @@ ph-ee-engine-oaf:
         clusterName: "ph-ee-elasticsearch"
     ingress:
       enabled: true
-      annotations:
-        kubernetes.io/ingress.class: "kong"
-        konghq.com/strip-path: "true"   
-      path: /
+      className: "nginx"  
+      path: /zeebe
       host: paymenthub.qa.oneacrefund.org
       tls:
         enabled: true
         secretName: oafqa-tls
+
+  kibana:
+    enabled: true
+    imageTag: 7.13.2
+    ingress:
+      enabled: true
+      className: "nginx"
+      pathtype: ImplementationSpecific
+      hosts:
+        - host: paymenthub.qa.oneacrefund.org
+          paths:
+            - path: /kibana
+      tls: 
+        - secretName: oafqa-tls
+          hosts:
+            - "*.qa.oneacrefund.org"
+    kibanaConfig:
+      kibana.yml: |
+        monitoring.enabled: false
+        
 
   elasticsearch:
     enabled: true
@@ -89,13 +107,7 @@ ph-ee-engine-oaf:
         requests:
           storage: 10Gi
 
-  kibana:
-    enabled: true
-    imageTag: 7.13.2
 
-    kibanaConfig:
-      kibana.yml: |
-        monitoring.enabled: false
 
   operations:
     enabled: true
@@ -153,6 +165,7 @@ ph-ee-engine-oaf:
 
   messagegateway:
     image: "oaftech.azurecr.io/phee-ns/message-gateway"
+    MESSAGEGATEWAYCONFIG_HOST: "paymenthub.qa.oneacrefund.org/messagegateway"
 
   importer_es:
     image: "oaftech.azurecr.io/phee-ns/ph-ee-importer-es"

@@ -1,0 +1,116 @@
+{
+	"info": {
+		"_postman_id": "ca4a575d-03b8-4873-898d-8a7cf6e2e46e",
+		"name": "Collection OAF",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "https://paymenthub.qa.oneacrefund.org/channel/channel/collection",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Platform-TenantId",
+						"value": "oaf",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"payer\": [\n        {\n            \"key\": \"MSISDN\",\n            \"value\": \"254708374149\"\n        },\n        {\n            \"key\": \"ACCOUNTID\",\n            \"value\": \"24450523\"\n        }\n    ],\n    \"amount\": {\n        \"amount\": \"1\",\n        \"currency\": \"USD\"\n    },\n    \"transactionType\": {\n        \"scenario\": \"MPESA\",\n        \"subScenario\": \"BUYGOODS\",\n        \"initiator\": \"PAYEE\",\n        \"initiatorType\": \"BUSINESS\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://paymenthub.qa.oneacrefund.org/channel/channel/collection",
+					"protocol": "https",
+					"host": [
+						"paymenthub",
+						"qa",
+						"oneacrefund",
+						"org"
+					],
+					"path": [
+						"channel",
+						"channel",
+						"collection"
+					]
+				},
+				"description": "Cloud API"
+			},
+			"response": []
+		},
+		{
+			"name": "http://0.0.0.0:5000/buygoods/callback",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://0.0.0.0:5000/buygoods/callback",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "5000",
+					"path": [
+						"buygoods",
+						"callback"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://0.0.0.0:5000/sms/callback",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://0.0.0.0:5000/sms/callback",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "5000",
+					"path": [
+						"sms",
+						"callback"
+					]
+				},
+				"description": "Callback from message gateway"
+			},
+			"response": []
+		},
+		{
+			"name": "http:/localhost:9191/telerivet/report/",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http:/localhost:9191/telerivet/report/",
+					"host": [
+						"http"
+					],
+					"port": "",
+					"path": [
+						"localhost:9191",
+						"telerivet",
+						"report",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
