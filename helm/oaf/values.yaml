@@ -134,6 +134,7 @@ ph-ee-engine-oaf:
     image: "oaftech.azurecr.io/phee-ns/ph-ee-connector-channel"
 
   operations_app:
+    TENANTS: "oaf"
     SPRING_PROFILES_ACTIVE: "bb"
     hostname: "paymenthub.qa.oneacrefund.org"
     image: "oaftech.azurecr.io/phee-ns/ph-ee-operations-app"
