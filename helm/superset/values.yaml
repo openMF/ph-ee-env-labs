@@ -112,13 +112,11 @@ ph-ee-engine:
     mysqlDatabase: "tenants"
     initializationFiles:
       setup.sql: |-
-        CREATE DATABASE ibank-india;
-        CREATE DATABASE ibank-usa;
-        CREATE DATABASE tenants;
-        CREATE DATABASE messagegateway; 
-        GRANT ALL PRIVILEGES ON ibank-india.* TO 'mifos';
-        GRANT ALL PRIVILEGES ON ibank-usa.* TO 'mifos';
-        GRANT ALL PRIVILEGES ON tenants.* TO 'mifos';
+        CREATE DATABASE messagegateway;
+        CREATE DATABASE `ibank-india`;
+        CREATE DATABASE `ibank-usa`; 
+        GRANT ALL PRIVILEGES ON `ibank-india`.* TO 'mifos';
+        GRANT ALL PRIVILEGES ON `ibank-usa`.* TO 'mifos';
         GRANT ALL ON *.* TO 'root'@'%';
         GRANT ALL PRIVILEGES ON messagegateway.* TO 'mifos';
 
@@ -137,6 +135,7 @@ ph-ee-engine:
     image: "us.icr.io/phee-ns/phee-connector-channel"
 
   operations_app:
+    TENANTS: "ibank-usa,ibank-india"
     SPRING_PROFILES_ACTIVE: "bb"
     hostname: "ops-bk.ibank.financial"
     image: "us.icr.io/phee-ns/ph-ee-ops-bk"
