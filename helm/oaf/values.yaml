@@ -144,13 +144,14 @@ ph-ee-engine-oaf:
   notifications:
     SPRING_PROFILES_ACTIVE: "bb"
     image: "oaftech.azurecr.io/phee-ns/ph-ee-notifications"
+    CALLBACKCONFIG_HOST: "paymenthub.qa.oneacrefund.org/notifications"
 
   zeebe_ops:
     image: "oaftech.azurecr.io/phee-ns/phee-zeebe-ops"
 
   messagegateway:
     image: "oaftech.azurecr.io/phee-ns/message-gateway"
-    MESSAGEGATEWAYCONFIG_HOST: "paymenthub.qa.oneacrefund.org/messagegateway"
+    MESSAGEGATEWAYCONFIG_HOST: "paymenthub.qa.oneacrefund.org/messages"
 
   importer_es:
     image: "oaftech.azurecr.io/phee-ns/ph-ee-importer-es"
