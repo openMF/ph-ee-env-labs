@@ -40,8 +40,8 @@ ph-ee-engine-oaf:
     ingress:
       enabled: true
       className: "nginx"  
-      path: /zeebe
-      host: paymenthub.qa.oneacrefund.org
+      path: /
+      host: ph-zeebe.qa.oneacrefund.org
       tls:
         enabled: true
         secretName: oafqa-tls
@@ -54,9 +54,9 @@ ph-ee-engine-oaf:
       className: "nginx"
       pathtype: ImplementationSpecific
       hosts:
-        - host: paymenthub.qa.oneacrefund.org
+        - host: ph-kibana.qa.oneacrefund.org
           paths:
-            - path: /kibana
+            - path: /
       tls: 
         - secretName: oafqa-tls
           hosts:
@@ -132,44 +132,85 @@ ph-ee-engine-oaf:
     AWS_ACCESS_KEY: "xxx"
     AWS_SECRET_KEY: "xxx"
     image: "oaftech.azurecr.io/phee-ns/ph-ee-connector-channel"
+    ingress:
+      annotations: 
+        kubernetes.io/ingress.class: "kong"
+        konghq.com/strip-path: "true"
 
   operations_app:
     TENANTS: "oaf"
     SPRING_PROFILES_ACTIVE: "bb"
     hostname: "paymenthub.qa.oneacrefund.org"
     image: "oaftech.azurecr.io/phee-ns/ph-ee-operations-app"
+    ingress:
+      annotations: 
+        kubernetes.io/ingress.class: "kong"
+        konghq.com/strip-path: "true"
 
   operations_web:
     SPRING_PROFILES_ACTIVE: "bb"
-    hostname: "paymenthub.qa.oneacrefund.org"
-    webhost: "paymenthub.qa.oneacrefund.org/opsweb"
+    hostname: "ph-web.qa.oneacrefund.org"
+    webhost: "ph-web.qa.oneacrefund.org"
+    path: "/"
     image: "oaftech.azurecr.io/phee-ns/ops-web"
+    ingress:
+      annotations:
+        kubernetes.io/ingress.class: "nginx"
 
   identity:
     hostname: "ops-bk.ibank.financial"
+    ingress:
+      annotations: 
+        kubernetes.io/ingress.class: "kong"
+        konghq.com/strip-path: "true"
 
   mpesa:
+    enabled: true
     SPRING_PROFILES_ACTIVE: "bb"
     hostname: "paymenthub.qa.oneacrefund.org"
     image: "oaftech.azurecr.io/phee-ns/ph-ee-connector-mpesa"
+    ingress:
+      annotations: 
+        kubernetes.io/ingress.class: "kong"
+        konghq.com/strip-path: "true"
 
   roster_connector:
+    enabled: true
     SPRING_PROFILES_ACTIVE: "bb"
     image: "oaftech.azurecr.io/phee-ns/ph-ee-connector-ams-pesa"
 
   notifications:
+    enabled: true
     SPRING_PROFILES_ACTIVE: "bb"
     image: "oaftech.azurecr.io/phee-ns/ph-ee-notifications"
+    ingress:
+      annotations: 
+        kubernetes.io/ingress.class: "kong"
+        konghq.com/strip-path: "true"
 
   zeebe_ops:
+    enabled: true
     image: "oaftech.azurecr.io/phee-ns/phee-zeebe-ops"
+    ingress:
+      annotations: 
+        kubernetes.io/ingress.class: "kong"
+        konghq.com/strip-path: "true"
 
   messagegateway:
+    enabled: true
     image: "oaftech.azurecr.io/phee-ns/message-gateway"
     MESSAGEGATEWAYCONFIG_HOST: "paymenthub.qa.oneacrefund.org/messagegateway"
+    ingress:
+      annotations: 
+        kubernetes.io/ingress.class: "kong"
+        konghq.com/strip-path: "true"
 
   importer_es:
     image: "oaftech.azurecr.io/phee-ns/ph-ee-importer-es"
 
   importer_rdbms:
     image: "oaftech.azurecr.io/phee-ns/ph-ee-importer-rdbms"
+  
+  wildcardhostname: "*.qa.oneacrefund.org"
+
+  tls: "oafqa-tls"  
