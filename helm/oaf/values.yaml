@@ -183,10 +183,14 @@ ph-ee-engine-oaf:
     enabled: true
     SPRING_PROFILES_ACTIVE: "bb"
     image: "oaftech.azurecr.io/phee-ns/ph-ee-notifications"
+
+    CALLBACKCONFIG_HOST: "paymenthub.qa.oneacrefund.org/notifications"
+
     ingress:
       annotations: 
         kubernetes.io/ingress.class: "kong"
         konghq.com/strip-path: "true"
+
 
   zeebe_ops:
     enabled: true
@@ -199,11 +203,14 @@ ph-ee-engine-oaf:
   messagegateway:
     enabled: true
     image: "oaftech.azurecr.io/phee-ns/message-gateway"
-    MESSAGEGATEWAYCONFIG_HOST: "paymenthub.qa.oneacrefund.org/messagegateway"
+
+    MESSAGEGATEWAYCONFIG_HOST: "paymenthub.qa.oneacrefund.org/messages"
+
     ingress:
       annotations: 
         kubernetes.io/ingress.class: "kong"
         konghq.com/strip-path: "true"
+
 
   importer_es:
     image: "oaftech.azurecr.io/phee-ns/ph-ee-importer-es"
