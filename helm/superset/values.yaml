@@ -82,6 +82,21 @@ ph-ee-engine:
   kibana:
     enabled: true
     imageTag: 7.13.2
+    ingress:
+      enabled: false
+      className: "nginx"
+      pathtype: ImplementationSpecific
+      annotations: {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+      hosts:
+        - host: analytics.ibank.financial
+          paths:
+            - path: /
+      #tls: []
+      #  - secretName: chart-example-tls
+      #    hosts:
+      #      - chart-example.local
 
     kibanaConfig:
       kibana.yml: |
@@ -98,6 +113,10 @@ ph-ee-engine:
     initializationFiles:
       setup.sql: |-
         CREATE DATABASE messagegateway;
+        CREATE DATABASE `ibank-india`;
+        CREATE DATABASE `ibank-usa`; 
+        GRANT ALL PRIVILEGES ON `ibank-india`.* TO 'mifos';
+        GRANT ALL PRIVILEGES ON `ibank-usa`.* TO 'mifos';
         GRANT ALL ON *.* TO 'root'@'%';
         GRANT ALL PRIVILEGES ON messagegateway.* TO 'mifos';
 
@@ -116,6 +135,7 @@ ph-ee-engine:
     image: "us.icr.io/phee-ns/phee-connector-channel"
 
   operations_app:
+    TENANTS: "ibank-usa,ibank-india"
     SPRING_PROFILES_ACTIVE: "bb"
     hostname: "ops-bk.ibank.financial"
     image: "us.icr.io/phee-ns/ph-ee-ops-bk"
