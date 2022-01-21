@@ -167,8 +167,15 @@ ph-ee-engine-oaf:
   mpesa:
     enabled: true
     SPRING_PROFILES_ACTIVE: "bb"
+    SECRET_NAME: "mpesa-secret"
     hostname: "paymenthub.qa.oneacrefund.org"
     image: "oaftech.azurecr.io/phee-ns/ph-ee-connector-mpesa"
+    secret:
+      name: "mpesa-secret"
+      key:
+        auth_client_key: "client-key"
+        auth_client_secret: "client-secret"
+        api_pass_key: "pass-key"
     ingress:
       annotations: 
         kubernetes.io/ingress.class: "kong"
