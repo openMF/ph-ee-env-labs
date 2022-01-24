@@ -190,9 +190,10 @@ ph-ee-engine-oaf:
     enabled: true
     SPRING_PROFILES_ACTIVE: "bb"
     image: "oaftech.azurecr.io/phee-ns/ph-ee-notifications"
-
+    hostname: "paymenthub.qa.oneacrefund.org"
     CALLBACKCONFIG_HOST: "paymenthub.qa.oneacrefund.org/notifications"
-
+    MESSAGEGATEWAYCONFIG_HOST: "paymenthub.qa.oneacrefund.org/messages"
+    NOTIFICATION_LOCAL_HOST: "paymenthub.qa.oneacrefund.org/notifications"
     ingress:
       annotations: 
         kubernetes.io/ingress.class: "kong"
@@ -210,9 +211,10 @@ ph-ee-engine-oaf:
   messagegateway:
     enabled: true
     image: "oaftech.azurecr.io/phee-ns/message-gateway"
-
+    hostname: "paymenthub.qa.oneacrefund.org"
+    CALLBACKCONFIG_HOST: "paymenthub.qa.oneacrefund.org/notifications"
     MESSAGEGATEWAYCONFIG_HOST: "paymenthub.qa.oneacrefund.org/messages"
-
+    HOSTCONFIG_HOST: "paymenthub.qa.oneacrefund.org/messages"
     ingress:
       annotations: 
         kubernetes.io/ingress.class: "kong"
@@ -227,4 +229,4 @@ ph-ee-engine-oaf:
   
   wildcardhostname: "*.qa.oneacrefund.org"
 
-  tls: "oafqa-tls"  
+  tls: "oafqa-tls"
