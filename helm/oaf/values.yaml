@@ -169,7 +169,8 @@ ph-ee-engine-oaf:
     SPRING_PROFILES_ACTIVE: "bb"
     hostname: "paymenthub.qa.oneacrefund.org"
     image: "oaftech.azurecr.io/phee-ns/ph-ee-connector-mpesa"
-    business_short_code: "840701"
+    business_short_code: "668158"
+    till_number: "9347335"
     callback_host: "https://paymenthub.qa.oneacrefund.org/mpesa"
     safaricom:
       auth_host: "https://api.safaricom.co.ke/oauth/v1/generate"
