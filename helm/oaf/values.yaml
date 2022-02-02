@@ -190,6 +190,9 @@ ph-ee-engine-oaf:
     enabled: true
     SPRING_PROFILES_ACTIVE: "bb"
     image: "oaftech.azurecr.io/phee-ns/ph-ee-connector-ams-pesa"
+    ams:
+      local:
+        enabled: true
 
   notifications:
     enabled: true
