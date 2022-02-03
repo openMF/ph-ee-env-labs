@@ -199,7 +199,6 @@ ph-ee-engine-oaf:
     SPRING_PROFILES_ACTIVE: "bb"
     image: "oaftech.azurecr.io/phee-ns/ph-ee-notifications"
     hostname: "paymenthub.qa.oneacrefund.org"
-    CALLBACKCONFIG_HOST: "paymenthub.qa.oneacrefund.org/notifications"
     MESSAGEGATEWAYCONFIG_HOST: "paymenthub.qa.oneacrefund.org/messages"
     NOTIFICATION_LOCAL_HOST: "paymenthub.qa.oneacrefund.org/notifications"
     ingress:
@@ -219,10 +218,15 @@ ph-ee-engine-oaf:
 
   messagegateway:
     enabled: true
+    SECRET_NAME: "messagegateway-secret"
     image: "oaftech.azurecr.io/phee-ns/message-gateway"
+    secret:
+      name: "messagegateway-secret"
+      key:
+        telerivet_api_key: "api-key"
+        telerivet_project_id: "project-id"
     hostname: "paymenthub.qa.oneacrefund.org"
     CALLBACKCONFIG_HOST: "paymenthub.qa.oneacrefund.org/notifications"
-    MESSAGEGATEWAYCONFIG_HOST: "paymenthub.qa.oneacrefund.org/messages"
     HOSTCONFIG_HOST: "paymenthub.qa.oneacrefund.org/messages"
     ingress:
       annotations: 
