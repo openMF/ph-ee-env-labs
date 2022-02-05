@@ -172,6 +172,7 @@ ph-ee-engine-oaf:
     business_short_code: "668158"
     till_number: "9347335"
     callback_host: "https://paymenthub.qa.oneacrefund.org/mpesa"
+    retry_count: 3
     safaricom:
       auth_host: "https://api.safaricom.co.ke/oauth/v1/generate"
       api_host: "https://api.safaricom.co.ke"
@@ -190,6 +191,8 @@ ph-ee-engine-oaf:
     enabled: true
     SPRING_PROFILES_ACTIVE: "bb"
     image: "oaftech.azurecr.io/phee-ns/ph-ee-connector-ams-pesa"
+    pesacore:
+      auth_header: "PaymentHubTest"
     ams:
       local:
         enabled: true
