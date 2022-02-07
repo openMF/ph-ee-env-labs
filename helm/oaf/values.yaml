@@ -127,6 +127,7 @@ ph-ee-engine-oaf:
 
   channel:
     DFSPIDS: "oaf"
+    transaction_id_length: 20
     SPRING_PROFILES_ACTIVE: "bb"
     hostname: "paymenthub.qa.oneacrefund.org"
     AWS_ACCESS_KEY: "xxx"
