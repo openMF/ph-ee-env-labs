@@ -204,6 +204,7 @@ ph-ee-engine-oaf:
     hostname: "paymenthub.qa.oneacrefund.org"
     MESSAGEGATEWAYCONFIG_HOST: "paymenthub.qa.oneacrefund.org/messages"
     NOTIFICATION_LOCAL_HOST: "paymenthub.qa.oneacrefund.org/notifications"
+    NOTIFICATION_ENABLED: "true"
     ingress:
       annotations: 
         kubernetes.io/ingress.class: "kong"
@@ -231,6 +232,8 @@ ph-ee-engine-oaf:
     hostname: "paymenthub.qa.oneacrefund.org"
     CALLBACKCONFIG_HOST: "paymenthub.qa.oneacrefund.org/notifications"
     HOSTCONFIG_HOST: "paymenthub.qa.oneacrefund.org/messages"
+    PROVIDERSOURCE_FROMDATABASE: "disabled"
+    PROVIDERSOURCE_FROMYML: "enabled"
     ingress:
       annotations: 
         kubernetes.io/ingress.class: "kong"
