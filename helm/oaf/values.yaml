@@ -166,6 +166,7 @@ ph-ee-engine-oaf:
         konghq.com/strip-path: "true"
 
   mpesa:
+    tenant: "oaf"
     enabled: true
     SPRING_PROFILES_ACTIVE: "bb"
     hostname: "paymenthub.qa.oneacrefund.org"
