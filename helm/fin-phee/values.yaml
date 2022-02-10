@@ -1,0 +1,226 @@
+ph-ee-engine-oaf:  
+  zeebe:
+    broker:
+      contactpoint: "zeebe-zeebe-gateway:26500"
+  zeebe-cluster-helm:
+    global:
+      elasticsearch:
+        host: "ph-ee-elasticsearch"
+    image:
+      repository: camunda/zeebe
+      tag: 1.1.0
+
+    clusterSize: "1"
+    partitionCount: "1"
+    replicationFactor: "1"
+    
+    elasticsearch:
+      enabled: false
+    kibana:
+      enabled: false
+
+    extraInitContainers: |
+      - name: init-ph-ee-kafka-exporter
+        image: busybox:1.28
+        command: ['/bin/sh', '-c']
+        args: ['wget -O /exporters/ph-ee-kafka-exporter.jar "https://paymenthub-ee-dev.s3.us-east-2.amazonaws.com/jars/exporter-1.0.0-SNAPSHOT.jar"; ls -al /exporters/']
+        volumeMounts:
+        - name: exporters
+          mountPath: /exporters/
+
+  zeebe-operate-helm:
+    enabled: true
+    image:
+      repository: camunda/operate
+      tag: 1.1.0
+    global:
+      elasticsearch:
+        host: "ph-ee-elasticsearch"
+        clusterName: "ph-ee-elasticsearch"
+    ingress:
+      enabled: true
+      className: "nginx"  
+      path: /zeebe
+      host: fin-db.onenet.xyz
+      tls:
+        enabled: true
+        secretName: oafqa-tls
+
+  kibana:
+    enabled: true
+    imageTag: 7.13.2
+    ingress:
+      enabled: true
+      className: "nginx"
+      pathtype: ImplementationSpecific
+      hosts:
+        - host: fin-db.onenet.xyz
+          paths:
+            - path: /kibana
+      tls: 
+        - secretName: sawtelqa-tls
+          hosts:
+            - "*.fin-db.onenet.xyz"
+    kibanaConfig:
+      kibana.yml: |
+        monitoring.enabled: false
+        
+
+  elasticsearch:
+    enabled: true
+    replicas: 1
+    imageTag: 7.13.2
+    minimumMasterNodes: 1
+
+    #Single Node Solution
+    clusterHealthCheckParams: "wait_for_status=yellow&timeout=100s" 
+    master:
+      readinessProbe:
+        httpGet:
+          path: /_cluster/health?wait_for_status=yellow&timeout=5s
+          port: 9200
+        initialDelaySeconds: 30
+    data:
+      readinessProbe:
+        httpGet:
+          path: /_cluster/health?wait_for_status=yellow&timeout=5s
+          port: 9200
+        initialDelaySeconds: 30
+
+  
+
+    # Shrink default JVM heap.
+    esJavaOpts: "-Xmx512m -Xms512m"
+
+    # Allocate smaller chunks of memory per pod.
+    resources:
+      requests:
+        cpu: "200m"
+        memory: "1024M"
+      limits:
+        cpu: "1000m"
+        memory: "1024M"
+    volumeClaimTemplate:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "standard"
+      resources:
+        requests:
+          storage: 10Gi
+
+
+
+  operations:
+    enabled: true
+
+  operationsMysql:
+    mysqlRootPassword: "ethieTieCh8ahv"
+    mysqlUser: "mifos"
+    mysqlPassword: "password"
+    mysqlDatabase: "tenants"
+    initializationFiles:
+      setup.sql: |-
+        CREATE DATABASE dosh;
+        CREATE DATABASE messagegateway;
+        GRANT ALL ON *.* TO 'root'@'%';
+        GRANT ALL PRIVILEGES ON messagegateway.* TO 'mifos';
+        GRANT ALL PRIVILEGES ON oaf.* TO 'mifos';
+
+  channel:
+    DFSPIDS: "dosh"
+    SPRING_PROFILES_ACTIVE: "bb"
+    hostname: "fin-db.onenet.xyz"
+    AWS_ACCESS_KEY: "xxx"
+    AWS_SECRET_KEY: "xxx"
+    image: "fynarfin.azurecr.io/ph-ee-connector-channel"
+    ingress:
+      annotations: 
+        kubernetes.io/ingress.class: "nginx"
+
+  operations_app:
+    TENANTS: "dosh"
+    SPRING_PROFILES_ACTIVE: "bb"
+    hostname: "fin-db.onenet.xyz"
+    image: "fynarfin.azurecr.io/ph-ee-operations-app"
+    ingress:
+      annotations: 
+        kubernetes.io/ingress.class: "nginx"
+
+  operations_web:
+    SPRING_PROFILES_ACTIVE: "bb"
+    hostname: "fin-db.onenet.xyz"
+    webhost: "fin-db.onenet.xyz"
+    path: "/"
+    image: "fynarfin.azurecr.io/ops-web"
+    ingress:
+      annotations:
+        kubernetes.io/ingress.class: "nginx"
+
+  identity:
+    hostname: "fin-db.onenet.xyz"
+    ingress:
+      annotations: 
+        kubernetes.io/ingress.class: "nginx"
+
+  mpesa:
+    enabled: true
+    SPRING_PROFILES_ACTIVE: "bb"
+    SECRET_NAME: "mpesa-secret"
+    hostname: "fin-db.onenet.xyz"
+    image: "fynarfin.azurecr.io/ph-ee-connector-mpesa"
+    secret:
+      name: "mpesa-secret"
+      key:
+        auth_client_key: "client-key"
+        auth_client_secret: "client-secret"
+        api_pass_key: "pass-key"
+    ingress:
+      annotations: 
+        kubernetes.io/ingress.class: "nginx"
+
+  roster_connector:
+    enabled: true
+    SPRING_PROFILES_ACTIVE: "bb"
+    image: "fynarfin.azurecr.io/ph-ee-connector-ams-pesa"
+
+  notifications:
+    enabled: true
+    SPRING_PROFILES_ACTIVE: "bb"
+    image: "fynarfin.azurecr.io/phee-ns/ph-ee-notifications"
+    hostname: "fin-db.onenet.xyz"
+    CALLBACKCONFIG_HOST: "fin-db.onenet.xyz/notifications"
+    MESSAGEGATEWAYCONFIG_HOST: "fin-db.onenet.xyz/messages"
+    NOTIFICATION_LOCAL_HOST: "fin-db.onenet.xyz/notifications"
+    ingress:
+      annotations: 
+        kubernetes.io/ingress.class: "kong"
+        konghq.com/strip-path: "true"
+
+
+  zeebe_ops:
+    enabled: true
+    image: "fynarfin.azurecr.iophee-zeebe-ops"
+    ingress:
+      annotations: 
+        kubernetes.io/ingress.class: "nginx"
+
+  messagegateway:
+    enabled: true
+    image: "fynarfin.azurecr.io/message-gateway"
+    hostname: "fin-db.onenet.xyz"
+    CALLBACKCONFIG_HOST: "fin-db.onenet.xyz/notifications"
+    MESSAGEGATEWAYCONFIG_HOST: "fin-db.onenet.xyz/messages"
+    HOSTCONFIG_HOST: "fin-db.onenet.xyz/messages"
+    ingress:
+      annotations: 
+        kubernetes.io/ingress.class: "nginx"
+
+
+  importer_es:
+    image: "fynarfin.azurecr.io/ph-ee-importer-es"
+
+  importer_rdbms:
+    image: "fynarfin.azurecr.io/ph-ee-importer-rdbms"
+  
+  wildcardhostname: "*.onenet.xyz"
+
+  tls: "sawtelqa-tls"
