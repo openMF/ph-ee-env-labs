@@ -164,9 +164,15 @@ ph-ee-engine-oaf:
   mpesa:
     enabled: true
     SPRING_PROFILES_ACTIVE: "bb"
-    SECRET_NAME: "mpesa-secret"
-    hostname: "fin-db.onenet.xyz"
-    image: "fynarfin.azurecr.io/ph-ee-connector-mpesa"
+    hostname: "paymenthub.qa.oneacrefund.org"
+    image: "oaftech.azurecr.io/phee-ns/ph-ee-connector-mpesa"
+    business_short_code: "668158"
+    till_number: "9347335"
+    callback_host: "https://paymenthub.qa.oneacrefund.org/mpesa"
+    retry_count: 3
+    safaricom:
+      auth_host: "https://api.safaricom.co.ke/oauth/v1/generate"
+      api_host: "https://api.safaricom.co.ke"
     secret:
       name: "mpesa-secret"
       key:
