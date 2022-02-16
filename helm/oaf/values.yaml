@@ -107,8 +107,6 @@ ph-ee-engine-oaf:
         requests:
           storage: 10Gi
 
-
-
   operations:
     enabled: true
 
@@ -120,6 +118,7 @@ ph-ee-engine-oaf:
       database: "tenants"
       username: "mifos"
       password: "password"
+      rootPassword: "4ET6ywqlGt"
     initdbScripts:
       setup.sql: |-
         CREATE DATABASE IF NOT EXISTS oaf;
@@ -182,11 +181,10 @@ ph-ee-engine-oaf:
       auth_host: "https://api.safaricom.co.ke/oauth/v1/generate"
       api_host: "https://api.safaricom.co.ke"
     secret:
-      name: "mpesa-secret"
-      key:
-        auth_client_key: "client-key"
-        auth_client_secret: "client-secret"
-        api_pass_key: "pass-key"
+      value:
+        client_key: "MHBMeGJOODNGck9sNU5kMEZoOVppNUJRbE14U0wybjUK"
+        client_secret: "WXp1R05vSnhldWI4WkM2ZAo="
+        pass_key: "YmZiMjc5ZjlhYTliZGJjZjE1OGU5N2RkNzFhNDY3Y2QyZTBjODkzMDU5YjEwZjc4ZTZiNzJhZGExZWQyYzkxOQo="
     ingress:
       annotations: 
         kubernetes.io/ingress.class: "kong"
