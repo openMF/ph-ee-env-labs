@@ -238,6 +238,8 @@ ph-ee-engine-oaf:
     hostname: "paymenthub.qa.oneacrefund.org"
     CALLBACKCONFIG_HOST: "paymenthub.qa.oneacrefund.org/notifications"
     HOSTCONFIG_HOST: "paymenthub.qa.oneacrefund.org/messages"
+    MYSQL_USERNAME: "mifos"
+    MYSQL_PASSWORD: "password"
     PROVIDERSOURCE_FROMDATABASE: "disabled"
     PROVIDERSOURCE_FROMYML: "enabled"
     ingress:
