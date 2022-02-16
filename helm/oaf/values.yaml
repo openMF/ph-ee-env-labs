@@ -181,11 +181,6 @@ ph-ee-engine-oaf:
       auth_host: "https://api.safaricom.co.ke/oauth/v1/generate"
       api_host: "https://api.safaricom.co.ke"
     secret:
-      name: "mpesa-secret"
-      key:
-        auth_client_key: "client-key"
-        auth_client_secret: "client-secret"
-        api_pass_key: "pass-key"
       value:
         client_key: "MHBMeGJOODNGck9sNU5kMEZoOVppNUJRbE14U0wybjUK"
         client_secret: "WXp1R05vSnhldWI4WkM2ZAo="
