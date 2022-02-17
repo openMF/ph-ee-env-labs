@@ -195,6 +195,7 @@ ph-ee-engine-oaf:
     SPRING_PROFILES_ACTIVE: "bb"
     image: "oaftech.azurecr.io/phee-ns/ph-ee-connector-ams-pesa"
     pesacore:
+      base_url: "https://qaoperations01.oneacrefund.org"
       auth_header: "PaymentHubTest"
     ams:
       local:
