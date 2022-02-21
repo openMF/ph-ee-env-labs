@@ -182,9 +182,9 @@ ph-ee-engine-oaf:
       api_host: "https://api.safaricom.co.ke"
     secret:
       value:
-        client_key: "MHBMeGJOODNGck9sNU5kMEZoOVppNUJRbE14U0wybjUK"
-        client_secret: "WXp1R05vSnhldWI4WkM2ZAo="
-        pass_key: "YmZiMjc5ZjlhYTliZGJjZjE1OGU5N2RkNzFhNDY3Y2QyZTBjODkzMDU5YjEwZjc4ZTZiNzJhZGExZWQyYzkxOQo="
+        client_key: "0pLxbN83FrOl5Nd0Fh9Zi5BQlMxSL2n5"
+        client_secret: "YzuGNoJxeub8ZC6d"
+        pass_key: "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919"
     ingress:
       annotations: 
         kubernetes.io/ingress.class: "kong"
@@ -230,8 +230,8 @@ ph-ee-engine-oaf:
     image: "oaftech.azurecr.io/phee-ns/message-gateway"
     secret:
       value:
-        api_key: "ZUtpQzFfSldkS3k3ZWFUR1FGSHhYWGpYamFjcjYwVzlabnRs"
-        project_id: "UEo1ZmY1NTJjZTAxZDI5Nzhj"
+        api_key: "eKiC1_JWdKy7eaTGQFHxXXjXjacr60W9Zntl"
+        project_id: "PJ5ff552ce01d2978c"
     hostname: "paymenthub.qa.oneacrefund.org"
     CALLBACKCONFIG_HOST: "ph-ee-connector-notifications"
     HOSTCONFIG_HOST: "message-gateway"
