@@ -110,7 +110,7 @@ ph-ee-engine-oaf:
   operations:
     enabled: true
 
-  operationsMysql:
+  operationsmysql:
     image:
       tag: "5.7"
       debug: false
