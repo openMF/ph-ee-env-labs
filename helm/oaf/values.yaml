@@ -111,6 +111,7 @@ ph-ee-engine-oaf:
     enabled: true
 
   operationsMysql:
+    fullnameOverride: "operationsmysql"
     image:
       tag: "5.7"
       debug: false
