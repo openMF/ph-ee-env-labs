@@ -145,6 +145,12 @@ ph-ee-engine-oaf:
     SPRING_PROFILES_ACTIVE: "bb"
     hostname: "paymenthub.qa.oneacrefund.org"
     image: "oaftech.azurecr.io/phee-ns/ph-ee-operations-app"
+    datasource:
+      username: "mifos"
+      password: "password"
+      host: "operations-mysql"
+      port: 3306
+      schema: "tenants"
     ingress:
       annotations: 
         kubernetes.io/ingress.class: "kong"
