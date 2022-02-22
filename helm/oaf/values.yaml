@@ -113,7 +113,7 @@ ph-ee-engine-oaf:
   operationsMysql:
     image:
       tag: "5.7"
-      debug: true
+      debug: false
     auth:
       database: "tenants"
       username: "mifos"
@@ -152,6 +152,7 @@ ph-ee-engine-oaf:
       port: 3306
       schema: "tenants"
     ingress:
+      enabled: true
       annotations: 
         kubernetes.io/ingress.class: "kong"
         konghq.com/strip-path: "true"
@@ -163,6 +164,7 @@ ph-ee-engine-oaf:
     path: "/"
     image: "oaftech.azurecr.io/phee-ns/ops-web"
     ingress:
+      enabled: true
       annotations:
         kubernetes.io/ingress.class: "nginx"
 
