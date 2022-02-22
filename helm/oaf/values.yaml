@@ -48,7 +48,7 @@ ph-ee-engine-oaf:
 
   kibana:
     enabled: true
-    imageTag: 7.13.2
+    imageTag: 7.16.3
     ingress:
       enabled: true
       className: "nginx"
@@ -69,7 +69,7 @@ ph-ee-engine-oaf:
   elasticsearch:
     enabled: true
     replicas: 1
-    imageTag: 7.13.2
+    imageTag: 7.16.3
     minimumMasterNodes: 1
 
     #Single Node Solution
