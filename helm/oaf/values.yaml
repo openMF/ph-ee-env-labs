@@ -247,7 +247,7 @@ ph-ee-engine-oaf:
     HOSTCONFIG_HOST: "message-gateway"
     MYSQL_USERNAME: "mifos"
     MYSQL_PASSWORD: "password"
-    DATASOURCE_URL: jdbc:mysql:thin://operations-mysql:3306/messagegateway
+    DATASOURCE_URL: jdbc:mysql:thin://operationsmysql:3306/messagegateway
     PROVIDERSOURCE_FROMDATABASE: "disabled"
     PROVIDERSOURCE_FROMYML: "enabled"
     ingress:
