@@ -150,7 +150,7 @@ ph-ee-engine-oaf:
     datasource:
       username: "mifos"
       password: "password"
-      host: "operations-mysql"
+      host: "operationsmysql"
       port: 3306
       schema: "tenants"
     ingress:
