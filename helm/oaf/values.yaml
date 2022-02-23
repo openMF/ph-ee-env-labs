@@ -261,6 +261,12 @@ ph-ee-engine-oaf:
 
   importer_rdbms:
     image: "oaftech.azurecr.io/phee-ns/ph-ee-importer-rdbms"
+    datasource:
+      username: "mifos"
+      password: "password"
+      host: "operationsmysql"
+      port: 3306
+      schema: "tenants"
   
   wildcardhostname: "*.qa.oneacrefund.org"
 
