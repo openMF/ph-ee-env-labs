@@ -102,7 +102,7 @@ ph-ee-engine-oaf:
         memory: "1024M"
     volumeClaimTemplate:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: "standard"
+      storageClassName:
       resources:
         requests:
           storage: 10Gi
