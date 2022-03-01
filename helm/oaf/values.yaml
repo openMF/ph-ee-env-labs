@@ -141,6 +141,10 @@ ph-ee-engine-oaf:
       annotations: 
         kubernetes.io/ingress.class: "kong"
         konghq.com/strip-path: "true"
+    deployment:
+      annotations:
+        co.elastic.logs/enabled: "true"
+        deployTime: "{{ .Values.deployTime }}"
 
   operations_app:
     TENANTS: "oaf"
@@ -158,6 +162,10 @@ ph-ee-engine-oaf:
       annotations: 
         kubernetes.io/ingress.class: "kong"
         konghq.com/strip-path: "true"
+    deployment:
+      annotations:
+        co.elastic.logs/enabled: "true"
+        deployTime: "{{ .Values.deployTime }}"
 
   operations_web:
     SPRING_PROFILES_ACTIVE: "bb"
@@ -169,6 +177,9 @@ ph-ee-engine-oaf:
       enabled: true
       annotations:
         kubernetes.io/ingress.class: "nginx"
+    deployment:
+      annotations:
+        co.elastic.logs/enabled: "true"
 
   identity:
     hostname: "ops-bk.ibank.financial"
@@ -214,6 +225,10 @@ ph-ee-engine-oaf:
     ams:
       local:
         enabled: true
+    deployment:
+      annotations:
+        co.elastic.logs/enabled: "true"
+        deployTime: "{{ .Values.deployTime }}"
 
   notifications:
     enabled: true
@@ -228,6 +243,10 @@ ph-ee-engine-oaf:
       annotations: 
         kubernetes.io/ingress.class: "kong"
         konghq.com/strip-path: "true"
+    deployment:
+      annotations:
+        co.elastic.logs/enabled: "true"
+        deployTime: "{{ .Values.deployTime }}"
 
 
   zeebe_ops:
@@ -238,6 +257,10 @@ ph-ee-engine-oaf:
       annotations: 
         kubernetes.io/ingress.class: "kong"
         konghq.com/strip-path: "true"
+    deployment:
+      annotations:
+        co.elastic.logs/enabled: "true"
+        deployTime: "{{ .Values.deployTime }}"
 
   messagegateway:
     enabled: true
@@ -258,6 +281,9 @@ ph-ee-engine-oaf:
       annotations: 
         kubernetes.io/ingress.class: "kong"
         konghq.com/strip-path: "true"
+    deployment:
+      annotations:
+        co.elastic.logs/enabled: "true"
 
 
   importer_es:
@@ -271,6 +297,9 @@ ph-ee-engine-oaf:
       host: "operationsmysql"
       port: 3306
       schema: "tenants"
+    deployment:
+      annotations:
+        co.elastic.logs/enabled: "true"
   
   wildcardhostname: "*.qa.oneacrefund.org"
 
