@@ -199,6 +199,10 @@ ph-ee-engine-oaf:
       annotations: 
         kubernetes.io/ingress.class: "kong"
         konghq.com/strip-path: "true"
+    deployment:
+      annotations:
+        co.elastic.logs/enabled: "true"
+        deployTime: "{{ .Values.deployTime }}"
 
   roster_connector:
     enabled: true
