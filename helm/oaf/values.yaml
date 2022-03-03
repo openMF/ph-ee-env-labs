@@ -102,7 +102,7 @@ ph-ee-engine-oaf:
         memory: "1024M"
     volumeClaimTemplate:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName:
+      storageClassName: "oaf-storage"
       resources:
         requests:
           storage: 10Gi
@@ -133,6 +133,7 @@ ph-ee-engine-oaf:
     DFSPIDS: "oaf"
     transaction_id_length: 20
     SPRING_PROFILES_ACTIVE: "bb"
+    LOGGING_LEVEL_ROOT: "INFO"
     hostname: "paymenthub.qa.oneacrefund.org"
     AWS_ACCESS_KEY: "xxx"
     AWS_SECRET_KEY: "xxx"
@@ -157,6 +158,7 @@ ph-ee-engine-oaf:
       host: "operationsmysql"
       port: 3306
       schema: "tenants"
+    LOGGING_LEVEL_ROOT: "INFO"
     ingress:
       enabled: true
       annotations: 
@@ -206,6 +208,7 @@ ph-ee-engine-oaf:
         client_key: "0pLxbN83FrOl5Nd0Fh9Zi5BQlMxSL2n5"
         client_secret: "YzuGNoJxeub8ZC6d"
         pass_key: "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919"
+    LOGGING_LEVEL_ROOT: "INFO"
     ingress:
       annotations: 
         kubernetes.io/ingress.class: "kong"
@@ -222,6 +225,7 @@ ph-ee-engine-oaf:
     pesacore:
       base_url: "https://qaoperations01.oneacrefund.org"
       auth_header: "PaymentHubTest"
+    LOGGING_LEVEL_ROOT: "INFO"
     ams:
       local:
         enabled: true
@@ -239,6 +243,7 @@ ph-ee-engine-oaf:
     NOTIFICATION_LOCAL_HOST: "ph-ee-connector-notifications"
     NOTIFICATION_SUCCESS_ENABLED: "false"
     NOTIFICATION_FAILURE_ENABLED: "true"
+    LOGGING_LEVEL_ROOT: "INFO"
     ingress:
       annotations: 
         kubernetes.io/ingress.class: "kong"
@@ -277,6 +282,7 @@ ph-ee-engine-oaf:
     DATASOURCE_URL: jdbc:mysql:thin://operationsmysql:3306/messagegateway
     PROVIDERSOURCE_FROMDATABASE: "disabled"
     PROVIDERSOURCE_FROMYML: "enabled"
+    LOGGING_LEVEL_ROOT: "INFO"
     ingress:
       annotations: 
         kubernetes.io/ingress.class: "kong"
@@ -291,6 +297,7 @@ ph-ee-engine-oaf:
 
   importer_rdbms:
     image: "oaftech.azurecr.io/phee-ns/ph-ee-importer-rdbms"
+    LOGGING_LEVEL_ROOT: "INFO"
     datasource:
       username: "mifos"
       password: "password"
