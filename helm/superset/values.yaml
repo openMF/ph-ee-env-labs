@@ -37,6 +37,13 @@ ph-ee-engine:
       elasticsearch:
         host: "ph-ee-elasticsearch"
         clusterName: "ph-ee-elasticsearch"
+    ingress:
+      enabled: true
+      className: "nginx"  
+      path: /
+      host: operate.ibank.financial
+      tls:
+        enabled: false
 
   elasticsearch:
     enabled: true
@@ -74,7 +81,7 @@ ph-ee-engine:
         memory: "1024M"
     volumeClaimTemplate:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: "standard"
+      storageClassName: "ibmc-vpc-block-10iops-tier"
       resources:
         requests:
           storage: 10Gi
@@ -83,7 +90,7 @@ ph-ee-engine:
     enabled: true
     imageTag: 7.13.2
     ingress:
-      enabled: false
+      enabled: true
       className: "nginx"
       pathtype: ImplementationSpecific
       annotations: {}
@@ -105,12 +112,16 @@ ph-ee-engine:
   operations:
     enabled: true
 
-  operationsMysql:
-    mysqlRootPassword: "ethieTieCh8ahv"
-    mysqlUser: "mifos"
-    mysqlPassword: "password"
-    mysqlDatabase: "tenants"
-    initializationFiles:
+  ingress:
+    apiversion: "networking.k8s.io/v1beta1"
+
+  operationsmysql:
+    auth:
+      database: "tenants"
+      username: "mifos"
+      password: "password"
+      rootPassword: "ethieTieCh8ahv"
+    initdbScripts:
       setup.sql: |-
         CREATE DATABASE messagegateway;
         CREATE DATABASE `ibank-india`;
@@ -120,63 +131,230 @@ ph-ee-engine:
         GRANT ALL ON *.* TO 'root'@'%';
         GRANT ALL PRIVILEGES ON messagegateway.* TO 'mifos';
 
-  mifos_connector:
-    SPRING_PROFILES_ACTIVE: "fin12,bb"
+  ph_ee_connector_ams_mifos:
+    enabled: true
     image: "us.icr.io/phee-ns/phee-connector-ams"
+    SPRING_PROFILES_ACTIVE: "fin12,bb"
+    deployment:
+      annotations:
+        deployTime: "{{ .Values.deployTime }}"
 
-  mojaloop:
+  ph_ee_connector_mojaloop:
+    enabled: true
+    image: "shanidkh/ph-ee:ph-ee-connector-mojaloop-java"
     SPRING_PROFILES_ACTIVE: "bb"
+    deployment:
+      annotations:
+        deployTime: "{{ .Values.deployTime }}"
+
+  kafka:
+    enabled: true
+    image: "spotify/kafka"
+    advertised:
+      host: "kafka"
+      port: "9092"
+    deployment:
+      annotations: 
+        deployTime: "{{ .Values.deployTime }}"
 
   channel:
+    enabled: true
+    image: "us.icr.io/phee-ns/phee-connector-channel"
     SPRING_PROFILES_ACTIVE: "bb"
     hostname: "channel.ibank.financial"
-    AWS_ACCESS_KEY: "xxx"
-    AWS_SECRET_KEY: "xxx"
-    image: "us.icr.io/phee-ns/phee-connector-channel"
+    DFSPIDS: "ibank-usa,ibank-india"
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: nginx
+      backend:
+        serviceName: ph-ee-connector-channel
+        servicePort: 80
+    deployment:
+      annotations:
+        deployTime: "{{ .Values.deployTime }}"
 
   operations_app:
-    TENANTS: "ibank-usa,ibank-india"
-    SPRING_PROFILES_ACTIVE: "bb"
-    hostname: "ops-bk.ibank.financial"
+    enabled: true
     image: "us.icr.io/phee-ns/ph-ee-ops-bk"
+    SPRING_PROFILES_ACTIVE: "bb"
+    tenants: "ibank-usa,ibank-india"
+    hostname: "ops-bk.ibank.financial"
+    datasource:
+      username: "mifos"
+      password: "password"
+      host: "operationsmysql"
+      port: 3306
+      schema: "tenants"
+    ingress:
+      enabled: true
+      annotations: 
+        kubernetes.io/ingress.class: nginx
+      backend:
+        serviceName: ph-ee-operations-app
+        servicePort: 80
+    deployment:
+      annotations:
+        deployTime: "{{ .Values.deployTime }}"
 
   operations_web:
+    enabled: true
+    image: "us.icr.io/phee-ns/ops-web"
     SPRING_PROFILES_ACTIVE: "bb"
     hostname: "ops-bk.ibank.financial"
     webhost: "ops.ibank.financial"
-    image: "us.icr.io/phee-ns/ops-web"
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: nginx
+      backend:
+        serviceName: ph-ee-operations-web
+        servicePort: 4200
 
   identity:
     hostname: "ops-bk.ibank.financial"
 
-  gsma:
-    SPRING_PROFILES_ACTIVE: "bb"
+  ph_ee_connector_gsma:
+    enabled: true
     image: "us.icr.io/phee-ns/ph-ee-gsma"
+    SPRING_PROFILES_ACTIVE: "bb"
+    deployment:
+      annotations:
+        deployTime: "{{ .Values.deployTime }}"
+
+  ph_ee_connector_slcb:
+    enabled: true
+    image: "us.icr.io/phee-ns/ph-ee-slcb"
+    SPRING_PROFILES_ACTIVE: "bb"
+    deployment:
+      annotations:
+        deployTime: "{{ .Values.deployTime }}"
 
   mpesa:
+    enabled: false
+    image: "us.icr.io/phee-ns/ph-ee-mpesa"
     SPRING_PROFILES_ACTIVE: "bb"
     hostname: "mpesa.ibank.financial"
-    image: "us.icr.io/phee-ns/ph-ee-mpesa"
+    tenant: "ibank-india"
+    zeebe_broker_contactpoint: "zeebe-zeebe-gateway:26500"
+    business_short_code: "123123"
+    till_number: "123123"
+    callback_host: "https://mpesa.ibank.financial/"
+    retry_count: 3
+    safaricom:
+      auth_host: "https://api.safaricom.co.ke/oauth/v1/generate"
+      api_host: "https://api.safaricom.co.ke"
+    secret:
+      value:
+        client_key: "0pLxbN83FrOl5Nd0Fh9Zi5BQlMxSL2n5"
+        client_secret: "YzuGNoJxeub8ZC6d"
+        pass_key: "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919"
+    ingress:
+      enabled: true
+      annotations: 
+        kubernetes.io/ingress.class: nginx
+      backend:
+        serviceName: ph-ee-connector-mpesa
+        servicePort: 80
+    deployment:
+      annotations:
+        deployTime: "{{ .Values.deployTime }}"
 
   roster_connector:
-    SPRING_PROFILES_ACTIVE: "bb"
+    enabled: true
     image: "us.icr.io/phee-ns/phee-connector-ams-pesa"
+    SPRING_PROFILES_ACTIVE: "bb"
+    ams:
+      local:
+        enabled: false
+    pesacore:
+      auth_header: "PaymentHub"
+    deployment:
+      annotations:
+        deployTime: "{{ .Values.deployTime }}"
 
   notifications:
-    SPRING_PROFILES_ACTIVE: "bb"
+    enabled: true
     image: "us.icr.io/phee-ns/ph-ee-notifications"
+    SPRING_PROFILES_ACTIVE: "bb"
+    hostname: "notifications.ibank.financial"
+    MESSAGEGATEWAYCONFIG_HOST: "message-gateway"
+    NOTIFICATION_LOCAL_HOST: "ph-ee-connector-notifications"
+    NOTIFICATION_SUCCESS_ENABLED: "true"
+    NOTIFICATION_FAILURE_ENABLED: "true"
+    zeebe_broker_contactpoint: "zeebe-zeebe-gateway:26500"
+    hostconfig:
+      host: "message-gateway"
+      port: 80
+    ingress:
+      enabled: true
+      annotations: 
+        kubernetes.io/ingress.class: nginx
+      backend:
+        serviceName: ph-ee-connector-notifications
+        servicePort: 80
+    deployment:
+      annotations:
+        deployTime: "{{ .Values.deployTime }}"
 
-  bulk_processor:
+  connector_bulk:
+    enabled: true
     image: "us.icr.io/phee-ns/phee-bulk-processor"
+    SPRING_PROFILES_ACTIVE: "<issue: wasnot present earlier but it is in deployment>"
+    deployment:
+      annotations:
+        deployTime: "{{ .Values.deployTime }}"
 
   zeebe_ops:
+    enabled: true
     image: "us.icr.io/phee-ns/phee-zeebe-ops"
+    hostname: "ibank.financial"
+    zeebe_broker_contactpoint: "zeebe-zeebe-gateway:26500"
+    tenants: "ibank-usa,ibank-india"
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: nginx
+      backend:
+        serviceName: "ph-ee-zeebe-ops"
+        servicePort: 80
+    deployment:
+      annotations:
+        deployTime: "{{ .Values.deployTime }}"
 
   messagegateway:
+    enabled: true
     image: "us.icr.io/phee-ns/message-gateway"
+    secret:
+      value:
+        api_key: "eKiC1_JWdKy7eaTGQFHxXXjXjacr60W9Zntl"
+        project_id: "PJ5ff552ce01d2978c"
+    hostname: "messagegateway.ibank.financial"
+    CALLBACKCONFIG_HOST: "ph-ee-connector-notifications"
+    HOSTCONFIG_HOST: "message-gateway"
+    MYSQL_USERNAME: "mifos"
+    MYSQL_PASSWORD: "password"
+    DATASOURCE_URL: jdbc:mysql:thin://operationsmysql:3306/messagegateway
+    PROVIDERSOURCE_FROMDATABASE: "disabled"
+    PROVIDERSOURCE_FROMYML: "enabled"
+    ingress:
+      backend:
+        serviceName: "message-gateway"
+        servicePort: 80
 
   importer_es:
     image: "us.icr.io/phee-ns/phee-es-importer"
 
   importer_rdbms:
+    enabled: true
     image: "us.icr.io/phee-ns/importer-rdbms"
+    datasource:
+      username: "mifos"
+      password: "password"
+      host: "operationsmysql"
+      port: 3306
+      schema: "tenants"
+
+  wildcardhostname: "*.ibank.financial"
+
+  tls: "" 
