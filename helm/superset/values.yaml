@@ -81,7 +81,7 @@ ph-ee-engine:
         memory: "1024M"
     volumeClaimTemplate:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: "standard"
+      storageClassName: "ibmc-vpc-block-10iops-tier"
       resources:
         requests:
           storage: 10Gi
@@ -308,8 +308,9 @@ ph-ee-engine:
   zeebe_ops:
     enabled: true
     image: "us.icr.io/phee-ns/phee-zeebe-ops"
-    hostname: ""
-    zeebe_broker_contactpoint: ""
+    hostname: "ibank.financial"
+    zeebe_broker_contactpoint: "zeebe-zeebe-gateway:26500"
+    tenants: "ibank-usa,ibank-india"
     ingress:
       enabled: true
       annotations:
