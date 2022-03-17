@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_190ofi4" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Zeebe Modeler" exporterVersion="0.8.0">
+  <bpmn:process id="PartyRegistration-DFSPID" name="Party Registration" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" name="Party registration start">
+      <bpmn:outgoing>SequenceFlow_0mm8w9q</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0mm8w9q" sourceRef="StartEvent_1" targetRef="Task_1vp1z0l" />
+    <bpmn:serviceTask id="Task_1w1k0fk" name="Register party to dfsp in oracle">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="party-registration-oracle-DFSPID" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0sdmgw0</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1is80vv</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Task_1vp1z0l" name="Register party in AMS">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="interop-party-registration-DFSPID" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0mm8w9q</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_13043ai</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="EndEvent_1x1l5ms" name="Party registration end">
+      <bpmn:incoming>SequenceFlow_0a5fuor</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_13043ai" sourceRef="Task_1vp1z0l" targetRef="ExclusiveGateway_1f6zzy7" />
+    <bpmn:sequenceFlow id="SequenceFlow_1is80vv" sourceRef="Task_1w1k0fk" targetRef="ServiceTask_180lqp3" />
+    <bpmn:exclusiveGateway id="ExclusiveGateway_1f6zzy7" default="SequenceFlow_0sdmgw0">
+      <bpmn:incoming>SequenceFlow_13043ai</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0sdmgw0</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_10m9u5m</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_0sdmgw0" sourceRef="ExclusiveGateway_1f6zzy7" targetRef="Task_1w1k0fk" />
+    <bpmn:sequenceFlow id="SequenceFlow_10m9u5m" sourceRef="ExclusiveGateway_1f6zzy7" targetRef="Task_0coo8cr">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=interopRegistrationFailed = true</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:serviceTask id="Task_0coo8cr" name="Send Error Event To Channel">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="send-error-to-channel" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_10m9u5m</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0errykb</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="EndEvent_0mdcndj" name="Party registration failed">
+      <bpmn:incoming>SequenceFlow_0errykb</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0errykb" sourceRef="Task_0coo8cr" targetRef="EndEvent_0mdcndj" />
+    <bpmn:serviceTask id="ServiceTask_180lqp3" name="Send success To Channel">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="send-success-to-channel" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1is80vv</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0a5fuor</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0a5fuor" sourceRef="ServiceTask_180lqp3" targetRef="EndEvent_1x1l5ms" />
+    <bpmn:group id="Group_08ncic6" categoryValueRef="CategoryValue_1br804o" />
+    <bpmn:group id="Group_08le3d8" categoryValueRef="CategoryValue_1qak4pu" />
+    <bpmn:group id="Group_1wb0wgg" categoryValueRef="CategoryValue_1farcu4" />
+    <bpmn:group id="Group_00oeuvr" categoryValueRef="CategoryValue_1dr7y9h" />
+  </bpmn:process>
+  <bpmn:category id="Category_1sym00a">
+    <bpmn:categoryValue id="CategoryValue_1br804o" value="AMS" />
+  </bpmn:category>
+  <bpmn:category id="Category_1ghzakm">
+    <bpmn:categoryValue id="CategoryValue_1qak4pu" value="Mojaloop" />
+  </bpmn:category>
+  <bpmn:category id="Category_1oha9dr">
+    <bpmn:categoryValue id="CategoryValue_1farcu4" value="Channel" />
+  </bpmn:category>
+  <bpmn:category id="Category_1j71wl7">
+    <bpmn:categoryValue id="CategoryValue_1dr7y9h" value="Channel" />
+  </bpmn:category>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="PartyRegistration-DFSPID">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="259" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="155" y="302" width="84" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0mm8w9q_di" bpmnElement="SequenceFlow_0mm8w9q">
+        <di:waypoint x="215" y="277" />
+        <di:waypoint x="300" y="277" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0xdtele_di" bpmnElement="Task_1w1k0fk" bioc:stroke="rgb(251, 140, 0)" bioc:fill="rgb(255, 224, 178)">
+        <dc:Bounds x="560" y="237" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1r7f5zv_di" bpmnElement="Task_1vp1z0l" bioc:stroke="rgb(142, 36, 170)" bioc:fill="rgb(225, 190, 231)">
+        <dc:Bounds x="300" y="237" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_1x1l5ms_di" bpmnElement="EndEvent_1x1l5ms">
+        <dc:Bounds x="862" y="259" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="839" y="302" width="84" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Group_08ncic6_di" bpmnElement="Group_08ncic6">
+        <dc:Bounds x="285" y="216" width="131" height="122" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="301" y="223" width="24" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Group_08le3d8_di" bpmnElement="Group_08le3d8">
+        <dc:Bounds x="545" y="216" width="131" height="122" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="550" y="223" width="46" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_13043ai_di" bpmnElement="SequenceFlow_13043ai">
+        <di:waypoint x="400" y="277" />
+        <di:waypoint x="455" y="277" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1is80vv_di" bpmnElement="SequenceFlow_1is80vv">
+        <di:waypoint x="660" y="277" />
+        <di:waypoint x="710" y="277" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ExclusiveGateway_1f6zzy7_di" bpmnElement="ExclusiveGateway_1f6zzy7" isMarkerVisible="true">
+        <dc:Bounds x="455" y="252" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0sdmgw0_di" bpmnElement="SequenceFlow_0sdmgw0">
+        <di:waypoint x="505" y="277" />
+        <di:waypoint x="560" y="277" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_10m9u5m_di" bpmnElement="SequenceFlow_10m9u5m">
+        <di:waypoint x="480" y="252" />
+        <di:waypoint x="480" y="140" />
+        <di:waypoint x="560" y="140" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Group_1wb0wgg_di" bpmnElement="Group_1wb0wgg">
+        <dc:Bounds x="545" y="79" width="131" height="122" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="552" y="86" width="42" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_012jdr4_di" bpmnElement="Task_0coo8cr" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <dc:Bounds x="560" y="100" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_0mdcndj_di" bpmnElement="EndEvent_0mdcndj">
+        <dc:Bounds x="722" y="122" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="698" y="165" width="84" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0errykb_di" bpmnElement="SequenceFlow_0errykb">
+        <di:waypoint x="660" y="140" />
+        <di:waypoint x="722" y="140" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_180lqp3_di" bpmnElement="ServiceTask_180lqp3" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <dc:Bounds x="710" y="237" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0a5fuor_di" bpmnElement="SequenceFlow_0a5fuor">
+        <di:waypoint x="810" y="277" />
+        <di:waypoint x="862" y="277" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Group_00oeuvr_di" bpmnElement="Group_00oeuvr">
+        <dc:Bounds x="695" y="216" width="131" height="122" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="702" y="223" width="42" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
