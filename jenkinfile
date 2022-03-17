@@ -29,25 +29,32 @@ pipeline {
           }
         }
         stage('WAITING FOR PODS') {
-            echo "I am going to sleep for 2 minutes"
-            sleep(time:120,unit:"SECONDS")
+            steps {
+                echo "I am going to sleep for 2 minutes"
+                sleep(time:120,unit:"SECONDS")
+            }
         }
         stage('DEPLOYING BPMNS') {
-            sh """#!/bin/bash
-            HOST=http://localhost:3306/zeebe/upload
-            deploy(){
-                cmd="curl --location --request POST $HOST \
-                --header 'Platform-TenantId: ibank-india' \
-                --form 'file=@"$PWD/$1"'"
-                eval $cmd
-            }
+            steps {
+                sh """#!/bin/bash
+                if [ "${BPMN}" = "Disable" ]; then
+                    echo "Skipping bpmn deployment"
+                    exit 0
+                fi
+                HOST=http://localhost:3306/zeebe/upload
+                deploy(){
+                    cmd="curl --location --request POST \$HOST \
+                    --header 'Platform-TenantId: ibank-india' \
+                    --form 'file=@"\$PWD/\$1"'"
+                    eval \$cmd
+                }
 
-            LOC=orchestration/feel/*.bpmn
-            for f in $LOC; do
-                deploy $f
-            done
-        
-            """
+                LOC=orchestration/feel/*.bpmn
+                for f in \$LOC; do
+                    deploy \$f
+                done
+                """
+            }
         }
     }
 }
