@@ -1,0 +1,60 @@
+pipeline {
+    
+    environment {
+        IBM_CRED = credentials('IBM_CRED')
+    }
+    
+    agent any
+    
+    stages {
+        stage('Cloning from Git') { 
+          steps { 
+              git url: 'https://github.com/fynarfin/ph-ee-env-labs.git/', branch: 'master'
+          }
+        }
+        stage('IBM ENV SETUP') { 
+          steps {
+              sh 'ibmcloud login -u ${IBM_CRED_USR} -p ${IBM_CRED_PSW} -r us-east -g Default'
+              sh 'ibmcloud ks cluster config --cluster bstcsf4w0hhnpvg8kk5g'
+              sh 'kubectl config use-context mycluster-us-east-3-bx2.8x32/bstcsf4w0hhnpvg8kk5g'
+              sh 'kubectl config get-contexts'
+          }
+        }
+        stage('Deploy Helm Chart') { 
+          steps {
+              sh 'rm -f helm/superset/Chart.lock helm/superset/requirements.lock helm/superset/charts/*'
+              sh 'helm dep up helm/superset'
+              sh 'echo $HOME'
+              sh 'helm upgrade -f helm/superset/values.yaml ph-ee-barebone  helm/superset --install'
+          }
+        }
+        stage('WAITING FOR PODS') {
+            steps {
+                echo "I am going to sleep for 2 minutes"
+                sleep(time:120,unit:"SECONDS")
+            }
+        }
+        stage('DEPLOYING BPMNS') {
+            steps {
+                sh """#!/bin/bash
+                if [ "${BPMN}" = "Disable" ]; then
+                    echo "Skipping bpmn deployment"
+                    exit 0
+                fi
+                HOST=http://localhost:3306/zeebe/upload
+                deploy(){
+                    cmd="curl --location --request POST \$HOST \
+                    --header 'Platform-TenantId: ibank-india' \
+                    --form 'file=@"\$PWD/\$1"'"
+                    eval \$cmd
+                }
+
+                LOC=orchestration/feel/*.bpmn
+                for f in \$LOC; do
+                    deploy \$f
+                done
+                """
+            }
+        }
+    }
+}
