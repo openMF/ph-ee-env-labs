@@ -309,7 +309,7 @@ ph-ee-engine:
   zeebe_ops:
     enabled: true
     image: "us.icr.io/phee-ns/phee-zeebe-ops"
-    hostname: "ibank.financial"
+    hostname: "zeebeops.ibank.financial"
     zeebe_broker_contactpoint: "zeebe-zeebe-gateway:26500"
     tenants: "ibank-usa,ibank-india"
     ingress:
