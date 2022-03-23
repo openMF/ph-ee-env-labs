@@ -202,7 +202,7 @@ ph-ee-engine:
     enabled: true
     image: "us.icr.io/phee-ns/ops-web"
     SPRING_PROFILES_ACTIVE: "bb"
-    hostname: "ops-bk.ibank.financial"
+    hostname: "ops.ibank.financial"
     webhost: "ops.ibank.financial"
     ingress:
       enabled: true
