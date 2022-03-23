@@ -202,7 +202,7 @@ ph-ee-engine:
     enabled: true
     image: "us.icr.io/phee-ns/ops-web"
     SPRING_PROFILES_ACTIVE: "bb"
-    hostname: "ops-bk.ibank.financial"
+    hostname: "ops.ibank.financial"
     webhost: "ops.ibank.financial"
     ingress:
       enabled: true
@@ -232,7 +232,7 @@ ph-ee-engine:
         deployTime: "{{ .Values.deployTime }}"
 
   mpesa:
-    enabled: false
+    enabled: true
     image: "us.icr.io/phee-ns/ph-ee-mpesa"
     SPRING_PROFILES_ACTIVE: "bb"
     hostname: "mpesa.ibank.financial"
@@ -309,7 +309,7 @@ ph-ee-engine:
   zeebe_ops:
     enabled: true
     image: "us.icr.io/phee-ns/phee-zeebe-ops"
-    hostname: "ibank.financial"
+    hostname: "zeebeops.ibank.financial"
     zeebe_broker_contactpoint: "zeebe-zeebe-gateway:26500"
     tenants: "ibank-usa,ibank-india"
     ingress:
