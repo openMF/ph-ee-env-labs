@@ -232,7 +232,7 @@ ph-ee-engine:
         deployTime: "{{ .Values.deployTime }}"
 
   mpesa:
-    enabled: false
+    enabled: true
     image: "us.icr.io/phee-ns/ph-ee-mpesa"
     SPRING_PROFILES_ACTIVE: "bb"
     hostname: "mpesa.ibank.financial"
