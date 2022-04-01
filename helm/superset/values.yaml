@@ -166,8 +166,10 @@ ph-ee-engine:
       annotations:
         kubernetes.io/ingress.class: nginx
       backend:
-        serviceName: ph-ee-connector-channel
-        servicePort: 80
+        service:
+          name: ph-ee-connector-channel
+          port:
+            number: 80
     deployment:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
@@ -189,8 +191,10 @@ ph-ee-engine:
       annotations: 
         kubernetes.io/ingress.class: nginx
       backend:
-        serviceName: ph-ee-operations-app
-        servicePort: 80
+        service:
+          name: ph-ee-operations-app
+          port:
+            number: 80
     deployment:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
@@ -206,8 +210,10 @@ ph-ee-engine:
       annotations:
         kubernetes.io/ingress.class: nginx
       backend:
-        serviceName: ph-ee-operations-web
-        servicePort: 4200
+        service:
+          name: ph-ee-operations-web
+          port:
+            number: 4200
 
   identity:
     hostname: "ops-bk.ibank.financial"
@@ -252,8 +258,10 @@ ph-ee-engine:
       annotations: 
         kubernetes.io/ingress.class: nginx
       backend:
-        serviceName: ph-ee-connector-mpesa
-        servicePort: 80
+        service:
+          name: ph-ee-connector-mpesa
+          port:
+            number: 80
     deployment:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
@@ -289,8 +297,10 @@ ph-ee-engine:
       annotations: 
         kubernetes.io/ingress.class: nginx
       backend:
-        serviceName: ph-ee-connector-notifications
-        servicePort: 80
+        service:
+          name: ph-ee-connector-notifications
+          port:
+            number: 80
     deployment:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
@@ -314,8 +324,10 @@ ph-ee-engine:
       annotations:
         kubernetes.io/ingress.class: nginx
       backend:
-        serviceName: "ph-ee-zeebe-ops"
-        servicePort: 80
+        service:
+          name: ph-ee-zeebe-ops
+          port:
+            number: 80
     deployment:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
@@ -337,8 +349,10 @@ ph-ee-engine:
     PROVIDERSOURCE_FROMYML: "enabled"
     ingress:
       backend:
-        serviceName: "message-gateway"
-        servicePort: 80
+        service:
+          name: message-gateway
+          port:
+            number: 80
 
   importer_es:
     image: "us.icr.io/phee-ns/phee-es-importer"
