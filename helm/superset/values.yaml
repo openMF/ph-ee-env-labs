@@ -38,7 +38,7 @@ ph-ee-engine:
         host: "ph-ee-elasticsearch"
         clusterName: "ph-ee-elasticsearch"
     ingress:
-      enabled: true
+      enabled: false
       className: "nginx"  
       path: /
       host: operate.ibank.financial
@@ -179,8 +179,6 @@ ph-ee-engine:
       cpu: "100m"
     ingress:
       enabled: true
-      annotations:
-        kubernetes.io/ingress.class: nginx
       backend:
         service:
           name: ph-ee-connector-channel
@@ -208,8 +206,6 @@ ph-ee-engine:
       cpu: "100m"
     ingress:
       enabled: true
-      annotations: 
-        kubernetes.io/ingress.class: nginx
       backend:
         service:
           name: ph-ee-operations-app
@@ -231,8 +227,6 @@ ph-ee-engine:
       cpu: "100m"
     ingress:
       enabled: true
-      annotations:
-        kubernetes.io/ingress.class: nginx
       backend:
         service:
           name: ph-ee-operations-web
@@ -291,8 +285,6 @@ ph-ee-engine:
       cpu: "100m"
     ingress:
       enabled: true
-      annotations: 
-        kubernetes.io/ingress.class: nginx
       backend:
         service:
           name: ph-ee-connector-mpesa
@@ -338,8 +330,6 @@ ph-ee-engine:
       cpu: "100m"
     ingress:
       enabled: true
-      annotations: 
-        kubernetes.io/ingress.class: nginx
       backend:
         service:
           name: ph-ee-connector-notifications
@@ -373,8 +363,6 @@ ph-ee-engine:
       cpu: "100m"
     ingress:
       enabled: true
-      annotations:
-        kubernetes.io/ingress.class: nginx
       backend:
         service:
           name: ph-ee-zeebe-ops
