@@ -133,6 +133,10 @@ ph-ee-engine:
     enabled: true
     image: "us.icr.io/phee-ns/phee-connector-ams"
     SPRING_PROFILES_ACTIVE: "fin12,bb"
+    limits:
+      cpu: "500m"
+    requests:
+      cpu: "200m"
     deployment:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
@@ -141,6 +145,10 @@ ph-ee-engine:
     enabled: true
     image: "shanidkh/ph-ee:ph-ee-connector-mojaloop-java"
     SPRING_PROFILES_ACTIVE: "bb"
+    limits:
+      cpu: "500m"
+    requests:
+      cpu: "200m"
     deployment:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
@@ -151,6 +159,10 @@ ph-ee-engine:
     advertised:
       host: "kafka"
       port: "9092"
+    limits:
+      cpu: "500m"
+    requests:
+      cpu: "200m"
     deployment:
       annotations: 
         deployTime: "{{ .Values.deployTime }}"
@@ -161,6 +173,10 @@ ph-ee-engine:
     SPRING_PROFILES_ACTIVE: "bb"
     hostname: "channel.ibank.financial"
     DFSPIDS: "ibank-usa,ibank-india"
+    limits:
+      cpu: "500m"
+    requests:
+      cpu: "200m"
     ingress:
       enabled: true
       annotations:
@@ -186,6 +202,10 @@ ph-ee-engine:
       host: "operationsmysql"
       port: 3306
       schema: "tenants"
+    limits:
+      cpu: "500m"
+    requests:
+      cpu: "200m"
     ingress:
       enabled: true
       annotations: 
@@ -205,6 +225,10 @@ ph-ee-engine:
     SPRING_PROFILES_ACTIVE: "bb"
     hostname: "ops.ibank.financial"
     webhost: "ops.ibank.financial"
+    limits:
+      cpu: "500m"
+    requests:
+      cpu: "200m"
     ingress:
       enabled: true
       annotations:
@@ -222,6 +246,10 @@ ph-ee-engine:
     enabled: true
     image: "us.icr.io/phee-ns/ph-ee-gsma"
     SPRING_PROFILES_ACTIVE: "bb"
+    limits:
+      cpu: "500m"
+    requests:
+      cpu: "200m"
     deployment:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
@@ -230,6 +258,10 @@ ph-ee-engine:
     enabled: true
     image: "us.icr.io/phee-ns/ph-ee-slcb"
     SPRING_PROFILES_ACTIVE: "bb"
+    limits:
+      cpu: "500m"
+    requests:
+      cpu: "200m"
     deployment:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
@@ -253,6 +285,10 @@ ph-ee-engine:
         client_key: "0pLxbN83FrOl5Nd0Fh9Zi5BQlMxSL2n5"
         client_secret: "YzuGNoJxeub8ZC6d"
         pass_key: "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919"
+    limits:
+      cpu: "500m"
+    requests:
+      cpu: "200m"
     ingress:
       enabled: true
       annotations: 
@@ -275,6 +311,10 @@ ph-ee-engine:
         enabled: false
     pesacore:
       auth_header: "PaymentHub"
+    limits:
+      cpu: "500m"
+    requests:
+      cpu: "200m"
     deployment:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
@@ -292,6 +332,10 @@ ph-ee-engine:
     hostconfig:
       host: "message-gateway"
       port: 80
+    limits:
+      cpu: "500m"
+    requests:
+      cpu: "200m"
     ingress:
       enabled: true
       annotations: 
@@ -309,6 +353,10 @@ ph-ee-engine:
     enabled: true
     image: "us.icr.io/phee-ns/phee-bulk-processor"
     SPRING_PROFILES_ACTIVE: "<issue: wasnot present earlier but it is in deployment>"
+    limits:
+      cpu: "500m"
+    requests:
+      cpu: "200m"
     deployment:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
@@ -319,6 +367,10 @@ ph-ee-engine:
     hostname: "zeebeops.ibank.financial"
     zeebe_broker_contactpoint: "zeebe-zeebe-gateway:26500"
     tenants: "ibank-usa,ibank-india"
+    limits:
+      cpu: "500m"
+    requests:
+      cpu: "200m"
     ingress:
       enabled: true
       annotations:
@@ -347,6 +399,10 @@ ph-ee-engine:
     DATASOURCE_URL: jdbc:mysql:thin://operationsmysql:3306/messagegateway
     PROVIDERSOURCE_FROMDATABASE: "disabled"
     PROVIDERSOURCE_FROMYML: "enabled"
+    limits:
+      cpu: "500m"
+    requests:
+      cpu: "200m"
     ingress:
       backend:
         service:
@@ -360,6 +416,10 @@ ph-ee-engine:
   importer_rdbms:
     enabled: true
     image: "us.icr.io/phee-ns/importer-rdbms"
+    limits:
+      cpu: "500m"
+    requests:
+      cpu: "200m"
     datasource:
       username: "mifos"
       password: "password"
