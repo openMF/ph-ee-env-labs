@@ -113,9 +113,6 @@ ph-ee-engine:
   operations:
     enabled: true
 
-  ingress:
-    apiversion: "networking.k8s.io/v1beta1"
-
   operationsmysql:
     auth:
       database: "tenants"
