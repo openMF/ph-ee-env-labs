@@ -412,6 +412,10 @@ ph-ee-engine:
 
   importer_es:
     image: "us.icr.io/phee-ns/phee-es-importer"
+    limits:
+      cpu: "500m"
+    requests:
+      cpu: "200m"
 
   importer_rdbms:
     enabled: true
