@@ -87,7 +87,7 @@ ph-ee-engine:
           storage: 10Gi
 
   kibana:
-    enabled: true
+    enabled: false
     imageTag: 7.16.3
     ingress:
       enabled: true
