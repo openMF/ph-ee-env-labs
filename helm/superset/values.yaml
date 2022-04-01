@@ -74,7 +74,7 @@ ph-ee-engine:
     # Allocate smaller chunks of memory per pod.
     resources:
       requests:
-        cpu: "200m"
+        cpu: "100m"
         memory: "1024M"
       limits:
         cpu: "1000m"
@@ -136,7 +136,7 @@ ph-ee-engine:
     limits:
       cpu: "500m"
     requests:
-      cpu: "200m"
+      cpu: "100m"
     deployment:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
@@ -148,7 +148,7 @@ ph-ee-engine:
     limits:
       cpu: "500m"
     requests:
-      cpu: "200m"
+      cpu: "100m"
     deployment:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
@@ -162,7 +162,7 @@ ph-ee-engine:
     limits:
       cpu: "500m"
     requests:
-      cpu: "200m"
+      cpu: "100m"
     deployment:
       annotations: 
         deployTime: "{{ .Values.deployTime }}"
@@ -176,7 +176,7 @@ ph-ee-engine:
     limits:
       cpu: "500m"
     requests:
-      cpu: "200m"
+      cpu: "100m"
     ingress:
       enabled: true
       annotations:
@@ -205,7 +205,7 @@ ph-ee-engine:
     limits:
       cpu: "500m"
     requests:
-      cpu: "200m"
+      cpu: "100m"
     ingress:
       enabled: true
       annotations: 
@@ -228,7 +228,7 @@ ph-ee-engine:
     limits:
       cpu: "500m"
     requests:
-      cpu: "200m"
+      cpu: "100m"
     ingress:
       enabled: true
       annotations:
@@ -249,7 +249,7 @@ ph-ee-engine:
     limits:
       cpu: "500m"
     requests:
-      cpu: "200m"
+      cpu: "100m"
     deployment:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
@@ -261,7 +261,7 @@ ph-ee-engine:
     limits:
       cpu: "500m"
     requests:
-      cpu: "200m"
+      cpu: "100m"
     deployment:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
@@ -288,7 +288,7 @@ ph-ee-engine:
     limits:
       cpu: "500m"
     requests:
-      cpu: "200m"
+      cpu: "100m"
     ingress:
       enabled: true
       annotations: 
@@ -314,7 +314,7 @@ ph-ee-engine:
     limits:
       cpu: "500m"
     requests:
-      cpu: "200m"
+      cpu: "100m"
     deployment:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
@@ -335,7 +335,7 @@ ph-ee-engine:
     limits:
       cpu: "500m"
     requests:
-      cpu: "200m"
+      cpu: "100m"
     ingress:
       enabled: true
       annotations: 
@@ -356,7 +356,7 @@ ph-ee-engine:
     limits:
       cpu: "500m"
     requests:
-      cpu: "200m"
+      cpu: "100m"
     deployment:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
@@ -370,7 +370,7 @@ ph-ee-engine:
     limits:
       cpu: "500m"
     requests:
-      cpu: "200m"
+      cpu: "100m"
     ingress:
       enabled: true
       annotations:
@@ -402,7 +402,7 @@ ph-ee-engine:
     limits:
       cpu: "500m"
     requests:
-      cpu: "200m"
+      cpu: "100m"
     ingress:
       backend:
         service:
@@ -415,7 +415,7 @@ ph-ee-engine:
     limits:
       cpu: "500m"
     requests:
-      cpu: "200m"
+      cpu: "100m"
 
   importer_rdbms:
     enabled: true
@@ -423,7 +423,7 @@ ph-ee-engine:
     limits:
       cpu: "500m"
     requests:
-      cpu: "200m"
+      cpu: "100m"
     datasource:
       username: "mifos"
       password: "password"
