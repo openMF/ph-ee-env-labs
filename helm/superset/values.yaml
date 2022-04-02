@@ -179,6 +179,7 @@ ph-ee-engine:
       cpu: "100m"
     ingress:
       enabled: true
+      path: "/"
       backend:
         service:
           name: ph-ee-connector-channel
@@ -206,6 +207,7 @@ ph-ee-engine:
       cpu: "100m"
     ingress:
       enabled: true
+      path: "/"
       backend:
         service:
           name: ph-ee-operations-app
@@ -227,6 +229,7 @@ ph-ee-engine:
       cpu: "100m"
     ingress:
       enabled: true
+      path: "/"
       backend:
         service:
           name: ph-ee-operations-web
@@ -285,6 +288,7 @@ ph-ee-engine:
       cpu: "100m"
     ingress:
       enabled: true
+      path: "/"
       backend:
         service:
           name: ph-ee-connector-mpesa
@@ -330,6 +334,7 @@ ph-ee-engine:
       cpu: "100m"
     ingress:
       enabled: true
+      path: "/"
       backend:
         service:
           name: ph-ee-connector-notifications
@@ -363,6 +368,7 @@ ph-ee-engine:
       cpu: "100m"
     ingress:
       enabled: true
+      path: "/"
       backend:
         service:
           name: ph-ee-zeebe-ops
@@ -392,6 +398,8 @@ ph-ee-engine:
     requests:
       cpu: "100m"
     ingress:
+      enabled: true
+      path: "/"
       backend:
         service:
           name: message-gateway
