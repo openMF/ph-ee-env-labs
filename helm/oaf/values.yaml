@@ -264,6 +264,22 @@ ph-ee-engine:
         co.elastic.logs/enabled: "true"
         deployTime: "{{ .Values.deployTime }}"
 
+  paygops_connector:
+    enabled: true
+    SPRING_PROFILES_ACTIVE: "bb"
+    image: "oaftech.azurecr.io/phee-ns/ph-ee-connector-ams-paygops"
+    pesacore:
+      base_url: "https://qaoperations01.oneacrefund.org"
+      auth_header: "PaymentHubTest"
+    LOGGING_LEVEL_ROOT: "INFO"
+    ams:
+      local:
+        enabled: true
+    deployment:
+      annotations:
+        co.elastic.logs/enabled: "true"
+        deployTime: "{{ .Values.deployTime }}"
+
   notifications:
     enabled: true
     SPRING_PROFILES_ACTIVE: "bb"
