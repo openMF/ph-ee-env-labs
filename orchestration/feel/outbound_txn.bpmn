@@ -66,13 +66,13 @@
     <bpmn:sequenceFlow id="Flow_0fh7319" sourceRef="Gateway_0g5b1cd" targetRef="get-transaction-status">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=retry&lt;3</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_1ry3ym8" sourceRef="Gateway_174339k" targetRef="release-fund" />
+    <bpmn:sequenceFlow id="Flow_1ry3ym8" sourceRef="Gateway_174339k" targetRef="book-fund" />
     <bpmn:exclusiveGateway id="Gateway_00nvviq">
       <bpmn:incoming>Flow_0dhalz2</bpmn:incoming>
       <bpmn:outgoing>Flow_1s6aksg</bpmn:outgoing>
       <bpmn:outgoing>Flow_1cpoger</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="Flow_0dhalz2" sourceRef="release-fund" targetRef="Gateway_00nvviq" />
+    <bpmn:sequenceFlow id="Flow_0dhalz2" sourceRef="book-fund" targetRef="Gateway_00nvviq" />
     <bpmn:endEvent id="Event_0ie1w0k">
       <bpmn:incoming>Flow_1s6aksg</bpmn:incoming>
     </bpmn:endEvent>
@@ -118,7 +118,7 @@
       <bpmn:incoming>Flow_0fh7319</bpmn:incoming>
       <bpmn:outgoing>Flow_049hk9s</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="release-fund" name="Release Fund">
+    <bpmn:serviceTask id="book-fund" name="Book Fund">
       <bpmn:incoming>Flow_1ry3ym8</bpmn:incoming>
       <bpmn:outgoing>Flow_0dhalz2</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -460,7 +460,7 @@
       <bpmndi:BPMNShape id="Activity_0fb8qgc_di" bpmnElement="get-transaction-status" bioc:stroke="rgb(251, 140, 0)" bioc:fill="rgb(255, 224, 178)">
         <dc:Bounds x="1670" y="517" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0nq7zq9_di" bpmnElement="release-fund" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+      <bpmndi:BPMNShape id="Activity_0nq7zq9_di" bpmnElement="book-fund" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
         <dc:Bounds x="1890" y="517" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1skzqao_di" bpmnElement="block-fund" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
