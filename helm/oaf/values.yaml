@@ -160,6 +160,12 @@ ph-ee-engine:
       annotations:
         co.elastic.logs/enabled: "true"
         deployTime: "{{ .Values.deployTime }}"
+    AMS_GROUPS: |
+      - identifier: "accountid"
+        value: "roster"
+      - identifier: "foundationalid"
+        value: "paygops"
+
 
   operations_app:
     tenants: "oaf"
