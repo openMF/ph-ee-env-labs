@@ -173,6 +173,12 @@ ph-ee-engine:
     SPRING_PROFILES_ACTIVE: "bb"
     hostname: "channel.ibank.financial"
     DFSPIDS: "ibank-usa,ibank-india"
+    ams:
+      groups:
+        - identifier: "ACCOUNTID"
+          value: "paygops"
+        - identifier: "FOUNDATIONALID"
+          value: "roster"
     limits:
       cpu: "500m"
     requests:
@@ -188,6 +194,7 @@ ph-ee-engine:
     deployment:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
+
 
   operations_app:
     enabled: true
@@ -270,13 +277,69 @@ ph-ee-engine:
     hostname: "mpesa.ibank.financial"
     tenant: "ibank-india"
     zeebe_broker_contactpoint: "zeebe-zeebe-gateway:26500"
-    business_short_code: "123123"
-    till_number: "123123"
     callback_host: "https://mpesa.ibank.financial/"
     retry_count: 3
-    safaricom:
-      auth_host: "https://api.safaricom.co.ke/oauth/v1/generate"
-      api_host: "https://api.safaricom.co.ke"
+    amsgroup :
+      - name: "roster"
+        business-short-code: "7385028"
+        till: "1234567"
+        auth-host: "https://sandbox.safaricom.co.ke/oauth/v1/generate"
+        api-host: "https://sandbox.safaricom.co.ke"
+        client-key:
+          valueFrom:
+            secretKeyRef:
+              name: "mpesa-secret-roster"
+              key: "client-key"
+        client-secret:
+          valueFrom:
+            secretKeyRef:
+              name: "mpesa-secret-roster"
+              key: "client-secret"
+        pass-key:
+          valueFrom:
+            secretKeyRef:
+              name: "mpesa-secret-roster"
+              key: "pass-key"
+      - name: "paygops"
+        business-short-code: "668158"
+        till: "9347335"
+        auth-host: "https://sandbox.safaricom.co.ke/oauth/v1/generate"
+        api-host: "https://sandbox.safaricom.co.ke"
+        client-key:
+          valueFrom:
+            secretKeyRef:
+              name: "mpesa-secret-paygops"
+              key: "client-key"
+        client-secret:
+          valueFrom:
+            secretKeyRef:
+              name: "mpesa-secret-paygops"
+              key: "client-secret"
+        pass-key:
+          valueFrom:
+            secretKeyRef:
+              name: "mpesa-secret-paygops"
+              key: "pass-key"
+      - name: "default"
+        business-short-code: "668158"
+        till: "9347335"
+        auth-host: "https://sandbox.safaricom.co.ke/oauth/v1/generate"
+        api-host: "https://sandbox.safaricom.co.ke"
+        client-key:
+          valueFrom:
+            secretKeyRef:
+              name: "mpesa-secret-paygopd"
+              key: "client-key"
+        client-secret:
+          valueFrom:
+            secretKeyRef:
+              name: "mpesa-secret-paygops"
+              key: "client-secret"
+        pass-key:
+          valueFrom:
+            secretKeyRef:
+              name: "mpesa-secret-paygops"
+              key: "pass-key"
     secret:
       value:
         client_key: "0pLxbN83FrOl5Nd0Fh9Zi5BQlMxSL2n5"
@@ -307,6 +370,23 @@ ph-ee-engine:
         enabled: false
     pesacore:
       auth_header: "PaymentHub"
+    limits:
+      cpu: "500m"
+    requests:
+      cpu: "100m"
+    deployment:
+      annotations:
+        deployTime: "{{ .Values.deployTime }}"
+
+  paygops_connector:
+    enabled: true
+    image: "us.icr.io/phee-ns/phee-connector-ams-paygops"
+    SPRING_PROFILES_ACTIVE: "bb"
+    ams:
+      local:
+        enabled: false
+    paygops:
+      auth_header: "PaymentHubTest"
     limits:
       cpu: "500m"
     requests:

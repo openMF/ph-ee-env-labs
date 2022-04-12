@@ -227,13 +227,69 @@ ph-ee-engine:
     hostname: "paymenthub.qa.oneacrefund.org"
     image: "oaftech.azurecr.io/phee-ns/ph-ee-connector-mpesa"
     zeebe_broker_contactpoint: "zeebe-zeebe-gateway:26500"
-    business_short_code: "668158"
-    till_number: "9347335"
     callback_host: "https://paymenthub.qa.oneacrefund.org/mpesa"
     retry_count: 3
-    safaricom:
-      auth_host: "https://api.safaricom.co.ke/oauth/v1/generate"
-      api_host: "https://api.safaricom.co.ke"
+    amsgroup:
+      - name: "roster"
+        business-short-code: "7385028"
+        till: "1234567"
+        auth-host: "https://sandbox.safaricom.co.ke/oauth/v1/generate"
+        api-host: "https://sandbox.safaricom.co.ke"
+        client-key:
+          valueFrom:
+            secretKeyRef:
+              name: "mpesa-secret-roster"
+              key: "client-key"
+        client-secret:
+          valueFrom:
+            secretKeyRef:
+              name: "mpesa-secret-roster"
+              key: "client-secret"
+        pass-key:
+          valueFrom:
+            secretKeyRef:
+              name: "mpesa-secret-roster"
+              key: "pass-key"
+      - name: "paygops"
+        business-short-code: "668158"
+        till: "9347335"
+        auth-host: "https://sandbox.safaricom.co.ke/oauth/v1/generate"
+        api-host: "https://sandbox.safaricom.co.ke"
+        client-key:
+          valueFrom:
+            secretKeyRef:
+              name: "mpesa-secret-paygops"
+              key: "client-key"
+        client-secret:
+          valueFrom:
+            secretKeyRef:
+              name: "mpesa-secret-paygops"
+              key: "client-secret"
+        pass-key:
+          valueFrom:
+            secretKeyRef:
+              name: "mpesa-secret-paygops"
+              key: "pass-key"
+      - name: "default"
+        business-short-code: "668158"
+        till: "9347335"
+        auth-host: "https://sandbox.safaricom.co.ke/oauth/v1/generate"
+        api-host: "https://sandbox.safaricom.co.ke"
+        client-key:
+          valueFrom:
+            secretKeyRef:
+              name: "mpesa-secret-paygopd"
+              key: "client-key"
+        client-secret:
+          valueFrom:
+            secretKeyRef:
+              name: "mpesa-secret-paygops"
+              key: "client-secret"
+        pass-key:
+          valueFrom:
+            secretKeyRef:
+              name: "mpesa-secret-paygops"
+              key: "pass-key"
     secret:
       value:
         client_key: "0pLxbN83FrOl5Nd0Fh9Zi5BQlMxSL2n5"
@@ -274,7 +330,7 @@ ph-ee-engine:
     enabled: true
     SPRING_PROFILES_ACTIVE: "bb"
     image: "oaftech.azurecr.io/phee-ns/ph-ee-connector-ams-paygops"
-    pesacore:
+    paygops:
       base_url: "https://qaoperations01.oneacrefund.org"
       auth_header: "PaymentHubTest"
     LOGGING_LEVEL_ROOT: "INFO"
