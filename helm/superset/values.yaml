@@ -173,12 +173,6 @@ ph-ee-engine:
     SPRING_PROFILES_ACTIVE: "bb"
     hostname: "channel.ibank.financial"
     DFSPIDS: "ibank-usa,ibank-india"
-    ams:
-      groups:
-        - identifier: "ACCOUNTID"
-          value: "paygops"
-        - identifier: "FOUNDATIONALID"
-          value: "roster"
     limits:
       cpu: "500m"
     requests:
@@ -194,6 +188,14 @@ ph-ee-engine:
     deployment:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
+    AMS:
+      GROUPS:
+        - identifier: "a"
+          value: "roster"
+        - identifier: "c"
+          value: "paygops"
+        - identifier: "e"
+          value: "paygops"
 
 
   operations_app:
@@ -328,7 +330,7 @@ ph-ee-engine:
         client-key:
           valueFrom:
             secretKeyRef:
-              name: "mpesa-secret-paygopd"
+              name: "mpesa-secret-paygops"
               key: "client-key"
         client-secret:
           valueFrom:

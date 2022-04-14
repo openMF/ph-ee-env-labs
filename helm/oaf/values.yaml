@@ -160,11 +160,12 @@ ph-ee-engine:
       annotations:
         co.elastic.logs/enabled: "true"
         deployTime: "{{ .Values.deployTime }}"
-    AMS_GROUPS: |
-      - identifier: "accountid"
-        value: "roster"
-      - identifier: "foundationalid"
-        value: "paygops"
+    ams:
+      groups:
+        - identifier: "ACCOUNTID"
+          value: "paygops"
+        - identifier: "FOUNDATIONALID"
+          value: "roster"
 
 
   operations_app:
@@ -278,7 +279,7 @@ ph-ee-engine:
         client-key:
           valueFrom:
             secretKeyRef:
-              name: "mpesa-secret-paygopd"
+              name: "mpesa-secret-paygops"
               key: "client-key"
         client-secret:
           valueFrom:
