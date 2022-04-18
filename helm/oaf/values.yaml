@@ -230,67 +230,24 @@ ph-ee-engine:
     zeebe_broker_contactpoint: "zeebe-zeebe-gateway:26500"
     callback_host: "https://paymenthub.qa.oneacrefund.org/mpesa"
     retry_count: 3
-    amsgroup:
-      - name: "roster"
-        business-short-code: "7385028"
+    accounts:
+      roster:
+        name: "roster"
+        business_short_code: "7385028"
         till: "1234567"
-        auth-host: "https://sandbox.safaricom.co.ke/oauth/v1/generate"
-        api-host: "https://sandbox.safaricom.co.ke"
-        client-key:
-          valueFrom:
-            secretKeyRef:
-              name: "mpesa-secret-roster"
-              key: "client-key"
-        client-secret:
-          valueFrom:
-            secretKeyRef:
-              name: "mpesa-secret-roster"
-              key: "client-secret"
-        pass-key:
-          valueFrom:
-            secretKeyRef:
-              name: "mpesa-secret-roster"
-              key: "pass-key"
-      - name: "paygops"
-        business-short-code: "668158"
+        auth_host: "https://sandbox.safaricom.co.ke/oauth/v1/generate"
+        api_host: "https://sandbox.safaricom.co.ke"
+        client_key: "0pLxbN83FrOl5Nd0Fh9Zi5BQlMxSL2n5"
+        client_secret: "YzuGNoJxeub8ZC6d"
+        pass_key: "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919"
+      paygops:
+        name: "paygops"
+        business_short_code: "668158"
         till: "9347335"
-        auth-host: "https://sandbox.safaricom.co.ke/oauth/v1/generate"
-        api-host: "https://sandbox.safaricom.co.ke"
-        client-key:
-          valueFrom:
-            secretKeyRef:
-              name: "mpesa-secret-paygops"
-              key: "client-key"
-        client-secret:
-          valueFrom:
-            secretKeyRef:
-              name: "mpesa-secret-paygops"
-              key: "client-secret"
-        pass-key:
-          valueFrom:
-            secretKeyRef:
-              name: "mpesa-secret-paygops"
-              key: "pass-key"
-      - name: "default"
-        business-short-code: "668158"
-        till: "9347335"
-        auth-host: "https://sandbox.safaricom.co.ke/oauth/v1/generate"
-        api-host: "https://sandbox.safaricom.co.ke"
-        client-key:
-          valueFrom:
-            secretKeyRef:
-              name: "mpesa-secret-paygops"
-              key: "client-key"
-        client-secret:
-          valueFrom:
-            secretKeyRef:
-              name: "mpesa-secret-paygops"
-              key: "client-secret"
-        pass-key:
-          valueFrom:
-            secretKeyRef:
-              name: "mpesa-secret-paygops"
-              key: "pass-key"
+        auth_host: "https://sandbox.safaricom.co.ke/oauth/v1/generate"
+        api_host: "https://sandbox.safaricom.co.ke"
+        client_key: "0pLxbN83FrOl5Nd0Fh9Zi5BQlMxSL2n5"
+        client_secret: "YzuGNoJxeub8ZC6d"
     secret:
       value:
         client_key: "0pLxbN83FrOl5Nd0Fh9Zi5BQlMxSL2n5"
