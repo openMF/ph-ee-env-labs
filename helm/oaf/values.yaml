@@ -29,7 +29,7 @@ ph-ee-engine:
           mountPath: /exporters/
 
   zeebe-operate-helm:
-    enabled: true
+    enabled: false
     image:
       repository: camunda/operate
       tag: 1.1.0
@@ -94,7 +94,7 @@ ph-ee-engine:
     # Allocate smaller chunks of memory per pod.
     resources:
       requests:
-        cpu: "200m"
+        cpu: "100m"
         memory: "1024M"
       limits:
         cpu: "1000m"
@@ -242,12 +242,13 @@ ph-ee-engine:
         pass_key: "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919"
       paygops:
         name: "paygops"
-        business_short_code: "668158"
+        business_short_code: "174379"
         till: "9347335"
         auth_host: "https://sandbox.safaricom.co.ke/oauth/v1/generate"
         api_host: "https://sandbox.safaricom.co.ke"
         client_key: "0pLxbN83FrOl5Nd0Fh9Zi5BQlMxSL2n5"
         client_secret: "YzuGNoJxeub8ZC6d"
+        pass_key: "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919"
     secret:
       value:
         client_key: "0pLxbN83FrOl5Nd0Fh9Zi5BQlMxSL2n5"
@@ -289,8 +290,8 @@ ph-ee-engine:
     SPRING_PROFILES_ACTIVE: "bb"
     image: "oaftech.azurecr.io/phee-ns/ph-ee-connector-ams-paygops"
     paygops:
-      base_url: "https://qaoperations01.oneacrefund.org"
-      auth_header: "PaymentHubTest"
+      base_url: "https://feature-test1.paygops.com/"
+      authheader: "PaymentHubTest"
     LOGGING_LEVEL_ROOT: "INFO"
     ams:
       local:
