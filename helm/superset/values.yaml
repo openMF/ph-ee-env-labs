@@ -339,6 +339,7 @@ ph-ee-engine:
         enabled: false
     paygops:
       auth_header: "PaymentHubTest"
+      base_url: "https://feature-test1.paygops.com/"
     limits:
       cpu: "500m"
     requests:
