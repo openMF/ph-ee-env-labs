@@ -292,11 +292,6 @@ ph-ee-engine:
         client_key: "0pLxbN83FrOl5Nd0Fh9Zi5BQlMxSL2n5"
         client_secret: "YzuGNoJxeub8ZC6d"
         pass_key: "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919"
-    secret:
-      value:
-        client_key: "0pLxbN83FrOl5Nd0Fh9Zi5BQlMxSL2n5"
-        client_secret: "YzuGNoJxeub8ZC6d"
-        pass_key: "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919"
     limits:
       cpu: "500m"
     requests:
@@ -312,6 +307,8 @@ ph-ee-engine:
     deployment:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
+    skip:
+      enabled: false
 
   roster_connector:
     enabled: true
@@ -334,11 +331,12 @@ ph-ee-engine:
     enabled: true
     image: "us.icr.io/phee-ns/phee-connector-ams-paygops"
     SPRING_PROFILES_ACTIVE: "bb"
+    LOGGING_LEVEL_ROOT: "INFO"
     ams:
       local:
         enabled: false
     paygops:
-      auth_header: "PaymentHubTest"
+      authheader: "PaymentHubTest"
       base_url: "https://feature-test1.paygops.com/"
     limits:
       cpu: "500m"

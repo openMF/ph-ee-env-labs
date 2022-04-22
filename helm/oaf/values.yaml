@@ -95,7 +95,7 @@ ph-ee-engine:
     resources:
       requests:
         cpu: "100m"
-        memory: "1024M"
+        memory: "512M"
       limits:
         cpu: "1000m"
         memory: "1024M"
@@ -249,11 +249,6 @@ ph-ee-engine:
         client_key: "0pLxbN83FrOl5Nd0Fh9Zi5BQlMxSL2n5"
         client_secret: "YzuGNoJxeub8ZC6d"
         pass_key: "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919"
-    secret:
-      value:
-        client_key: "0pLxbN83FrOl5Nd0Fh9Zi5BQlMxSL2n5"
-        client_secret: "YzuGNoJxeub8ZC6d"
-        pass_key: "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919"
     LOGGING_LEVEL_ROOT: "INFO"
     ingress:
       annotations: 
@@ -268,6 +263,8 @@ ph-ee-engine:
       annotations:
         co.elastic.logs/enabled: "true"
         deployTime: "{{ .Values.deployTime }}"
+    skip:
+      enabled: true
 
   roster_connector:
     enabled: true
