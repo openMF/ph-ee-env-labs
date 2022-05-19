@@ -329,7 +329,7 @@ ph-ee-engine:
     image: "oaftech.azurecr.io/phee-ns/phee-zeebe-ops"
     hostname: "paymenthub.qa.oneacrefund.org"
     zeebe_broker_contactpoint: "zeebe-zeebe-gateway:26500"
-    elasticsearch_contactpoint: "elasticsearch:9200"
+    elasticsearch_contactpoint: "ph-ee-elasticsearch:9200"
     ingress:
       annotations: 
         kubernetes.io/ingress.class: "kong"
