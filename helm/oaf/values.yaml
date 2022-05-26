@@ -230,6 +230,7 @@ ph-ee-engine:
     zeebe_broker_contactpoint: "zeebe-zeebe-gateway:26500"
     callback_host: "https://paymenthub.qa.oneacrefund.org/mpesa"
     retry_count: 3
+    api_timeout: 60000
     accounts:
       roster:
         name: "roster"
