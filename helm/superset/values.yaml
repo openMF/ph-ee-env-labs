@@ -135,8 +135,10 @@ ph-ee-engine:
     SPRING_PROFILES_ACTIVE: "fin12,bb"
     limits:
       cpu: "500m"
+      memory: "512M"
     requests:
       cpu: "100m"
+      memory: "256M"
     deployment:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
@@ -147,8 +149,10 @@ ph-ee-engine:
     SPRING_PROFILES_ACTIVE: "bb"
     limits:
       cpu: "500m"
+      memory: "512M"
     requests:
       cpu: "100m"
+      memory: "256M"
     deployment:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
@@ -161,8 +165,10 @@ ph-ee-engine:
       port: "9092"
     limits:
       cpu: "500m"
+      memory: "1G"
     requests:
       cpu: "100m"
+      memory: "512M"
     deployment:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
@@ -175,8 +181,10 @@ ph-ee-engine:
     DFSPIDS: "ibank-usa,ibank-india"
     limits:
       cpu: "500m"
+      memory: "512M"
     requests:
       cpu: "100m"
+      memory: "256M"
     ingress:
       enabled: true
       path: "/"
@@ -204,8 +212,10 @@ ph-ee-engine:
       schema: "tenants"
     limits:
       cpu: "500m"
+      memory: "512M"
     requests:
       cpu: "100m"
+      memory: "256M"
     ingress:
       enabled: true
       path: "/"
@@ -226,8 +236,10 @@ ph-ee-engine:
     webhost: "ops.ibank.financial"
     limits:
       cpu: "500m"
+      memory: "512M"
     requests:
       cpu: "100m"
+      memory: "256M"
     ingress:
       enabled: true
       path: "/"
@@ -246,8 +258,10 @@ ph-ee-engine:
     SPRING_PROFILES_ACTIVE: "bb"
     limits:
       cpu: "500m"
+      memory: "512M"
     requests:
       cpu: "100m"
+      memory: "256M"
     deployment:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
@@ -258,8 +272,10 @@ ph-ee-engine:
     SPRING_PROFILES_ACTIVE: "bb"
     limits:
       cpu: "500m"
+      memory: "512M"
     requests:
       cpu: "100m"
+      memory: "256M"
     deployment:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
@@ -294,8 +310,10 @@ ph-ee-engine:
         pass_key: "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919"
     limits:
       cpu: "500m"
+      memory: "512M"
     requests:
       cpu: "100m"
+      memory: "256M"
     ingress:
       enabled: true
       path: "/"
@@ -321,8 +339,10 @@ ph-ee-engine:
       auth_header: "PaymentHub"
     limits:
       cpu: "500m"
+      memory: "512M"
     requests:
       cpu: "100m"
+      memory: "256M"
     deployment:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
@@ -340,8 +360,10 @@ ph-ee-engine:
       base_url: "https://feature-test1.paygops.com/"
     limits:
       cpu: "500m"
+      memory: "512M"
     requests:
       cpu: "100m"
+      memory: "256M"
     deployment:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
@@ -361,8 +383,10 @@ ph-ee-engine:
       port: 80
     limits:
       cpu: "500m"
+      memory: "512M"
     requests:
       cpu: "100m"
+      memory: "256M"
     ingress:
       enabled: true
       path: "/"
@@ -381,8 +405,10 @@ ph-ee-engine:
     SPRING_PROFILES_ACTIVE: "<issue: wasnot present earlier but it is in deployment>"
     limits:
       cpu: "500m"
+      memory: "512M"
     requests:
       cpu: "100m"
+      memory: "256M"
     deployment:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
@@ -396,8 +422,10 @@ ph-ee-engine:
     tenants: "ibank-usa,ibank-india"
     limits:
       cpu: "500m"
+      memory: "512M"
     requests:
       cpu: "100m"
+      memory: "256M"
     ingress:
       enabled: true
       path: "/"
@@ -427,8 +455,10 @@ ph-ee-engine:
     PROVIDERSOURCE_FROMYML: "enabled"
     limits:
       cpu: "500m"
+      memory: "512M"
     requests:
       cpu: "100m"
+      memory: "256M"
     ingress:
       enabled: true
       path: "/"
@@ -442,16 +472,20 @@ ph-ee-engine:
     image: "us.icr.io/phee-ns/phee-es-importer"
     limits:
       cpu: "500m"
+      memory: "512M"
     requests:
       cpu: "100m"
+      memory: "256M"
 
   importer_rdbms:
     enabled: true
     image: "us.icr.io/phee-ns/importer-rdbms"
     limits:
       cpu: "500m"
+      memory: "512M"
     requests:
       cpu: "100m"
+      memory: "256M"
     datasource:
       username: "mifos"
       password: "password"
