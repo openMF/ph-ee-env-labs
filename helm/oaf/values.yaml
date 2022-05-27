@@ -1,75 +1,5 @@
 ph-ee-engine:  
-  zeebe:
-    broker:
-      contactpoint: "zeebe-zeebe-gateway:26500"
-  zeebe-cluster-helm:
-    global:
-      elasticsearch:
-        host: "ph-ee-elasticsearch"
-    image:
-      repository: camunda/zeebe
-      tag: 1.1.0
-
-    clusterSize: "1"
-    partitionCount: "1"
-    replicationFactor: "1"
-    
-    elasticsearch:
-      enabled: false
-    kibana:
-      enabled: false
-
-    extraInitContainers: |
-      - name: init-ph-ee-kafka-exporter
-        image: busybox:1.28
-        command: ['/bin/sh', '-c']
-        args: ['wget -O /exporters/ph-ee-kafka-exporter.jar "https://paymenthub-ee-dev.s3.us-east-2.amazonaws.com/jars/exporter-1.0.0-SNAPSHOT.jar"; ls -al /exporters/']
-        volumeMounts:
-        - name: exporters
-          mountPath: /exporters/
-
-  zeebe-operate-helm:
-    enabled: false
-    image:
-      repository: camunda/operate
-      tag: 1.1.0
-    global:
-      elasticsearch:
-        host: "ph-ee-elasticsearch"
-        clusterName: "ph-ee-elasticsearch"
-    ingress:
-      enabled: true
-      className: "nginx"  
-      path: /
-      host: ph-zeebe.qa.oneacrefund.org
-      tls:
-        enabled: true
-        secretName: oafqa-tls
-
-  kibana:
-    enabled: true
-    imageTag: 7.16.3
-    ingress:
-      enabled: true
-      className: "nginx"
-      pathtype: ImplementationSpecific
-      hosts:
-        - host: ph-kibana.qa.oneacrefund.org
-          paths:
-            - path: /
-      tls: 
-        - secretName: oafqa-tls
-          hosts:
-            - "*.qa.oneacrefund.org"
-    kibanaConfig:
-      kibana.yml: |
-        monitoring.enabled: false
-        
-
   elasticsearch:
-    enabled: true
-    replicas: 1
-    imageTag: 7.16.3
     minimumMasterNodes: 1
 
     #Single Node Solution
@@ -105,47 +35,29 @@ ph-ee-engine:
       resources:
         requests:
           storage: 10Gi
-
-  operations:
-    enabled: true
-
-  kafka:
-    enabled: true
-    image: "spotify/kafka"
-    advertised:
-      host: "kafka"
-      port: "9092"
-    deployment:
-      annotations: 
-        deployTime: "{{ .Values.deployTime }}"
-
-  operationsmysql:
-    fullnameOverride: "operationsmysql"
-    image:
-      tag: "5.7"
-      debug: false
-    auth:
-      database: "tenants"
-      username: "mifos"
-      password: "password"
-      rootPassword: "4ET6ywqlGt"
-    initdbScripts:
-      setup.sql: |-
-        CREATE DATABASE IF NOT EXISTS oaf;
-        CREATE DATABASE IF NOT EXISTS messagegateway;
-        GRANT ALL ON *.* TO 'root'@'%';
-        GRANT ALL PRIVILEGES ON messagegateway.* TO 'mifos';
-        GRANT ALL PRIVILEGES ON oaf.* TO 'mifos';
-
+  
+  kibana:
+    ingress:
+      enabled: true
+      className: "nginx"
+      pathtype: ImplementationSpecific
+      hosts:
+        - host: ph-kibana.qa.oneacrefund.org
+          paths:
+            - path: /
+      tls: 
+        - secretName: oafqa-tls
+          hosts:
+            - "*.qa.oneacrefund.org"
+    kibanaConfig:
+      kibana.yml: |
+        monitoring.enabled: false
+  
   channel:
-    enabled: true
     DFSPIDS: "oaf"
-    transaction_id_length: 20
     SPRING_PROFILES_ACTIVE: "bb"
     LOGGING_LEVEL_ROOT: "INFO"
     hostname: "paymenthub.qa.oneacrefund.org"
-    AWS_ACCESS_KEY: "xxx"
-    AWS_SECRET_KEY: "xxx"
     image: "oaftech.azurecr.io/phee-ns/ph-ee-connector-channel"
     ingress:
       annotations: 
@@ -166,6 +78,25 @@ ph-ee-engine:
           value: "paygops"
         - identifier: "FOUNDATIONALID"
           value: "roster"
+  
+  operations:
+    enabled: true
+
+  operationsmysql:
+    auth:
+      database: "tenants"
+      username: "mifos"
+      password: "password"
+      rootPassword: "4ET6ywqlGt"
+    initdbScripts:
+      setup.sql: |-
+        CREATE DATABASE IF NOT EXISTS oaf;
+        CREATE DATABASE IF NOT EXISTS messagegateway;
+        GRANT ALL ON *.* TO 'root'@'%';
+        GRANT ALL PRIVILEGES ON messagegateway.* TO 'mifos';
+        GRANT ALL PRIVILEGES ON oaf.* TO 'mifos';
+
+  
 
 
   operations_app:
@@ -215,7 +146,7 @@ ph-ee-engine:
         co.elastic.logs/enabled: "true"
 
   identity:
-    hostname: "ops-bk.ibank.financial"
+    hostname: "paymenthub.qa.oneacrefund.org"
     ingress:
       annotations: 
         kubernetes.io/ingress.class: "kong"
@@ -265,7 +196,7 @@ ph-ee-engine:
         co.elastic.logs/enabled: "true"
         deployTime: "{{ .Values.deployTime }}"
     skip:
-      enabled: true
+      enabled: false
 
   roster_connector:
     enabled: true
@@ -329,8 +260,6 @@ ph-ee-engine:
     enabled: true
     image: "oaftech.azurecr.io/phee-ns/phee-zeebe-ops"
     hostname: "paymenthub.qa.oneacrefund.org"
-    zeebe_broker_contactpoint: "zeebe-zeebe-gateway:26500"
-    elasticsearch_contactpoint: "ph-ee-elasticsearch:9200"
     ingress:
       annotations: 
         kubernetes.io/ingress.class: "kong"
@@ -353,13 +282,6 @@ ph-ee-engine:
         api_key: "eKiC1_JWdKy7eaTGQFHxXXjXjacr60W9Zntl"
         project_id: "PJ5ff552ce01d2978c"
     hostname: "paymenthub.qa.oneacrefund.org"
-    CALLBACKCONFIG_HOST: "ph-ee-connector-notifications"
-    HOSTCONFIG_HOST: "message-gateway"
-    MYSQL_USERNAME: "mifos"
-    MYSQL_PASSWORD: "password"
-    DATASOURCE_URL: jdbc:mysql:thin://operationsmysql:3306/messagegateway
-    PROVIDERSOURCE_FROMDATABASE: "disabled"
-    PROVIDERSOURCE_FROMYML: "enabled"
     LOGGING_LEVEL_ROOT: "INFO"
     ingress:
       annotations: 
@@ -382,12 +304,6 @@ ph-ee-engine:
     enabled: true
     image: "oaftech.azurecr.io/phee-ns/ph-ee-importer-rdbms"
     LOGGING_LEVEL_ROOT: "INFO"
-    datasource:
-      username: "mifos"
-      password: "password"
-      host: "operationsmysql"
-      port: 3306
-      schema: "tenants"
     deployment:
       annotations:
         co.elastic.logs/enabled: "true"
