@@ -83,11 +83,6 @@ ph-ee-engine:
     enabled: true
 
   operationsmysql:
-    auth:
-      database: "tenants"
-      username: "mifos"
-      password: "password"
-      rootPassword: "4ET6ywqlGt"
     initdbScripts:
       setup.sql: |-
         CREATE DATABASE IF NOT EXISTS oaf;
@@ -104,12 +99,6 @@ ph-ee-engine:
     SPRING_PROFILES_ACTIVE: "bb"
     hostname: "paymenthub.qa.oneacrefund.org"
     image: "oaftech.azurecr.io/phee-ns/ph-ee-operations-app"
-    datasource:
-      username: "mifos"
-      password: "password"
-      host: "operationsmysql"
-      port: 3306
-      schema: "tenants"
     LOGGING_LEVEL_ROOT: "INFO"
     ingress:
       enabled: true
@@ -158,10 +147,8 @@ ph-ee-engine:
     SPRING_PROFILES_ACTIVE: "bb"
     hostname: "paymenthub.qa.oneacrefund.org"
     image: "oaftech.azurecr.io/phee-ns/ph-ee-connector-mpesa"
-    zeebe_broker_contactpoint: "zeebe-zeebe-gateway:26500"
     callback_host: "https://paymenthub.qa.oneacrefund.org/mpesa"
     retry_count: 3
-    api_timeout: 60000
     accounts:
       roster:
         name: "roster"
@@ -196,7 +183,7 @@ ph-ee-engine:
         co.elastic.logs/enabled: "true"
         deployTime: "{{ .Values.deployTime }}"
     skip:
-      enabled: false
+      enabled: true
 
   roster_connector:
     enabled: true
@@ -235,11 +222,6 @@ ph-ee-engine:
     SPRING_PROFILES_ACTIVE: "bb"
     image: "oaftech.azurecr.io/phee-ns/ph-ee-notifications"
     hostname: "paymenthub.qa.oneacrefund.org"
-    zeebe_broker_contactpoint: "zeebe-zeebe-gateway:26500"
-    MESSAGEGATEWAYCONFIG_HOST: "message-gateway"
-    NOTIFICATION_LOCAL_HOST: "ph-ee-connector-notifications"
-    NOTIFICATION_SUCCESS_ENABLED: "false"
-    NOTIFICATION_FAILURE_ENABLED: "true"
     LOGGING_LEVEL_ROOT: "INFO"
     ingress:
       annotations: 
