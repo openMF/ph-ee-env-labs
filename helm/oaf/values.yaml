@@ -183,7 +183,7 @@ ph-ee-engine:
         co.elastic.logs/enabled: "true"
         deployTime: "{{ .Values.deployTime }}"
     skip:
-      enabled: true
+      enabled: false
 
   roster_connector:
     enabled: true
@@ -281,6 +281,8 @@ ph-ee-engine:
 
   importer_es:
     image: "oaftech.azurecr.io/phee-ns/ph-ee-importer-es"
+    reporting:
+      enabled: false
 
   importer_rdbms:
     enabled: true
