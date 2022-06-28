@@ -31,10 +31,10 @@
       <bpmn:outgoing>Flow_0h3hfit</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="Flow_0loafq6" sourceRef="initiateTransfer" targetRef="reconciliationDecisionGateway" />
-    <bpmn:sequenceFlow id="Flow_1clyw06" sourceRef="reconciliationDecisionGateway" targetRef="Activity_1yl2c2e">
+    <bpmn:sequenceFlow id="Flow_1clyw06" sourceRef="reconciliationDecisionGateway" targetRef="reconciliation">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=isReconciliationEnabled = true</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:serviceTask id="Activity_1yl2c2e" name="Reconciliation">
+    <bpmn:serviceTask id="reconciliation" name="Reconciliation">
       <bpmn:incoming>Flow_1clyw06</bpmn:incoming>
       <bpmn:incoming>Flow_1k6w0b6</bpmn:incoming>
       <bpmn:outgoing>Flow_0dznwrv</bpmn:outgoing>
@@ -47,7 +47,7 @@
       <bpmn:outgoing>reconciliationSuccessFlow</bpmn:outgoing>
       <bpmn:outgoing>reconciliationFailedFlow</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="Flow_0dznwrv" sourceRef="Activity_1yl2c2e" targetRef="reconciliationStatusGateway" />
+    <bpmn:sequenceFlow id="Flow_0dznwrv" sourceRef="reconciliation" targetRef="reconciliationStatusGateway" />
     <bpmn:sequenceFlow id="reconciliationSuccessFlow" name="reconciliation success" sourceRef="reconciliationStatusGateway" targetRef="reconciliationSuccess">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=isReconciliationSuccess = true</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
@@ -72,7 +72,7 @@
     <bpmn:sequenceFlow id="retryFlow" name="retry &#60;= n" sourceRef="retryDecisionGateway" targetRef="exponentialWaitTimer">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">= reconciliationRetry &lt;= reconciliationRetryCount</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_1k6w0b6" sourceRef="exponentialWaitTimer" targetRef="Activity_1yl2c2e" />
+    <bpmn:sequenceFlow id="Flow_1k6w0b6" sourceRef="exponentialWaitTimer" targetRef="reconciliation" />
     <bpmn:endEvent id="reconciliationFailed" name="Reconciliation Failed">
       <bpmn:incoming>reconciliationFailedRetryExhausted</bpmn:incoming>
     </bpmn:endEvent>
@@ -92,45 +92,22 @@
   </bpmn:message>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="SLCB">
-      <bpmndi:BPMNEdge id="Flow_0tf4rfr_di" bpmnElement="Flow_0tf4rfr">
-        <di:waypoint x="188" y="500" />
-        <di:waypoint x="210" y="500" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_07qblo7_di" bpmnElement="transferSuccessFlow">
-        <di:waypoint x="375" y="180" />
-        <di:waypoint x="228" y="180" />
+      <bpmndi:BPMNEdge id="Flow_16n4wpb_di" bpmnElement="reconciliationFailedRetryExhausted">
+        <di:waypoint x="705" y="320" />
+        <di:waypoint x="952" y="320" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="271" y="163" width="86" height="14" />
+          <dc:Bounds x="777" y="307" width="65" height="40" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0q2x0yz_di" bpmnElement="transferFailedFlow">
-        <di:waypoint x="425" y="180" />
-        <di:waypoint x="562" y="180" />
+      <bpmndi:BPMNEdge id="Flow_1k6w0b6_di" bpmnElement="Flow_1k6w0b6">
+        <di:waypoint x="540" y="338" />
+        <di:waypoint x="540" y="460" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0plqhan_di" bpmnElement="retryFlow">
+        <di:waypoint x="655" y="320" />
+        <di:waypoint x="558" y="320" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="455" y="183" width="74" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0loafq6_di" bpmnElement="Flow_0loafq6">
-        <di:waypoint x="310" y="500" />
-        <di:waypoint x="375" y="500" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1clyw06_di" bpmnElement="Flow_1clyw06">
-        <di:waypoint x="425" y="500" />
-        <di:waypoint x="490" y="500" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0h3hfit_di" bpmnElement="Flow_0h3hfit">
-        <di:waypoint x="400" y="475" />
-        <di:waypoint x="400" y="205" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0dznwrv_di" bpmnElement="Flow_0dznwrv">
-        <di:waypoint x="590" y="500" />
-        <di:waypoint x="655" y="500" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_01lguaw_di" bpmnElement="reconciliationSuccessFlow">
-        <di:waypoint x="705" y="500" />
-        <di:waypoint x="952" y="500" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="796" y="486" width="65" height="27" />
+          <dc:Bounds x="586" y="303" width="48" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_01z8mx4_di" bpmnElement="reconciliationFailedFlow">
@@ -140,23 +117,46 @@
           <dc:Bounds x="617" y="396" width="65" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0plqhan_di" bpmnElement="retryFlow">
-        <di:waypoint x="655" y="320" />
-        <di:waypoint x="558" y="320" />
+      <bpmndi:BPMNEdge id="Flow_01lguaw_di" bpmnElement="reconciliationSuccessFlow">
+        <di:waypoint x="705" y="500" />
+        <di:waypoint x="952" y="500" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="586" y="303" width="48" height="14" />
+          <dc:Bounds x="796" y="486" width="65" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1k6w0b6_di" bpmnElement="Flow_1k6w0b6">
-        <di:waypoint x="540" y="338" />
-        <di:waypoint x="540" y="460" />
+      <bpmndi:BPMNEdge id="Flow_0dznwrv_di" bpmnElement="Flow_0dznwrv">
+        <di:waypoint x="590" y="500" />
+        <di:waypoint x="655" y="500" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_16n4wpb_di" bpmnElement="reconciliationFailedRetryExhausted">
-        <di:waypoint x="705" y="320" />
-        <di:waypoint x="952" y="320" />
+      <bpmndi:BPMNEdge id="Flow_0h3hfit_di" bpmnElement="Flow_0h3hfit">
+        <di:waypoint x="400" y="475" />
+        <di:waypoint x="400" y="205" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1clyw06_di" bpmnElement="Flow_1clyw06">
+        <di:waypoint x="425" y="500" />
+        <di:waypoint x="490" y="500" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0loafq6_di" bpmnElement="Flow_0loafq6">
+        <di:waypoint x="310" y="500" />
+        <di:waypoint x="375" y="500" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0q2x0yz_di" bpmnElement="transferFailedFlow">
+        <di:waypoint x="425" y="180" />
+        <di:waypoint x="562" y="180" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="777" y="307" width="65" height="40" />
+          <dc:Bounds x="455" y="183" width="74" height="14" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_07qblo7_di" bpmnElement="transferSuccessFlow">
+        <di:waypoint x="375" y="180" />
+        <di:waypoint x="228" y="180" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="271" y="163" width="86" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0tf4rfr_di" bpmnElement="Flow_0tf4rfr">
+        <di:waypoint x="188" y="500" />
+        <di:waypoint x="210" y="500" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
         <dc:Bounds x="152" y="482" width="36" height="36" />
@@ -164,49 +164,10 @@
       <bpmndi:BPMNShape id="Activity_16re4cg_di" bpmnElement="initiateTransfer" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
         <dc:Bounds x="210" y="460" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_0t67971_di" bpmnElement="reconciliationDecisionGateway" isMarkerVisible="true">
-        <dc:Bounds x="375" y="475" width="50" height="50" />
+      <bpmndi:BPMNShape id="Event_0yixtuz_di" bpmnElement="transferSuccess" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <dc:Bounds x="192" y="162" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="356" y="532" width="89" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0epxa9f_di" bpmnElement="Activity_1yl2c2e" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
-        <dc:Bounds x="490" y="460" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_1yqb4rm_di" bpmnElement="reconciliationStatusGateway" isMarkerVisible="true">
-        <dc:Bounds x="655" y="475" width="50" height="50" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="643" y="532" width="78" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0e7uq9n_di" bpmnElement="reconciliationSuccess" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
-        <dc:Bounds x="952" y="482" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="936" y="525" width="69" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_1p6zcil_di" bpmnElement="retryDecisionGateway" isMarkerVisible="true">
-        <dc:Bounds x="655" y="295" width="50" height="50" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="645" y="265" width="72" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1rbw9is_di" bpmnElement="reconciliationFailed" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
-        <dc:Bounds x="952" y="302" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="937" y="345" width="69" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0jp1y6n_di" bpmnElement="exponentialWaitTimer">
-        <dc:Bounds x="522" y="302" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="499" y="272" width="83" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_19bzmbg_di" bpmnElement="transferDecisionGateway" isMarkerVisible="true">
-        <dc:Bounds x="375" y="155" width="50" height="50" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="357" y="118" width="86" height="27" />
+          <dc:Bounds x="168" y="125" width="86" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_14dum93_di" bpmnElement="transferFailed" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
@@ -215,10 +176,49 @@
           <dc:Bounds x="543" y="205" width="74" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0yixtuz_di" bpmnElement="transferSuccess" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
-        <dc:Bounds x="192" y="162" width="36" height="36" />
+      <bpmndi:BPMNShape id="Gateway_19bzmbg_di" bpmnElement="transferDecisionGateway" isMarkerVisible="true">
+        <dc:Bounds x="375" y="155" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="168" y="125" width="86" height="14" />
+          <dc:Bounds x="357" y="118" width="86" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0t67971_di" bpmnElement="reconciliationDecisionGateway" isMarkerVisible="true">
+        <dc:Bounds x="375" y="475" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="356" y="532" width="89" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0epxa9f_di" bpmnElement="reconciliation" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <dc:Bounds x="490" y="460" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1yqb4rm_di" bpmnElement="reconciliationStatusGateway" isMarkerVisible="true">
+        <dc:Bounds x="655" y="475" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="643" y="532" width="78" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1p6zcil_di" bpmnElement="retryDecisionGateway" isMarkerVisible="true">
+        <dc:Bounds x="655" y="295" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="645" y="265" width="72" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0e7uq9n_di" bpmnElement="reconciliationSuccess" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <dc:Bounds x="952" y="482" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="936" y="525" width="69" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0jp1y6n_di" bpmnElement="exponentialWaitTimer">
+        <dc:Bounds x="522" y="302" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="499" y="272" width="83" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1rbw9is_di" bpmnElement="reconciliationFailed" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
+        <dc:Bounds x="952" y="302" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="937" y="345" width="69" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
