@@ -148,6 +148,7 @@ ph-ee-engine:
     hostname: "paymenthub.qa.oneacrefund.org"
     image: "oaftech.azurecr.io/phee-ns/ph-ee-connector-mpesa"
     callback_host: "https://paymenthub.qa.oneacrefund.org/mpesa"
+    zeebe_init_transfer_wait_timer: 5
     retry_count: 3
     accounts:
       roster:
