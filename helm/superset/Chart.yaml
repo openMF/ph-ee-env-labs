@@ -1,4 +1,4 @@
-iapiVersion: v2
+apiVersion: v2
 name: ph-ee-barebone
 description: PaymentHub EE Barebone Edition
 

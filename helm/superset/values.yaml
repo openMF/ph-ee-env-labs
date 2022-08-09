@@ -131,7 +131,8 @@ ph-ee-engine:
 
   ph_ee_connector_ams_mifos:
     enabled: true
-    image: "us.icr.io/phee-ns/phee-connector-ams"
+    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ams"
+    imageTag: latest
     SPRING_PROFILES_ACTIVE: "fin12,bb"
     limits:
       cpu: "500m"
@@ -175,7 +176,8 @@ ph-ee-engine:
 
   channel:
     enabled: true
-    image: "us.icr.io/phee-ns/phee-connector-channel"
+    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-channel"
+    imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
     hostname: "channel.ibank.financial"
     DFSPIDS: "ibank-usa,ibank-india"
@@ -200,7 +202,8 @@ ph-ee-engine:
 
   operations_app:
     enabled: true
-    image: "us.icr.io/phee-ns/ph-ee-ops-bk"
+    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-ee-ops-bk"
+    imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
     tenants: "ibank-usa,ibank-india"
     hostname: "ops-bk.ibank.financial"
@@ -230,7 +233,8 @@ ph-ee-engine:
 
   operations_web:
     enabled: true
-    image: "us.icr.io/phee-ns/ops-web"
+    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-ops-web"
+    imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
     hostname: "ops.ibank.financial"
     webhost: "ops.ibank.financial"
@@ -254,7 +258,8 @@ ph-ee-engine:
 
   ph_ee_connector_gsma:
     enabled: true
-    image: "us.icr.io/phee-ns/ph-ee-gsma"
+    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-connector-ams-paygops"
+    imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
     limits:
       cpu: "500m"
@@ -268,7 +273,8 @@ ph-ee-engine:
 
   ph_ee_connector_slcb:
     enabled: true
-    image: "us.icr.io/phee-ns/ph-ee-slcb"
+    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-ee-slcb"
+    imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
     limits:
       cpu: "500m"
@@ -282,7 +288,8 @@ ph-ee-engine:
 
   mpesa:
     enabled: true
-    image: "us.icr.io/phee-ns/ph-ee-mpesa"
+    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-mpesa"
+    imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
     hostname: "mpesa.ibank.financial"
     tenant: "ibank-india"
@@ -331,7 +338,8 @@ ph-ee-engine:
 
   roster_connector:
     enabled: true
-    image: "us.icr.io/phee-ns/phee-connector-ams-pesa"
+    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-roster"
+    imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
     ams:
       local:
@@ -350,7 +358,8 @@ ph-ee-engine:
 
   paygops_connector:
     enabled: true
-    image: "us.icr.io/phee-ns/phee-connector-ams-paygops"
+    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-connector-ams-paygops"
+    imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
     LOGGING_LEVEL_ROOT: "INFO"
     ams:
@@ -371,7 +380,8 @@ ph-ee-engine:
 
   notifications:
     enabled: true
-    image: "us.icr.io/phee-ns/ph-ee-notifications"
+    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-ee-notifications"
+    imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
     hostname: "notifications.ibank.financial"
     MESSAGEGATEWAYCONFIG_HOST: "message-gateway"
@@ -402,7 +412,8 @@ ph-ee-engine:
 
   connector_bulk:
     enabled: true
-    image: "us.icr.io/phee-ns/phee-bulk-processor"
+    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-bulk-processor"
+    imageTag: latest
     SPRING_PROFILES_ACTIVE: "<issue: wasnot present earlier but it is in deployment>"
     limits:
       cpu: "500m"
@@ -416,7 +427,8 @@ ph-ee-engine:
 
   zeebe_ops:
     enabled: true
-    image: "us.icr.io/phee-ns/phee-zeebe-ops"
+    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-zeebe-ops"
+    imageTag: latest
     hostname: "zeebeops.ibank.financial"
     zeebe_broker_contactpoint: "zeebe-zeebe-gateway:26500"
     elasticsearch_contactpoint: "ph-ee-elasticsearch:9200"
@@ -441,7 +453,8 @@ ph-ee-engine:
 
   messagegateway:
     enabled: true
-    image: "us.icr.io/phee-ns/message-gateway"
+    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-message-gateway"
+    imageTag: latest
     secret:
       value:
         api_key: "eKiC1_JWdKy7eaTGQFHxXXjXjacr60W9Zntl"
@@ -470,7 +483,8 @@ ph-ee-engine:
             number: 80
 
   importer_es:
-    image: "us.icr.io/phee-ns/phee-es-importer"
+    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-es-importer"
+    imageTag: latest
     limits:
       cpu: "500m"
       memory: "512M"
@@ -480,7 +494,8 @@ ph-ee-engine:
 
   importer_rdbms:
     enabled: true
-    image: "us.icr.io/phee-ns/importer-rdbms"
+    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-importer-rdbms"
+    imageTag: latest
     limits:
       cpu: "500m"
       memory: "512M"
