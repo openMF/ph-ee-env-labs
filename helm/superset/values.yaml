@@ -46,7 +46,7 @@ ph-ee-engine:
         enabled: false
 
   elasticsearch:
-    enabled: true
+    enabled: false
     replicas: 1
     imageTag: 7.16.3
     minimumMasterNodes: 1
