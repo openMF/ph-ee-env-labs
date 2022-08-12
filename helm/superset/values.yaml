@@ -205,6 +205,8 @@ ph-ee-engine:
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-ee-ops-bk"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
+    tenants: "ibank-usa,ibank-india"
+    hostname: "ops-bk.ibank.financial"
     datasource:
       username: "mifos"
       password: "password"
