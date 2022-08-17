@@ -38,12 +38,12 @@ ph-ee-engine:
         host: "ph-ee-elasticsearch"
         clusterName: "ph-ee-elasticsearch"
     ingress:
-      enabled: false
+      enabled: true
       className: "nginx"
       path: /
       host: fynarfin.io
       tls:
-        enabled: false
+        enabled: true
 
   elasticsearch:
     enabled: true
