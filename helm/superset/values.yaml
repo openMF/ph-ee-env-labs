@@ -41,7 +41,7 @@ ph-ee-engine:
       enabled: false
       className: "nginx"
       path: /
-      host: operate.ibank.financial
+      host: fynarfin.io
       tls:
         enabled: false
 
@@ -97,7 +97,7 @@ ph-ee-engine:
       # kubernetes.io/ingress.class: nginx
       # kubernetes.io/tls-acme: "true" 
       hosts:
-        - host: analytics.ibank.financial
+        - host: fynarfin.io
           paths:
             - path: /
       #tls: []
