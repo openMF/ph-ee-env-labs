@@ -179,7 +179,7 @@ ph-ee-engine:
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-channel"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
-    hostname: "channel.ibank.financial"
+    hostname: "fynarfin.io"
     DFSPIDS: "ibank-usa,ibank-india"
     limits:
       cpu: "500m"
@@ -206,7 +206,7 @@ ph-ee-engine:
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
     tenants: "ibank-usa,ibank-india"
-    hostname: "ops-bk.ibank.financial"
+    hostname: "fynarfin.io"
     datasource:
       username: "mifos"
       password: "password"
@@ -237,7 +237,7 @@ ph-ee-engine:
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
     hostname: "ops.ibank.financial"
-    webhost: "ops.ibank.financial"
+    webhost: "fynarfin.io"
     limits:
       cpu: "500m"
       memory: "512M"
@@ -254,7 +254,7 @@ ph-ee-engine:
             number: 4200
 
   identity:
-    hostname: "ops-bk.ibank.financial"
+    hostname: "fynarfin.io"
 
   ph_ee_connector_gsma:
     enabled: true
@@ -291,7 +291,7 @@ ph-ee-engine:
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-mpesa"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
-    hostname: "mpesa.ibank.financial"
+    hostname: "fynarfin.io"
     tenant: "ibank-india"
     zeebe_broker_contactpoint: "zeebe-zeebe-gateway:26500"
     callback_host: "https://mpesa.ibank.financial/"
@@ -383,7 +383,7 @@ ph-ee-engine:
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-ee-notifications"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
-    hostname: "notifications.ibank.financial"
+    hostname: "fynarfin.io"
     MESSAGEGATEWAYCONFIG_HOST: "message-gateway"
     NOTIFICATION_LOCAL_HOST: "ph-ee-connector-notifications"
     NOTIFICATION_SUCCESS_ENABLED: "true"
@@ -429,7 +429,7 @@ ph-ee-engine:
     enabled: true
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-zeebe-ops"
     imageTag: latest
-    hostname: "zeebeops.ibank.financial"
+    hostname: "fynarfin.io"
     zeebe_broker_contactpoint: "zeebe-zeebe-gateway:26500"
     elasticsearch_contactpoint: "ph-ee-elasticsearch:9200"
     tenants: "ibank-usa,ibank-india"
@@ -459,7 +459,7 @@ ph-ee-engine:
       value:
         api_key: "eKiC1_JWdKy7eaTGQFHxXXjXjacr60W9Zntl"
         project_id: "PJ5ff552ce01d2978c"
-    hostname: "messagegateway.ibank.financial"
+    hostname: "fynarfin.io"
     CALLBACKCONFIG_HOST: "ph-ee-connector-notifications"
     HOSTCONFIG_HOST: "message-gateway"
     MYSQL_USERNAME: "mifos"
@@ -509,6 +509,6 @@ ph-ee-engine:
       port: 3306
       schema: "tenants"
 
-  wildcardhostname: "*.ibank.financial"
+  wildcardhostname: "*.fynarfin.io"
 
   tls: "" 
