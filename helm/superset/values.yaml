@@ -41,7 +41,7 @@ ph-ee-engine:
       enabled: true
       className: "nginx"
       path: /
-      host: fynarfin.io
+      host: operate.fynarfin.io
       tls:
         enabled: true
 
@@ -97,7 +97,7 @@ ph-ee-engine:
       # kubernetes.io/ingress.class: nginx
       # kubernetes.io/tls-acme: "true" 
       hosts:
-        - host: fynarfin.io
+        - host: analytics.fynarfin.io
           paths:
             - path: /
       #tls: []
@@ -179,7 +179,7 @@ ph-ee-engine:
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-channel"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
-    hostname: "fynarfin.io"
+    hostname: "channel.fynarfin.io"
     DFSPIDS: "ibank-usa,ibank-india"
     limits:
       cpu: "500m"
@@ -206,7 +206,7 @@ ph-ee-engine:
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
     tenants: "ibank-usa,ibank-india"
-    hostname: "fynarfin.io"
+    hostname: "ops-bk.fynarfin.io"
     datasource:
       username: "mifos"
       password: "password"
@@ -236,8 +236,8 @@ ph-ee-engine:
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-ops-web"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
-    hostname: "fynarfin.io"
-    webhost: "fynarfin.io"
+    hostname: "ops.fynarfin.io"
+    webhost: "ops.fynarfin.io"
     limits:
       cpu: "500m"
       memory: "512M"
@@ -254,7 +254,7 @@ ph-ee-engine:
             number: 4200
 
   identity:
-    hostname: "fynarfin.io"
+    hostname: "ops-bk.fynarfin.io"
 
   ph_ee_connector_gsma:
     enabled: true
@@ -291,7 +291,7 @@ ph-ee-engine:
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-mpesa"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
-    hostname: "fynarfin.io"
+    hostname: "mpesa.fynarfin.io"
     tenant: "ibank-india"
     zeebe_broker_contactpoint: "zeebe-zeebe-gateway:26500"
     callback_host: "https://mpesa.ibank.financial/"
@@ -383,7 +383,7 @@ ph-ee-engine:
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-ee-notifications"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
-    hostname: "fynarfin.io"
+    hostname: "notifications.fynarfin.io"
     MESSAGEGATEWAYCONFIG_HOST: "message-gateway"
     NOTIFICATION_LOCAL_HOST: "ph-ee-connector-notifications"
     NOTIFICATION_SUCCESS_ENABLED: "true"
@@ -429,7 +429,7 @@ ph-ee-engine:
     enabled: true
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-zeebe-ops"
     imageTag: latest
-    hostname: "fynarfin.io"
+    hostname: "zeebeops.fynarfin.io"
     zeebe_broker_contactpoint: "zeebe-zeebe-gateway:26500"
     elasticsearch_contactpoint: "ph-ee-elasticsearch:9200"
     tenants: "ibank-usa,ibank-india"
