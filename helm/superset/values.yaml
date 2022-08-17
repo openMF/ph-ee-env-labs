@@ -236,7 +236,7 @@ ph-ee-engine:
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-ops-web"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
-    hostname: "ops.ibank.financial"
+    hostname: "fynarfin.io"
     webhost: "fynarfin.io"
     limits:
       cpu: "500m"
