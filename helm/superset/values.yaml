@@ -93,7 +93,7 @@ ph-ee-engine:
       enabled: true
       className: "alb"
       pathtype: ImplementationSpecific
-      annotations: {}
+      annotations:
         kubernetes.io/ingress.class: alb
         kubernetes.io/tls-acme: "true" 
       hosts:
