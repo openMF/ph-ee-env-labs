@@ -39,13 +39,13 @@ ph-ee-engine:
         clusterName: "ph-ee-elasticsearch"
     ingress:
       enabled: true
-      className: "alb"
+      className: "nginx"
       path: /
       host: operate.fynarfin.io
       tls:
         enabled: true
-      annotations:
-        kubernetes.io/ingress.class: alb
+      # annotations:
+      #  kubernetes.io/ingress.class: alb
 
   elasticsearch:
     enabled: true
@@ -96,7 +96,7 @@ ph-ee-engine:
       className: "nginx"
       pathtype: ImplementationSpecific
       annotations:
-        kubernetes.io/ingress.class: alb
+      # kubernetes.io/ingress.class: alb
       # kubernetes.io/tls-acme: "true" 
       hosts:
         - host: analytics.fynarfin.io
