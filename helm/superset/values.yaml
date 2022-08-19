@@ -44,8 +44,6 @@ ph-ee-engine:
       host: operate.fynarfin.io
       tls:
         enabled: true
-      annotations:
-           kubernetes.io/ingress.class: alb
 
   elasticsearch:
     enabled: true
