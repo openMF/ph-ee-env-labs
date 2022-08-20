@@ -39,10 +39,10 @@ ph-ee-engine:
         host: "ph-ee-elasticsearch"
         clusterName: "ph-ee-elasticsearch"
     ingress:
-      enabled: false
+      enabled: true
       className: "nginx"
       path: /
-      host: operate.fynarfin.io
+      host: operate.sandbox.fynarfin.io
       tls:
         enabled: false
 
@@ -98,7 +98,7 @@ ph-ee-engine:
       # kubernetes.io/ingress.class: nginx
       # kubernetes.io/tls-acme: "true"
       hosts:
-        - host: analytics.fynarfin.io
+        - host: analytics.sandbox.fynarfin.io
           paths:
             - path: /
       #tls: []
@@ -180,7 +180,7 @@ ph-ee-engine:
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-channel"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
-    hostname: "channel.fynarfin.io"
+    hostname: "channel.sandbox.fynarfin.io"
     DFSPIDS: "ibank-usa,ibank-india"
     limits:
       cpu: "500m"
@@ -209,7 +209,7 @@ ph-ee-engine:
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
     tenants: "ibank-usa,ibank-india"
-    hostname: "ops-bk.fynarfin.io"
+    hostname: "ops-bk.sandbox.fynarfin.io"
     datasource:
       username: "mifos"
       password: "password"
@@ -241,8 +241,8 @@ ph-ee-engine:
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-ops-web"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
-    hostname: "ops.fynarfin.io"
-    webhost: "ops.fynarfin.io"
+    hostname: "ops.sandbox.fynarfin.io"
+    webhost: "ops.sandbox.fynarfin.io"
     limits:
       cpu: "500m"
       memory: "512M"
@@ -261,7 +261,7 @@ ph-ee-engine:
             number: 4200
 
   identity:
-    hostname: "ops-bk.fynarfin.io"
+    hostname: "ops-bk.sandbox.fynarfin.io"
 
   ph_ee_connector_gsma:
     enabled: false
@@ -298,10 +298,10 @@ ph-ee-engine:
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-mpesa"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
-    hostname: "mpesa.fynarfin.io"
+    hostname: "mpesa.sandbox.fynarfin.io"
     tenant: "ibank-india"
     zeebe_broker_contactpoint: "zeebe-zeebe-gateway:26500"
-    callback_host: "https://mpesa.fynarfin.io/"
+    callback_host: "https://mpesa.sandbox.fynarfin.io/"
     retry_count: 3
     api_timeout: 60000
     accounts:
@@ -392,7 +392,7 @@ ph-ee-engine:
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-ee-notifications"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
-    hostname: "notifications.fynarfin.io"
+    hostname: "notifications.sandbox.fynarfin.io"
     MESSAGEGATEWAYCONFIG_HOST: "message-gateway"
     NOTIFICATION_LOCAL_HOST: "ph-ee-connector-notifications"
     NOTIFICATION_SUCCESS_ENABLED: "false"
@@ -440,7 +440,7 @@ ph-ee-engine:
     enabled: true
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-zeebe-ops"
     imageTag: latest
-    hostname: "zeebeops.fynarfin.io"
+    hostname: "zeebeops.sandbox.fynarfin.io"
     zeebe_broker_contactpoint: "zeebe-zeebe-gateway:26500"
     elasticsearch_contactpoint: "ph-ee-elasticsearch:9200"
     tenants: "ibank-usa,ibank-india"
@@ -472,7 +472,7 @@ ph-ee-engine:
       value:
         api_key: "eKiC1_JWdKy7eaTGQFHxXXjXjacr60W9Zntl"
         project_id: "PJ5ff552ce01d2978c"
-    hostname: "messagegateway.fynarfin.io"
+    hostname: "messagegateway.sandbox.fynarfin.io"
     CALLBACKCONFIG_HOST: "ph-ee-connector-notifications"
     HOSTCONFIG_HOST: "message-gateway"
     MYSQL_USERNAME: "mifos"
