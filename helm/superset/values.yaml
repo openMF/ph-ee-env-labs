@@ -82,7 +82,7 @@ ph-ee-engine:
         memory: "1024M"
     volumeClaimTemplate:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: "ibmc-vpc-block-10iops-tier"
+      storageClassName: "gp2"
       resources:
         requests:
           storage: 10Gi
