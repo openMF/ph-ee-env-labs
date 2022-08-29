@@ -41,7 +41,7 @@ ph-ee-engine:
     ingress:
       enabled: true
       className: "nginx"
-      path: "/"
+      path: /
       host: operate.sandbox.fynarfin.io
       tls:
         enabled: true
