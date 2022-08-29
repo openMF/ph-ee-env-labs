@@ -425,7 +425,8 @@ ph-ee-engine:
     enabled: true
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-bulk-processor"
     imageTag: latest
-    hostname: "bulk_connector.sandbox.fynarfin.io"
+    tenant: "ibank-india"
+    hostname: "bulk-connector.sandbox.fynarfin.io"
     SPRING_PROFILES_ACTIVE: "<issue: wasnot present earlier but it is in deployment>"
     limits:
       cpu: "500m"
