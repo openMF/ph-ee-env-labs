@@ -440,7 +440,7 @@ ph-ee-engine:
       path: "/"
       backend:
         service:
-          name: ph-ee-connector-notifications
+          name: ph-ee-connector-bulk
           port:
             number: 80
     deployment:
