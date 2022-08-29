@@ -44,7 +44,7 @@ ph-ee-engine:
       path: /
       host: operate.sandbox.fynarfin.io
       tls:
-        enabled: false
+        enabled: true
 
   elasticsearch:
     enabled: true
@@ -96,7 +96,7 @@ ph-ee-engine:
       pathtype: ImplementationSpecific
       annotations: {}
       # kubernetes.io/ingress.class: nginx
-      # kubernetes.io/tls-acme: "true"
+      # kubernetes.io/tls-acme: "true" 
       hosts:
         - host: analytics.sandbox.fynarfin.io
           paths:
@@ -425,6 +425,7 @@ ph-ee-engine:
     enabled: true
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-bulk-processor"
     imageTag: latest
+    hostname: "bulk_connector.sandbox.fynarfin.io"
     SPRING_PROFILES_ACTIVE: "<issue: wasnot present earlier but it is in deployment>"
     limits:
       cpu: "500m"
@@ -432,6 +433,16 @@ ph-ee-engine:
     requests:
       cpu: "100m"
       memory: "256M"
+    ingress:
+      enabled: true
+      annotations: 
+        kubernetes.io/ingress.class: "nginx"
+      path: "/"
+      backend:
+        service:
+          name: ph-ee-connector-notifications
+          port:
+            number: 80
     deployment:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
