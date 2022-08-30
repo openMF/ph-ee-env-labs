@@ -51,18 +51,45 @@ ph-ee-engine:
     replicas: 1
     imageTag: 7.16.3
     minimumMasterNodes: 1
+    esConfig:
+      elasticsearch.yml: |
+        xpack.security.enabled: false
+        xpack.security.transport.ssl.enabled: false
+        xpack.security.transport.ssl.verification_mode: certificate
+        xpack.security.transport.ssl.keystore.path: /usr/share/elasticsearch/config/certs/elastic-certificates.p12
+        xpack.security.transport.ssl.truststore.path: /usr/share/elasticsearch/config/certs/elastic-certificates.p12
+        xpack.security.http.ssl.enabled: false
+        xpack.security.http.ssl.truststore.path: /usr/share/elasticsearch/config/certs/elastic-certificates.p12
+        xpack.security.http.ssl.keystore.path: /usr/share/elasticsearch/config/certs/elastic-certificates.p12
+    secretMounts:
+      - name: elastic-certificates
+        secretName: elastic-certificates
+        path: /usr/share/elasticsearch/config/certs
+    extraEnvs:
+      - name: ELASTIC_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: elastic-credentials
+            key: password
 
     #Single Node Solution
     clusterHealthCheckParams: "wait_for_status=yellow&timeout=100s"
+    protocol: https
     master:
       readinessProbe:
         httpGet:
+          allow-insecure: true
+          username: elastic
+          password: "{{ .Env.ELASTIC_PASSWORD }}"
           path: /_cluster/health?wait_for_status=yellow&timeout=5s
           port: 9200
         initialDelaySeconds: 30
     data:
       readinessProbe:
         httpGet:
+          allow-insecure: true
+          username: elastic
+          password: "{{ .Env.ELASTIC_PASSWORD }}"
           path: /_cluster/health?wait_for_status=yellow&timeout=5s
           port: 9200
         initialDelaySeconds: 30
@@ -88,8 +115,44 @@ ph-ee-engine:
           storage: 10Gi
 
   kibana:
-    enabled: false
+    readinessProbe:
+      initialDelaySeconds: 45
+      timeoutSeconds: 15
+      successThreshold: 1
+    enabled: true
     imageTag: 7.16.3
+    kibanaConfig:
+      kibana.yml: |
+        monitoring.enabled: false
+        xpack.encryptedSavedObjects.encryptionKey: 5f4dcc3b5aa765d61d8327deb882cf99
+        server.ssl:
+          enabled: true
+          key: /usr/share/kibana/config/certs/elastic-certificate.pem
+          certificate: /usr/share/kibana/config/certs/elastic-certificate.pem
+        xpack.security.encryptionKey: ${KIBANA_ENCRYPTION_KEY}
+        elasticsearch.ssl:
+          certificateAuthorities: /usr/share/kibana/config/certs/elastic-certificate.pem
+          verificationMode: certificate
+    secretMounts:
+      - name: elastic-certificate-pem
+        secretName: elastic-certificate-pem
+        path: /usr/share/kibana/config/certs
+    extraEnvs:
+      - name: 'ELASTICSEARCH_USERNAME'
+        valueFrom:
+          secretKeyRef:
+            name: elastic-credentials
+            key: username
+      - name: 'ELASTICSEARCH_PASSWORD'
+        valueFrom:
+          secretKeyRef:
+            name: elastic-credentials
+            key: password
+      - name: 'KIBANA_ENCRYPTION_KEY'
+        valueFrom:
+          secretKeyRef:
+            name: kibana
+            key: encryptionkey
     ingress:
       enabled: true
       className: "nginx"
@@ -106,11 +169,6 @@ ph-ee-engine:
       #    hosts:
       #      - chart-example.local
 
-    kibanaConfig:
-      kibana.yml: |
-        monitoring.enabled: false
-        xpack.encryptedSavedObjects.encryptionKey: 5f4dcc3b5aa765d61d8327deb882cf99
-
   operations:
     enabled: true
 
@@ -124,7 +182,7 @@ ph-ee-engine:
       setup.sql: |-
         CREATE DATABASE messagegateway;
         CREATE DATABASE `ibank-india`;
-        CREATE DATABASE `ibank-usa`; 
+        CREATE DATABASE `ibank-usa`;
         GRANT ALL PRIVILEGES ON `ibank-india`.* TO 'mifos';
         GRANT ALL PRIVILEGES ON `ibank-usa`.* TO 'mifos';
         GRANT ALL ON *.* TO 'root'@'%';
@@ -190,7 +248,7 @@ ph-ee-engine:
       memory: "256M"
     ingress:
       enabled: true
-      annotations: 
+      annotations:
         kubernetes.io/ingress.class: "nginx"
       path: "/"
       backend:
@@ -224,7 +282,7 @@ ph-ee-engine:
       memory: "256M"
     ingress:
       enabled: true
-      annotations: 
+      annotations:
         kubernetes.io/ingress.class: "nginx"
       path: "/"
       backend:
@@ -251,7 +309,7 @@ ph-ee-engine:
       memory: "256M"
     ingress:
       enabled: true
-      annotations: 
+      annotations:
         kubernetes.io/ingress.class: "nginx"
       path: "/"
       backend:
@@ -331,7 +389,7 @@ ph-ee-engine:
       memory: "256M"
     ingress:
       enabled: true
-      annotations: 
+      annotations:
         kubernetes.io/ingress.class: "nginx"
       path: "/"
       backend:
@@ -409,7 +467,7 @@ ph-ee-engine:
       memory: "256M"
     ingress:
       enabled: true
-      annotations: 
+      annotations:
         kubernetes.io/ingress.class: "nginx"
       path: "/"
       backend:
@@ -456,6 +514,8 @@ ph-ee-engine:
     zeebe_broker_contactpoint: "zeebe-zeebe-gateway:26500"
     elasticsearch_contactpoint: "ph-ee-elasticsearch:9200"
     tenants: "ibank-usa,ibank-india"
+    elasticsearch_sslverification: false
+    elasticsearch_security_enabled: false
     limits:
       cpu: "500m"
       memory: "512M"
@@ -464,7 +524,7 @@ ph-ee-engine:
       memory: "256M"
     ingress:
       enabled: true
-      annotations: 
+      annotations:
         kubernetes.io/ingress.class: "nginx"
       path: "/"
       backend:
@@ -500,7 +560,7 @@ ph-ee-engine:
       memory: "256M"
     ingress:
       enabled: true
-      annotations: 
+      annotations:
         kubernetes.io/ingress.class: "nginx"
       path: "/"
       backend:
@@ -512,6 +572,8 @@ ph-ee-engine:
   importer_es:
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-es-importer"
     imageTag: latest
+    elasticsearch_sslverification: false
+    elasticsearch_security_enabled: false
     limits:
       cpu: "500m"
       memory: "512M"
@@ -539,4 +601,4 @@ ph-ee-engine:
 
   wildcardhostname: "*.fynarfin.io"
 
-  tls: "" 
+  tls: ""
