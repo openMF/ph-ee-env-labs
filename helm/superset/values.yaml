@@ -574,6 +574,34 @@ ph-ee-engine:
     imageTag: latest
     elasticsearch_sslverification: false
     elasticsearch_security_enabled: false
+    reporting:
+      enabled: true
+      fields:
+        amount: true
+        accountId: true
+        errorCode: false
+        errorDescription: true
+        externalId: true
+        initiator: false
+        initiatorType: false
+        isNotificationsFailureEnabled: false
+        isNotificationsSuccessEnabled: false
+        mpesaTransactionId: false
+        mpesaTransactionStatusRetryCount: false
+        originDate: false
+        partyLookupFailed: false
+        phoneNumber: true
+        processDefinitionKey: false
+        processInstanceKey: true
+        scenario: false
+        tenantId: false
+        timer: false
+        timestamp: true
+        transactionFailed: false
+        transactionId: false
+        transferCreateFailed: false
+        transferSettlementFailed: false
+        transferResponseCREATE: false
     limits:
       cpu: "500m"
       memory: "512M"
