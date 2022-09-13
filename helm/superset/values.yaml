@@ -30,7 +30,7 @@ ph-ee-engine:
           mountPath: /exporters/
 
   zeebe-operate-helm:
-    enabled: false
+    enabled: true
     image:
       repository: camunda/operate
       tag: 1.1.0
