@@ -10,10 +10,12 @@ ph-ee-engine:
       repository: camunda/zeebe
       tag: 1.1.0
 
-    clusterSize: "1"
-    partitionCount: "1"
+    clusterSize: "3"
+    partitionCount: "6"
     replicationFactor: "1"
-    JavaOpts: "-Xms8g -Xmx8g -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:MaxRAMPercentage=25.0 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -XX:+PrintFlagsFinal"
+    cpuThreadCount: "6"
+    ioThreadCount: "2"
+    JavaOpts: "-Xms6g -Xmx6g -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:MaxRAMPercentage=25.0 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -XX:+PrintFlagsFinal"
 
     elasticsearch:
       enabled: false
