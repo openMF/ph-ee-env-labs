@@ -39,7 +39,7 @@ ph-ee-engine:
         host: "ph-ee-elasticsearch"
         clusterName: "ph-ee-elasticsearch"
     ingress:
-      enabled: true
+      enabled: false
       className: "nginx"
       path: /
       host: operate.sandbox.fynarfin.io
