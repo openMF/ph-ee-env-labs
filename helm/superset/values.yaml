@@ -341,12 +341,6 @@ ph-ee-engine:
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-ee-slcb"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
-    limits:
-      cpu: "500m"
-      memory: "512M"
-    requests:
-      cpu: "100m"
-      memory: "256M"
     deployment:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
@@ -482,16 +476,9 @@ ph-ee-engine:
   connector_bulk:
     enabled: true
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-bulk-processor"
+    SPRING_PROFILES_ACTIVE: "bb"
     imageTag: latest
-    tenant: "ibank-india"
-    hostname: "bulk-connector.sandbox.fynarfin.io"
-    SPRING_PROFILES_ACTIVE: "<issue: wasnot present earlier but it is in deployment>"
-    limits:
-      cpu: "500m"
-      memory: "512M"
-    requests:
-      cpu: "100m"
-      memory: "256M"
+    tenant: "ibank-usa,ibank-india"
     ingress:
       enabled: true
       annotations: 
