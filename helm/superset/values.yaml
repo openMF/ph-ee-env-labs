@@ -10,7 +10,7 @@ ph-ee-engine:
       repository: camunda/zeebe
       tag: 1.1.0
 
-    clusterSize: "3"
+    clusterSize: "1"
     partitionCount: "6"
     replicationFactor: "1"
     cpuThreadCount: "6"
