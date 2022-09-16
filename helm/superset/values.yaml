@@ -11,7 +11,7 @@ ph-ee-engine:
       tag: 1.1.0
 
     clusterSize: "1"
-    partitionCount: "6"
+    partitionCount: "1"
     replicationFactor: "1"
     cpuThreadCount: "6"
     ioThreadCount: "2"
