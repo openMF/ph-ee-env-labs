@@ -13,9 +13,7 @@ ph-ee-engine:
     clusterSize: "1"
     partitionCount: "1"
     replicationFactor: "1"
-    cpuThreadCount: "6"
-    ioThreadCount: "2"
-    JavaOpts: "-Xms6g -Xmx6g -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:MaxRAMPercentage=25.0 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -XX:+PrintFlagsFinal"
+    JavaOpts: "-Xms8g -Xmx8g -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:MaxRAMPercentage=25.0 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -XX:+PrintFlagsFinal"
 
     elasticsearch:
       enabled: false
