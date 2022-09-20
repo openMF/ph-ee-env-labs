@@ -42,7 +42,7 @@ ph-ee-engine:
       enabled: false
       className: "nginx"
       path: /
-      host: operate.sandbox.fynarfin.io
+      host: operate.mifos.g2pconnect.io
       tls:
         enabled: true
 
@@ -161,7 +161,7 @@ ph-ee-engine:
       # kubernetes.io/ingress.class: nginx
       # kubernetes.io/tls-acme: "true" 
       hosts:
-        - host: analytics.sandbox.fynarfin.io
+        - host: analytics.mifos.g2pconnect.io
           paths:
             - path: /
       #tls: []
@@ -238,7 +238,7 @@ ph-ee-engine:
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-channel"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
-    hostname: "channel.sandbox.fynarfin.io"
+    hostname: "channel.mifos.g2pconnect.io"
     DFSPIDS: "ibank-usa,ibank-india"
     limits:
       cpu: "500m"
@@ -267,7 +267,7 @@ ph-ee-engine:
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
     tenants: "ibank-usa,ibank-india"
-    hostname: "ops-bk.sandbox.fynarfin.io"
+    hostname: "ops-bk.mifos.g2pconnect.io"
     datasource:
       username: "mifos"
       password: "password"
@@ -299,8 +299,8 @@ ph-ee-engine:
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-ops-web"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
-    hostname: "ops.sandbox.fynarfin.io"
-    webhost: "ops.sandbox.fynarfin.io"
+    hostname: "ops.mifos.g2pconnect.io"
+    webhost: "ops.mifos.g2pconnect.io"
     limits:
       cpu: "500m"
       memory: "512M"
@@ -319,7 +319,7 @@ ph-ee-engine:
             number: 4200
 
   identity:
-    hostname: "ops-bk.sandbox.fynarfin.io"
+    hostname: "ops-bk.mifos.g2pconnect.io"
 
   ph_ee_connector_gsma:
     enabled: false
@@ -350,10 +350,10 @@ ph-ee-engine:
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-mpesa"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
-    hostname: "mpesa.sandbox.fynarfin.io"
+    hostname: "mpesa.mifos.g2pconnect.io"
     tenant: "ibank-india"
     zeebe_broker_contactpoint: "zeebe-zeebe-gateway:26500"
-    callback_host: "https://mpesa.sandbox.fynarfin.io/"
+    callback_host: "https://mpesa.mifos.g2pconnect.io/"
     retry_count: 3
     api_timeout: 60000
     accounts:
@@ -382,7 +382,7 @@ ph-ee-engine:
       cpu: "100m"
       memory: "256M"
     ingress:
-      enabled: true
+      enabled: false
       annotations:
         kubernetes.io/ingress.class: "nginx"
       path: "/"
@@ -444,7 +444,7 @@ ph-ee-engine:
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-ee-notifications"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
-    hostname: "notifications.sandbox.fynarfin.io"
+    hostname: "notifications.mifos.g2pconnect.io"
     MESSAGEGATEWAYCONFIG_HOST: "message-gateway"
     NOTIFICATION_LOCAL_HOST: "ph-ee-connector-notifications"
     NOTIFICATION_SUCCESS_ENABLED: "false"
@@ -479,14 +479,6 @@ ph-ee-engine:
     SPRING_PROFILES_ACTIVE: "bb"
     imageTag: latest
     tenant: "ibank-usa,ibank-india"
-    hostname: "bulk-connector.mifos.g2pconnect.org"
-    SPRING_PROFILES_ACTIVE: "<issue: wasnot present earlier but it is in deployment>"
-    limits:
-      cpu: "500m"
-      memory: "512M"
-    requests:
-      cpu: "100m"
-      memory: "256M"
     ingress:
       enabled: true
       annotations: 
@@ -500,12 +492,12 @@ ph-ee-engine:
     deployment:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
-
+        
   zeebe_ops:
     enabled: true
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-zeebe-ops"
     imageTag: latest
-    hostname: "zeebeops.sandbox.fynarfin.io"
+    hostname: "zeebeops.mifos.g2pconnect.io"
     zeebe_broker_contactpoint: "zeebe-zeebe-gateway:26500"
     elasticsearch_contactpoint: "ph-ee-elasticsearch:9200"
     tenants: "ibank-usa,ibank-india"
@@ -539,7 +531,7 @@ ph-ee-engine:
       value:
         api_key: "eKiC1_JWdKy7eaTGQFHxXXjXjacr60W9Zntl"
         project_id: "PJ5ff552ce01d2978c"
-    hostname: "messagegateway.sandbox.fynarfin.io"
+    hostname: "messagegateway.mifos.g2pconnect.io"
     CALLBACKCONFIG_HOST: "ph-ee-connector-notifications"
     HOSTCONFIG_HOST: "message-gateway"
     MYSQL_USERNAME: "mifos"
@@ -622,14 +614,14 @@ ph-ee-engine:
       port: 3306
       schema: "tenants"
 
-  wildcardhostname: "*.sandbox.fynarfin.io"
+  wildcardhostname: "*.mifos.g2pconnect.io"
 
   tls: ""
   
 zeebe-operate:
   ingress:
     enabled: true
-    hostname: "zeebeoperate.sandbox.fynarfin.io"
+    hostname: "zeebeoperate.mifos.g2pconnect.io"
     annotations:
       kubernetes.io/ingress.class: "nginx"
     path: "/"
