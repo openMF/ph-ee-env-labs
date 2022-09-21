@@ -479,7 +479,7 @@ ph-ee-engine:
     SPRING_PROFILES_ACTIVE: "bb"
     imageTag: latest
     tenant: "ibank-usa,ibank-india"
-    hostname: "bulk-connector.mifos.g2pconnect.org"
+    hostname: "bulk-connector.sandbox.fynarfin.io"
     SPRING_PROFILES_ACTIVE: "<issue: wasnot present earlier but it is in deployment>"
     limits:
       cpu: "500m"
