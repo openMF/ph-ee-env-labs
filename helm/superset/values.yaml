@@ -239,6 +239,7 @@ ph-ee-engine:
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
     hostname: "channel.sandbox.fynarfin.io"
+    stub_hostname: "channel-gsma.sandbox.fynarfin.io"
     DFSPIDS: "ibank-usa,ibank-india"
     limits:
       cpu: "500m"
@@ -256,6 +257,11 @@ ph-ee-engine:
           name: ph-ee-connector-channel
           port:
             number: 80
+      stub_backend:
+        service:
+          name: ph-ee-connector-channel
+          port:
+            number: 82
     deployment:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
