@@ -7,7 +7,7 @@
     <bpmn:sequenceFlow id="Flow_0tf4rfr" sourceRef="StartEvent_1" targetRef="initiateTransfer" />
     <bpmn:serviceTask id="initiateTransfer" name="initiateTransfer">
       <bpmn:extensionElements>
-        <zeebe:taskDefinition type="initiateTransfer" />
+        <zeebe:taskDefinition type="slcb-initiateTransfer" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0tf4rfr</bpmn:incoming>
       <bpmn:outgoing>Flow_0loafq6</bpmn:outgoing>
@@ -40,7 +40,7 @@
     </bpmn:sequenceFlow>
     <bpmn:serviceTask id="reconciliation" name="Reconciliation">
       <bpmn:extensionElements>
-        <zeebe:taskDefinition type="reconciliation" />
+        <zeebe:taskDefinition type="slcb-reconciliation" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1clyw06</bpmn:incoming>
       <bpmn:incoming>Flow_1k6w0b6</bpmn:incoming>
