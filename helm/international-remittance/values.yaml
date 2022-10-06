@@ -56,18 +56,26 @@ ph-ee-engine:
           port: 9200
         initialDelaySeconds: 30
 
+    esConfig:
+      elasticsearch.yml: |
+        discovery:
+          type: single-node
+          seed_hosts: ""
+        xpack:
+          security:
+            enabled: false
 
     # Shrink default JVM heap.
-    esJavaOpts: "-Xmx512m -Xms512m"
+    esJavaOpts: "-Xmx128m -Xms128m"
 
     # Allocate smaller chunks of memory per pod.
     resources:
       requests:
-        cpu: "200m"
-        memory: "1024M"
+        cpu: "100m"
+        memory: "512M"
       limits:
         cpu: "1000m"
-        memory: "1024M"
+        memory: "512M"
     volumeClaimTemplate:
       accessModes: [ "ReadWriteOnce" ]
       storageClassName: "standard"
@@ -121,9 +129,6 @@ ph-ee-engine:
 
   ph_ee_identity:
     hostname: "barebone-identity.mifos.io"
-
-  ph-ee-connector-mpesa:
-    hostname: "mpesa.ibank.financial"
 
   ph_ee_connector_gsma:
     SPRING_PROFILES_ACTIVE: "bb"
