@@ -256,6 +256,11 @@ ph-ee-engine:
           name: ph-ee-connector-channel
           port:
             number: 80
+      stub_backend:
+        service:
+          name: ph-ee-connector-channel
+          port:
+            number: 82
     deployment:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
