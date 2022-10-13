@@ -1,0 +1,752 @@
+{
+	"info": {
+		"_postman_id": "dfade4e2-596c-4a83-8d1a-8faed215a9f6",
+		"name": "Paybill APIs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22669462"
+	},
+	"item": [
+		{
+			"name": "Validation",
+			"item": [
+				{
+					"name": "MPESA-Connector Validiate Webhook",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    pm.expect(pm.response.text).not.equal(null)",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"TransactionType\":\"Pay Bill\",\n   \"TransID\":\"RKTQDM7W6S\",\n   \"TransTime\":\"20191122063845\",\n   \"TransAmount\":\"10\",\n   \"BusinessShortCode\":\"24322607\",\n   \"BillRefNumber\":\"24322607\",\n   \"InvoiceNumber\":\"\",\n   \"OrgAccountBalance\":\"49197.00\",\n   \"ThirdPartyTransID\":\"\",\n   \"MSISDN\":\"254797668592\",\n   \"FirstName\":\"John\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MpesaHostName}}/validation?amsName=paygops",
+							"host": [
+								"{{MpesaHostName}}"
+							],
+							"path": [
+								"validation"
+							],
+							"query": [
+								{
+									"key": "amsName",
+									"value": "paygops"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "MPESA-Connector Validiate Webhook",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"TransactionType\":\"Pay Bill\",\n   \"TransID\":\"RKTQDM7W6S\",\n   \"TransTime\":\"20191122063845\",\n   \"TransAmount\":\"10\",\n   \"BusinessShortCode\":\"24322607\",\n   \"BillRefNumber\":\"24322607\",\n   \"InvoiceNumber\":\"\",\n   \"OrgAccountBalance\":\"49197.00\",\n   \"ThirdPartyTransID\":\"\",\n   \"MSISDN\":\"254797668592\",\n   \"FirstName\":\"John\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/validation?amsName=paygops",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"validation"
+									],
+									"query": [
+										{
+											"key": "amsName",
+											"value": "paygops"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Accept",
+									"value": "*/*"
+								},
+								{
+									"key": "Postman-Token",
+									"value": "13349c97-9169-4cb4-86d0-88f87c303d59"
+								},
+								{
+									"key": "amsName",
+									"value": "paygops"
+								},
+								{
+									"key": "CF-RAY",
+									"value": "75871274fd4d94c2-CCU"
+								},
+								{
+									"key": "Accept-Encoding",
+									"value": "gzip,deflate"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v3?s=U739gismX5DI0NtG%2BmyGgq5yoGzkBNnpQwXIFtbea4z6BpbaBDXBXgWVnLOYDe%2B6iZ7VXv9Dq3PxW7sHyKP0r1UuGwpfZLe4T5DPaYCdBkwtAYaakdx1YxiwKyZlGUrW5jq15WteJ0nox%2BQ%3D\"}],\"group\":\"cf-nel\",\"max_age\":604800}"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 11 Oct 2022 10:56:57 GMT"
+								},
+								{
+									"key": "NEL",
+									"value": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Authorization",
+									"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJTb2xhcmlzIE9mZmdyaWQiLCJleHAiOjE2ODAyNzcwNDcsImlhdCI6MTY0ODcyMDA5NSwic3ViIjo2MDUsInBlcm1pc3Npb25zIjpbIkRlbGV0ZURldmljZXMiLCJIYW5kbGVSZXZlcnNlZFBheW1lbnRzIiwiVmlld0Rhc2hib2FyZHMiLCJDaGFuZ2VQQVlHTW9kZURldmljZXMiLCJWaWV3R2xvYmFsRGFzaGJvYXJkcyIsIkVkaXRBY2NvdW50cyIsIk1hbmFnZUFsbEFjY291bnRzIiwiRm9yY2VQQVlHTW9kZURldmljZXMiLCJHb2dsYURhc2hib2FyZHMiLCJXaXRoTWVWaWV3U3RvY2siLCJEb3dubG9hZEdsb2JhbEFjY291bnRzIiwiRGVsZXRlUGhvbmVOdW1iZXJzIiwiTWFuYWdlQWNjb3VudHMiLCJXaXRoQ2xpZW50c1ZpZXdTdG9jayIsIkxpc3RQb3J0Zm9saW9zIiwiT3JwaGFuZWRWaWV3U3RvY2siLCJWaWV3UG9ydGZvbGlvcyIsIkVkaXRNYWRlVHJhbnNmZXJzIiwiRnJvbU9ycGhhbmVkTW92ZVN0b2NrIiwiUmVxdWVzdFRyYW5zZmVycyIsIkVkaXRQb3J0Zm9saW9zIiwiRGVsZXRlUG9ydGZvbGlvcyIsIkFwcHJvdmVUcmFuc2ZlcnMiLCJGcm9tV2l0aE1lTW92ZVN0b2NrIiwiQ3JlYXRlUG9ydGZvbGlvcyIsIkNvbmZpcm1UcmFuc2ZlcnMiLCJUb09ycGhhbmVkTW92ZVN0b2NrIiwiVG9XaXRoTWVNb3ZlU3RvY2siLCJWaWV3VHJhbnNmZXJzIiwiQXBwcm92ZUFkZE9ucyIsIlZpZXdTZXR0aW5nc0ludGVyZmFjZUFkbWluIiwiRGVsZXRlVHJhbnNmZXJzIiwiRWRpdFBsYW5uZWREZWxpdmVyeURhdGVMZWFkcyIsIkNyZWF0ZUFQSVRva2VuQWRtaW4iLCJWaWV3QmFkZ2VUcmFuc2ZlcnMiLCJDb25maWd1cmVNb2JpbGVBcHBTZXR0aW5nc0FkbWluIiwiU3luY0NvbXBsZXRlZENsaWVudHNNb2JpbGUiLCJWaWV3QWN0aXZpdHlMb2dBZG1pbiIsIlZpZXdFeHBlbnNlcyIsIkFkZEV4cGVuc2VzIiwiRXhwb3J0RGF0YUFkbWluIiwiRWRpdE9mZmVyUGFydGlhbGx5UGFpZExlYWRzIiwiRWRpdEV4cGVuc2VzIiwiRWRpdE9mZmVyQXdhaXRpbmdEZWxpdmVyeUxlYWRzIiwiRWRpdE93bkV4cGVuc2VzIiwiQ29uZmlndXJlQXV0b21hdGVkTWVzc2FnZXNBZG1pbiIsIlN5bmNMZWFkc01vYmlsZSIsIkNvbmZpZ3VyZVNhbGVzTWFuYWdlbWVudEFkbWluIiwiRWRpdE90aGVyc0V4cGVuc2VzIiwiUmVtb3ZlTGFzdFBob25lTnVtYmVycyIsIkNvbmZpZ3VyZVBheW1lbnRNYW5hZ2VtZW50QWRtaW4iLCJFZGl0QW1vdW50RXhwZW5zZXMiLCJEZWxldGVFeHBlbnNlcyIsIkNvbmZpZ3VyZUxvY2FsU2V0dGluZ3NBZG1pbiIsIkZpbGxDdXN0b21Gb3Jtc0NsaWVudHMiLCJBZGRWaWxsYWdlcyIsIkNvbmZpZ3VyZUdlbmVyYWxTZXR0aW5nc0FkbWluIiwiQWRkVG9Db250cmFjdEFkZE9ucyIsIkNvbmZpZ3VyZUxhbmd1YWdlU2V0dGluZ3NBZG1pbiIsIkVkaXRWaWxsYWdlcyIsIlN5bmNBY3RpdmF0aW9uQWN0aW9ucyIsIkVkaXRDdXN0b21TTVNBZG1pbiIsIkRlbGV0ZVZpbGxhZ2VzIiwiRmlsbEN1c3RvbUZvcm1zTGVhZHMiLCJWaWV3U2hvcHMiLCJDdXN0b21pemVQbGF0Zm9ybUFkbWluIiwiQWRkQ2x1c3RlcnMiLCJTZWVBbGxOb3RpZmljYXRpb25zQWRtaW4iLCJTZWVIdWJOb3RpZmljYXRpb25zQWRtaW4iLCJFZGl0Q2x1c3RlcnMiLCJWaWV3T2ZmZXJzIiwiVmlld0FjY291bnRzIiwiVmlld093blVzZXJzIiwiRWRpdFVzZXJzIiwiQWRkT2ZmZXJzIiwiRWRpdE9mZmVycyIsIkFkZFVzZXJzIiwiQWRkSHVicyIsIkVkaXRIdWJzIiwiVmlld0FkZG9uT2ZmZXJzIiwiQ3JlYXRlUm9sZXMiLCJEZWxldGVIdWJzIiwiQWRkQWRkb25PZmZlcnMiLCJBc3NpZ25Sb2xlcyIsIkFkZERldmljZXMiLCJFZGl0QWRkb25PZmZlcnMiLCJBZGRab25lcyIsIlZpZXdMb2dzIiwiVmlld0xlYWRHZW5lcmF0b3JzIiwiRWRpdFpvbmVzIiwiU2V0Q29tbWlzc2lvbkxlYWRzIiwiVmlld0ZhdWx0c0xvZ3MiLCJEZWxldGVab25lcyIsIlZpZXdVc2VycyIsIkFkZE1lc3NhZ2VzIiwiVmlld0xlYWRzIiwiQWRkUmVnaW9ucyIsIkFwcHJvdmVMZWFkcyIsIkFkZE1hbnVhbE1lc3NhZ2VzIiwiRWRpdFJlZ2lvbnMiLCJWaWV3QWxsTWVzc2FnZXMiLCJEZWxldGVSZWdpb25zIiwiVmlld01lc3NhZ2VzIiwiQWRkQ2xpZW50R3JvdXBzIiwiVmlld09ycGhhbmVkTWVzc2FnZXMiLCJFZGl0Q2xpZW50R3JvdXBzIiwiQWRkT3V0Z29pbmdNZXNzYWdlcyIsIkFkZExlYWRzIiwiRGVsZXRlQ2xpZW50R3JvdXBzIiwiVmlld0JhZGdlTGVhZHMiLCJBZGRBUElIb29rIiwiSW5TdG9ja1ZpZXdTdG9jayIsIldpdGhVc2Vyc1ZpZXdTdG9jayIsIkRlbGV0ZUFQSUhvb2siLCJGcm9tSW5TdG9ja01vdmVTdG9jayIsIlZpZXdGb3JtcyIsIkZyb21Vc2Vyc01vdmVTdG9jayIsIkFkZEZvcm1zIiwiVG9JblN0b2NrTW92ZVN0b2NrIiwiR2l2ZUNvbW1pc3Npb25Ub0xlYWRHZW5lcmF0b3JzIiwiRWRpdEZvcm1zIiwiRGVsZXRlRm9ybXMiLCJFZGl0Q2xpZW50cyIsIlRvVXNlcnNNb3ZlU3RvY2siLCJWaWV3SXNzdWVzIiwiQWRkSXNzdWVzIiwiRWRpdEludGVyYWN0aW9uc1NldHRpbmdzRm9ybXMiLCJDb25maWd1cmVPcGVyYXRpb25hbEVudGl0aWVzQWRtaW4iLCJWaWV3Q2xpZW50cyIsIkVkaXRJc3N1ZXMiLCJFZGl0Q2xpZW50TGVhZERhdGFTZXR0aW5nc0Zvcm1zIiwiQ29uZmlndXJlRGV2aWNlQVBJQWRtaW4iLCJNYWtlT25TdG9ja091dHNpZGVWaWV3QWN0aW9ucyIsIlZpZXdJbnRlcmFjdGlvbnMiLCJWaWV3QWN0aW9ucyIsIkFkZEludGVyYWN0aW9ucyIsIlN5bmNBbGxDcmVhdGVkTGVhZHNNb2JpbGUiLCJEb0NoYW5nZU9mZmVyQWN0aW9ucyIsIkVkaXRJbnRlcmFjdGlvbnMiLCJTeW5jQWxsR2VuZXJhdGVkTGVhZHNNb2JpbGUiLCJEZVJlZ2lzdGVyQWN0aW9ucyIsIkRlbGV0ZUludGVyYWN0aW9ucyIsIlN5bmNJbnN0YWxsZWRMYXN0MldlZWtzTGVhZHNNb2JpbGUiLCJWaWV3UGxhbm5pbmciLCJHaXZlRGlzY291bnRBY3Rpb25zIiwiU3luY0luc3RhbGxlZExhc3QyTW9udGhzTGVhZHNNb2JpbGUiLCJWaWV3Q3JlYXRlZExlYWRzIiwiR2l2ZURpc2NvdW50T3ZlcjJEYXlzQWN0aW9ucyIsIkFkZFBsYW5uaW5nIiwiU3luY0xlYWRHZW5lcmF0b3JzTW9iaWxlIiwiRWRpdFBsYW5uaW5nIiwiUmVnaXN0ZXJBY3Rpb25zIiwiTWVyZ2VMZWFkR2VuZXJhdG9ycyIsIlN5bmNDbGllbnRzTW9iaWxlIiwiRWRpdExlYWRzIiwiQ29sbGVjdENhc2hBY3Rpb25zIiwiRGVsZXRlUGxhbm5pbmciLCJTeW5jQWxsQ3JlYXRlZENsaWVudHNNb2JpbGUiLCJTd2FwRGV2aWNlQWN0aW9ucyIsIkVkaXRMZWFkR2VuZXJhdG9ycyIsIlZpZXdQYXltZW50cyIsIlN5bmNBbGxHZW5lcmF0ZWRDbGllbnRzTW9iaWxlIiwiVmlld09ycGhhbmVkUGF5bWVudHMiLCJHaXZlRGVsYXlBY3Rpb25zIiwiU3luY0ludGVyYWN0aW9uc01vYmlsZSIsIkFkZFBheW1lbnRzIiwiR2l2ZURlbGF5T3ZlcjJEYXlzQWN0aW9ucyIsIlN5bmNQbGFubmluZ01vYmlsZSIsIkFkZExlYWRHZW5lcmF0b3JzIiwiR2l2ZU5lZ2F0aXZlRGlzY291bnRUb0NvbXBsZXRlZEFjdGlvbnMiLCJBZGp1c3RCYWxhbmNlUGF5bWVudHMiLCJTeW5jRGV2aWNlc01vYmlsZSIsIkVkaXRXYWxsZXRQYXltZW50cyIsIk1hcmtDb250cmFjdERlZmF1bHRlZEFjdGlvbnMiLCJWaWV3UmV2ZXJzZWRQYXltZW50cyIsIlVuZG9Db250cmFjdERlZmF1bHRlZEFjdGlvbnMiLCJFZGl0SW5zdGFsbGVkTGVhZHMiLCJWaWV3QmFkZ2VJc3N1ZXMiLCJHaXZlVG9rZW5zT2ZmbGluZUFjdGlvbnMiLCJBZGRSZXZlcnNlZFBheW1lbnRzIl19.msQFoIe1htXINxp82s2K0jEXFBE_QMdd0U5LnQzVNa4"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "436"
+								},
+								{
+									"key": "CF-Cache-Status",
+									"value": "DYNAMIC"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"transaction_id\": \"RKTQDM7W6S\",\n    \"amount\": \"1\",\n    \"sender_name\": \"254797668592\",\n    \"sender_phone_number\": \"+254797668592\",\n    \"sent_datetime\": \"2022-10-11T10:56:57.265124Z\",\n    \"memo\": \"24322607\",\n    \"wallet_operator\": \"\",\n    \"country\": \"\",\n    \"currency\": \"KES\",\n    \"warnings\": [],\n    \"reconciled\": true,\n    \"destinations\": [\n        {\n            \"destination_type\": \"contract_repayment\",\n            \"destination\": \"C370015\"\n        }\n    ],\n    \"destination_type\": \"contract_repayment\",\n    \"destination\": \"C370015\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Account Status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    pm.expect(pm.response.text).not.equal(null)",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"primaryIdentifier\": {\n        \"key\": \"foundationalID\",\n        \"value\": \"24322607\"\n    },\n    \"secondaryIdentifier\": {\n        \"key\": \"MSISDN\",\n        \"value\": \"254797668592\"\n    },\n    \"customData\": [\n        {\n            \"key\": \"transactionId\",\n            \"value\": \"670d65bd-4efd-4a6c-ae2c-7fdaa8cb4d60\"\n        },\n        {\n            \"key\": \"currency\",\n            \"value\": \"KES\"\n        },\n        {\n            \"key\": \"memo\",\n            \"value\": \"24322607\"\n        },\n        {\n            \"key\": \"wallet_name\",\n            \"value\": \"254797668592\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ChannelHostName}}/accounts/validate/MSISDN/27710101999?amsName=paygops",
+							"host": [
+								"{{ChannelHostName}}"
+							],
+							"path": [
+								"accounts",
+								"validate",
+								"MSISDN",
+								"27710101999"
+							],
+							"query": [
+								{
+									"key": "amsName",
+									"value": "paygops"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Account Status",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"primaryIdentifier\": {\n        \"key\": \"foundationalID\",\n        \"value\": \"24322607\"\n    },\n    \"secondaryIdentifier\": {\n        \"key\": \"MSISDN\",\n        \"value\": \"254797668592\"\n    },\n    \"customData\": [\n        {\n            \"key\": \"transactionId\",\n            \"value\": \"670d65bd-4efd-4a6c-ae2c-7fdaa8cb4d60\"\n        },\n        {\n            \"key\": \"currency\",\n            \"value\": \"KES\"\n        },\n        {\n            \"key\": \"memo\",\n            \"value\": \"24322607\"\n        },\n        {\n            \"key\": \"wallet_name\",\n            \"value\": \"254797668592\"\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5001/accounts/validate/MSISDN/27710101999?amsName=paygops",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5001",
+									"path": [
+										"accounts",
+										"validate",
+										"MSISDN",
+										"27710101999"
+									],
+									"query": [
+										{
+											"key": "amsName",
+											"value": "paygops"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "CF-RAY",
+									"value": "758709c23f5f94c2-CCU"
+								},
+								{
+									"key": "Accept-Encoding",
+									"value": "gzip,deflate"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v3?s=P4q5tTEWU4hyQUUUWS9P8r1cn1zkM%2Fiz48we7UWbflD36giC6%2FyTLto38tkB4kCSfpV4loID4lHbKPt1elsi6ABSjpepOrB6%2Fl15f%2Fvu0ladDb0YMNhcwI7IKRQ8QhEGaTBJkqVyyw4HlAs%3D\"}],\"group\":\"cf-nel\",\"max_age\":604800}"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 11 Oct 2022 10:51:00 GMT"
+								},
+								{
+									"key": "NEL",
+									"value": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Authorization",
+									"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJTb2xhcmlzIE9mZmdyaWQiLCJleHAiOjE2ODAyNzcwNDcsImlhdCI6MTY0ODcyMDA5NSwic3ViIjo2MDUsInBlcm1pc3Npb25zIjpbIkRlbGV0ZURldmljZXMiLCJIYW5kbGVSZXZlcnNlZFBheW1lbnRzIiwiVmlld0Rhc2hib2FyZHMiLCJDaGFuZ2VQQVlHTW9kZURldmljZXMiLCJWaWV3R2xvYmFsRGFzaGJvYXJkcyIsIkVkaXRBY2NvdW50cyIsIk1hbmFnZUFsbEFjY291bnRzIiwiRm9yY2VQQVlHTW9kZURldmljZXMiLCJHb2dsYURhc2hib2FyZHMiLCJXaXRoTWVWaWV3U3RvY2siLCJEb3dubG9hZEdsb2JhbEFjY291bnRzIiwiRGVsZXRlUGhvbmVOdW1iZXJzIiwiTWFuYWdlQWNjb3VudHMiLCJXaXRoQ2xpZW50c1ZpZXdTdG9jayIsIkxpc3RQb3J0Zm9saW9zIiwiT3JwaGFuZWRWaWV3U3RvY2siLCJWaWV3UG9ydGZvbGlvcyIsIkVkaXRNYWRlVHJhbnNmZXJzIiwiRnJvbU9ycGhhbmVkTW92ZVN0b2NrIiwiUmVxdWVzdFRyYW5zZmVycyIsIkVkaXRQb3J0Zm9saW9zIiwiRGVsZXRlUG9ydGZvbGlvcyIsIkFwcHJvdmVUcmFuc2ZlcnMiLCJGcm9tV2l0aE1lTW92ZVN0b2NrIiwiQ3JlYXRlUG9ydGZvbGlvcyIsIkNvbmZpcm1UcmFuc2ZlcnMiLCJUb09ycGhhbmVkTW92ZVN0b2NrIiwiVG9XaXRoTWVNb3ZlU3RvY2siLCJWaWV3VHJhbnNmZXJzIiwiQXBwcm92ZUFkZE9ucyIsIlZpZXdTZXR0aW5nc0ludGVyZmFjZUFkbWluIiwiRGVsZXRlVHJhbnNmZXJzIiwiRWRpdFBsYW5uZWREZWxpdmVyeURhdGVMZWFkcyIsIkNyZWF0ZUFQSVRva2VuQWRtaW4iLCJWaWV3QmFkZ2VUcmFuc2ZlcnMiLCJDb25maWd1cmVNb2JpbGVBcHBTZXR0aW5nc0FkbWluIiwiU3luY0NvbXBsZXRlZENsaWVudHNNb2JpbGUiLCJWaWV3QWN0aXZpdHlMb2dBZG1pbiIsIlZpZXdFeHBlbnNlcyIsIkFkZEV4cGVuc2VzIiwiRXhwb3J0RGF0YUFkbWluIiwiRWRpdE9mZmVyUGFydGlhbGx5UGFpZExlYWRzIiwiRWRpdEV4cGVuc2VzIiwiRWRpdE9mZmVyQXdhaXRpbmdEZWxpdmVyeUxlYWRzIiwiRWRpdE93bkV4cGVuc2VzIiwiQ29uZmlndXJlQXV0b21hdGVkTWVzc2FnZXNBZG1pbiIsIlN5bmNMZWFkc01vYmlsZSIsIkNvbmZpZ3VyZVNhbGVzTWFuYWdlbWVudEFkbWluIiwiRWRpdE90aGVyc0V4cGVuc2VzIiwiUmVtb3ZlTGFzdFBob25lTnVtYmVycyIsIkNvbmZpZ3VyZVBheW1lbnRNYW5hZ2VtZW50QWRtaW4iLCJFZGl0QW1vdW50RXhwZW5zZXMiLCJEZWxldGVFeHBlbnNlcyIsIkNvbmZpZ3VyZUxvY2FsU2V0dGluZ3NBZG1pbiIsIkZpbGxDdXN0b21Gb3Jtc0NsaWVudHMiLCJBZGRWaWxsYWdlcyIsIkNvbmZpZ3VyZUdlbmVyYWxTZXR0aW5nc0FkbWluIiwiQWRkVG9Db250cmFjdEFkZE9ucyIsIkNvbmZpZ3VyZUxhbmd1YWdlU2V0dGluZ3NBZG1pbiIsIkVkaXRWaWxsYWdlcyIsIlN5bmNBY3RpdmF0aW9uQWN0aW9ucyIsIkVkaXRDdXN0b21TTVNBZG1pbiIsIkRlbGV0ZVZpbGxhZ2VzIiwiRmlsbEN1c3RvbUZvcm1zTGVhZHMiLCJWaWV3U2hvcHMiLCJDdXN0b21pemVQbGF0Zm9ybUFkbWluIiwiQWRkQ2x1c3RlcnMiLCJTZWVBbGxOb3RpZmljYXRpb25zQWRtaW4iLCJTZWVIdWJOb3RpZmljYXRpb25zQWRtaW4iLCJFZGl0Q2x1c3RlcnMiLCJWaWV3T2ZmZXJzIiwiVmlld0FjY291bnRzIiwiVmlld093blVzZXJzIiwiRWRpdFVzZXJzIiwiQWRkT2ZmZXJzIiwiRWRpdE9mZmVycyIsIkFkZFVzZXJzIiwiQWRkSHVicyIsIkVkaXRIdWJzIiwiVmlld0FkZG9uT2ZmZXJzIiwiQ3JlYXRlUm9sZXMiLCJEZWxldGVIdWJzIiwiQWRkQWRkb25PZmZlcnMiLCJBc3NpZ25Sb2xlcyIsIkFkZERldmljZXMiLCJFZGl0QWRkb25PZmZlcnMiLCJBZGRab25lcyIsIlZpZXdMb2dzIiwiVmlld0xlYWRHZW5lcmF0b3JzIiwiRWRpdFpvbmVzIiwiU2V0Q29tbWlzc2lvbkxlYWRzIiwiVmlld0ZhdWx0c0xvZ3MiLCJEZWxldGVab25lcyIsIlZpZXdVc2VycyIsIkFkZE1lc3NhZ2VzIiwiVmlld0xlYWRzIiwiQWRkUmVnaW9ucyIsIkFwcHJvdmVMZWFkcyIsIkFkZE1hbnVhbE1lc3NhZ2VzIiwiRWRpdFJlZ2lvbnMiLCJWaWV3QWxsTWVzc2FnZXMiLCJEZWxldGVSZWdpb25zIiwiVmlld01lc3NhZ2VzIiwiQWRkQ2xpZW50R3JvdXBzIiwiVmlld09ycGhhbmVkTWVzc2FnZXMiLCJFZGl0Q2xpZW50R3JvdXBzIiwiQWRkT3V0Z29pbmdNZXNzYWdlcyIsIkFkZExlYWRzIiwiRGVsZXRlQ2xpZW50R3JvdXBzIiwiVmlld0JhZGdlTGVhZHMiLCJBZGRBUElIb29rIiwiSW5TdG9ja1ZpZXdTdG9jayIsIldpdGhVc2Vyc1ZpZXdTdG9jayIsIkRlbGV0ZUFQSUhvb2siLCJGcm9tSW5TdG9ja01vdmVTdG9jayIsIlZpZXdGb3JtcyIsIkZyb21Vc2Vyc01vdmVTdG9jayIsIkFkZEZvcm1zIiwiVG9JblN0b2NrTW92ZVN0b2NrIiwiR2l2ZUNvbW1pc3Npb25Ub0xlYWRHZW5lcmF0b3JzIiwiRWRpdEZvcm1zIiwiRGVsZXRlRm9ybXMiLCJFZGl0Q2xpZW50cyIsIlRvVXNlcnNNb3ZlU3RvY2siLCJWaWV3SXNzdWVzIiwiQWRkSXNzdWVzIiwiRWRpdEludGVyYWN0aW9uc1NldHRpbmdzRm9ybXMiLCJDb25maWd1cmVPcGVyYXRpb25hbEVudGl0aWVzQWRtaW4iLCJWaWV3Q2xpZW50cyIsIkVkaXRJc3N1ZXMiLCJFZGl0Q2xpZW50TGVhZERhdGFTZXR0aW5nc0Zvcm1zIiwiQ29uZmlndXJlRGV2aWNlQVBJQWRtaW4iLCJNYWtlT25TdG9ja091dHNpZGVWaWV3QWN0aW9ucyIsIlZpZXdJbnRlcmFjdGlvbnMiLCJWaWV3QWN0aW9ucyIsIkFkZEludGVyYWN0aW9ucyIsIlN5bmNBbGxDcmVhdGVkTGVhZHNNb2JpbGUiLCJEb0NoYW5nZU9mZmVyQWN0aW9ucyIsIkVkaXRJbnRlcmFjdGlvbnMiLCJTeW5jQWxsR2VuZXJhdGVkTGVhZHNNb2JpbGUiLCJEZVJlZ2lzdGVyQWN0aW9ucyIsIkRlbGV0ZUludGVyYWN0aW9ucyIsIlN5bmNJbnN0YWxsZWRMYXN0MldlZWtzTGVhZHNNb2JpbGUiLCJWaWV3UGxhbm5pbmciLCJHaXZlRGlzY291bnRBY3Rpb25zIiwiU3luY0luc3RhbGxlZExhc3QyTW9udGhzTGVhZHNNb2JpbGUiLCJWaWV3Q3JlYXRlZExlYWRzIiwiR2l2ZURpc2NvdW50T3ZlcjJEYXlzQWN0aW9ucyIsIkFkZFBsYW5uaW5nIiwiU3luY0xlYWRHZW5lcmF0b3JzTW9iaWxlIiwiRWRpdFBsYW5uaW5nIiwiUmVnaXN0ZXJBY3Rpb25zIiwiTWVyZ2VMZWFkR2VuZXJhdG9ycyIsIlN5bmNDbGllbnRzTW9iaWxlIiwiRWRpdExlYWRzIiwiQ29sbGVjdENhc2hBY3Rpb25zIiwiRGVsZXRlUGxhbm5pbmciLCJTeW5jQWxsQ3JlYXRlZENsaWVudHNNb2JpbGUiLCJTd2FwRGV2aWNlQWN0aW9ucyIsIkVkaXRMZWFkR2VuZXJhdG9ycyIsIlZpZXdQYXltZW50cyIsIlN5bmNBbGxHZW5lcmF0ZWRDbGllbnRzTW9iaWxlIiwiVmlld09ycGhhbmVkUGF5bWVudHMiLCJHaXZlRGVsYXlBY3Rpb25zIiwiU3luY0ludGVyYWN0aW9uc01vYmlsZSIsIkFkZFBheW1lbnRzIiwiR2l2ZURlbGF5T3ZlcjJEYXlzQWN0aW9ucyIsIlN5bmNQbGFubmluZ01vYmlsZSIsIkFkZExlYWRHZW5lcmF0b3JzIiwiR2l2ZU5lZ2F0aXZlRGlzY291bnRUb0NvbXBsZXRlZEFjdGlvbnMiLCJBZGp1c3RCYWxhbmNlUGF5bWVudHMiLCJTeW5jRGV2aWNlc01vYmlsZSIsIkVkaXRXYWxsZXRQYXltZW50cyIsIk1hcmtDb250cmFjdERlZmF1bHRlZEFjdGlvbnMiLCJWaWV3UmV2ZXJzZWRQYXltZW50cyIsIlVuZG9Db250cmFjdERlZmF1bHRlZEFjdGlvbnMiLCJFZGl0SW5zdGFsbGVkTGVhZHMiLCJWaWV3QmFkZ2VJc3N1ZXMiLCJHaXZlVG9rZW5zT2ZmbGluZUFjdGlvbnMiLCJBZGRSZXZlcnNlZFBheW1lbnRzIl19.msQFoIe1htXINxp82s2K0jEXFBE_QMdd0U5LnQzVNa4"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "462"
+								},
+								{
+									"key": "CF-Cache-Status",
+									"value": "DYNAMIC"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"transaction_id\": \"670d65bd-4efd-4a6c-ae2c-7fdaa8cb4d60\",\n    \"amount\": \"1\",\n    \"sender_name\": \"254797668592\",\n    \"sender_phone_number\": \"+254797668592\",\n    \"sent_datetime\": \"2022-10-11T10:51:00.990116Z\",\n    \"memo\": \"24322607\",\n    \"wallet_operator\": \"\",\n    \"country\": \"\",\n    \"currency\": \"KES\",\n    \"warnings\": [],\n    \"reconciled\": true,\n    \"destinations\": [\n        {\n            \"destination_type\": \"contract_repayment\",\n            \"destination\": \"C370015\"\n        }\n    ],\n    \"destination_type\": \"contract_repayment\",\n    \"destination\": \"C370015\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Paygops Connector Account Status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    pm.expect(pm.response.text).not.equal(null)",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"primaryIdentifier\": {\n        \"key\": \"MSISDN\",\n        \"value\": \"254797668592\"\n    },\n    \"secondaryIdentifier\": {\n        \"key\": \"foundationalID\",\n        \"value\": \"24322607\"\n    },\n    \"customData\": [\n        {\n            \"key\": \"transactionId\",\n            \"value\": \"670d65bd-4efd-4a6c-ae2c-7fdaa8cb4d60\"\n        },\n        {\n            \"key\": \"currency\",\n            \"value\": \"KES\"\n        },\n        {\n            \"key\": \"memo\",\n            \"value\": \"24322607\"\n        },\n        {\n            \"key\": \"wallet_name\",\n            \"value\": \"254797668592\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PaygopsHostName}}/api/v1/paybill/validate/paygops",
+							"host": [
+								"{{PaygopsHostName}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"paybill",
+								"validate",
+								"paygops"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Paygops Connector Account Status",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"primaryIdentifier\": {\n        \"key\": \"MSISDN\",\n        \"value\": \"254797668592\"\n    },\n    \"secondaryIdentifier\": {\n        \"key\": \"foundationalID\",\n        \"value\": \"24322607\"\n    },\n    \"customData\": [\n        {\n            \"key\": \"transactionId\",\n            \"value\": \"670d65bd-4efd-4a6c-ae2c-7fdaa8cb4d60\"\n        },\n        {\n            \"key\": \"currency\",\n            \"value\": \"KES\"\n        },\n        {\n            \"key\": \"memo\",\n            \"value\": \"24322607\"\n        },\n        {\n            \"key\": \"wallet_name\",\n            \"value\": \"254797668592\"\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:5002/api/v1/paybill/validate/paygops",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "5002",
+									"path": [
+										"api",
+										"v1",
+										"paybill",
+										"validate",
+										"paygops"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Encoding",
+									"value": "br"
+								},
+								{
+									"key": "Accept",
+									"value": "*/*"
+								},
+								{
+									"key": "Postman-Token",
+									"value": "f97605a6-3ba6-45df-8a42-2ff9afd46dc0"
+								},
+								{
+									"key": "CF-RAY",
+									"value": "757f82c0bde82e9e-SIN"
+								},
+								{
+									"key": "Accept-Encoding",
+									"value": "gzip, deflate, br"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v3?s=tHxc5Mv4DCE3%2Fcrk2eJQ4hOPWBGy7j6pZql4rw8mRWpKdc0kSSa2%2Fi5Mn18o1RZRLaJCTzAaz3bBu5TLKDvMI85KCjPoiYrVkZRkuQCwCMxesYpAWu%2BHwJbgtURlbuUy39IayqMqcV%2FhByc%3D\"}],\"group\":\"cf-nel\",\"max_age\":604800}"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Oct 2022 12:55:30 GMT"
+								},
+								{
+									"key": "NEL",
+									"value": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Authorization",
+									"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJTb2xhcmlzIE9mZmdyaWQiLCJleHAiOjE2ODAyNzcwNDcsImlhdCI6MTY0ODcyMDA5NSwic3ViIjo2MDUsInBlcm1pc3Npb25zIjpbIkRlbGV0ZURldmljZXMiLCJIYW5kbGVSZXZlcnNlZFBheW1lbnRzIiwiVmlld0Rhc2hib2FyZHMiLCJDaGFuZ2VQQVlHTW9kZURldmljZXMiLCJWaWV3R2xvYmFsRGFzaGJvYXJkcyIsIkVkaXRBY2NvdW50cyIsIk1hbmFnZUFsbEFjY291bnRzIiwiRm9yY2VQQVlHTW9kZURldmljZXMiLCJHb2dsYURhc2hib2FyZHMiLCJXaXRoTWVWaWV3U3RvY2siLCJEb3dubG9hZEdsb2JhbEFjY291bnRzIiwiRGVsZXRlUGhvbmVOdW1iZXJzIiwiTWFuYWdlQWNjb3VudHMiLCJXaXRoQ2xpZW50c1ZpZXdTdG9jayIsIkxpc3RQb3J0Zm9saW9zIiwiT3JwaGFuZWRWaWV3U3RvY2siLCJWaWV3UG9ydGZvbGlvcyIsIkVkaXRNYWRlVHJhbnNmZXJzIiwiRnJvbU9ycGhhbmVkTW92ZVN0b2NrIiwiUmVxdWVzdFRyYW5zZmVycyIsIkVkaXRQb3J0Zm9saW9zIiwiRGVsZXRlUG9ydGZvbGlvcyIsIkFwcHJvdmVUcmFuc2ZlcnMiLCJGcm9tV2l0aE1lTW92ZVN0b2NrIiwiQ3JlYXRlUG9ydGZvbGlvcyIsIkNvbmZpcm1UcmFuc2ZlcnMiLCJUb09ycGhhbmVkTW92ZVN0b2NrIiwiVG9XaXRoTWVNb3ZlU3RvY2siLCJWaWV3VHJhbnNmZXJzIiwiQXBwcm92ZUFkZE9ucyIsIlZpZXdTZXR0aW5nc0ludGVyZmFjZUFkbWluIiwiRGVsZXRlVHJhbnNmZXJzIiwiRWRpdFBsYW5uZWREZWxpdmVyeURhdGVMZWFkcyIsIkNyZWF0ZUFQSVRva2VuQWRtaW4iLCJWaWV3QmFkZ2VUcmFuc2ZlcnMiLCJDb25maWd1cmVNb2JpbGVBcHBTZXR0aW5nc0FkbWluIiwiU3luY0NvbXBsZXRlZENsaWVudHNNb2JpbGUiLCJWaWV3QWN0aXZpdHlMb2dBZG1pbiIsIlZpZXdFeHBlbnNlcyIsIkFkZEV4cGVuc2VzIiwiRXhwb3J0RGF0YUFkbWluIiwiRWRpdE9mZmVyUGFydGlhbGx5UGFpZExlYWRzIiwiRWRpdEV4cGVuc2VzIiwiRWRpdE9mZmVyQXdhaXRpbmdEZWxpdmVyeUxlYWRzIiwiRWRpdE93bkV4cGVuc2VzIiwiQ29uZmlndXJlQXV0b21hdGVkTWVzc2FnZXNBZG1pbiIsIlN5bmNMZWFkc01vYmlsZSIsIkNvbmZpZ3VyZVNhbGVzTWFuYWdlbWVudEFkbWluIiwiRWRpdE90aGVyc0V4cGVuc2VzIiwiUmVtb3ZlTGFzdFBob25lTnVtYmVycyIsIkNvbmZpZ3VyZVBheW1lbnRNYW5hZ2VtZW50QWRtaW4iLCJFZGl0QW1vdW50RXhwZW5zZXMiLCJEZWxldGVFeHBlbnNlcyIsIkNvbmZpZ3VyZUxvY2FsU2V0dGluZ3NBZG1pbiIsIkZpbGxDdXN0b21Gb3Jtc0NsaWVudHMiLCJBZGRWaWxsYWdlcyIsIkNvbmZpZ3VyZUdlbmVyYWxTZXR0aW5nc0FkbWluIiwiQWRkVG9Db250cmFjdEFkZE9ucyIsIkNvbmZpZ3VyZUxhbmd1YWdlU2V0dGluZ3NBZG1pbiIsIkVkaXRWaWxsYWdlcyIsIlN5bmNBY3RpdmF0aW9uQWN0aW9ucyIsIkVkaXRDdXN0b21TTVNBZG1pbiIsIkRlbGV0ZVZpbGxhZ2VzIiwiRmlsbEN1c3RvbUZvcm1zTGVhZHMiLCJWaWV3U2hvcHMiLCJDdXN0b21pemVQbGF0Zm9ybUFkbWluIiwiQWRkQ2x1c3RlcnMiLCJTZWVBbGxOb3RpZmljYXRpb25zQWRtaW4iLCJTZWVIdWJOb3RpZmljYXRpb25zQWRtaW4iLCJFZGl0Q2x1c3RlcnMiLCJWaWV3T2ZmZXJzIiwiVmlld0FjY291bnRzIiwiVmlld093blVzZXJzIiwiRWRpdFVzZXJzIiwiQWRkT2ZmZXJzIiwiRWRpdE9mZmVycyIsIkFkZFVzZXJzIiwiQWRkSHVicyIsIkVkaXRIdWJzIiwiVmlld0FkZG9uT2ZmZXJzIiwiQ3JlYXRlUm9sZXMiLCJEZWxldGVIdWJzIiwiQWRkQWRkb25PZmZlcnMiLCJBc3NpZ25Sb2xlcyIsIkFkZERldmljZXMiLCJFZGl0QWRkb25PZmZlcnMiLCJBZGRab25lcyIsIlZpZXdMb2dzIiwiVmlld0xlYWRHZW5lcmF0b3JzIiwiRWRpdFpvbmVzIiwiU2V0Q29tbWlzc2lvbkxlYWRzIiwiVmlld0ZhdWx0c0xvZ3MiLCJEZWxldGVab25lcyIsIlZpZXdVc2VycyIsIkFkZE1lc3NhZ2VzIiwiVmlld0xlYWRzIiwiQWRkUmVnaW9ucyIsIkFwcHJvdmVMZWFkcyIsIkFkZE1hbnVhbE1lc3NhZ2VzIiwiRWRpdFJlZ2lvbnMiLCJWaWV3QWxsTWVzc2FnZXMiLCJEZWxldGVSZWdpb25zIiwiVmlld01lc3NhZ2VzIiwiQWRkQ2xpZW50R3JvdXBzIiwiVmlld09ycGhhbmVkTWVzc2FnZXMiLCJFZGl0Q2xpZW50R3JvdXBzIiwiQWRkT3V0Z29pbmdNZXNzYWdlcyIsIkFkZExlYWRzIiwiRGVsZXRlQ2xpZW50R3JvdXBzIiwiVmlld0JhZGdlTGVhZHMiLCJBZGRBUElIb29rIiwiSW5TdG9ja1ZpZXdTdG9jayIsIldpdGhVc2Vyc1ZpZXdTdG9jayIsIkRlbGV0ZUFQSUhvb2siLCJGcm9tSW5TdG9ja01vdmVTdG9jayIsIlZpZXdGb3JtcyIsIkZyb21Vc2Vyc01vdmVTdG9jayIsIkFkZEZvcm1zIiwiVG9JblN0b2NrTW92ZVN0b2NrIiwiR2l2ZUNvbW1pc3Npb25Ub0xlYWRHZW5lcmF0b3JzIiwiRWRpdEZvcm1zIiwiRGVsZXRlRm9ybXMiLCJFZGl0Q2xpZW50cyIsIlRvVXNlcnNNb3ZlU3RvY2siLCJWaWV3SXNzdWVzIiwiQWRkSXNzdWVzIiwiRWRpdEludGVyYWN0aW9uc1NldHRpbmdzRm9ybXMiLCJDb25maWd1cmVPcGVyYXRpb25hbEVudGl0aWVzQWRtaW4iLCJWaWV3Q2xpZW50cyIsIkVkaXRJc3N1ZXMiLCJFZGl0Q2xpZW50TGVhZERhdGFTZXR0aW5nc0Zvcm1zIiwiQ29uZmlndXJlRGV2aWNlQVBJQWRtaW4iLCJNYWtlT25TdG9ja091dHNpZGVWaWV3QWN0aW9ucyIsIlZpZXdJbnRlcmFjdGlvbnMiLCJWaWV3QWN0aW9ucyIsIkFkZEludGVyYWN0aW9ucyIsIlN5bmNBbGxDcmVhdGVkTGVhZHNNb2JpbGUiLCJEb0NoYW5nZU9mZmVyQWN0aW9ucyIsIkVkaXRJbnRlcmFjdGlvbnMiLCJTeW5jQWxsR2VuZXJhdGVkTGVhZHNNb2JpbGUiLCJEZVJlZ2lzdGVyQWN0aW9ucyIsIkRlbGV0ZUludGVyYWN0aW9ucyIsIlN5bmNJbnN0YWxsZWRMYXN0MldlZWtzTGVhZHNNb2JpbGUiLCJWaWV3UGxhbm5pbmciLCJHaXZlRGlzY291bnRBY3Rpb25zIiwiU3luY0luc3RhbGxlZExhc3QyTW9udGhzTGVhZHNNb2JpbGUiLCJWaWV3Q3JlYXRlZExlYWRzIiwiR2l2ZURpc2NvdW50T3ZlcjJEYXlzQWN0aW9ucyIsIkFkZFBsYW5uaW5nIiwiU3luY0xlYWRHZW5lcmF0b3JzTW9iaWxlIiwiRWRpdFBsYW5uaW5nIiwiUmVnaXN0ZXJBY3Rpb25zIiwiTWVyZ2VMZWFkR2VuZXJhdG9ycyIsIlN5bmNDbGllbnRzTW9iaWxlIiwiRWRpdExlYWRzIiwiQ29sbGVjdENhc2hBY3Rpb25zIiwiRGVsZXRlUGxhbm5pbmciLCJTeW5jQWxsQ3JlYXRlZENsaWVudHNNb2JpbGUiLCJTd2FwRGV2aWNlQWN0aW9ucyIsIkVkaXRMZWFkR2VuZXJhdG9ycyIsIlZpZXdQYXltZW50cyIsIlN5bmNBbGxHZW5lcmF0ZWRDbGllbnRzTW9iaWxlIiwiVmlld09ycGhhbmVkUGF5bWVudHMiLCJHaXZlRGVsYXlBY3Rpb25zIiwiU3luY0ludGVyYWN0aW9uc01vYmlsZSIsIkFkZFBheW1lbnRzIiwiR2l2ZURlbGF5T3ZlcjJEYXlzQWN0aW9ucyIsIlN5bmNQbGFubmluZ01vYmlsZSIsIkFkZExlYWRHZW5lcmF0b3JzIiwiR2l2ZU5lZ2F0aXZlRGlzY291bnRUb0NvbXBsZXRlZEFjdGlvbnMiLCJBZGp1c3RCYWxhbmNlUGF5bWVudHMiLCJTeW5jRGV2aWNlc01vYmlsZSIsIkVkaXRXYWxsZXRQYXltZW50cyIsIk1hcmtDb250cmFjdERlZmF1bHRlZEFjdGlvbnMiLCJWaWV3UmV2ZXJzZWRQYXltZW50cyIsIlVuZG9Db250cmFjdERlZmF1bHRlZEFjdGlvbnMiLCJFZGl0SW5zdGFsbGVkTGVhZHMiLCJWaWV3QmFkZ2VJc3N1ZXMiLCJHaXZlVG9rZW5zT2ZmbGluZUFjdGlvbnMiLCJBZGRSZXZlcnNlZFBheW1lbnRzIl19.msQFoIe1htXINxp82s2K0jEXFBE_QMdd0U5LnQzVNa4"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "267"
+								},
+								{
+									"key": "CF-Cache-Status",
+									"value": "DYNAMIC"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"transaction_id\": \"670d65bd-4efd-4a6c-ae2c-7fdaa8cb4d60\",\n    \"amount\": \"1\",\n    \"sender_name\": \"254797668592\",\n    \"sender_phone_number\": \"+24322607\",\n    \"sent_datetime\": \"2022-10-10T12:55:30.826429Z\",\n    \"memo\": \"24322607\",\n    \"wallet_operator\": \"\",\n    \"country\": \"\",\n    \"currency\": \"KES\",\n    \"warnings\": [],\n    \"reconciled\": true,\n    \"destinations\": [\n        {\n            \"destination_type\": \"contract_repayment\",\n            \"destination\": \"C370015\"\n        }\n    ],\n    \"destination_type\": \"contract_repayment\",\n    \"destination\": \"C370015\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Confirmation",
+			"item": [
+				{
+					"name": "MPESA-Connector Confirmation Webhook",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    pm.expect(pm.response.text).not.equal(null)",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"TransactionType\":\"Pay Bill\",\n   \"TransID\":\"RKTQDM7W6S\",\n   \"TransTime\":\"20191122063845\",\n   \"TransAmount\":\"10\",\n   \"BusinessShortCode\":\"600638\",\n   \"BillRefNumber\":\"A123\",\n   \"InvoiceNumber\":\"\",\n   \"OrgAccountBalance\":\"49197.00\",\n   \"ThirdPartyTransID\":\"\",\n   \"MSISDN\":\"254797668592\",\n   \"FirstName\":\"John\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MPesaHostName}}/confirmation?amsName=paygops",
+							"host": [
+								"{{MPesaHostName}}"
+							],
+							"path": [
+								"confirmation"
+							],
+							"query": [
+								{
+									"key": "amsName",
+									"value": "paygops"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "MPESA-Connector Confirm",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"TransactionType\":\"Pay Bill\",\n   \"TransID\":\"RKTQDM7W6S\",\n   \"TransTime\":\"20191122063845\",\n   \"TransAmount\":\"10\",\n   \"BusinessShortCode\":\"600638\",\n   \"BillRefNumber\":\"A123\",\n   \"InvoiceNumber\":\"\",\n   \"OrgAccountBalance\":\"49197.00\",\n   \"ThirdPartyTransID\":\"\",\n   \"MSISDN\":\"254797668592\",\n   \"FirstName\":\"John\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/confirmation?amsName=paygops",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"confirmation"
+									],
+									"query": [
+										{
+											"key": "amsName",
+											"value": "paygops"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Accept",
+									"value": "*/*"
+								},
+								{
+									"key": "Postman-Token",
+									"value": "eaf71f3f-8df9-438c-8c1e-83de61a14869"
+								},
+								{
+									"key": "amsName",
+									"value": "paygops"
+								},
+								{
+									"key": "CF-RAY",
+									"value": "75454b29fe9a7a30-PAT"
+								},
+								{
+									"key": "Accept-Encoding",
+									"value": "gzip,deflate"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v3?s=yaiqIcUbSawf20xEQ%2BlJI0IS4uNQxbZu3ggoJn5ps1Y71V%2BUrFvQe7oYFBq9iGHMOdMZLKKoPLx08ACvP6HAwATCTK%2BXrW5%2BkhUTtjd5EKoe0SrMqQVBSLqY8ZAhO8EHlEVCCCgVk3sbn70%3D\"}],\"group\":\"cf-nel\",\"max_age\":604800}"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 03 Oct 2022 11:21:19 GMT"
+								},
+								{
+									"key": "NEL",
+									"value": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Authorization",
+									"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJTb2xhcmlzIE9mZmdyaWQiLCJleHAiOjE2ODAyNzcwNDcsImlhdCI6MTY0ODcyMDA5NSwic3ViIjo2MDUsInBlcm1pc3Npb25zIjpbIkRlbGV0ZURldmljZXMiLCJIYW5kbGVSZXZlcnNlZFBheW1lbnRzIiwiVmlld0Rhc2hib2FyZHMiLCJDaGFuZ2VQQVlHTW9kZURldmljZXMiLCJWaWV3R2xvYmFsRGFzaGJvYXJkcyIsIkVkaXRBY2NvdW50cyIsIk1hbmFnZUFsbEFjY291bnRzIiwiRm9yY2VQQVlHTW9kZURldmljZXMiLCJHb2dsYURhc2hib2FyZHMiLCJXaXRoTWVWaWV3U3RvY2siLCJEb3dubG9hZEdsb2JhbEFjY291bnRzIiwiRGVsZXRlUGhvbmVOdW1iZXJzIiwiTWFuYWdlQWNjb3VudHMiLCJXaXRoQ2xpZW50c1ZpZXdTdG9jayIsIkxpc3RQb3J0Zm9saW9zIiwiT3JwaGFuZWRWaWV3U3RvY2siLCJWaWV3UG9ydGZvbGlvcyIsIkVkaXRNYWRlVHJhbnNmZXJzIiwiRnJvbU9ycGhhbmVkTW92ZVN0b2NrIiwiUmVxdWVzdFRyYW5zZmVycyIsIkVkaXRQb3J0Zm9saW9zIiwiRGVsZXRlUG9ydGZvbGlvcyIsIkFwcHJvdmVUcmFuc2ZlcnMiLCJGcm9tV2l0aE1lTW92ZVN0b2NrIiwiQ3JlYXRlUG9ydGZvbGlvcyIsIkNvbmZpcm1UcmFuc2ZlcnMiLCJUb09ycGhhbmVkTW92ZVN0b2NrIiwiVG9XaXRoTWVNb3ZlU3RvY2siLCJWaWV3VHJhbnNmZXJzIiwiQXBwcm92ZUFkZE9ucyIsIlZpZXdTZXR0aW5nc0ludGVyZmFjZUFkbWluIiwiRGVsZXRlVHJhbnNmZXJzIiwiRWRpdFBsYW5uZWREZWxpdmVyeURhdGVMZWFkcyIsIkNyZWF0ZUFQSVRva2VuQWRtaW4iLCJWaWV3QmFkZ2VUcmFuc2ZlcnMiLCJDb25maWd1cmVNb2JpbGVBcHBTZXR0aW5nc0FkbWluIiwiU3luY0NvbXBsZXRlZENsaWVudHNNb2JpbGUiLCJWaWV3QWN0aXZpdHlMb2dBZG1pbiIsIlZpZXdFeHBlbnNlcyIsIkFkZEV4cGVuc2VzIiwiRXhwb3J0RGF0YUFkbWluIiwiRWRpdE9mZmVyUGFydGlhbGx5UGFpZExlYWRzIiwiRWRpdEV4cGVuc2VzIiwiRWRpdE9mZmVyQXdhaXRpbmdEZWxpdmVyeUxlYWRzIiwiRWRpdE93bkV4cGVuc2VzIiwiQ29uZmlndXJlQXV0b21hdGVkTWVzc2FnZXNBZG1pbiIsIlN5bmNMZWFkc01vYmlsZSIsIkNvbmZpZ3VyZVNhbGVzTWFuYWdlbWVudEFkbWluIiwiRWRpdE90aGVyc0V4cGVuc2VzIiwiUmVtb3ZlTGFzdFBob25lTnVtYmVycyIsIkNvbmZpZ3VyZVBheW1lbnRNYW5hZ2VtZW50QWRtaW4iLCJFZGl0QW1vdW50RXhwZW5zZXMiLCJEZWxldGVFeHBlbnNlcyIsIkNvbmZpZ3VyZUxvY2FsU2V0dGluZ3NBZG1pbiIsIkZpbGxDdXN0b21Gb3Jtc0NsaWVudHMiLCJBZGRWaWxsYWdlcyIsIkNvbmZpZ3VyZUdlbmVyYWxTZXR0aW5nc0FkbWluIiwiQWRkVG9Db250cmFjdEFkZE9ucyIsIkNvbmZpZ3VyZUxhbmd1YWdlU2V0dGluZ3NBZG1pbiIsIkVkaXRWaWxsYWdlcyIsIlN5bmNBY3RpdmF0aW9uQWN0aW9ucyIsIkVkaXRDdXN0b21TTVNBZG1pbiIsIkRlbGV0ZVZpbGxhZ2VzIiwiRmlsbEN1c3RvbUZvcm1zTGVhZHMiLCJWaWV3U2hvcHMiLCJDdXN0b21pemVQbGF0Zm9ybUFkbWluIiwiQWRkQ2x1c3RlcnMiLCJTZWVBbGxOb3RpZmljYXRpb25zQWRtaW4iLCJTZWVIdWJOb3RpZmljYXRpb25zQWRtaW4iLCJFZGl0Q2x1c3RlcnMiLCJWaWV3T2ZmZXJzIiwiVmlld0FjY291bnRzIiwiVmlld093blVzZXJzIiwiRWRpdFVzZXJzIiwiQWRkT2ZmZXJzIiwiRWRpdE9mZmVycyIsIkFkZFVzZXJzIiwiQWRkSHVicyIsIkVkaXRIdWJzIiwiVmlld0FkZG9uT2ZmZXJzIiwiQ3JlYXRlUm9sZXMiLCJEZWxldGVIdWJzIiwiQWRkQWRkb25PZmZlcnMiLCJBc3NpZ25Sb2xlcyIsIkFkZERldmljZXMiLCJFZGl0QWRkb25PZmZlcnMiLCJBZGRab25lcyIsIlZpZXdMb2dzIiwiVmlld0xlYWRHZW5lcmF0b3JzIiwiRWRpdFpvbmVzIiwiU2V0Q29tbWlzc2lvbkxlYWRzIiwiVmlld0ZhdWx0c0xvZ3MiLCJEZWxldGVab25lcyIsIlZpZXdVc2VycyIsIkFkZE1lc3NhZ2VzIiwiVmlld0xlYWRzIiwiQWRkUmVnaW9ucyIsIkFwcHJvdmVMZWFkcyIsIkFkZE1hbnVhbE1lc3NhZ2VzIiwiRWRpdFJlZ2lvbnMiLCJWaWV3QWxsTWVzc2FnZXMiLCJEZWxldGVSZWdpb25zIiwiVmlld01lc3NhZ2VzIiwiQWRkQ2xpZW50R3JvdXBzIiwiVmlld09ycGhhbmVkTWVzc2FnZXMiLCJFZGl0Q2xpZW50R3JvdXBzIiwiQWRkT3V0Z29pbmdNZXNzYWdlcyIsIkFkZExlYWRzIiwiRGVsZXRlQ2xpZW50R3JvdXBzIiwiVmlld0JhZGdlTGVhZHMiLCJBZGRBUElIb29rIiwiSW5TdG9ja1ZpZXdTdG9jayIsIldpdGhVc2Vyc1ZpZXdTdG9jayIsIkRlbGV0ZUFQSUhvb2siLCJGcm9tSW5TdG9ja01vdmVTdG9jayIsIlZpZXdGb3JtcyIsIkZyb21Vc2Vyc01vdmVTdG9jayIsIkFkZEZvcm1zIiwiVG9JblN0b2NrTW92ZVN0b2NrIiwiR2l2ZUNvbW1pc3Npb25Ub0xlYWRHZW5lcmF0b3JzIiwiRWRpdEZvcm1zIiwiRGVsZXRlRm9ybXMiLCJFZGl0Q2xpZW50cyIsIlRvVXNlcnNNb3ZlU3RvY2siLCJWaWV3SXNzdWVzIiwiQWRkSXNzdWVzIiwiRWRpdEludGVyYWN0aW9uc1NldHRpbmdzRm9ybXMiLCJDb25maWd1cmVPcGVyYXRpb25hbEVudGl0aWVzQWRtaW4iLCJWaWV3Q2xpZW50cyIsIkVkaXRJc3N1ZXMiLCJFZGl0Q2xpZW50TGVhZERhdGFTZXR0aW5nc0Zvcm1zIiwiQ29uZmlndXJlRGV2aWNlQVBJQWRtaW4iLCJNYWtlT25TdG9ja091dHNpZGVWaWV3QWN0aW9ucyIsIlZpZXdJbnRlcmFjdGlvbnMiLCJWaWV3QWN0aW9ucyIsIkFkZEludGVyYWN0aW9ucyIsIlN5bmNBbGxDcmVhdGVkTGVhZHNNb2JpbGUiLCJEb0NoYW5nZU9mZmVyQWN0aW9ucyIsIkVkaXRJbnRlcmFjdGlvbnMiLCJTeW5jQWxsR2VuZXJhdGVkTGVhZHNNb2JpbGUiLCJEZVJlZ2lzdGVyQWN0aW9ucyIsIkRlbGV0ZUludGVyYWN0aW9ucyIsIlN5bmNJbnN0YWxsZWRMYXN0MldlZWtzTGVhZHNNb2JpbGUiLCJWaWV3UGxhbm5pbmciLCJHaXZlRGlzY291bnRBY3Rpb25zIiwiU3luY0luc3RhbGxlZExhc3QyTW9udGhzTGVhZHNNb2JpbGUiLCJWaWV3Q3JlYXRlZExlYWRzIiwiR2l2ZURpc2NvdW50T3ZlcjJEYXlzQWN0aW9ucyIsIkFkZFBsYW5uaW5nIiwiU3luY0xlYWRHZW5lcmF0b3JzTW9iaWxlIiwiRWRpdFBsYW5uaW5nIiwiUmVnaXN0ZXJBY3Rpb25zIiwiTWVyZ2VMZWFkR2VuZXJhdG9ycyIsIlN5bmNDbGllbnRzTW9iaWxlIiwiRWRpdExlYWRzIiwiQ29sbGVjdENhc2hBY3Rpb25zIiwiRGVsZXRlUGxhbm5pbmciLCJTeW5jQWxsQ3JlYXRlZENsaWVudHNNb2JpbGUiLCJTd2FwRGV2aWNlQWN0aW9ucyIsIkVkaXRMZWFkR2VuZXJhdG9ycyIsIlZpZXdQYXltZW50cyIsIlN5bmNBbGxHZW5lcmF0ZWRDbGllbnRzTW9iaWxlIiwiVmlld09ycGhhbmVkUGF5bWVudHMiLCJHaXZlRGVsYXlBY3Rpb25zIiwiU3luY0ludGVyYWN0aW9uc01vYmlsZSIsIkFkZFBheW1lbnRzIiwiR2l2ZURlbGF5T3ZlcjJEYXlzQWN0aW9ucyIsIlN5bmNQbGFubmluZ01vYmlsZSIsIkFkZExlYWRHZW5lcmF0b3JzIiwiR2l2ZU5lZ2F0aXZlRGlzY291bnRUb0NvbXBsZXRlZEFjdGlvbnMiLCJBZGp1c3RCYWxhbmNlUGF5bWVudHMiLCJTeW5jRGV2aWNlc01vYmlsZSIsIkVkaXRXYWxsZXRQYXltZW50cyIsIk1hcmtDb250cmFjdERlZmF1bHRlZEFjdGlvbnMiLCJWaWV3UmV2ZXJzZWRQYXltZW50cyIsIlVuZG9Db250cmFjdERlZmF1bHRlZEFjdGlvbnMiLCJFZGl0SW5zdGFsbGVkTGVhZHMiLCJWaWV3QmFkZ2VJc3N1ZXMiLCJHaXZlVG9rZW5zT2ZmbGluZUFjdGlvbnMiLCJBZGRSZXZlcnNlZFBheW1lbnRzIl19.msQFoIe1htXINxp82s2K0jEXFBE_QMdd0U5LnQzVNa4"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "393"
+								},
+								{
+									"key": "CF-Cache-Status",
+									"value": "DYNAMIC"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"transaction_id\": \"RKTQDM7W6S\",\n    \"amount\": \"1.00\",\n    \"wallet_name\": \"254797668592\",\n    \"wallet_msisdn\": \"+254797668592\",\n    \"sent_datetime\": \"2022-10-03T11:14:04.790513Z\",\n    \"reception_datetime\": \"2022-10-03T11:14:04.796193Z\",\n    \"memo\": \"A123\",\n    \"wallet_operator\": \"\",\n    \"country\": \"\",\n    \"currency\": \"KES\",\n    \"destinations\": [\n        {\n            \"destination_type\": \"balance\"\n        }\n    ],\n    \"destination_type\": \"balance\",\n    \"destination\": null\n}"
+						}
+					]
+				},
+				{
+					"name": "Paygops Connector Settlement",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    pm.expect(pm.response.text).not.equal(null)",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"primaryIdentifier\": {\n        \"key\": \"MSISDN\",\n        \"value\": \"254797668592\"\n    },\n    \"secondaryIdentifier\": {\n        \"key\": \"foundationalID\",\n        \"value\": \"24322607\"\n    },\n    \"customData\": [\n        {\n            \"key\": \"transactionId\",\n            \"value\": \"670d65bd-4efd-4a6c-ae2c-7fdaa8cb4d60\"\n        },\n        {\n            \"key\": \"currency\",\n            \"value\": \"KES\"\n        },\n        {\n            \"key\": \"memo\",\n            \"value\": \"24322607\"\n        },\n        {\n            \"key\": \"wallet_name\",\n            \"value\": \"254797668592\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PaygopsHostName}}/api/v1/paybill/confirm/paygops",
+							"host": [
+								"{{PaygopsHostName}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"paybill",
+								"confirm",
+								"paygops"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Paygops Confirm",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"primaryIdentifier\": {\n        \"key\": \"MSISDN\",\n        \"value\": \"254797668592\"\n    },\n    \"secondaryIdentifier\": {\n        \"key\": \"foundationalID\",\n        \"value\": \"24322607\"\n    },\n    \"customData\": [\n        {\n            \"key\": \"transactionId\",\n            \"value\": \"670d65bd-4efd-4a6c-ae2c-7fdaa8cb4d60\"\n        },\n        {\n            \"key\": \"currency\",\n            \"value\": \"KES\"\n        },\n        {\n            \"key\": \"memo\",\n            \"value\": \"24322607\"\n        },\n        {\n            \"key\": \"wallet_name\",\n            \"value\": \"254797668592\"\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:5002/api/v1/paybill/confirm/paygops",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "5002",
+									"path": [
+										"api",
+										"v1",
+										"paybill",
+										"confirm",
+										"paygops"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Encoding",
+									"value": "br"
+								},
+								{
+									"key": "Accept",
+									"value": "*/*"
+								},
+								{
+									"key": "Postman-Token",
+									"value": "5f8b5996-bca8-4bec-8c58-92cf23cca34f"
+								},
+								{
+									"key": "CF-RAY",
+									"value": "754506cb68c92e8e-BOM"
+								},
+								{
+									"key": "Accept-Encoding",
+									"value": "gzip, deflate, br"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v3?s=VdWXDm70hmcLXGwX1oiQo9a8Yebk9yLWTKW1nynBSrlGO4P0W3kVkXzKvfGS3ud%2Bes2aUb6Wj%2BAOVPOaXHXfu6xHCZMOE3MAkpA4Gb9%2BDsmWGXHnkVThxEXImV8GD8Zr0HPyDPBDioezaz0%3D\"}],\"group\":\"cf-nel\",\"max_age\":604800}"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 03 Oct 2022 10:34:39 GMT"
+								},
+								{
+									"key": "NEL",
+									"value": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Authorization",
+									"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJTb2xhcmlzIE9mZmdyaWQiLCJleHAiOjE2ODAyNzcwNDcsImlhdCI6MTY0ODcyMDA5NSwic3ViIjo2MDUsInBlcm1pc3Npb25zIjpbIkRlbGV0ZURldmljZXMiLCJIYW5kbGVSZXZlcnNlZFBheW1lbnRzIiwiVmlld0Rhc2hib2FyZHMiLCJDaGFuZ2VQQVlHTW9kZURldmljZXMiLCJWaWV3R2xvYmFsRGFzaGJvYXJkcyIsIkVkaXRBY2NvdW50cyIsIk1hbmFnZUFsbEFjY291bnRzIiwiRm9yY2VQQVlHTW9kZURldmljZXMiLCJHb2dsYURhc2hib2FyZHMiLCJXaXRoTWVWaWV3U3RvY2siLCJEb3dubG9hZEdsb2JhbEFjY291bnRzIiwiRGVsZXRlUGhvbmVOdW1iZXJzIiwiTWFuYWdlQWNjb3VudHMiLCJXaXRoQ2xpZW50c1ZpZXdTdG9jayIsIkxpc3RQb3J0Zm9saW9zIiwiT3JwaGFuZWRWaWV3U3RvY2siLCJWaWV3UG9ydGZvbGlvcyIsIkVkaXRNYWRlVHJhbnNmZXJzIiwiRnJvbU9ycGhhbmVkTW92ZVN0b2NrIiwiUmVxdWVzdFRyYW5zZmVycyIsIkVkaXRQb3J0Zm9saW9zIiwiRGVsZXRlUG9ydGZvbGlvcyIsIkFwcHJvdmVUcmFuc2ZlcnMiLCJGcm9tV2l0aE1lTW92ZVN0b2NrIiwiQ3JlYXRlUG9ydGZvbGlvcyIsIkNvbmZpcm1UcmFuc2ZlcnMiLCJUb09ycGhhbmVkTW92ZVN0b2NrIiwiVG9XaXRoTWVNb3ZlU3RvY2siLCJWaWV3VHJhbnNmZXJzIiwiQXBwcm92ZUFkZE9ucyIsIlZpZXdTZXR0aW5nc0ludGVyZmFjZUFkbWluIiwiRGVsZXRlVHJhbnNmZXJzIiwiRWRpdFBsYW5uZWREZWxpdmVyeURhdGVMZWFkcyIsIkNyZWF0ZUFQSVRva2VuQWRtaW4iLCJWaWV3QmFkZ2VUcmFuc2ZlcnMiLCJDb25maWd1cmVNb2JpbGVBcHBTZXR0aW5nc0FkbWluIiwiU3luY0NvbXBsZXRlZENsaWVudHNNb2JpbGUiLCJWaWV3QWN0aXZpdHlMb2dBZG1pbiIsIlZpZXdFeHBlbnNlcyIsIkFkZEV4cGVuc2VzIiwiRXhwb3J0RGF0YUFkbWluIiwiRWRpdE9mZmVyUGFydGlhbGx5UGFpZExlYWRzIiwiRWRpdEV4cGVuc2VzIiwiRWRpdE9mZmVyQXdhaXRpbmdEZWxpdmVyeUxlYWRzIiwiRWRpdE93bkV4cGVuc2VzIiwiQ29uZmlndXJlQXV0b21hdGVkTWVzc2FnZXNBZG1pbiIsIlN5bmNMZWFkc01vYmlsZSIsIkNvbmZpZ3VyZVNhbGVzTWFuYWdlbWVudEFkbWluIiwiRWRpdE90aGVyc0V4cGVuc2VzIiwiUmVtb3ZlTGFzdFBob25lTnVtYmVycyIsIkNvbmZpZ3VyZVBheW1lbnRNYW5hZ2VtZW50QWRtaW4iLCJFZGl0QW1vdW50RXhwZW5zZXMiLCJEZWxldGVFeHBlbnNlcyIsIkNvbmZpZ3VyZUxvY2FsU2V0dGluZ3NBZG1pbiIsIkZpbGxDdXN0b21Gb3Jtc0NsaWVudHMiLCJBZGRWaWxsYWdlcyIsIkNvbmZpZ3VyZUdlbmVyYWxTZXR0aW5nc0FkbWluIiwiQWRkVG9Db250cmFjdEFkZE9ucyIsIkNvbmZpZ3VyZUxhbmd1YWdlU2V0dGluZ3NBZG1pbiIsIkVkaXRWaWxsYWdlcyIsIlN5bmNBY3RpdmF0aW9uQWN0aW9ucyIsIkVkaXRDdXN0b21TTVNBZG1pbiIsIkRlbGV0ZVZpbGxhZ2VzIiwiRmlsbEN1c3RvbUZvcm1zTGVhZHMiLCJWaWV3U2hvcHMiLCJDdXN0b21pemVQbGF0Zm9ybUFkbWluIiwiQWRkQ2x1c3RlcnMiLCJTZWVBbGxOb3RpZmljYXRpb25zQWRtaW4iLCJTZWVIdWJOb3RpZmljYXRpb25zQWRtaW4iLCJFZGl0Q2x1c3RlcnMiLCJWaWV3T2ZmZXJzIiwiVmlld0FjY291bnRzIiwiVmlld093blVzZXJzIiwiRWRpdFVzZXJzIiwiQWRkT2ZmZXJzIiwiRWRpdE9mZmVycyIsIkFkZFVzZXJzIiwiQWRkSHVicyIsIkVkaXRIdWJzIiwiVmlld0FkZG9uT2ZmZXJzIiwiQ3JlYXRlUm9sZXMiLCJEZWxldGVIdWJzIiwiQWRkQWRkb25PZmZlcnMiLCJBc3NpZ25Sb2xlcyIsIkFkZERldmljZXMiLCJFZGl0QWRkb25PZmZlcnMiLCJBZGRab25lcyIsIlZpZXdMb2dzIiwiVmlld0xlYWRHZW5lcmF0b3JzIiwiRWRpdFpvbmVzIiwiU2V0Q29tbWlzc2lvbkxlYWRzIiwiVmlld0ZhdWx0c0xvZ3MiLCJEZWxldGVab25lcyIsIlZpZXdVc2VycyIsIkFkZE1lc3NhZ2VzIiwiVmlld0xlYWRzIiwiQWRkUmVnaW9ucyIsIkFwcHJvdmVMZWFkcyIsIkFkZE1hbnVhbE1lc3NhZ2VzIiwiRWRpdFJlZ2lvbnMiLCJWaWV3QWxsTWVzc2FnZXMiLCJEZWxldGVSZWdpb25zIiwiVmlld01lc3NhZ2VzIiwiQWRkQ2xpZW50R3JvdXBzIiwiVmlld09ycGhhbmVkTWVzc2FnZXMiLCJFZGl0Q2xpZW50R3JvdXBzIiwiQWRkT3V0Z29pbmdNZXNzYWdlcyIsIkFkZExlYWRzIiwiRGVsZXRlQ2xpZW50R3JvdXBzIiwiVmlld0JhZGdlTGVhZHMiLCJBZGRBUElIb29rIiwiSW5TdG9ja1ZpZXdTdG9jayIsIldpdGhVc2Vyc1ZpZXdTdG9jayIsIkRlbGV0ZUFQSUhvb2siLCJGcm9tSW5TdG9ja01vdmVTdG9jayIsIlZpZXdGb3JtcyIsIkZyb21Vc2Vyc01vdmVTdG9jayIsIkFkZEZvcm1zIiwiVG9JblN0b2NrTW92ZVN0b2NrIiwiR2l2ZUNvbW1pc3Npb25Ub0xlYWRHZW5lcmF0b3JzIiwiRWRpdEZvcm1zIiwiRGVsZXRlRm9ybXMiLCJFZGl0Q2xpZW50cyIsIlRvVXNlcnNNb3ZlU3RvY2siLCJWaWV3SXNzdWVzIiwiQWRkSXNzdWVzIiwiRWRpdEludGVyYWN0aW9uc1NldHRpbmdzRm9ybXMiLCJDb25maWd1cmVPcGVyYXRpb25hbEVudGl0aWVzQWRtaW4iLCJWaWV3Q2xpZW50cyIsIkVkaXRJc3N1ZXMiLCJFZGl0Q2xpZW50TGVhZERhdGFTZXR0aW5nc0Zvcm1zIiwiQ29uZmlndXJlRGV2aWNlQVBJQWRtaW4iLCJNYWtlT25TdG9ja091dHNpZGVWaWV3QWN0aW9ucyIsIlZpZXdJbnRlcmFjdGlvbnMiLCJWaWV3QWN0aW9ucyIsIkFkZEludGVyYWN0aW9ucyIsIlN5bmNBbGxDcmVhdGVkTGVhZHNNb2JpbGUiLCJEb0NoYW5nZU9mZmVyQWN0aW9ucyIsIkVkaXRJbnRlcmFjdGlvbnMiLCJTeW5jQWxsR2VuZXJhdGVkTGVhZHNNb2JpbGUiLCJEZVJlZ2lzdGVyQWN0aW9ucyIsIkRlbGV0ZUludGVyYWN0aW9ucyIsIlN5bmNJbnN0YWxsZWRMYXN0MldlZWtzTGVhZHNNb2JpbGUiLCJWaWV3UGxhbm5pbmciLCJHaXZlRGlzY291bnRBY3Rpb25zIiwiU3luY0luc3RhbGxlZExhc3QyTW9udGhzTGVhZHNNb2JpbGUiLCJWaWV3Q3JlYXRlZExlYWRzIiwiR2l2ZURpc2NvdW50T3ZlcjJEYXlzQWN0aW9ucyIsIkFkZFBsYW5uaW5nIiwiU3luY0xlYWRHZW5lcmF0b3JzTW9iaWxlIiwiRWRpdFBsYW5uaW5nIiwiUmVnaXN0ZXJBY3Rpb25zIiwiTWVyZ2VMZWFkR2VuZXJhdG9ycyIsIlN5bmNDbGllbnRzTW9iaWxlIiwiRWRpdExlYWRzIiwiQ29sbGVjdENhc2hBY3Rpb25zIiwiRGVsZXRlUGxhbm5pbmciLCJTeW5jQWxsQ3JlYXRlZENsaWVudHNNb2JpbGUiLCJTd2FwRGV2aWNlQWN0aW9ucyIsIkVkaXRMZWFkR2VuZXJhdG9ycyIsIlZpZXdQYXltZW50cyIsIlN5bmNBbGxHZW5lcmF0ZWRDbGllbnRzTW9iaWxlIiwiVmlld09ycGhhbmVkUGF5bWVudHMiLCJHaXZlRGVsYXlBY3Rpb25zIiwiU3luY0ludGVyYWN0aW9uc01vYmlsZSIsIkFkZFBheW1lbnRzIiwiR2l2ZURlbGF5T3ZlcjJEYXlzQWN0aW9ucyIsIlN5bmNQbGFubmluZ01vYmlsZSIsIkFkZExlYWRHZW5lcmF0b3JzIiwiR2l2ZU5lZ2F0aXZlRGlzY291bnRUb0NvbXBsZXRlZEFjdGlvbnMiLCJBZGp1c3RCYWxhbmNlUGF5bWVudHMiLCJTeW5jRGV2aWNlc01vYmlsZSIsIkVkaXRXYWxsZXRQYXltZW50cyIsIk1hcmtDb250cmFjdERlZmF1bHRlZEFjdGlvbnMiLCJWaWV3UmV2ZXJzZWRQYXltZW50cyIsIlVuZG9Db250cmFjdERlZmF1bHRlZEFjdGlvbnMiLCJFZGl0SW5zdGFsbGVkTGVhZHMiLCJWaWV3QmFkZ2VJc3N1ZXMiLCJHaXZlVG9rZW5zT2ZmbGluZUFjdGlvbnMiLCJBZGRSZXZlcnNlZFBheW1lbnRzIl19.msQFoIe1htXINxp82s2K0jEXFBE_QMdd0U5LnQzVNa4"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "239"
+								},
+								{
+									"key": "CF-Cache-Status",
+									"value": "DYNAMIC"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"transaction_id\": \"670d65bd-4efd-4a6c-ae2c-7fdaa8cb4d60\",\n    \"amount\": \"1.00\",\n    \"wallet_name\": \"254797668592\",\n    \"wallet_msisdn\": \"+254797668592\",\n    \"sent_datetime\": \"2022-10-03T10:32:25.477716Z\",\n    \"reception_datetime\": \"2022-10-03T10:32:25.482215Z\",\n    \"memo\": \"24322607\",\n    \"wallet_operator\": \"\",\n    \"country\": \"\",\n    \"currency\": \"KES\",\n    \"destinations\": [\n        {\n            \"destination_type\": \"adjustment\"\n        }\n    ],\n    \"destination_type\": \"adjustment\",\n    \"destination\": null\n}"
+						}
+					]
+				}
+			]
+		}
+	]
+}
