@@ -645,3 +645,23 @@ zeebe-operate:
         port:
           number: 80
 
+mock-oracle:
+  enabled: true
+  replicas: 1
+  image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/mock-asl-oracle"
+  imagePullPolicy: "Always"
+  hostname: "mockoracle.sandbox.fynarfin.io"
+  ingress:
+    enabled: true
+    path: "/"
+    annotations:
+        kubernetes.io/ingress.class: "nginx"
+    backend:
+      service:
+          name: mock-oracle
+          port:
+            number: 80
+  deployment:
+    annotations:
+        deployTime: "{{ .Values.deployTime }}"
+
