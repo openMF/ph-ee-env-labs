@@ -204,8 +204,8 @@ ph-ee-engine:
         deployTime: "{{ .Values.deployTime }}"
 
   ph_ee_connector_mojaloop:
-    enabled: false
-    image: "shanidkh/ph-ee:ph-ee-connector-mojaloop-java"
+    enabled: true
+    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-mojaloop"
     SPRING_PROFILES_ACTIVE: "bb"
     limits:
       cpu: "500m"
@@ -239,6 +239,7 @@ ph-ee-engine:
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
     hostname: "channel.mifos.g2pconnect.io"
+    stub_hostname: "channel-gsma.mifos.g2pconnect.io"
     DFSPIDS: "rhino,gorilla"
     limits:
       cpu: "500m"
