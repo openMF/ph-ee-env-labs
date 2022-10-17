@@ -181,10 +181,10 @@ ph-ee-engine:
     initdbScripts:
       setup.sql: |-
         CREATE DATABASE messagegateway;
-        CREATE DATABASE `ibank-india`;
-        CREATE DATABASE `ibank-usa`;
-        GRANT ALL PRIVILEGES ON `ibank-india`.* TO 'mifos';
-        GRANT ALL PRIVILEGES ON `ibank-usa`.* TO 'mifos';
+        CREATE DATABASE `lion`;
+        CREATE DATABASE `gorilla`;
+        GRANT ALL PRIVILEGES ON `lion`.* TO 'mifos';
+        GRANT ALL PRIVILEGES ON `gorilla`.* TO 'mifos';
         GRANT ALL ON *.* TO 'root'@'%';
         GRANT ALL PRIVILEGES ON messagegateway.* TO 'mifos';
 
@@ -240,7 +240,7 @@ ph-ee-engine:
     SPRING_PROFILES_ACTIVE: "bb"
     hostname: "channel.sandbox.fynarfin.io"
     stub_hostname: "channel-gsma.sandbox.fynarfin.io"
-    DFSPIDS: "ibank-usa,ibank-india"
+    DFSPIDS: "gorilla,lion"
     limits:
       cpu: "500m"
       memory: "512M"
@@ -272,7 +272,7 @@ ph-ee-engine:
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-ee-ops-bk"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
-    tenants: "ibank-usa,ibank-india"
+    tenants: "gorilla,lion"
     hostname: "ops-bk.sandbox.fynarfin.io"
     datasource:
       username: "mifos"
@@ -357,7 +357,7 @@ ph-ee-engine:
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
     hostname: "mpesa.sandbox.fynarfin.io"
-    tenant: "ibank-india"
+    tenant: "lion"
     zeebe_broker_contactpoint: "zeebe-zeebe-gateway:26500"
     callback_host: "https://mpesa.sandbox.fynarfin.io/"
     retry_count: 3
@@ -484,7 +484,7 @@ ph-ee-engine:
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-bulk-processor"
     SPRING_PROFILES_ACTIVE: "bb"
     imageTag: latest
-    tenant: "ibank-usa,ibank-india"
+    tenant: "gorilla,lion"
     hostname: "bulk-connector.sandbox.fynarfin.io"
     SPRING_PROFILES_ACTIVE: "<issue: wasnot present earlier but it is in deployment>"
     limits:
@@ -514,7 +514,7 @@ ph-ee-engine:
     hostname: "zeebeops.sandbox.fynarfin.io"
     zeebe_broker_contactpoint: "zeebe-zeebe-gateway:26500"
     elasticsearch_contactpoint: "ph-ee-elasticsearch:9200"
-    tenants: "ibank-usa,ibank-india"
+    tenants: "gorilla,lion"
     elasticsearch_sslverification: false
     elasticsearch_security_enabled: false
     limits:
