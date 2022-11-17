@@ -422,6 +422,17 @@ ph-ee-engine:
     deployment:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
+    hostname: "roster.sandbox.fynarfin.io"
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: "nginx"
+      path: "/"
+      backend:
+        service:
+          name: ph-ee-connector-ams-roster
+          port:
+            number: 80
 
   paygops_connector:
     enabled: true
@@ -444,6 +455,17 @@ ph-ee-engine:
     deployment:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
+    hostname: "paygops.sandbox.fynarfin.io"
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: "nginx"
+      path: "/"
+      backend:
+        service:
+          name: ph-ee-connector-ams-paygops
+          port:
+            number: 80
 
   notifications:
     enabled: true
