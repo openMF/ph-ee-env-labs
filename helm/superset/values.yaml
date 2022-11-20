@@ -628,6 +628,18 @@ ph-ee-engine:
       port: 3306
       schema: "tenants"
 
+  kong:
+    enabled: true
+
+  keycloak:
+    enabled: true
+    ingress:
+      enabled: true
+      ingressClassName: "kong"
+      rules:
+        - host: 'keycloak.sandbox.fynarfin.io'
+      tls: []
+
   wildcardhostname: "*.sandbox.fynarfin.io"
 
   tls: ""
