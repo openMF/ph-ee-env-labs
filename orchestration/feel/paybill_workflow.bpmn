@@ -37,12 +37,14 @@
       <bpmn:incoming>Flow_1oum6u4</bpmn:incoming>
       <bpmn:outgoing>Flow_17r5yck</bpmn:outgoing>
       <bpmn:outgoing>Flow_0mkgxc2</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0g0aist</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="Flow_17r5yck" name="Confirmation Received" sourceRef="Gateway_0esi9al" targetRef="transfer-settlement-paygops">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=confirmationReceived = true</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=confirmationReceived = true and finalAmsVal=paygops</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:exclusiveGateway id="Gateway_116jc3f">
       <bpmn:incoming>Flow_1kw3y0l</bpmn:incoming>
+      <bpmn:incoming>Flow_1y2q1rx</bpmn:incoming>
       <bpmn:outgoing>Flow_1ecfldo</bpmn:outgoing>
       <bpmn:outgoing>Flow_0z91exw</bpmn:outgoing>
     </bpmn:exclusiveGateway>
@@ -67,6 +69,17 @@
       </bpmn:timerEventDefinition>
     </bpmn:boundaryEvent>
     <bpmn:sequenceFlow id="Flow_1oum6u4" name="confirmationRequestReceived" sourceRef="pendingConfirmation" targetRef="Gateway_0esi9al" />
+    <bpmn:serviceTask id="transfer-settlement" name="PesaCore Settlement">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="transfer-settlement" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0g0aist</bpmn:incoming>
+      <bpmn:outgoing>Flow_1y2q1rx</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0g0aist" name="Confirmation Received" sourceRef="Gateway_0esi9al" targetRef="transfer-settlement">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=confirmationReceived = true and finalAmsVal=roster</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1y2q1rx" sourceRef="transfer-settlement" targetRef="Gateway_116jc3f" />
   </bpmn:process>
   <bpmn:message id="Message_018uqlv" name="pendingConfirmation">
     <bpmn:extensionElements>
@@ -75,6 +88,32 @@
   </bpmn:message>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="paybill">
+      <bpmndi:BPMNEdge id="Flow_1y2q1rx_di" bpmnElement="Flow_1y2q1rx">
+        <di:waypoint x="1020" y="480" />
+        <di:waypoint x="1135" y="480" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0g0aist_di" bpmnElement="Flow_0g0aist">
+        <di:waypoint x="815" y="480" />
+        <di:waypoint x="920" y="480" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="828" y="446" width="63" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1oum6u4_di" bpmnElement="Flow_1oum6u4">
+        <di:waypoint x="610" y="480" />
+        <di:waypoint x="765" y="480" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="627" y="446" width="87" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0z91exw_di" bpmnElement="Flow_0z91exw">
+        <di:waypoint x="1160" y="455" />
+        <di:waypoint x="1160" y="130" />
+        <di:waypoint x="1442" y="130" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1168" y="290" width="63" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0zj5svb_di" bpmnElement="Flow_0zj5svb">
         <di:waypoint x="400" y="295" />
         <di:waypoint x="400" y="130" />
@@ -106,14 +145,16 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1kw3y0l_di" bpmnElement="Flow_1kw3y0l">
-        <di:waypoint x="1010" y="480" />
-        <di:waypoint x="1135" y="480" />
+        <di:waypoint x="1020" y="630" />
+        <di:waypoint x="1160" y="630" />
+        <di:waypoint x="1160" y="505" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_17r5yck_di" bpmnElement="Flow_17r5yck">
-        <di:waypoint x="815" y="480" />
-        <di:waypoint x="910" y="480" />
+        <di:waypoint x="790" y="505" />
+        <di:waypoint x="790" y="630" />
+        <di:waypoint x="920" y="630" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="828" y="446" width="63" height="27" />
+          <dc:Bounds x="819" y="596" width="63" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_16hk9gv_di" bpmnElement="Flow_16hk9gv">
@@ -128,26 +169,20 @@
           <dc:Bounds x="409" y="389" width="42" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0z91exw_di" bpmnElement="Flow_0z91exw">
-        <di:waypoint x="1160" y="455" />
-        <di:waypoint x="1160" y="130" />
-        <di:waypoint x="1442" y="130" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1168" y="290" width="63" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1oum6u4_di" bpmnElement="Flow_1oum6u4">
-        <di:waypoint x="610" y="480" />
-        <di:waypoint x="765" y="480" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="627" y="446" width="87" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Event_0c5476n_di" bpmnElement="Event_0c5476n" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
         <dc:Bounds x="1442" y="112" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1426" y="155" width="70" height="14" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1lxzssl_di" bpmnElement="Event_1lxzssl" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <dc:Bounds x="1442" y="462" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1421" y="513" width="78" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ldxm56_di" bpmnElement="pendingConfirmation" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <dc:Bounds x="510" y="440" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_1c26ghn_di" bpmnElement="ams-lookup" isMarkerVisible="true">
         <dc:Bounds x="375" y="295" width="50" height="50" />
@@ -161,14 +196,11 @@
           <dc:Bounds x="159" y="345" width="24" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1ldxm56_di" bpmnElement="pendingConfirmation" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
-        <dc:Bounds x="510" y="440" width="100" height="80" />
+      <bpmndi:BPMNShape id="Activity_16ydzgs_di" bpmnElement="transfer-settlement-paygops" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
+        <dc:Bounds x="920" y="590" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_0esi9al_di" bpmnElement="Gateway_0esi9al" isMarkerVisible="true">
         <dc:Bounds x="765" y="455" width="50" height="50" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_16ydzgs_di" bpmnElement="transfer-settlement-paygops" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
-        <dc:Bounds x="910" y="440" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_116jc3f_di" bpmnElement="Gateway_116jc3f" isMarkerVisible="true">
         <dc:Bounds x="1135" y="455" width="50" height="50" />
@@ -176,11 +208,8 @@
           <dc:Bounds x="1106" y="622" width="8" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1lxzssl_di" bpmnElement="Event_1lxzssl" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
-        <dc:Bounds x="1442" y="462" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1421" y="513" width="78" height="14" />
-        </bpmndi:BPMNLabel>
+      <bpmndi:BPMNShape id="Activity_1t7ypla_di" bpmnElement="transfer-settlement" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
+        <dc:Bounds x="920" y="440" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1t8ddwv_di" bpmnElement="Event_1t8ddwv">
         <dc:Bounds x="562" y="422" width="36" height="36" />
