@@ -40,7 +40,7 @@
       <bpmn:outgoing>Flow_0g0aist</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="Flow_17r5yck" name="Confirmation Received" sourceRef="Gateway_0esi9al" targetRef="transfer-settlement-paygops">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=confirmationReceived = true and finalAmsVal=paygops</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=confirmationReceived = true and finalAmsVal = "paygops"</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:exclusiveGateway id="Gateway_116jc3f">
       <bpmn:incoming>Flow_1kw3y0l</bpmn:incoming>
@@ -77,7 +77,7 @@
       <bpmn:outgoing>Flow_1y2q1rx</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="Flow_0g0aist" name="Confirmation Received" sourceRef="Gateway_0esi9al" targetRef="transfer-settlement">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=confirmationReceived = true and finalAmsVal=roster</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=confirmationReceived = true and finalAmsVal = "roster"</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_1y2q1rx" sourceRef="transfer-settlement" targetRef="Gateway_116jc3f" />
   </bpmn:process>
