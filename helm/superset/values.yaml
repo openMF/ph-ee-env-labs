@@ -241,6 +241,10 @@ ph-ee-engine:
     hostname: "channel.sandbox.fynarfin.io"
     stub_hostname: "channel-gsma.sandbox.fynarfin.io"
     DFSPIDS: "gorilla,lion"
+    paygops:
+      host: http://ph-ee-connector-ams-paygops
+    roster:
+      host: http://ph-ee-connector-ams-roster
     limits:
       cpu: "500m"
       memory: "512M"
@@ -362,6 +366,12 @@ ph-ee-engine:
     callback_host: "https://mpesa.sandbox.fynarfin.io/"
     retry_count: 3
     api_timeout: 60000
+    paygops:
+      host: http://ph-ee-connector-ams-paygops
+    roster:
+      host: http://ph-ee-connector-ams-roster
+    channel:
+      host: http://ph-ee-connector-channel
     accounts:
       roster:
         name: "roster"
