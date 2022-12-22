@@ -40,7 +40,7 @@ ph-ee-engine:
         clusterName: "ph-ee-elasticsearch"
     ingress:
       enabled: false
-      className: "nginx"
+      className: "kong"
       path: /
       host: operate.sandbox.fynarfin.io
       tls:
@@ -498,7 +498,8 @@ ph-ee-engine:
     ingress:
       enabled: true
       annotations: 
-        kubernetes.io/ingress.class: "nginx"
+        kubernetes.io/ingress.class: "kong"
+        konghq.com/plugins: cors
       path: "/"
       backend:
         service:
