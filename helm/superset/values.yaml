@@ -269,7 +269,7 @@ ph-ee-engine:
 
   operations_app:
     enabled: true
-    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-ee-ops-bk"
+    image: "subhampramanik/ph-ee-operations-app-auth:1.3"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
     tenants: "gorilla,lion"
@@ -289,7 +289,7 @@ ph-ee-engine:
     ingress:
       enabled: true
       annotations:
-        kubernetes.io/ingress.class: "nginx"
+        kubernetes.io/ingress.class: "kong"
       path: "/"
       backend:
         service:
@@ -302,7 +302,7 @@ ph-ee-engine:
 
   operations_web:
     enabled: true
-    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-ops-web"
+    image: "subhampramanik/ph-ee-ops-web-auth:1.3-fyn"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
     hostname: "ops.sandbox.fynarfin.io"
@@ -316,7 +316,8 @@ ph-ee-engine:
     ingress:
       enabled: true
       annotations:
-        kubernetes.io/ingress.class: "nginx"
+        kubernetes.io/ingress.class: "kong"
+        konghq.com/plugins: request-transformer,oidc
       path: "/"
       backend:
         service:
@@ -629,16 +630,36 @@ ph-ee-engine:
       schema: "tenants"
 
   kong:
-    enabled: true
+    enabled: false
 
   keycloak:
-    enabled: true
+    enabled: false
+    fullnameOverride: "keycloak"
     ingress:
       enabled: true
       ingressClassName: "kong"
       rules:
         - host: 'keycloak.sandbox.fynarfin.io'
+          paths:
+          - path: /
+            pathType: Prefix
       tls: []
+    postgresql:
+      # If `true`, the Postgresql dependency is enabled
+      enabled: true
+      # fullnameOverride: keycloak-postgresql
+      # PostgreSQL User to create
+      postgresqlUsername: keycloak
+      # PostgreSQL Password for the new user
+      postgresqlPassword: keycloak
+      # PostgreSQL Database to create
+      postgresqlDatabase: keycloak
+      # PostgreSQL network policy configuration
+      networkPolicy:
+        enabled: false
+    extraEnv: |
+      - name: DB_ADDR
+        value: superset-postgresql
 
   wildcardhostname: "*.sandbox.fynarfin.io"
 

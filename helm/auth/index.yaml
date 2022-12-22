@@ -1,0 +1,80 @@
+apiVersion: v1
+entries:
+  keycloak:
+  - apiVersion: v2
+    appVersion: 17.0.1-legacy
+    created: "2022-11-21T05:14:30.335365+05:30"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 10.16.2
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
+    digest: fa21a73b4e08a635de4f00916519f28961d30f8080d2aa2634f502fcdb21f02a
+    home: https://www.keycloak.org/
+    icon: https://www.keycloak.org/resources/images/keycloak_icon_512px.svg
+    keywords:
+    - sso
+    - idm
+    - openid connect
+    - saml
+    - kerberos
+    - ldap
+    maintainers:
+    - email: unguiculus@gmail.com
+      name: unguiculus
+    - email: thomas.darimont+github@gmail.com
+      name: thomasdarimont
+    name: keycloak
+    sources:
+    - https://github.com/codecentric/helm-charts
+    - https://github.com/jboss-dockerfiles/keycloak
+    - https://github.com/bitnami/charts/tree/master/bitnami/postgresql
+    urls:
+    - charts/keycloak-18.3.0.tgz
+    version: 18.3.0
+  kong:
+  - apiVersion: v2
+    appVersion: "3.0"
+    created: "2022-11-21T05:14:30.344998+05:30"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.1.15
+    description: The Cloud-Native Ingress and API-management
+    digest: f3e4729ce3540bc84ce9b5fc48abf65d4a418d014762fd7780b03d80f97e9966
+    home: https://konghq.com/
+    icon: https://s3.amazonaws.com/downloads.kong/universe/assets/icon-kong-inc-large.png
+    maintainers:
+    - email: harry@konghq.com
+      name: hbagdi
+    - email: traines@konghq.com
+      name: rainest
+    name: kong
+    sources:
+    - https://github.com/Kong/charts/tree/main/charts/kong
+    urls:
+    - charts/kong-2.13.1.tgz
+    version: 2.13.1
+  ph-ee-auth:
+  - apiVersion: v1
+    appVersion: 1.0.0
+    created: "2022-11-21T05:14:30.329101+05:30"
+    dependencies:
+    - condition: kong.enabled
+      name: kong
+      repository: https://charts.konghq.com
+      version: 2.13.1
+    - condition: keycloak.enabled
+      name: keycloak
+      repository: https://codecentric.github.io/helm-charts
+      version: 18.3.0
+    description: Payment Hub Auth
+    digest: c8659f66be2d21048799aef7552529ef3daec66c8c547bdf0f32be07837cbbd7
+    name: ph-ee-auth
+    urls:
+    - ph-ee-auth-1.0.0-SNAPSHOT.tgz
+    version: 1.0.0-SNAPSHOT
+generated: "2022-11-21T05:14:30.313244+05:30"
