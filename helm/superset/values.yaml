@@ -272,7 +272,7 @@ ph-ee-engine:
     image: "subhampramanik/ph-ee-operations-app-auth"
     imageTag: "1.3"
     SPRING_PROFILES_ACTIVE: "bb"
-    tenants: "gorilla,lion"
+    tenants: "gorilla,lion, phdefault"
     hostname: "ops-bk.sandbox.fynarfin.io"
     datasource:
       username: "mifos"
