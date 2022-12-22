@@ -318,7 +318,7 @@ ph-ee-engine:
       enabled: true
       annotations:
         kubernetes.io/ingress.class: "kong"
-        konghq.com/plugins: request-transformer,oidc
+        konghq.com/plugins: request-transformer,oidc,cors
       path: "/"
       backend:
         service:
