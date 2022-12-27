@@ -630,7 +630,7 @@ ph-ee-engine:
 
   wildcardhostname: "*.sandbox.fynarfin.io"
 
-  tls: ""
+  tls: "sandbox-secret"
   
 zeebe-operate:
   ingress:
