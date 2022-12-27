@@ -43,8 +43,7 @@ ph-ee-engine:
       className: "nginx"
       path: /
       host: operate.sandbox.fynarfin.io
-      tls:
-        enabled: true
+      tls: "sandbox-secret"
 
   elasticsearch:
     enabled: true
@@ -164,8 +163,7 @@ ph-ee-engine:
         - host: analytics.sandbox.fynarfin.io
           paths:
             - path: /
-      #tls: []
-      #  - secretName: chart-example-tls
+      tls: "sandbox-secret"
       #    hosts:
       #      - chart-example.local
 
@@ -251,6 +249,7 @@ ph-ee-engine:
       enabled: true
       annotations:
         kubernetes.io/ingress.class: "nginx"
+      tls: "sandbox-secret"  
       path: "/"
       backend:
         service:
@@ -290,6 +289,7 @@ ph-ee-engine:
       enabled: true
       annotations:
         kubernetes.io/ingress.class: "nginx"
+      tls: "sandbox-secret"  
       path: "/"
       backend:
         service:
@@ -317,6 +317,7 @@ ph-ee-engine:
       enabled: true
       annotations:
         kubernetes.io/ingress.class: "nginx"
+      tls: "sandbox-secret"  
       path: "/"
       backend:
         service:
@@ -391,6 +392,7 @@ ph-ee-engine:
       enabled: true
       annotations:
         kubernetes.io/ingress.class: "nginx"
+      tls: "sandbox-secret"  
       path: "/"
       backend:
         service:
@@ -469,6 +471,7 @@ ph-ee-engine:
       enabled: true
       annotations:
         kubernetes.io/ingress.class: "nginx"
+      tls: "sandbox-secret"  
       path: "/"
       backend:
         service:
@@ -497,6 +500,7 @@ ph-ee-engine:
       enabled: true
       annotations: 
         kubernetes.io/ingress.class: "nginx"
+      tls: "sandbox-secret"  
       path: "/"
       backend:
         service:
@@ -527,6 +531,7 @@ ph-ee-engine:
       enabled: true
       annotations:
         kubernetes.io/ingress.class: "nginx"
+      tls: "sandbox-secret"  
       path: "/"
       backend:
         service:
@@ -563,6 +568,7 @@ ph-ee-engine:
       enabled: true
       annotations:
         kubernetes.io/ingress.class: "nginx"
+      tls: "sandbox-secret"  
       path: "/"
       backend:
         service:
@@ -630,7 +636,7 @@ ph-ee-engine:
 
   wildcardhostname: "*.sandbox.fynarfin.io"
 
-  tls: ""
+  tls: "sandbox-secret"
   
 zeebe-operate:
   ingress:
@@ -638,6 +644,7 @@ zeebe-operate:
     hostname: "zeebeoperate.sandbox.fynarfin.io"
     annotations:
       kubernetes.io/ingress.class: "nginx"
+    tls: "sandbox-secret"  
     path: "/"
     backend:
       service:
