@@ -329,7 +329,7 @@ ph-ee-engine:
 
   ph_ee_connector_gsma:
     enabled: true
-    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-connector-ams-paygops"
+    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-gsma"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
     limits:
