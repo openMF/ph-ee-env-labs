@@ -681,4 +681,3 @@ mock-oracle:
   deployment:
     annotations:
         deployTime: "{{ .Values.deployTime }}"
-
