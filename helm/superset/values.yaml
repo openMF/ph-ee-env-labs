@@ -43,8 +43,8 @@ ph-ee-engine:
       className: "nginx"
       path: /
       host: operate.sandbox.fynarfin.io
-      tls: 
-        - secretName: sandbox-secret
+      tls:
+        secretName: sandbox-secret
 
   elasticsearch:
     enabled: true
@@ -164,8 +164,8 @@ ph-ee-engine:
         - host: analytics.sandbox.fynarfin.io
           paths:
             - path: /
-      tls: 
-        - secretName: sandbox-secret
+      tls:
+        secretName: sandbox-secret
       #    hosts:
       #      - chart-example.local
 
@@ -251,8 +251,8 @@ ph-ee-engine:
       enabled: true
       annotations:
         kubernetes.io/ingress.class: "nginx"
-      tls: 
-        - secretName: sandbox-secret 
+      tls:
+        secretName: sandbox-secret 
       path: "/"
       backend:
         service:
@@ -292,8 +292,8 @@ ph-ee-engine:
       enabled: true
       annotations:
         kubernetes.io/ingress.class: "nginx"
-      tls: 
-        - secretName: sandbox-secret  
+      tls:
+        secretName: sandbox-secret  
       path: "/"
       backend:
         service:
@@ -321,8 +321,8 @@ ph-ee-engine:
       enabled: true
       annotations:
         kubernetes.io/ingress.class: "nginx"
-      tls: 
-        - secretName: sandbox-secret 
+      tls:
+        secretName: sandbox-secret 
       path: "/"
       backend:
         service:
@@ -397,8 +397,8 @@ ph-ee-engine:
       enabled: true
       annotations:
         kubernetes.io/ingress.class: "nginx"
-      tls: 
-        - secretName: sandbox-secret  
+      tls:
+        secretName: sandbox-secret  
       path: "/"
       backend:
         service:
@@ -477,8 +477,8 @@ ph-ee-engine:
       enabled: true
       annotations:
         kubernetes.io/ingress.class: "nginx"
-      tls: 
-        - secretName: sandbox-secret  
+      tls:
+        secretName: sandbox-secret 
       path: "/"
       backend:
         service:
@@ -507,8 +507,8 @@ ph-ee-engine:
       enabled: true
       annotations: 
         kubernetes.io/ingress.class: "nginx"
-      tls: 
-        - secretName: sandbox-secret 
+      tls:
+        secretName: sandbox-secret 
       path: "/"
       backend:
         service:
@@ -539,8 +539,8 @@ ph-ee-engine:
       enabled: true
       annotations:
         kubernetes.io/ingress.class: "nginx"
-      tls: 
-        - secretName: sandbox-secret 
+      tls:
+        secretName: sandbox-secret 
       path: "/"
       backend:
         service:
@@ -577,8 +577,8 @@ ph-ee-engine:
       enabled: true
       annotations:
         kubernetes.io/ingress.class: "nginx"
-      tls: 
-        - secretName: sandbox-secret  
+      tls:
+        secretName: sandbox-secret  
       path: "/"
       backend:
         service:
