@@ -654,7 +654,8 @@ zeebe-operate:
     hostname: "zeebeoperate.sandbox.fynarfin.io"
     annotations:
       kubernetes.io/ingress.class: "nginx"
-    tls: "sandbox-secret"  
+    tls:
+      secretName: sandbox-secret  
     path: "/"
     backend:
       service:
