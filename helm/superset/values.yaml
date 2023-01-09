@@ -155,10 +155,10 @@ ph-ee-engine:
             key: encryptionkey
     ingress:
       enabled: true
-      className: "nginx"
+      className: "kong"
       pathtype: ImplementationSpecific
       annotations: {}
-      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/ingress.class: kong
       # kubernetes.io/tls-acme: "true" 
       hosts:
         - host: analytics.sandbox.fynarfin.io
@@ -250,7 +250,7 @@ ph-ee-engine:
     ingress:
       enabled: true
       annotations:
-        kubernetes.io/ingress.class: "nginx"
+        kubernetes.io/ingress.class: "kong"
       tls:
         - secretName: sandbox-secret
       path: "/"
@@ -398,7 +398,7 @@ ph-ee-engine:
     ingress:
       enabled: true
       annotations:
-        kubernetes.io/ingress.class: "nginx"
+        kubernetes.io/ingress.class: "kong"
       tls:
         - secretName: sandbox-secret 
       path: "/"
@@ -478,7 +478,7 @@ ph-ee-engine:
     ingress:
       enabled: true
       annotations:
-        kubernetes.io/ingress.class: "nginx"
+        kubernetes.io/ingress.class: "kong"
       tls:
         - secretName: sandbox-secret
       path: "/"
@@ -541,7 +541,7 @@ ph-ee-engine:
     ingress:
       enabled: true
       annotations:
-        kubernetes.io/ingress.class: "nginx"
+        kubernetes.io/ingress.class: "kong"
       tls:
         - secretName: sandbox-secret
       path: "/"
@@ -579,7 +579,7 @@ ph-ee-engine:
     ingress:
       enabled: true
       annotations:
-        kubernetes.io/ingress.class: "nginx"
+        kubernetes.io/ingress.class: "kong"
       tls:
         - secretName: sandbox-secret
       path: "/"
@@ -683,7 +683,7 @@ zeebe-operate:
     enabled: true
     hostname: "zeebeoperate.sandbox.fynarfin.io"
     annotations:
-      kubernetes.io/ingress.class: "nginx"
+      kubernetes.io/ingress.class: "kong"
     tls:
       - secretName: sandbox-secret 
     path: "/"
@@ -703,7 +703,7 @@ mock-oracle:
     enabled: true
     path: "/"
     annotations:
-        kubernetes.io/ingress.class: "nginx"
+        kubernetes.io/ingress.class: "kong"
     backend:
       service:
           name: mock-oracle
