@@ -44,7 +44,7 @@ ph-ee-engine:
       path: /
       host: operate.sandbox.fynarfin.io
       tls:
-        enabled: true
+        - secretName: sandbox-secret
 
   elasticsearch:
     enabled: true
@@ -164,8 +164,8 @@ ph-ee-engine:
         - host: analytics.sandbox.fynarfin.io
           paths:
             - path: /
-      #tls: []
-      #  - secretName: chart-example-tls
+      tls:
+        - secretName: sandbox-secret
       #    hosts:
       #      - chart-example.local
 
@@ -251,6 +251,8 @@ ph-ee-engine:
       enabled: true
       annotations:
         kubernetes.io/ingress.class: "nginx"
+      tls:
+        - secretName: sandbox-secret
       path: "/"
       backend:
         service:
@@ -291,6 +293,8 @@ ph-ee-engine:
       annotations:
         kubernetes.io/ingress.class: "kong"
         konghq.com/plugins: cors
+      tls:
+        - secretName: sandbox-secret 
       path: "/"
       backend:
         service:
@@ -319,6 +323,8 @@ ph-ee-engine:
       annotations:
         kubernetes.io/ingress.class: "kong"
         konghq.com/plugins: request-transformer,oidc,cors
+      tls:
+        - secretName: sandbox-secret 
       path: "/"
       backend:
         service:
@@ -393,6 +399,8 @@ ph-ee-engine:
       enabled: true
       annotations:
         kubernetes.io/ingress.class: "nginx"
+      tls:
+        - secretName: sandbox-secret 
       path: "/"
       backend:
         service:
@@ -471,6 +479,8 @@ ph-ee-engine:
       enabled: true
       annotations:
         kubernetes.io/ingress.class: "nginx"
+      tls:
+        - secretName: sandbox-secret
       path: "/"
       backend:
         service:
@@ -500,6 +510,8 @@ ph-ee-engine:
       annotations: 
         kubernetes.io/ingress.class: "kong"
         konghq.com/plugins: cors
+      tls:
+        - secretName: sandbox-secret
       path: "/"
       backend:
         service:
@@ -530,6 +542,8 @@ ph-ee-engine:
       enabled: true
       annotations:
         kubernetes.io/ingress.class: "nginx"
+      tls:
+        - secretName: sandbox-secret
       path: "/"
       backend:
         service:
@@ -566,6 +580,8 @@ ph-ee-engine:
       enabled: true
       annotations:
         kubernetes.io/ingress.class: "nginx"
+      tls:
+        - secretName: sandbox-secret
       path: "/"
       backend:
         service:
@@ -646,26 +662,21 @@ ph-ee-engine:
           - path: /
             pathType: Prefix
       tls: []
-    postgresql:
-      # If `true`, the Postgresql dependency is enabled
-      enabled: true
-      # fullnameOverride: keycloak-postgresql
-      # PostgreSQL User to create
-      postgresqlUsername: keycloak
-      # PostgreSQL Password for the new user
-      postgresqlPassword: keycloak
-      # PostgreSQL Database to create
-      postgresqlDatabase: keycloak
-      # PostgreSQL network policy configuration
-      networkPolicy:
-        enabled: false
+    extraVolumes: |
+      - name: realm-secret
+        secret:
+          secretName: realm-secret
+    extraVolumeMounts: |
+      - name: realm-secret
+        mountPath: "/realm/"
+        readOnly: true
     extraEnv: |
-      - name: DB_ADDR
-        value: superset-postgresql
+      - name: KEYCLOAK_IMPORT
+        value: /realm/realm.json
 
   wildcardhostname: "*.sandbox.fynarfin.io"
 
-  tls: ""
+  tls: "sandbox-secret"
   
 zeebe-operate:
   ingress:
@@ -673,6 +684,8 @@ zeebe-operate:
     hostname: "zeebeoperate.sandbox.fynarfin.io"
     annotations:
       kubernetes.io/ingress.class: "nginx"
+    tls:
+      - secretName: sandbox-secret 
     path: "/"
     backend:
       service:
