@@ -40,7 +40,7 @@ ph-ee-engine:
         clusterName: "ph-ee-elasticsearch"
     ingress:
       enabled: false
-      className: "nginx"
+      className: "kong"
       path: /
       host: operate.sandbox.fynarfin.io
       tls:
@@ -155,10 +155,10 @@ ph-ee-engine:
             key: encryptionkey
     ingress:
       enabled: true
-      className: "nginx"
+      className: "kong"
       pathtype: ImplementationSpecific
       annotations: {}
-      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/ingress.class: kong
       # kubernetes.io/tls-acme: "true" 
       hosts:
         - host: analytics.sandbox.fynarfin.io
@@ -250,7 +250,7 @@ ph-ee-engine:
     ingress:
       enabled: true
       annotations:
-        kubernetes.io/ingress.class: "nginx"
+        kubernetes.io/ingress.class: "kong"
       tls:
         - secretName: sandbox-secret
       path: "/"
@@ -271,10 +271,10 @@ ph-ee-engine:
 
   operations_app:
     enabled: true
-    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-ee-ops-bk"
-    imageTag: latest
+    image: "subhampramanik/ph-ee-operations-app-auth"
+    imageTag: "1.3"
     SPRING_PROFILES_ACTIVE: "bb"
-    tenants: "gorilla,lion"
+    tenants: "gorilla,lion, phdefault"
     hostname: "ops-bk.sandbox.fynarfin.io"
     datasource:
       username: "mifos"
@@ -291,7 +291,8 @@ ph-ee-engine:
     ingress:
       enabled: true
       annotations:
-        kubernetes.io/ingress.class: "nginx"
+        kubernetes.io/ingress.class: "kong"
+        konghq.com/plugins: cors
       tls:
         - secretName: sandbox-secret 
       path: "/"
@@ -306,8 +307,8 @@ ph-ee-engine:
 
   operations_web:
     enabled: true
-    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-ops-web"
-    imageTag: latest
+    image: "subhampramanik/ph-ee-ops-web-auth"
+    imageTag: "1.3-fyn"
     SPRING_PROFILES_ACTIVE: "bb"
     hostname: "ops.sandbox.fynarfin.io"
     webhost: "ops.sandbox.fynarfin.io"
@@ -320,7 +321,8 @@ ph-ee-engine:
     ingress:
       enabled: true
       annotations:
-        kubernetes.io/ingress.class: "nginx"
+        kubernetes.io/ingress.class: "kong"
+        konghq.com/plugins: request-transformer,oidc,cors
       tls:
         - secretName: sandbox-secret 
       path: "/"
@@ -396,7 +398,7 @@ ph-ee-engine:
     ingress:
       enabled: true
       annotations:
-        kubernetes.io/ingress.class: "nginx"
+        kubernetes.io/ingress.class: "kong"
       tls:
         - secretName: sandbox-secret 
       path: "/"
@@ -476,7 +478,7 @@ ph-ee-engine:
     ingress:
       enabled: true
       annotations:
-        kubernetes.io/ingress.class: "nginx"
+        kubernetes.io/ingress.class: "kong"
       tls:
         - secretName: sandbox-secret
       path: "/"
@@ -506,7 +508,8 @@ ph-ee-engine:
     ingress:
       enabled: true
       annotations: 
-        kubernetes.io/ingress.class: "nginx"
+        kubernetes.io/ingress.class: "kong"
+        konghq.com/plugins: cors
       tls:
         - secretName: sandbox-secret
       path: "/"
@@ -538,7 +541,7 @@ ph-ee-engine:
     ingress:
       enabled: true
       annotations:
-        kubernetes.io/ingress.class: "nginx"
+        kubernetes.io/ingress.class: "kong"
       tls:
         - secretName: sandbox-secret
       path: "/"
@@ -576,7 +579,7 @@ ph-ee-engine:
     ingress:
       enabled: true
       annotations:
-        kubernetes.io/ingress.class: "nginx"
+        kubernetes.io/ingress.class: "kong"
       tls:
         - secretName: sandbox-secret
       path: "/"
@@ -644,6 +647,32 @@ ph-ee-engine:
       port: 3306
       schema: "tenants"
 
+  kong:
+    enabled: true
+
+  keycloak:
+    enabled: true
+    ingress:
+      enabled: true
+      ingressClassName: "kong"
+      rules:
+        - host: 'keycloak.sandbox.fynarfin.io'
+          paths:
+          - path: /
+            pathType: Prefix
+      tls: []
+    extraVolumes: |
+      - name: realm-secret
+        secret:
+          secretName: realm-secret
+    extraVolumeMounts: |
+      - name: realm-secret
+        mountPath: "/realm/"
+        readOnly: true
+    extraEnv: |
+      - name: KEYCLOAK_IMPORT
+        value: /realm/realm.json
+
   wildcardhostname: "*.sandbox.fynarfin.io"
 
   tls: "sandbox-secret"
@@ -653,7 +682,7 @@ zeebe-operate:
     enabled: true
     hostname: "zeebeoperate.sandbox.fynarfin.io"
     annotations:
-      kubernetes.io/ingress.class: "nginx"
+      kubernetes.io/ingress.class: "kong"
     tls:
       - secretName: sandbox-secret 
     path: "/"
@@ -673,7 +702,7 @@ mock-oracle:
     enabled: true
     path: "/"
     annotations:
-        kubernetes.io/ingress.class: "nginx"
+        kubernetes.io/ingress.class: "kong"
     backend:
       service:
           name: mock-oracle
@@ -682,3 +711,4 @@ mock-oracle:
   deployment:
     annotations:
         deployTime: "{{ .Values.deployTime }}"
+
