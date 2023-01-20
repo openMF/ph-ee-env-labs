@@ -485,6 +485,7 @@ ph-ee-engine:
     SPRING_PROFILES_ACTIVE: "bb"
     imageTag: latest
     tenant: "rhino,gorilla"
+    hostname: "bulk-connector.mifos.g2pconnect.io"
     ingress:
       enabled: true
       annotations: 
