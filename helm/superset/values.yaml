@@ -271,7 +271,7 @@ ph-ee-engine:
 
   operations_app:
     enabled: true
-    image: "subhampramanik/ph-ee-operations-app-auth"
+    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-ee-ops-bk"
     imageTag: "1.3"
     SPRING_PROFILES_ACTIVE: "bb"
     tenants: "gorilla,lion, phdefault"
@@ -307,7 +307,7 @@ ph-ee-engine:
 
   operations_web:
     enabled: true
-    image: "subhampramanik/ph-ee-ops-web-auth"
+    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-ops-web"
     imageTag: "1.3-fyn"
     SPRING_PROFILES_ACTIVE: "bb"
     hostname: "ops.sandbox.fynarfin.io"
