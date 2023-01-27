@@ -193,6 +193,7 @@ ph-ee-engine:
     enabled: true
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ams"
     imageTag: latest
+    imagePullPolicy: "Always"
     SPRING_PROFILES_ACTIVE: "fin12,bb"
     ams_local_enabled: false
     ams_local_interop_host: "https://fynams.mifos.g2pconnect.io/"
