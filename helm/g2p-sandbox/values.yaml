@@ -74,7 +74,7 @@ ph-ee-engine:
 
     #Single Node Solution
     clusterHealthCheckParams: "wait_for_status=yellow&timeout=100s"
-    protocol: https
+    protocol: http
     master:
       readinessProbe:
         httpGet:
@@ -120,6 +120,7 @@ ph-ee-engine:
       timeoutSeconds: 15
       successThreshold: 1
     enabled: true
+    protocol: http
     imageTag: 7.16.3
     kibanaConfig:
       kibana.yml: |
