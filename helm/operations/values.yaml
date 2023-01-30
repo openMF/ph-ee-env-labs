@@ -1,4 +1,8 @@
 grafana:
   ingress:
     enabled: true
+    className: "nginx"
     hosts: ["grafana.sandbox.fynarfin.io"]
+    path: /
+    tls:
+      - secretName: sandbox-secret
