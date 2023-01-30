@@ -250,7 +250,7 @@ ph-ee-engine:
     ingress:
       enabled: true
       annotations:
-        kubernetes.io/ingress.class: "kong"
+        kubernetes.io/ingress.class: "nginx"
       tls:
         - secretName: sandbox-secret
       path: "/"
@@ -290,6 +290,7 @@ ph-ee-engine:
       memory: "256M"
     ingress:
       enabled: true
+      className: "kong"
       annotations:
         kubernetes.io/ingress.class: "kong"
         konghq.com/plugins: cors
@@ -398,7 +399,7 @@ ph-ee-engine:
     ingress:
       enabled: true
       annotations:
-        kubernetes.io/ingress.class: "kong"
+        kubernetes.io/ingress.class: "nginx"
       tls:
         - secretName: sandbox-secret 
       path: "/"
@@ -478,7 +479,7 @@ ph-ee-engine:
     ingress:
       enabled: true
       annotations:
-        kubernetes.io/ingress.class: "kong"
+        kubernetes.io/ingress.class: "nginx"
       tls:
         - secretName: sandbox-secret
       path: "/"
@@ -541,7 +542,7 @@ ph-ee-engine:
     ingress:
       enabled: true
       annotations:
-        kubernetes.io/ingress.class: "kong"
+        kubernetes.io/ingress.class: "nginx"
       tls:
         - secretName: sandbox-secret
       path: "/"
@@ -579,7 +580,7 @@ ph-ee-engine:
     ingress:
       enabled: true
       annotations:
-        kubernetes.io/ingress.class: "kong"
+        kubernetes.io/ingress.class: "nginx"
       tls:
         - secretName: sandbox-secret
       path: "/"
@@ -702,7 +703,7 @@ mock-oracle:
     enabled: true
     path: "/"
     annotations:
-        kubernetes.io/ingress.class: "kong"
+        kubernetes.io/ingress.class: "nginx"
     backend:
       service:
           name: mock-oracle
