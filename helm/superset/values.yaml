@@ -249,6 +249,7 @@ ph-ee-engine:
       memory: "256M"
     ingress:
       enabled: true
+      className: "nginx"
       annotations:
         kubernetes.io/ingress.class: "nginx"
       tls:
@@ -320,6 +321,7 @@ ph-ee-engine:
       cpu: "100m"
       memory: "256M"
     ingress:
+      className: "kong"
       enabled: true
       annotations:
         kubernetes.io/ingress.class: "kong"
@@ -398,6 +400,7 @@ ph-ee-engine:
       memory: "256M"
     ingress:
       enabled: true
+      className: "nginx"
       annotations:
         kubernetes.io/ingress.class: "nginx"
       tls:
@@ -508,6 +511,7 @@ ph-ee-engine:
       memory: "256M"
     ingress:
       enabled: true
+      className: "kong"
       annotations: 
         kubernetes.io/ingress.class: "kong"
         konghq.com/plugins: cors
@@ -541,6 +545,7 @@ ph-ee-engine:
       memory: "256M"
     ingress:
       enabled: true
+      className: "nginx"
       annotations:
         kubernetes.io/ingress.class: "nginx"
       tls:
@@ -579,6 +584,7 @@ ph-ee-engine:
       memory: "256M"
     ingress:
       enabled: true
+      className: "nginx"
       annotations:
         kubernetes.io/ingress.class: "nginx"
       tls:
@@ -682,6 +688,7 @@ zeebe-operate:
   ingress:
     enabled: true
     hostname: "zeebeoperate.sandbox.fynarfin.io"
+    className: "kong"
     annotations:
       kubernetes.io/ingress.class: "kong"
     tls:
@@ -702,6 +709,7 @@ mock-oracle:
   ingress:
     enabled: true
     path: "/"
+    className: "nginx"
     annotations:
         kubernetes.io/ingress.class: "nginx"
     backend:
