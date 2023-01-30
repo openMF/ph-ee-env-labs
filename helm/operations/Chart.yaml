@@ -7,8 +7,10 @@ appVersion: 1.0.0
 
 dependencies:
 - name: prometheus-community/prometheus
+  repository: https://prometheus-community.github.io/helm-charts
   version: 13.5.0
 
 - name: grafana
+  repository: https://grafana.github.io/helm-charts
   version: 6.5.0
 
