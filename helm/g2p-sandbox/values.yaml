@@ -191,6 +191,8 @@ ph-ee-engine:
 
   ph_ee_connector_ams_mifos:
     enabled: true
+    imagePullSecrets:
+      - name: dockersecret  
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ams"
     imageTag: latest
     imagePullPolicy: "Always"
@@ -212,6 +214,8 @@ ph-ee-engine:
 
   ph_ee_connector_mojaloop:
     enabled: true
+    imagePullSecrets:
+      - name: dockersecret
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-mojaloop"
     SPRING_PROFILES_ACTIVE: "bb"
     limits:
@@ -242,6 +246,8 @@ ph-ee-engine:
 
   channel:
     enabled: true
+    imagePullSecrets:
+      - name: dockersecret
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-channel"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
@@ -276,6 +282,8 @@ ph-ee-engine:
 
   operations_app:
     enabled: true
+    imagePullSecrets:
+      - name: dockersecret
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-ee-ops-bk"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
@@ -309,6 +317,8 @@ ph-ee-engine:
 
   operations_web:
     enabled: true
+    imagePullSecrets:
+      - name: dockersecret
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-ops-web"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
@@ -336,6 +346,8 @@ ph-ee-engine:
 
   ph_ee_connector_gsma:
     enabled: true
+    imagePullSecrets:
+      - name: dockersecret
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-gsma"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
@@ -351,6 +363,8 @@ ph-ee-engine:
 
   ph_ee_connector_slcb:
     enabled: true
+    imagePullSecrets:
+      - name: dockersecret
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-ee-slcb"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
@@ -360,6 +374,8 @@ ph-ee-engine:
 
   mpesa:
     enabled: false
+    imagePullSecrets:
+      - name: dockersecret
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-mpesa"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
@@ -412,6 +428,8 @@ ph-ee-engine:
 
   roster_connector:
     enabled: false
+    imagePullSecrets:
+      - name: dockersecret
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-roster"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
@@ -432,6 +450,8 @@ ph-ee-engine:
 
   paygops_connector:
     enabled: false
+    imagePullSecrets:
+      - name: dockersecret
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-connector-ams-paygops"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
@@ -454,6 +474,8 @@ ph-ee-engine:
 
   notifications:
     enabled: true
+    imagePullSecrets:
+      - name: dockersecret
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-ee-notifications"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
@@ -488,6 +510,8 @@ ph-ee-engine:
 
   connector_bulk:
     enabled: true
+    imagePullSecrets:
+      - name: dockersecret
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-bulk-processor"
     SPRING_PROFILES_ACTIVE: "bb"
     imageTag: latest
@@ -509,6 +533,8 @@ ph-ee-engine:
         
   zeebe_ops:
     enabled: true
+    imagePullSecrets:
+      - name: dockersecret
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-zeebe-ops"
     imageTag: latest
     hostname: "zeebeops.mifos.g2pconnect.io"
@@ -573,6 +599,8 @@ ph-ee-engine:
             number: 80
 
   importer_es:
+    imagePullSecrets:
+      - name: dockersecret
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-es-importer"
     imageTag: latest
     elasticsearch_sslverification: false
@@ -614,6 +642,8 @@ ph-ee-engine:
 
   importer_rdbms:
     enabled: true
+    imagePullSecrets:
+      - name: dockersecret
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-importer-rdbms"
     imageTag: latest
     LOGGING_LEVEL_ROOT: "DEBUG"
