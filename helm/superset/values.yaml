@@ -204,8 +204,9 @@ ph-ee-engine:
         deployTime: "{{ .Values.deployTime }}"
 
   ph_ee_connector_mojaloop:
-    enabled: false
-    image: "shanidkh/ph-ee:ph-ee-connector-mojaloop-java"
+    enabled: true
+    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-mojaloop"
+    imageTag: "latest"
     SPRING_PROFILES_ACTIVE: "bb"
     limits:
       cpu: "500m"
@@ -500,7 +501,7 @@ ph-ee-engine:
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-bulk-processor"
     SPRING_PROFILES_ACTIVE: "bb"
     imageTag: latest
-    tenant: "gorilla,lion"
+    tenants: "gorilla,lion"
     hostname: "bulk-connector.sandbox.fynarfin.io"
     SPRING_PROFILES_ACTIVE: "<issue: wasnot present earlier but it is in deployment>"
     limits:
