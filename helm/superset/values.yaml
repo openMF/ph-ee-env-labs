@@ -198,6 +198,17 @@ ph-ee-engine:
     AMS_local_customer_host : "https://fynams.mifos.g2pconnect.io"
     AMS_local_account_host : "https://fynams.mifos.g2pconnect.io"
     AMS_local_auth_host : "https://fynams.mifos.g2pconnect.io"
+    AMS_local_tenants: 
+      - name: "gorilla"
+        user: "mifos"
+        password: "password"
+        authtype: "basic"
+        fspId: "in02tn03"
+      - name: "lion"
+        user: "mifos"
+        password: "password"
+        authtype: "basic"
+        fspId: "in02tn04"
     limits:
       cpu: "500m"
       memory: "512M"
