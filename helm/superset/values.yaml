@@ -155,9 +155,10 @@ ph-ee-engine:
             key: encryptionkey
     ingress:
       enabled: true
-      className: "kong"
+      className: "nginx"
       pathtype: ImplementationSpecific
-      annotations: {}
+      annotations:
+        kubernetes.io/ingress.class: "nginx"
       # kubernetes.io/ingress.class: kong
       # kubernetes.io/tls-acme: "true" 
       hosts:
