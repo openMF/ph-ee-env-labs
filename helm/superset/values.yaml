@@ -194,6 +194,10 @@ ph-ee-engine:
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-ee-ams"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "fin12,bb"
+    AMS_local_iterop_host : "https://fynams.mifos.g2pconnect.io"
+    AMS_local_customer_host : "https://fynams.mifos.g2pconnect.io"
+    AMS_local_account_host : "https://fynams.mifos.g2pconnect.io"
+    AMS_local_auth_host : "https://fynams.mifos.g2pconnect.io"
     limits:
       cpu: "500m"
       memory: "512M"
