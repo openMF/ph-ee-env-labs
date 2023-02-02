@@ -242,8 +242,7 @@ ph-ee-engine:
 
   channel:
     enabled: true
-    imagePullSecrets:
-      - name: "dockersecret"
+    imagePullSecrets: "dockersecret"
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-channel"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
@@ -541,8 +540,7 @@ ph-ee-engine:
 
   messagegateway:
     enabled: true
-    imagePullSecrets:
-      - name: "dockersecret"
+    imagePullSecrets: "dockersecret"
     imagePullSecrets:
       - name: dockersecret
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-message-gateway"
