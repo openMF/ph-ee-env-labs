@@ -247,7 +247,7 @@ ph-ee-engine:
   channel:
     enabled: true
     imagePullSecrets:
-      - name: dockersecret
+      - name: dockersecrettest
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-channel"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
