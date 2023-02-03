@@ -74,7 +74,7 @@ ph-ee-engine:
 
     #Single Node Solution
     clusterHealthCheckParams: "wait_for_status=yellow&timeout=100s"
-    protocol: https
+    protocol: http
     master:
       readinessProbe:
         httpGet:
@@ -120,13 +120,14 @@ ph-ee-engine:
       timeoutSeconds: 15
       successThreshold: 1
     enabled: true
+    elasticsearchHosts: "https://ph-ee-elasticsearch:9200/"
     imageTag: 7.16.3
     kibanaConfig:
       kibana.yml: |
         monitoring.enabled: false
         xpack.encryptedSavedObjects.encryptionKey: 5f4dcc3b5aa765d61d8327deb882cf99
         server.ssl:
-          enabled: true
+          enabled: false
           key: /usr/share/kibana/config/certs/elastic-certificate.pem
           certificate: /usr/share/kibana/config/certs/elastic-certificate.pem
         xpack.security.encryptionKey: ${KIBANA_ENCRYPTION_KEY}
@@ -550,6 +551,7 @@ ph-ee-engine:
     imageTag: latest
     hostname: "zeebeops.sandbox.fynarfin.io"
     zeebe_broker_contactpoint: "zeebe-zeebe-gateway:26500"
+    elasticsearch_url: "http://ph-ee-elasticsearch:9200/"
     elasticsearch_contactpoint: "ph-ee-elasticsearch:9200"
     tenants: "gorilla,lion"
     elasticsearch_sslverification: false
@@ -618,6 +620,7 @@ ph-ee-engine:
     imageTag: latest
     elasticsearch_sslverification: false
     elasticsearch_security_enabled: false
+    importer_elasticsearch_url: "http://ph-ee-elasticsearch:9200/"
     reporting:
       enabled: true
       fields:
