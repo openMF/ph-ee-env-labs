@@ -158,7 +158,7 @@ ph-ee-engine:
       enabled: true
       pathtype: ImplementationSpecific
       annotations:
-        kubernetes.io/ingress.class: "nginx"
+        kubernetes.io/ingress.class: nginx
       # kubernetes.io/ingress.class: kong
       # kubernetes.io/tls-acme: "true" 
       hosts:
