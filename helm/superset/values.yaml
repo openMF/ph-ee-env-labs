@@ -713,7 +713,7 @@ ph-ee-engine:
         readOnly: true
     extraEnv: |
       - name: KEYCLOAK_IMPORT
-        value: /realm/realm.json
+        value: /realm/kong-keycloak-realm.json
 
   wildcardhostname: "*.sandbox.fynarfin.io"
 
