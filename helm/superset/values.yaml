@@ -368,7 +368,7 @@ ph-ee-engine:
           port:
             number: 4200
     deployment:
-      config:
+      config: {}
 
   identity:
     hostname: "ops-bk.sandbox.fynarfin.io"
