@@ -691,9 +691,9 @@ ph-ee-engine:
 
   kong:
     enabled: true
-    ingress:
-      enabled: true
-      hostname: 'kong-admin.sandbox.fynarfin.io'
+    admin:
+      ingress:
+        hostname: 'kong-admin.sandbox.fynarfin.io'
 
   keycloak:
     enabled: true
