@@ -693,6 +693,7 @@ ph-ee-engine:
     enabled: true
     admin:
       ingress:
+        ingressClassName: "kong"
         hostname: 'kong-admin.sandbox.fynarfin.io'
 
   keycloak:
