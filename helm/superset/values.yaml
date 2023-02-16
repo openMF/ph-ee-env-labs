@@ -691,10 +691,71 @@ ph-ee-engine:
 
   kong:
     enabled: true
+    image:
+      repository: revomatico/docker-kong-oidc
+      tag: "latest"
+    env:
+      plugins: "bundled,oidc"
     admin:
+      enabled: true
+      http:
+        enabled: true
+      tls:
+        enabled: false
       ingress:
+        enabled: true
         ingressClassName: "kong"
-        hostname: 'kong-admin.sandbox.fynarfin.io'
+        hostname: admin-kong.sandbox.fynarfin.io
+    extraObjects:
+      - apiVersion: configuration.konghq.com/v1
+        kind: KongClusterPlugin
+        metadata:
+          name: request-transformer
+          annotations:
+            kubernetes.io/ingress.class: "kong"
+          labels:
+            global: "false"
+        disabled: false # optionally disable the plugin in Kong
+        plugin: request-transformer
+        config:
+          remove:
+            headers:
+            - cookie
+            - x-id-token
+      - apiVersion: configuration.konghq.com/v1
+        kind: KongClusterPlugin
+        metadata:
+          name: cors
+          annotations:
+            kubernetes.io/ingress.class: "kong"
+          labels:
+            global: "true"    
+        disabled: false # optionally disable the plugin in Kong
+        plugin: cors
+        config: 
+          origins: 
+            - "*"
+          credentials: true
+          max_age: 3600
+          exposed_headers : 
+            - "X-Auth-Token"
+          preflight_continue: false
+      - apiVersion: configuration.konghq.com/v1
+        kind: KongClusterPlugin
+        metadata:
+          name: oidc
+          annotations:
+            kubernetes.io/ingress.class: "kong"
+          labels:
+            global: "false"
+        disabled: false # optionally disable the plugin in Kong
+        plugin: oidc
+        config: # configuration for the plugin
+          client_id: kong-oidc 
+          client_secret: xxxxxxxx  # Generated on keyCloak
+          realm: kong
+          discovery: https://keycloak.sandbox.fynarfin.io/auth/realms/kong-oidc/.well-known/openid-configuration
+          scope: openid
 
   keycloak:
     enabled: true
@@ -717,7 +778,7 @@ ph-ee-engine:
         readOnly: true
     extraEnv: |
       - name: KEYCLOAK_IMPORT
-        value: /realm/kong-keycloak-realm.json
+        value: /realm/realm.json
 
   wildcardhostname: "*.sandbox.fynarfin.io"
 
