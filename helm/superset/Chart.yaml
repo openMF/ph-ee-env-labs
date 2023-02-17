@@ -9,4 +9,4 @@ appVersion: 1.16.0
 dependencies:
 - name: ph-ee-engine
   repository: https://fynarfin.io/images/
-  version: 1.4.2-SNAPSHOT
+  version: 1.4.3-SNAPSHOT
