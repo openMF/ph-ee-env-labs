@@ -205,7 +205,7 @@ ph-ee-engine:
         password: "password"
         authtype: "basic"
         fspId: "in02tn03"
-      - name: "lion"
+      - name: "rhino"
         user: "mifos"
         password: "password"
         authtype: "basic"
