@@ -120,7 +120,7 @@ ph-ee-engine:
       timeoutSeconds: 15
       successThreshold: 1
     enabled: true
-    elasticsearchHosts: "https://ph-ee-elasticsearch:9200/"
+    elasticsearchHosts: "http://ph-ee-elasticsearch:9200/"
     imageTag: 7.16.3
     kibanaConfig:
       kibana.yml: |
