@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" id="Definitions_1b1vg26" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Zeebe Modeler" exporterVersion="0.11.0">
+  <bpmn:process id="notification-messagegateway" name="notification_workflow" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" name="Start">
+      <bpmn:outgoing>Flow_15uootm</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="transaction_failure" name="Create Failure Notification">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="transaction_failure" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1u7ucg9</bpmn:incoming>
+      <bpmn:outgoing>Flow_0akswzz</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="transaction_success" name="Create Success Notification">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="transaction_success" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_14gmi9e</bpmn:incoming>
+      <bpmn:outgoing>Flow_1wskj7z</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_1r5p3pq">
+      <bpmn:incoming>Flow_15uootm</bpmn:incoming>
+      <bpmn:outgoing>Flow_1u7ucg9</bpmn:outgoing>
+      <bpmn:outgoing>Flow_14gmi9e</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_15uootm" sourceRef="StartEvent_1" targetRef="Gateway_1r5p3pq" />
+    <bpmn:sequenceFlow id="Flow_1u7ucg9" name="Creating Failure Message" sourceRef="Gateway_1r5p3pq" targetRef="transaction_failure">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=messageType = "Failure"</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_14gmi9e" name="Creating Success Message" sourceRef="Gateway_1r5p3pq" targetRef="transaction_success">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=messageType = "Success"</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:serviceTask id="mg_send_message" name="Send Message">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="mg_send_message" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1gbi3yj</bpmn:incoming>
+      <bpmn:outgoing>Flow_1dji8d0</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1dji8d0" name="Pushing message to Kafka" sourceRef="mg_send_message" targetRef="mg_wait_callback" />
+    <bpmn:receiveTask id="mg_wait_callback" name="Waiting for Message Status Callback" messageRef="Message_1045x5t">
+      <bpmn:incoming>Flow_1dji8d0</bpmn:incoming>
+      <bpmn:incoming>Flow_1oqsdl3</bpmn:incoming>
+      <bpmn:outgoing>Flow_0782qbr</bpmn:outgoing>
+    </bpmn:receiveTask>
+    <bpmn:serviceTask id="mg_get_mannual_status" name="Get Message Status">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="mg_get_mannual_status" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_00cpsfi</bpmn:incoming>
+      <bpmn:outgoing>Flow_1oqsdl3</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_00cpsfi" name="Fetching Message Status Manually" sourceRef="Event_04wweyd" targetRef="mg_get_mannual_status" />
+    <bpmn:sequenceFlow id="Flow_1oqsdl3" sourceRef="mg_get_mannual_status" targetRef="mg_wait_callback" />
+    <bpmn:exclusiveGateway id="Gateway_18nkdvh" default="Flow_1xxeoal">
+      <bpmn:incoming>Flow_0782qbr</bpmn:incoming>
+      <bpmn:incoming>Flow_0pbzsu9</bpmn:incoming>
+      <bpmn:outgoing>Flow_1xxeoal</bpmn:outgoing>
+      <bpmn:outgoing>Flow_08cyftd</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0782qbr" sourceRef="mg_wait_callback" targetRef="Gateway_18nkdvh" />
+    <bpmn:endEvent id="failure" name="Send SMS Failure">
+      <bpmn:incoming>Flow_1xxeoal</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1xxeoal" name="Message Delivery Failed" sourceRef="Gateway_18nkdvh" targetRef="failure" />
+    <bpmn:sequenceFlow id="Flow_08cyftd" name="Message Delivery Success" sourceRef="Gateway_18nkdvh" targetRef="success">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=isMessageDelivered = true</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:endEvent id="success" name="Send SMS Success">
+      <bpmn:incoming>Flow_08cyftd</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:boundaryEvent id="Event_04wweyd" attachedToRef="mg_wait_callback">
+      <bpmn:outgoing>Flow_00cpsfi</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_0idj7k7">
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">= timer</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:boundaryEvent>
+    <bpmn:exclusiveGateway id="Gateway_02rsjr0">
+      <bpmn:incoming>Flow_0akswzz</bpmn:incoming>
+      <bpmn:incoming>Flow_1wskj7z</bpmn:incoming>
+      <bpmn:outgoing>Flow_0bq0nnn</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1gbi3yj</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0bq0nnn" name="Sending Email" sourceRef="Gateway_02rsjr0" targetRef="mg_sendemail">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=deliveryEmail</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:serviceTask id="mg_sendemail" name="Send Email">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="mg_sendemail" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0bq0nnn</bpmn:incoming>
+      <bpmn:outgoing>Flow_1m0r3mw</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:receiveTask id="mg_email_callback" name="Waiting for Email Status Callback" messageRef="Message_1045x5t">
+      <bpmn:incoming>Flow_1m0r3mw</bpmn:incoming>
+      <bpmn:incoming>Flow_1ufp9u5</bpmn:incoming>
+      <bpmn:outgoing>Flow_0pbzsu9</bpmn:outgoing>
+    </bpmn:receiveTask>
+    <bpmn:boundaryEvent id="Event_08vfopw" attachedToRef="mg_email_callback">
+      <bpmn:outgoing>Flow_1ep0xt6</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_1ggatdo">
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">= timer</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="Flow_1m0r3mw" name="Pushing message to Kafka" sourceRef="mg_sendemail" targetRef="mg_email_callback" />
+    <bpmn:serviceTask id="mg_get_email_status" name="Get Email Status">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="notification-service" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1ep0xt6</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ufp9u5</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1ufp9u5" sourceRef="mg_get_email_status" targetRef="mg_email_callback" />
+    <bpmn:sequenceFlow id="Flow_0pbzsu9" sourceRef="mg_email_callback" targetRef="Gateway_18nkdvh" />
+    <bpmn:sequenceFlow id="Flow_1ep0xt6" name="Fetching Message Status Manually" sourceRef="Event_08vfopw" targetRef="mg_get_email_status" />
+    <bpmn:sequenceFlow id="Flow_0akswzz" sourceRef="transaction_failure" targetRef="Gateway_02rsjr0" />
+    <bpmn:sequenceFlow id="Flow_1gbi3yj" name="Sending SMS" sourceRef="Gateway_02rsjr0" targetRef="mg_send_message">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=deliveryMessage != null</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1wskj7z" sourceRef="transaction_success" targetRef="Gateway_02rsjr0" />
+  </bpmn:process>
+  <bpmn:message id="Message_1045x5t" name="notification-request">
+    <bpmn:extensionElements>
+      <zeebe:subscription correlationKey="=transactionId" />
+    </bpmn:extensionElements>
+  </bpmn:message>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="notification-messagegateway">
+      <bpmndi:BPMNEdge id="Flow_0akswzz_di" bpmnElement="Flow_0akswzz">
+        <di:waypoint x="530" y="240" />
+        <di:waypoint x="605" y="240" />
+        <di:waypoint x="605" y="370" />
+        <di:waypoint x="725" y="370" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1gbi3yj_di" bpmnElement="Flow_1gbi3yj">
+        <di:waypoint x="775" y="370" />
+        <di:waypoint x="960" y="370" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="835" y="352" width="68" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1wskj7z_di" bpmnElement="Flow_1wskj7z">
+        <di:waypoint x="530" y="510" />
+        <di:waypoint x="600" y="510" />
+        <di:waypoint x="600" y="370" />
+        <di:waypoint x="725" y="370" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ep0xt6_di" bpmnElement="Flow_1ep0xt6">
+        <di:waypoint x="1202" y="520" />
+        <di:waypoint x="1110" y="520" />
+        <di:waypoint x="1110" y="710" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1015" y="606" width="90" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0pbzsu9_di" bpmnElement="Flow_0pbzsu9">
+        <di:waypoint x="1300" y="480" />
+        <di:waypoint x="1460" y="480" />
+        <di:waypoint x="1460" y="395" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ufp9u5_di" bpmnElement="Flow_1ufp9u5">
+        <di:waypoint x="1190" y="750" />
+        <di:waypoint x="1290" y="750" />
+        <di:waypoint x="1290" y="520" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1m0r3mw_di" bpmnElement="Flow_1m0r3mw">
+        <di:waypoint x="1060" y="480" />
+        <di:waypoint x="1200" y="480" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1087" y="446" width="88" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0bq0nnn_di" bpmnElement="Flow_0bq0nnn">
+        <di:waypoint x="750" y="395" />
+        <di:waypoint x="750" y="480" />
+        <di:waypoint x="960" y="480" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="833" y="463" width="71" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_08cyftd_di" bpmnElement="Flow_08cyftd">
+        <di:waypoint x="1485" y="370" />
+        <di:waypoint x="1690" y="370" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1536" y="336" width="88" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1xxeoal_di" bpmnElement="Flow_1xxeoal">
+        <di:waypoint x="1460" y="345" />
+        <di:waypoint x="1460" y="158" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1466" y="196" width="88" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0782qbr_di" bpmnElement="Flow_0782qbr">
+        <di:waypoint x="1300" y="370" />
+        <di:waypoint x="1435" y="370" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1oqsdl3_di" bpmnElement="Flow_1oqsdl3">
+        <di:waypoint x="1110" y="180" />
+        <di:waypoint x="1110" y="340" />
+        <di:waypoint x="1200" y="340" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_00cpsfi_di" bpmnElement="Flow_00cpsfi">
+        <di:waypoint x="1280" y="312" />
+        <di:waypoint x="1280" y="140" />
+        <di:waypoint x="1160" y="140" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1195" y="106" width="90" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1dji8d0_di" bpmnElement="Flow_1dji8d0">
+        <di:waypoint x="1060" y="370" />
+        <di:waypoint x="1200" y="370" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1087" y="383" width="88" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_14gmi9e_di" bpmnElement="Flow_14gmi9e">
+        <di:waypoint x="320" y="415" />
+        <di:waypoint x="320" y="510" />
+        <di:waypoint x="430" y="510" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="327" y="526" width="87" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1u7ucg9_di" bpmnElement="Flow_1u7ucg9">
+        <di:waypoint x="320" y="365" />
+        <di:waypoint x="320" y="240" />
+        <di:waypoint x="430" y="240" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="322" y="206" width="79" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_15uootm_di" bpmnElement="Flow_15uootm">
+        <di:waypoint x="215" y="390" />
+        <di:waypoint x="295" y="390" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <dc:Bounds x="179" y="372" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="185" y="415" width="24" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1gcogi3_di" bpmnElement="transaction_failure" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <dc:Bounds x="430" y="200" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1wujko1_di" bpmnElement="transaction_success" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <dc:Bounds x="430" y="470" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1r5p3pq_di" bpmnElement="Gateway_1r5p3pq" isMarkerVisible="true">
+        <dc:Bounds x="295" y="365" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_10skyf0_di" bpmnElement="mg_send_message" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <dc:Bounds x="960" y="330" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_06v8hbk_di" bpmnElement="mg_wait_callback" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <dc:Bounds x="1200" y="330" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0j2aet3_di" bpmnElement="mg_get_mannual_status" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <dc:Bounds x="1060" y="100" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_18nkdvh_di" bpmnElement="Gateway_18nkdvh" isMarkerVisible="true">
+        <dc:Bounds x="1435" y="345" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1f63c50_di" bpmnElement="failure" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
+        <dc:Bounds x="1442" y="122" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1417" y="92" width="90" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_12xy75f_di" bpmnElement="success" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <dc:Bounds x="1690" y="352" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1683" y="395" width="53" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_02rsjr0_di" bpmnElement="Gateway_02rsjr0" isMarkerVisible="true">
+        <dc:Bounds x="725" y="345" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0ja5flh_di" bpmnElement="mg_sendemail" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <dc:Bounds x="960" y="440" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0gdd9n5_di" bpmnElement="mg_email_callback" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <dc:Bounds x="1200" y="440" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0h331on_di" bpmnElement="mg_get_email_status" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <dc:Bounds x="1090" y="710" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_08vfopw_di" bpmnElement="Event_08vfopw">
+        <dc:Bounds x="1202" y="502" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_04wweyd_di" bpmnElement="Event_04wweyd">
+        <dc:Bounds x="1262" y="312" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
