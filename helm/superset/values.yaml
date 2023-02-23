@@ -479,7 +479,7 @@ ph-ee-engine:
     SPRING_PROFILES_ACTIVE: "bb"
     ams:
       local:
-        enabled: false
+        enabled: true
     pesacore:
       auth_header: "PaymentHub"
     limits:
