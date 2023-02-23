@@ -1,5 +1,5 @@
 apiVersion: v2
-name: ph-ee-superset
+name: ph-ee-superset-release
 description: PaymentHub EE Barebone Edition
 
 type: application
@@ -7,6 +7,6 @@ version: 0.2.0
 appVersion: 1.16.0
 
 dependencies:
-- name: ph-ee-engine
+- name: ph-ee-superset
   repository: https://fynarfin.io/images/
-  version: 1.4.3-SNAPSHOT
+  version: 0.2.0
