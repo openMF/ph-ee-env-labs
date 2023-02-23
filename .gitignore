@@ -1,5 +1,3 @@
-charts/
-*.iml
-**/*.lock
-
-.DS_Store
+# Default ignored files
+/shelf/
+.idea/*
