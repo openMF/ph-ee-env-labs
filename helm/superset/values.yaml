@@ -566,7 +566,7 @@ ph-ee-engine:
       memory: "256M"
     ingress:
       enabled: true
-      className: "kong"
+      className: "nginx"
       annotations: 
         kubernetes.io/ingress.class: "kong"
         konghq.com/plugins: cors
