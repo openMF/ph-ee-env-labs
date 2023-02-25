@@ -568,7 +568,7 @@ ph-ee-engine:
       enabled: true
       className: "nginx"
       annotations: 
-        kubernetes.io/ingress.class: "kong"
+        kubernetes.io/ingress.class: "nginx"
         konghq.com/plugins: cors
       tls:
         - secretName: sandbox-secret
