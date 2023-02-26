@@ -10,3 +10,7 @@ dependencies:
 - name: ph-ee-superset
   repository: "file://../superset"
   version: 0.2.0
+- name: ph-ee-engine
+  repository: https://fynarfin.io/images/
+  version: 1.5.1
+  
