@@ -4,7 +4,7 @@ description: PaymentHub EE Barebone Edition
 
 type: application
 version: 1.0.0
-appVersion: 1.16.0
+appVersion: "ph-ee-superset: 1.16.0; ph-ee-engine: 1.16.0"
 
 dependencies:
 - name: ph-ee-superset
