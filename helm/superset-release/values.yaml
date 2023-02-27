@@ -1,6 +1,3 @@
-ph-ee-engine:
-  ph_ee_connector_mojaloop:
-    imageTag: "2.0.0"
 ph-ee-superset:
   ph-ee-engine:
 
