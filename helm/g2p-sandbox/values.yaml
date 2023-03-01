@@ -4,7 +4,7 @@ ph-ee-engine:
       contactpoint: "zeebe-zeebe-gateway:26500"
 
   elasticsearch:
-    enabled: true
+    enabled: false
     replicas: 1
     imageTag: 7.16.3
     minimumMasterNodes: 1
@@ -76,7 +76,7 @@ ph-ee-engine:
       initialDelaySeconds: 45
       timeoutSeconds: 15
       successThreshold: 1
-    enabled: true
+    enabled: false
     protocol: http
     imageTag: 7.16.3
     kibanaConfig:
@@ -201,7 +201,7 @@ ph-ee-engine:
     image: "spotify/kafka"
     advertised:
       host: "kafka"
-      port: "9092"
+      port: "9093"
     limits:
       cpu: "500m"
       memory: "1G"
@@ -545,6 +545,7 @@ ph-ee-engine:
   importer_es:
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-es-importer"
     imageTag: latest
+    enable: false
     elasticsearch_sslverification: false
     elasticsearch_security_enabled: false
     reporting:
@@ -583,7 +584,7 @@ ph-ee-engine:
       memory: "256M"
 
   importer_rdbms:
-    enabled: true
+    enabled: false
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-importer-rdbms"
     imageTag: latest
     LOGGING_LEVEL_ROOT: "DEBUG"
@@ -604,16 +605,4 @@ ph-ee-engine:
 
   tls: ""
   
-zeebe-operate:
-  ingress:
-    enabled: true
-    hostname: "zeebeoperate.mifos.g2pconnect.io"
-    annotations:
-      kubernetes.io/ingress.class: "nginx"
-    path: "/"
-    backend:
-      service:
-        name: "zeebe-operate"
-        port:
-          number: 80
 
