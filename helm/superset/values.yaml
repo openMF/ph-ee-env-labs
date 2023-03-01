@@ -294,6 +294,17 @@ ph-ee-engine:
     hostname: "channel.sandbox.fynarfin.io"
     stub_hostname: "channel-gsma.sandbox.fynarfin.io"
     DFSPIDS: "gorilla,lion"
+    operations:
+      url: "http://ops-bk.sandbox.fynarfin.io/api/v1"
+      authEnabled: false
+    tenantPrimary:
+      clientId: "mifos"
+      clientSecret: "password"
+      tenant: "rhino"
+    tenantSecondary:
+      clientId: "mifos"
+      clientSecret: "password"
+      tenant: "gorilla"
     limits:
       cpu: "500m"
       memory: "512M"
