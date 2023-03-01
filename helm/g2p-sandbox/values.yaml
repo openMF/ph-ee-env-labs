@@ -197,7 +197,7 @@ ph-ee-engine:
         deployTime: "{{ .Values.deployTime }}"
 
   kafka:
-    enabled: true
+    enabled: false
     image: "spotify/kafka"
     advertised:
       host: "kafka"
