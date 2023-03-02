@@ -46,7 +46,7 @@ ph-ee-superset:
       imageTag: "v1.0.2"
 
     connector_bulk:
-      imageTag: "v1.4.0"
+      imageTag: "v1.4.1"
 
     zeebe_ops:
       imageTag: "v1.0.2"
