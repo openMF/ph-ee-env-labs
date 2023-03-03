@@ -4,7 +4,7 @@ ph-ee-engine:
       contactpoint: "zeebe-zeebe-gateway:26500"
 
   elasticsearch:
-    enabled: false
+    enabled: true
     replicas: 1
     imageTag: 7.16.3
     minimumMasterNodes: 1
@@ -197,7 +197,7 @@ ph-ee-engine:
         deployTime: "{{ .Values.deployTime }}"
 
   kafka:
-    enabled: false
+    enabled: true
     image: "spotify/kafka"
     advertised:
       host: "kafka"
@@ -214,8 +214,8 @@ ph-ee-engine:
 
   channel:
     enabled: true
-    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-channel"
-    imageTag: latest
+    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-channel-test"
+    imageTag: test
     SPRING_PROFILES_ACTIVE: "bb"
     hostname: "channel.mifos.g2pconnect.io"
     stub_hostname: "channel-gsma.mifos.g2pconnect.io"
@@ -322,7 +322,7 @@ ph-ee-engine:
         deployTime: "{{ .Values.deployTime }}"
 
   ph_ee_connector_slcb:
-    enabled: true
+    enabled: false
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-ee-slcb"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
@@ -480,7 +480,7 @@ ph-ee-engine:
         deployTime: "{{ .Values.deployTime }}"
         
   zeebe_ops:
-    enabled: true
+    enabled: false
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-zeebe-ops"
     imageTag: latest
     hostname: "zeebeops.mifos.g2pconnect.io"
@@ -545,7 +545,7 @@ ph-ee-engine:
   importer_es:
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-es-importer"
     imageTag: latest
-    enable: false
+    enable: true
     elasticsearch_sslverification: false
     elasticsearch_security_enabled: false
     reporting:
@@ -584,7 +584,7 @@ ph-ee-engine:
       memory: "256M"
 
   importer_rdbms:
-    enabled: false
+    enabled: true
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-importer-rdbms"
     imageTag: latest
     LOGGING_LEVEL_ROOT: "DEBUG"
