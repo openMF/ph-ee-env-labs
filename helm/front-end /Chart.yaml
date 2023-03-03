@@ -10,7 +10,7 @@ dependencies:
   repository: "file://../superset-release"
   version: 0.2.0
 - name: fin-engine
-  repository: "https://fynarfin.io/images/"
+  repository: "https://fynarfin.io/images/fineract/"
   version: 1.0.0-SNAPSHOT
 - name: operations
   repository: "file://../operations"
