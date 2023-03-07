@@ -175,6 +175,7 @@ ph-ee-engine:
     enabled: true
 
   operationsmysql:
+    enabled: false
     auth:
       database: "tenants"
       username: "mifos"
@@ -343,9 +344,9 @@ ph-ee-engine:
     tenants: "gorilla,lion, phdefault"
     hostname: "ops-bk.sandbox.fynarfin.io"
     datasource:
-      username: "mifos"
+      username: "admin"
       password: "password"
-      host: "operationsmysql"
+      host: "database-1.cxf9e4k8f3ml.us-east-2.rds.amazonaws.com"
       port: 3306
       schema: "tenants"
     limits:
