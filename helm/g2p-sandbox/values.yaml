@@ -76,7 +76,7 @@ ph-ee-engine:
       initialDelaySeconds: 45
       timeoutSeconds: 15
       successThreshold: 1
-    enabled: false
+    enabled: true
     protocol: http
     imageTag: 7.16.3
     kibanaConfig:
@@ -197,7 +197,7 @@ ph-ee-engine:
         deployTime: "{{ .Values.deployTime }}"
 
   kafka:
-    enabled: true
+    enabled: false
     image: "spotify/kafka"
     advertised:
       host: "kafka"
