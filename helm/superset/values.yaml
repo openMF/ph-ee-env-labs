@@ -344,8 +344,8 @@ ph-ee-engine:
     tenants: "gorilla,lion, phdefault"
     hostname: "ops-bk.sandbox.fynarfin.io"
     datasource:
-      username: "admin"
-      password: "password"
+      username: "mifos"
+      password: "PASSWORD"
       host: "database-1.cxf9e4k8f3ml.us-east-2.rds.amazonaws.com"
       port: 3306
       schema: "tenants"
@@ -641,7 +641,7 @@ ph-ee-engine:
     CALLBACKCONFIG_HOST: "ph-ee-connector-notifications"
     HOSTCONFIG_HOST: "message-gateway"
     MYSQL_USERNAME: "mifos"
-    MYSQL_PASSWORD: "password"
+    MYSQL_PASSWORD: "PASSWORD"
     DATASOURCE_URL: jdbc:mysql:thin://operationsmysql:3306/messagegateway
     PROVIDERSOURCE_FROMDATABASE: "disabled"
     PROVIDERSOURCE_FROMYML: "enabled"
