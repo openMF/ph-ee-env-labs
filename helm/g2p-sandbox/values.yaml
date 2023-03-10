@@ -211,6 +211,8 @@ ph-ee-engine:
     deployment:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
+        field.cattle.io/publicEndpoints: >-
+          [{"port":30093,"protocol":"TCP","serviceName":"zeebetest:kafka","allNodes":true}]
 
   channel:
     enabled: true
