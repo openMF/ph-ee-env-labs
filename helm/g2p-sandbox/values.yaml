@@ -201,7 +201,7 @@ ph-ee-engine:
     image: "spotify/kafka"
     advertised:
       host: "kafka"
-      port: "9093"
+      port: "9092"
     limits:
       cpu: "500m"
       memory: "1G"
@@ -211,10 +211,6 @@ ph-ee-engine:
     deployment:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
-    metadata:
-      annotations:
-        field.cattle.io/publicEndpoints: >-
-          [{"port":30093,"protocol":"TCP","serviceName":"zeebetest:kafka","allNodes":true}]
 
   channel:
     enabled: true
