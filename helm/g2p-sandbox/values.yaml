@@ -247,7 +247,7 @@ ph-ee-engine:
 
 
   operations_app:
-    enabled: false
+    enabled: true
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-ee-ops-bk"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
@@ -280,7 +280,7 @@ ph-ee-engine:
         deployTime: "{{ .Values.deployTime }}"
 
   operations_web:
-    enabled: false
+    enabled: true
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-ops-web"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
@@ -480,7 +480,7 @@ ph-ee-engine:
         deployTime: "{{ .Values.deployTime }}"
         
   zeebe_ops:
-    enabled: false
+    enabled: true
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-zeebe-ops"
     imageTag: latest
     hostname: "zeebeops.mifos.g2pconnect.io"
