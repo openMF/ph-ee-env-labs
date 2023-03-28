@@ -232,7 +232,7 @@ ph-ee-engine:
     imageTag: "latest"
     SPRING_PROFILES_ACTIVE: "bb"
     hostname: "mojaloop.sandbox.fynarfin.io"
-    DFSPIDS: "gorilla,lion"
+    DFSPIDS: "gorilla,rhino"
     switch:
       quotes:
         host: "http://quoting-service.sandbox.fynarfin.io"
@@ -241,8 +241,8 @@ ph-ee-engine:
         host: "http://account-lookup-service.sandbox.fynarfin.io"
         service: "account-lookup-service.local"
       transfers:
-        host: "http://ml-api-adapter.sandbox.fynarfin.io"
-        service: "ml-api-adapter.sandbox.fynarfin.io"
+        host: "http://api-adapter.sandbox.fynarfin.io"
+        service: "api-adapter.sandbox.fynarfin.io"
       transactions:
         host: "http://ml-api-adapter.sandbox.fynarfin.io"
         service: "ml-api-adapter.sandbox.fynarfin.io"
