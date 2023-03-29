@@ -675,6 +675,13 @@ ph-ee-engine:
       fields:
         amount: true
         accountId: true
+        ams: true
+        clientCorrelationId: true
+        currency: true
+        customData:
+          enabled: false
+          confirmationReceived: false
+        errorInformation: true
         errorCode: false
         errorDescription: true
         externalId: true
