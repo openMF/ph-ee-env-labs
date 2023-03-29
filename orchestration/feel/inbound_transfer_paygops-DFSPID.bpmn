@@ -68,7 +68,7 @@
     </bpmn:boundaryEvent>
     <bpmn:sequenceFlow id="Flow_1oum6u4" name="confirmationRequestReceived" sourceRef="pendingConfirmation" targetRef="Gateway_0esi9al" />
     <bpmn:sequenceFlow id="Flow_0w8uoju" sourceRef="delete-workflow-instancekey" targetRef="End" />
-    <bpmn:serviceTask id="delete-workflow-instancekey" name="Workflow Instance Key Removal">
+    <bpmn:serviceTask id="delete-workflow-instancekey" name="Clearance">
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="delete-workflow-instancekey" />
       </bpmn:extensionElements>
