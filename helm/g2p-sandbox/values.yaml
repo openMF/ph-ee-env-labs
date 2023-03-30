@@ -220,6 +220,9 @@ ph-ee-engine:
     hostname: "channel.mifos.g2pconnect.io"
     stub_hostname: "channel-gsma.mifos.g2pconnect.io"
     DFSPIDS: "rhino,gorilla"
+    zeebe:
+      broker:
+        contactpoint: "zeebetest-zeebe-gateway:26500"
     limits:
       cpu: "500m"
       memory: "512M"
