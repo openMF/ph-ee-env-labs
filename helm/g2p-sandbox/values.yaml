@@ -1,7 +1,7 @@
 ph-ee-engine:
   zeebe:
     broker:
-      contactpoint: "zeebe-zeebe-gateway:26500"
+      contactpoint: "zeebetest-zeebe-gateway:26500"
 
   elasticsearch:
     enabled: true
