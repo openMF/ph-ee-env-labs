@@ -448,7 +448,7 @@ ph-ee-engine:
     retry_count: 3
     api_timeout: 60000
     channel:
-      host: "http://channel.sandbox.fynarfin.io"
+      host: "http://ph-ee-connector-channel"
     paygops:
       host: "http://ph-ee-connector-ams-paygops"
     roster:
