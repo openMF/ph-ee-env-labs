@@ -1,0 +1,428 @@
+ph-ee-engine:
+  zeebe:
+    broker:
+      contactpoint: "zeebetest-zeebe-gateway:26500"
+
+  #Old zeebe configuration to be replaced with camunda-platform:zeebe/zeebe gateway:<paramname>
+#  zeebe-cluster-helm:
+#    global:
+#      elasticsearch:
+#        host: "ph-ee-elasticsearch"
+#    image:
+#      repository: camunda/zeebe
+#      tag: 1.1.0
+#
+#    clusterSize: "1"
+#    partitionCount: "1"
+#    replicationFactor: "1"
+#    JavaOpts: "-Xms8g -Xmx8g -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:MaxRAMPercentage=25.0 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -XX:+PrintFlagsFinal"
+#
+#    elasticsearch:
+#      enabled: false
+#    kibana:
+#      enabled: false
+#
+#    extraInitContainers: |
+#      - name: init-ph-ee-kafka-exporter
+#        image: busybox:1.28
+#        command: ['/bin/sh', '-c']
+#        args: ['wget -O /exporters/ph-ee-kafka-exporter.jar "https://paymenthub-ee-dev.s3.us-east-2.amazonaws.com/jars/exporter-1.0.0-SNAPSHOT.jar"; ls -al /exporters/']
+#        volumeMounts:
+#        - name: exporters
+#          mountPath: /exporters/
+
+  elasticsearch:
+    enabled: true
+    replicas: 1
+    imageTag: 7.16.3
+    minimumMasterNodes: 1
+    esConfig:
+      elasticsearch.yml: |
+        xpack.security.enabled: false
+        xpack.security.transport.ssl.enabled: false
+        xpack.security.transport.ssl.verification_mode: certificate
+        xpack.security.transport.ssl.keystore.path: /usr/share/elasticsearch/config/certs/elastic-certificates.p12
+        xpack.security.transport.ssl.truststore.path: /usr/share/elasticsearch/config/certs/elastic-certificates.p12
+        xpack.security.http.ssl.enabled: false
+        xpack.security.http.ssl.truststore.path: /usr/share/elasticsearch/config/certs/elastic-certificates.p12
+        xpack.security.http.ssl.keystore.path: /usr/share/elasticsearch/config/certs/elastic-certificates.p12
+    secretMounts:
+      - name: elastic-certificates
+        secretName: elastic-certificates
+        path: /usr/share/elasticsearch/config/certs
+    extraEnvs:
+      - name: ELASTIC_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: elastic-credentials
+            key: password
+
+    #Single Node Solution
+    clusterHealthCheckParams: "wait_for_status=yellow&timeout=100s"
+    protocol: http
+    master:
+      readinessProbe:
+        httpGet:
+          allow-insecure: true
+          username: elastic
+          password: "{{ .Env.ELASTIC_PASSWORD }}"
+          path: /_cluster/health?wait_for_status=yellow&timeout=5s
+          port: 9200
+        initialDelaySeconds: 30
+    data:
+      readinessProbe:
+        httpGet:
+          allow-insecure: true
+          username: elastic
+          password: "{{ .Env.ELASTIC_PASSWORD }}"
+          path: /_cluster/health?wait_for_status=yellow&timeout=5s
+          port: 9200
+        initialDelaySeconds: 30
+
+
+
+    # Shrink default JVM heap.
+    esJavaOpts: "-Xmx512m -Xms512m"
+
+    # Allocate smaller chunks of memory per pod.
+    resources:
+      requests:
+        cpu: "100m"
+        memory: "1024M"
+      limits:
+        cpu: "1000m"
+        memory: "1024M"
+    volumeClaimTemplate:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "gp2"
+      resources:
+        requests:
+          storage: 10Gi
+
+  kibana:
+    readinessProbe:
+      initialDelaySeconds: 45
+      timeoutSeconds: 15
+      successThreshold: 1
+    enabled: true
+    protocol: http
+    imageTag: 7.16.3
+    kibanaConfig:
+      kibana.yml: |
+        monitoring.enabled: false
+        xpack.encryptedSavedObjects.encryptionKey: 5f4dcc3b5aa765d61d8327deb882cf99
+        server.ssl:
+          enabled: false
+          key: /usr/share/kibana/config/certs/elastic-certificate.pem
+          certificate: /usr/share/kibana/config/certs/elastic-certificate.pem
+        xpack.security.encryptionKey: ${KIBANA_ENCRYPTION_KEY}
+        elasticsearch.ssl:
+          certificateAuthorities: /usr/share/kibana/config/certs/elastic-certificate.pem
+          verificationMode: certificate
+    secretMounts:
+      - name: elastic-certificate-pem
+        secretName: elastic-certificate-pem
+        path: /usr/share/kibana/config/certs
+    extraEnvs:
+      - name: 'ELASTICSEARCH_USERNAME'
+        valueFrom:
+          secretKeyRef:
+            name: elastic-credentials
+            key: username
+      - name: 'ELASTICSEARCH_PASSWORD'
+        valueFrom:
+          secretKeyRef:
+            name: elastic-credentials
+            key: password
+      - name: 'KIBANA_ENCRYPTION_KEY'
+        valueFrom:
+          secretKeyRef:
+            name: kibana
+            key: encryptionkey
+    ingress:
+      enabled: true
+      className: "nginx"
+      pathtype: ImplementationSpecific
+      annotations: {}
+      kubernetes.io/ingress.class: nginx
+      kubernetes.io/tls-acme: "true" 
+      hosts:
+        - host: analytics2.sandbox.fynarfin.io
+          paths:
+            - path: /
+      #tls: []
+      #  - secretName: chart-example-tls
+      #    hosts:
+      #      - chart-example.local
+
+  operations:
+    enabled: true
+
+  operationsmysql:
+    auth:
+      database: "tenants"
+      username: "mifos"
+      password: "password"
+      rootPassword: "ethieTieCh8ahv"
+    initdbScripts:
+      setup.sql: |-
+        CREATE DATABASE messagegateway;
+        CREATE DATABASE `rhino`;
+        CREATE DATABASE `gorilla`;
+        GRANT ALL PRIVILEGES ON `rhino`.* TO 'mifos';
+        GRANT ALL PRIVILEGES ON `gorilla`.* TO 'mifos';
+        GRANT ALL ON *.* TO 'root'@'%';
+        GRANT ALL PRIVILEGES ON messagegateway.* TO 'mifos';
+
+  ph_ee_connector_ams_mifos:
+    enabled: true
+    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-ee-ams"
+    imageTag: latest
+    imagePullPolicy: "Always"
+    SPRING_PROFILES_ACTIVE: "fin12,bb"
+    ams_local_enabled: false
+    ams_local_interop_host: "https://fynams2.sandbox.fynarfin.io/"
+    ams_local_account_host: "https://fynams2.sandbox.fynarfin.io/"
+    ams_local_customer_host: "https://fynams2.sandbox.fynarfin.io/"
+    ams_local_auth_host: "https://fynams2.sandbox.fynarfin.io/"
+    limits:
+      cpu: "500m"
+      memory: "512M"
+    requests:
+      cpu: "100m"
+      memory: "256M"
+    deployment:
+      annotations:
+        deployTime: "{{ .Values.deployTime }}"
+
+  ph_ee_connector_mojaloop:
+    enabled: false
+
+  kafka:
+    enabled: true
+    image: "spotify/kafka"
+    advertised:
+      host: "kafka"
+      port: "9092"
+    limits:
+      cpu: "500m"
+      memory: "1G"
+    requests:
+      cpu: "100m"
+      memory: "512M"
+    deployment:
+      annotations:
+        deployTime: "{{ .Values.deployTime }}"
+
+  channel:
+    enabled: true
+    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-channel-test"
+    imageTag: test
+    SPRING_PROFILES_ACTIVE: "bb"
+    hostname: "channel2.sandbox.fynarfin.io"
+    stub_hostname: "channel-gsma2.sandbox.fynarfin.io"
+    DFSPIDS: "rhino,gorilla"
+    zeebe:
+      broker:
+        contactpoint: "zeebetest-zeebe-gateway:26500"
+    limits:
+      cpu: "500m"
+      memory: "512M"
+    requests:
+      cpu: "100m"
+      memory: "256M"
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: "nginx"
+      path: "/"
+      backend:
+        service:
+          name: ph-ee-connector-channel
+          port:
+            number: 80
+      stub_backend:
+        service:
+          name: ph-ee-connector-channel
+          port:
+            number: 82
+    deployment:
+      annotations:
+        deployTime: "{{ .Values.deployTime }}"
+
+  operations_app:
+    enabled: true
+    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-ee-ops-bk"
+    imageTag: latest
+    SPRING_PROFILES_ACTIVE: "bb"
+    tenants: "rhino,gorilla"
+    hostname: "ops-bk2.sandbox.fynarfin.io"
+    datasource:
+      username: "mifos"
+      password: "password"
+      host: "operationsmysql"
+      port: 3306
+      schema: "tenants"
+    limits:
+      cpu: "500m"
+      memory: "512M"
+    requests:
+      cpu: "100m"
+      memory: "256M"
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: "nginx"
+      path: "/"
+      backend:
+        service:
+          name: ph-ee-operations-app
+          port:
+            number: 80
+    deployment:
+      annotations:
+        deployTime: "{{ .Values.deployTime }}"
+
+  operations_web:
+    enabled: true
+    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-ops-web"
+    imageTag: latest
+    SPRING_PROFILES_ACTIVE: "bb"
+    hostname: "ops2.sandbox.fynarfin.io"
+    webhost: "ops2.sandbox.fynarfin.io"
+    limits:
+      cpu: "500m"
+      memory: "512M"
+    requests:
+      cpu: "100m"
+      memory: "256M"
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: "nginx"
+      path: "/"
+      backend:
+        service:
+          name: ph-ee-operations-web
+          port:
+            number: 4200
+
+  identity:
+    hostname: "ops-bk2.sandbox.fynarfin.io"
+
+  ph_ee_connector_gsma:
+    enabled: false
+
+  ph_ee_connector_slcb:
+    enabled: false
+
+  mpesa:
+    enabled: false
+
+  roster_connector:
+    enabled: false
+
+  paygops_connector:
+    enabled: false
+
+  notifications:
+    enabled: false
+
+  connector_bulk:
+    enabled: false
+        
+  zeebe_ops:
+    enabled: true
+    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-zeebe-ops"
+    imageTag: latest
+    hostname: "zeebeops2.sandbox.fynarfin.io"
+    zeebe_broker_contactpoint: "zeebetest-zeebe-gateway:26500"
+    elasticsearch_contactpoint: "ph-ee-elasticsearch:9200"
+    tenants: "rhino,gorilla"
+    elasticsearch_sslverification: false
+    elasticsearch_security_enabled: false
+    limits:
+      cpu: "500m"
+      memory: "512M"
+    requests:
+      cpu: "100m"
+      memory: "256M"
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: "nginx"
+      path: "/"
+      backend:
+        service:
+          name: ph-ee-zeebe-ops
+          port:
+            number: 80
+    deployment:
+      annotations:
+        deployTime: "{{ .Values.deployTime }}"
+
+  messagegateway:
+    enabled: false
+
+  importer_es:
+    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-es-importer"
+    imageTag: latest
+    enabled: true
+    elasticsearch_sslverification: false
+    elasticsearch_security_enabled: false
+    reporting:
+      enabled: false
+      fields:
+        amount: true
+        accountId: true
+        errorCode: false
+        errorDescription: true
+        externalId: true
+        initiator: false
+        initiatorType: false
+        isNotificationsFailureEnabled: false
+        isNotificationsSuccessEnabled: false
+        mpesaTransactionId: false
+        mpesaTransactionStatusRetryCount: false
+        originDate: false
+        partyLookupFailed: false
+        phoneNumber: true
+        processDefinitionKey: false
+        processInstanceKey: true
+        scenario: false
+        tenantId: false
+        timer: false
+        timestamp: true
+        transactionFailed: false
+        transactionId: false
+        transferCreateFailed: false
+        transferSettlementFailed: false
+        transferResponseCREATE: false
+    limits:
+      cpu: "500m"
+      memory: "512M"
+    requests:
+      cpu: "100m"
+      memory: "256M"
+
+  importer_rdbms:
+    enabled: true
+    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-importer-rdbms"
+    imageTag: latest
+    LOGGING_LEVEL_ROOT: "DEBUG"
+    limits:
+      cpu: "500m"
+      memory: "512M"
+    requests:
+      cpu: "100m"
+      memory: "256M"
+    datasource:
+      username: "mifos"
+      password: "password"
+      host: "operationsmysql"
+      port: 3306
+      schema: "tenants"
+
+  wildcardhostname: "*.sandbox.fynarfin.io"
+
+  tls: ""
