@@ -324,10 +324,10 @@ ph-ee-engine:
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-mpesa"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
-    hostname: "mpesa.sandbox.fynarfin.io"
-    tenant: "lion"
-    zeebe_broker_contactpoint: "zeebe-zeebe-gateway:26500"
-    callback_host: "https://mpesa.sandbox.fynarfin.io/"
+    hostname: "mpesa2.sandbox.fynarfin.io"
+    tenant: "rhino"
+    zeebe_broker_contactpoint: "zeebetest-zeebe-gateway:26500"
+    callback_host: "https://mpesa2.sandbox.fynarfin.io/"
     retry_count: 3
     api_timeout: 60000
     channel:
@@ -393,6 +393,7 @@ ph-ee-engine:
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-roster"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
+    zeebe_broker_contactpoint: "zeebetest-zeebe-gateway:26500"
     ams:
       local:
         enabled: true
