@@ -183,7 +183,7 @@ ph-ee-engine:
     imageTag: latest
     imagePullPolicy: "Always"
     SPRING_PROFILES_ACTIVE: "fin12"
-    ams_local_enabled: false
+    ams_local_enabled: true
     ams_local_interop_host: "https://fynams2.sandbox.fynarfin.io/"
     ams_local_account_host: "https://fynams2.sandbox.fynarfin.io/"
     ams_local_customer_host: "https://fynams2.sandbox.fynarfin.io/"
