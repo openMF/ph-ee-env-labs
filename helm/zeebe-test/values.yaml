@@ -179,7 +179,7 @@ ph-ee-engine:
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-ee-ams"
     imageTag: latest
     imagePullPolicy: "Always"
-    SPRING_PROFILES_ACTIVE: "fin12,bb"
+    SPRING_PROFILES_ACTIVE: "fin12"
     ams_local_enabled: false
     ams_local_interop_host: "https://fynams2.sandbox.fynarfin.io/"
     ams_local_account_host: "https://fynams2.sandbox.fynarfin.io/"
