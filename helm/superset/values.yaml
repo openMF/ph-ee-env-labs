@@ -2,6 +2,14 @@ ph-ee-engine:
   zeebe:
     broker:
       contactpoint: "zeebe-zeebe-gateway:26500"
+
+  # Whether this chart should self-manage its service account, role, and associated role binding.
+  managedServiceAccount: true
+  # Custom service account override that the pod will use
+  serviceAccount: ""    
+  # Annotations to add to the ServiceAccount that is created if the serviceAccount value isn't set.
+  serviceAccountAnnotations: {}   
+
   zeebe-cluster-helm:
     global:
       elasticsearch:
