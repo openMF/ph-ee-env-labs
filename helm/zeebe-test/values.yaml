@@ -322,7 +322,7 @@ ph-ee-engine:
   mpesa:
     enabled: true
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-mpesa"
-    imageTag: latest
+    imageTag: v1.3.1
     SPRING_PROFILES_ACTIVE: "bb"
     hostname: "mpesa2.sandbox.fynarfin.io"
     tenant: "rhino"
