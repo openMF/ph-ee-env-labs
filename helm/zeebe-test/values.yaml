@@ -219,8 +219,8 @@ ph-ee-engine:
 
   channel:
     enabled: true
-    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-channel-test"
-    imageTag: test
+    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-channel"
+    imageTag: v1.4.1
     SPRING_PROFILES_ACTIVE: "bb"
     hostname: "channel2.sandbox.fynarfin.io"
     stub_hostname: "channel-gsma2.sandbox.fynarfin.io"
