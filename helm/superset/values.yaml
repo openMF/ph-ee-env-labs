@@ -883,3 +883,7 @@ mock-oracle:
     annotations:
         deployTime: "{{ .Values.deployTime }}"
 
+redis:
+  enabled: true
+  replica:
+    replicaCount: 1
