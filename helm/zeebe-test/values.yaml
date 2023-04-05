@@ -1,35 +1,40 @@
 ph-ee-engine:
+
+  camunda-platform:
+    global:
+      zeebe: "zeebetest-zeebe"
+
+# Old zeebe configuration to be replaced with camunda-platform:zeebe/zeebe gateway:<paramname>
+#  changed from zeebe-cluster-helm to zeebe since it has been renamed
   zeebe:
     broker:
       contactpoint: "zeebetest-zeebe-gateway:26500"
+    global:
+      elasticsearch:
+        host: "ph-ee-elasticsearch"
+    image:
+      repository: camunda/zeebe
+#      previously 1.1.0
+      tag: 8.1.1
 
-  #Old zeebe configuration to be replaced with camunda-platform:zeebe/zeebe gateway:<paramname>
-#  zeebe-cluster-helm:
-#    global:
-#      elasticsearch:
-#        host: "ph-ee-elasticsearch"
-#    image:
-#      repository: camunda/zeebe
-#      tag: 1.1.0
-#
-#    clusterSize: "1"
-#    partitionCount: "1"
-#    replicationFactor: "1"
-#    JavaOpts: "-Xms8g -Xmx8g -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:MaxRAMPercentage=25.0 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -XX:+PrintFlagsFinal"
-#
-#    elasticsearch:
-#      enabled: false
-#    kibana:
-#      enabled: false
-#
-#    extraInitContainers: |
-#      - name: init-ph-ee-kafka-exporter
-#        image: busybox:1.28
-#        command: ['/bin/sh', '-c']
-#        args: ['wget -O /exporters/ph-ee-kafka-exporter.jar "https://paymenthub-ee-dev.s3.us-east-2.amazonaws.com/jars/exporter-1.0.0-SNAPSHOT.jar"; ls -al /exporters/']
-#        volumeMounts:
-#        - name: exporters
-#          mountPath: /exporters/
+    clusterSize: "1"
+    partitionCount: "1"
+    replicationFactor: "1"
+    JavaOpts: "-Xms8g -Xmx8g -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:MaxRAMPercentage=25.0 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -XX:+PrintFlagsFinal"
+
+    elasticsearch:
+      enabled: false
+    kibana:
+      enabled: false
+
+    extraInitContainers: |
+      - name: init-ph-ee-kafka-exporter
+        image: busybox:1.28
+        command: ['/bin/sh', '-c']
+        args: ['wget -O /exporters/ph-ee-kafka-exporter.jar "https://paymenthub-ee-dev.s3.us-east-2.amazonaws.com/jars/exporter-1.1.1-SNAPSHOT.jar"; ls -al /exporters/']
+        volumeMounts:
+        - name: exporters
+          mountPath: /exporters/
 
   elasticsearch:
     enabled: true
@@ -78,8 +83,6 @@ ph-ee-engine:
           path: /_cluster/health?wait_for_status=yellow&timeout=5s
           port: 9200
         initialDelaySeconds: 30
-
-
 
     # Shrink default JVM heap.
     esJavaOpts: "-Xmx512m -Xms512m"
