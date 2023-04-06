@@ -699,9 +699,8 @@ ph-ee-engine:
         ams: true
         clientCorrelationId: true
         currency: true
-        customData:
-          enabled: false
-          confirmationReceived: false
+        customData: true
+        confirmationReceived: true
         errorInformation: true
         errorCode: false
         errorDescription: true
