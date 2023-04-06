@@ -374,33 +374,33 @@ ph-ee-engine:
     elasticsearch_sslverification: false
     elasticsearch_security_enabled: false
     reporting:
-      enabled: false
+      enabled: true
       fields:
         amount: true
         accountId: true
-        errorCode: false
+        errorCode: true
         errorDescription: true
         externalId: true
-        initiator: false
-        initiatorType: false
-        isNotificationsFailureEnabled: false
-        isNotificationsSuccessEnabled: false
-        mpesaTransactionId: false
-        mpesaTransactionStatusRetryCount: false
-        originDate: false
-        partyLookupFailed: false
+        initiator: true
+        initiatorType: true
+        isNotificationsFailureEnabled: true
+        isNotificationsSuccessEnabled: true
+        mpesaTransactionId: true
+        mpesaTransactionStatusRetryCount: true
+        originDate: true
+        partyLookupFailed: true
         phoneNumber: true
-        processDefinitionKey: false
+        processDefinitionKey: true
         processInstanceKey: true
-        scenario: false
-        tenantId: false
-        timer: false
+        scenario: true
+        tenantId: true
+        timer: true
         timestamp: true
-        transactionFailed: false
-        transactionId: false
-        transferCreateFailed: false
-        transferSettlementFailed: false
-        transferResponseCREATE: false
+        transactionFailed: true
+        transactionId: true
+        transferCreateFailed: true
+        transferSettlementFailed: true
+        transferResponseCREATE: true
     limits:
       cpu: "500m"
       memory: "512M"
