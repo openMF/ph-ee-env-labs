@@ -3,34 +3,34 @@ ph-ee-engine:
   camunda-platform:
     global:
       zeebe: "zeebetest-zeebe"
-    zeebe:
-      broker:
-        contactpoint: "zeebetest-zeebe-gateway:26500"
-      global:
-        elasticsearch:
-          host: "ph-ee-elasticsearch"
-      image:
-        repository: camunda/zeebe
-        tag: 8.1.1
+#     zeebe:
+#       broker:
+#         contactpoint: "zeebetest-zeebe-gateway:26500"
+#       global:
+#         elasticsearch:
+#           host: "ph-ee-elasticsearch"
+#       image:
+#         repository: camunda/zeebe
+#         tag: 8.1.1
 
-      clusterSize: "1"
-      partitionCount: "1"
-      replicationFactor: "1"
-      JavaOpts: "-Xms8g -Xmx8g -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:MaxRAMPercentage=25.0 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -XX:+PrintFlagsFinal"
+#       clusterSize: "1"
+#       partitionCount: "1"
+#       replicationFactor: "1"
+#       JavaOpts: "-Xms8g -Xmx8g -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:MaxRAMPercentage=25.0 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -XX:+PrintFlagsFinal"
 
-      elasticsearch:
-        enabled: false
-      kibana:
-        enabled: false
+#       elasticsearch:
+#         enabled: false
+#       kibana:
+#         enabled: false
 
-      extraInitContainers: |
-        - name: init-ph-ee-kafka-exporter
-          image: busybox:1.28
-          command: ['/bin/sh', '-c']
-          args: ['wget -O /exporters/ph-ee-kafka-exporter.jar "https://paymenthub-ee-dev.s3.us-east-2.amazonaws.com/jars/exporter-1.1.1-SNAPSHOT.jar"; ls -al /exporters/']
-          volumeMounts:
-          - name: exporters
-            mountPath: /exporters/
+#       extraInitContainers: |
+#         - name: init-ph-ee-kafka-exporter
+#           image: busybox:1.28
+#           command: ['/bin/sh', '-c']
+#           args: ['wget -O /exporters/ph-ee-kafka-exporter.jar "https://paymenthub-ee-dev.s3.us-east-2.amazonaws.com/jars/exporter-1.1.1-SNAPSHOT.jar"; ls -al /exporters/']
+#           volumeMounts:
+#           - name: exporters
+#             mountPath: /exporters/
 
   elasticsearch:
     enabled: true
