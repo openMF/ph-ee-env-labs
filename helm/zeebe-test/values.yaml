@@ -3,20 +3,15 @@ ph-ee-engine:
   camunda-platform:
     global:
       zeebe: "zeebetest-zeebe"
-#     zeebe:
-#       broker:
-#         contactpoint: "zeebetest-zeebe-gateway:26500"
-#       global:
-#         elasticsearch:
-#           host: "ph-ee-elasticsearch"
-#       image:
-#         repository: camunda/zeebe
-#         tag: 8.1.1
-
-#       clusterSize: "1"
-#       partitionCount: "1"
-#       replicationFactor: "1"
-#       JavaOpts: "-Xms8g -Xmx8g -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:MaxRAMPercentage=25.0 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -XX:+PrintFlagsFinal"
+    zeebe:
+      broker:
+        contactpoint: "zeebetest-zeebe-gateway:26500"
+      global:
+        elasticsearch:
+          host: "ph-ee-elasticsearch"
+      image:
+        repository: camunda/zeebe
+        tag: 8.1.1
 
 #       elasticsearch:
 #         enabled: false
@@ -370,6 +365,44 @@ ph-ee-engine:
       
   ph_ee_integration_test:
     enabled: true
+
+  integration_test:
+    enabled: false
+    replicas: 1
+    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-integration-test"
+    imageTag: latest
+    imagePullPolicy: "Never"
+    limits:
+      cpu: "500m"
+      memory: "3Gi"
+    requests:
+      cpu: "100m"
+      memory: "2Gi"
+    operations_app:
+      contactpoint: "https://ops-bk2.sandbox.fynarfin.io"
+    bulk_processor:
+      contactpoint: "https://bulk-connector2.sandbox.fynarfin.io"
+    channel_connector:
+      contactpoint: "https://channel2.sandbox.fynarfin.io"
+    kafka:
+      brokers: "kafka:9092"
+      topics: "zeebe-export"
+    zeebe_operations:
+      contactpoint: "https://zeebeops2.sandbox.fynarfin.io"
+      no_of_workflows: "10"
+    max_retry_count: "5"
+    retry_intervals: "15000"
+    defaults:
+      tenant: "gorilla"
+      authorization: "Basic bWlmb3M6cGFzc3dvcmQ="
+    channel:
+      base_url: "https://channel2.sandbox.fynarfin.io"
+    loan:
+      base_url: "https://fynams2.sandbox.fynarfin.io"
+    savings:
+      base_url: "https://fynams2.sandbox.fynarfin.io"
+    gradle:
+      command: "./gradlew cucumberCli -P tags=@ZeebeExport"
 
   wildcardhostname: "*.sandbox.fynarfin.io"
 
