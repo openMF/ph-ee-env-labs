@@ -364,6 +364,7 @@ ph-ee-engine:
 
   importer_rdbms:
     enabled: true
+    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-importer-rdbms"
     imageTag: latest
     LOGGING_LEVEL_ROOT: "DEBUG"
       
