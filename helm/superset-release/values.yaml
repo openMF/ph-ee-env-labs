@@ -1,6 +1,5 @@
 ph-ee-superset:
   ph-ee-engine:
-
     # zeebe-operate-helm:
 
     # elasticsearch:
@@ -18,8 +17,7 @@ ph-ee-superset:
     # kafka:
 
     channel:
-      imageTag: "v1.4.1"
-
+      imageTag: "v1.4.2"
 
     operations_app:
       imageTag: "v1.3.0"
@@ -55,14 +53,13 @@ ph-ee-superset:
       imageTag: "v1.0.0"
 
     importer_es:
-      imageTag: "v1.3.0"
+      imageTag: "v1.3.2"
 
     importer_rdbms:
       imageTag: "v1.2.0"
 
     # kong:
-  
+
     # zeebe-operate:
 
     # mock-oracle:
-
