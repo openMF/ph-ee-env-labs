@@ -198,7 +198,7 @@ ph-ee-engine:
 
   channel:
     enabled: true
-    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-channel-test"
+    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-channel"
     imageTag: test
     SPRING_PROFILES_ACTIVE: "bb"
     hostname: "channel2.sandbox.fynarfin.io"
