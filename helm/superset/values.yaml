@@ -886,4 +886,4 @@ mock-oracle:
 redis:
   enabled: true
   replica:
-    replicaCount: 1
+    replicaCount: 0
