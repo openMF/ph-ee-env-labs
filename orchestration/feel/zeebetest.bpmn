@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" id="Definitions_0ycw0md" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Zeebe Modeler" exporterVersion="0.11.0">
-  <bpmn:process id="zeebe-test" isExecutable="true">
+  <bpmn:process id="zeebetest" isExecutable="true">
     <bpmn:serviceTask id="test-worker" name="Test Worker">
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="test-worker" />
@@ -18,7 +18,7 @@
     <bpmn:sequenceFlow id="Flow_1wnhehp" sourceRef="test-worker" targetRef="Event_1bh40y1" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
-    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="zeebe-test">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="zeebetest">
       <bpmndi:BPMNEdge id="Flow_1wnhehp_di" bpmnElement="Flow_1wnhehp">
         <di:waypoint x="410" y="120" />
         <di:waypoint x="552" y="120" />
