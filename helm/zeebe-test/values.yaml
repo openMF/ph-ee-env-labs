@@ -363,11 +363,11 @@ ph-ee-engine:
     imageTag: latest
     LOGGING_LEVEL_ROOT: "DEBUG"
       
-  ph_ee_integration_test:
-    enabled: true
+#  ph_ee_integration_test:
+#    enabled: true
 
   integration_test:
-    enabled: false
+    enabled: true
     replicas: 1
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-integration-test"
     imageTag: latest
