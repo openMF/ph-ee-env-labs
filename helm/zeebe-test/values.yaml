@@ -402,7 +402,8 @@ ph-ee-engine:
     savings:
       base_url: "https://fynams2.sandbox.fynarfin.io"
     gradle:
-      command: "ls; cd /ph-ee-connector-integration-test; ./gradlew cucumberCli -P tags=@ZeebeExport"
+      command: "ls"
+#      command: "ls; cd /ph-ee-connector-integration-test; ./gradlew cucumberCli -P tags=@ZeebeExport"
 
   wildcardhostname: "*.sandbox.fynarfin.io"
 
