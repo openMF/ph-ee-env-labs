@@ -1,17 +1,7 @@
 ph-ee-engine:
 
-  camunda-platform:
-    global:
-      zeebe: "zeebetest-zeebe"
-    zeebe:
-      broker:
-        contactpoint: "zeebetest-zeebe-gateway:26500"
-      global:
-        elasticsearch:
-          host: "ph-ee-elasticsearch"
-      image:
-        repository: camunda/zeebe
-        tag: 8.1.1
+  global:
+    zeebeClusterName: "zeebetest-zeebe"
 
 #       elasticsearch:
 #         enabled: false
@@ -26,7 +16,10 @@ ph-ee-engine:
 #           volumeMounts:
 #           - name: exporters
 #             mountPath: /exporters/
-
+  zeebe:
+    broker:
+      contactpoint: "zeebetest-zeebe-gateway:26500"
+      
   elasticsearch:
     enabled: true
     replicas: 1
@@ -362,9 +355,6 @@ ph-ee-engine:
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-importer-rdbms"
     imageTag: latest
     LOGGING_LEVEL_ROOT: "DEBUG"
-      
-#  ph_ee_integration_test:
-#    enabled: true
 
   integration_test:
     enabled: true
