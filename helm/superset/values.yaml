@@ -2,6 +2,14 @@ ph-ee-engine:
   zeebe:
     broker:
       contactpoint: "zeebe-zeebe-gateway:26500"
+
+  # Whether this chart should self-manage its service account, role, and associated role binding.
+  managedServiceAccount: true
+  # Custom service account override that the pod will use
+  serviceAccount: "paymenthub"    
+  # Annotations to add to the ServiceAccount that is created if the serviceAccount value isn't set.
+  serviceAccountAnnotations: {}
+
   zeebe-cluster-helm:
     global:
       elasticsearch:
@@ -41,7 +49,7 @@ ph-ee-engine:
     ingress:
       enabled: false
       className: "kong"
-      path: /
+      path: "/"
       host: operate.sandbox.fynarfin.io
       tls:
         - secretName: sandbox-secret
@@ -165,7 +173,7 @@ ph-ee-engine:
       hosts:
         - host: analytics.sandbox.fynarfin.io
           paths:
-            - path: /
+            - path: "/"
       tls:
         - secretName: sandbox-secret
       #    hosts:
@@ -752,7 +760,7 @@ ph-ee-engine:
       schema: "tenants"
 
   kong:
-    enabled: true
+    enabled: flase
     image:
       repository: revomatico/docker-kong-oidc
       tag: "latest"
@@ -820,7 +828,7 @@ ph-ee-engine:
           scope: openid
 
   keycloak:
-    enabled: true
+    enabled: false
     ingress:
       enabled: true
       ingressClassName: "kong"
@@ -846,40 +854,40 @@ ph-ee-engine:
 
   tls: "sandbox-secret"
   
-zeebe-operate:
-  ingress:
-    enabled: true
-    hostname: "zeebeoperate.sandbox.fynarfin.io"
-    className: "kong"
-    annotations:
-      kubernetes.io/ingress.class: "kong"
-    tls:
-      - secretName: sandbox-secret 
-    path: "/"
-    backend:
-      service:
-        name: "zeebe-operate"
-        port:
-          number: 80
-
-mock-oracle:
-  enabled: true
-  replicas: 1
-  image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/mock-asl-oracle"
-  imagePullPolicy: "Always"
-  hostname: "mockoracle.sandbox.fynarfin.io"
-  ingress:
-    enabled: true
-    path: "/"
-    className: "nginx"
-    annotations:
-        kubernetes.io/ingress.class: "nginx"
-    backend:
-      service:
-          name: mock-oracle
+  zeebe-operate:
+    ingress:
+      enabled: true
+      hostname: "zeebeoperate.sandbox.fynarfin.io"
+      className: "kong"
+      annotations:
+        kubernetes.io/ingress.class: "kong"
+      tls:
+        - secretName: sandbox-secret 
+      path: "/"
+      backend:
+        service:
+          name: "zeebe-operate"
           port:
             number: 80
-  deployment:
-    annotations:
-        deployTime: "{{ .Values.deployTime }}"
+
+  mock_oracle:
+    enabled: true
+    replicas: 1
+    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/mock-asl-oracle"
+    imagePullPolicy: "Always"
+    hostname: "mockoracle.sandbox.fynarfin.io"
+    ingress:
+      enabled: true
+      className: "nginx"
+      annotations:
+          kubernetes.io/ingress.class: "nginx"
+      path: "/"    
+      backend:
+        service:
+            name: mock-oracle
+            port:
+              number: 80
+    deployment:
+      annotations:
+          deployTime: "{{ .Values.deployTime }}"
 
