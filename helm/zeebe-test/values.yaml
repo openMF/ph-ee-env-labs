@@ -1,25 +1,32 @@
 ph-ee-engine:
 
-  global:
-    zeebeClusterName: "zeebetest-zeebe"
+  camunda-platform:
+    global:
+      zeebe: "zeebetest-zeebe"
+    zeebe:
+      broker:
+        contactpoint: "zeebetest-zeebe-gateway:26500"
+      global:
+        elasticsearch:
+          host: "ph-ee-elasticsearch"
+      image:
+        repository: camunda/zeebe
+        tag: 8.1.1
+  
+  #       elasticsearch:
+  #         enabled: false
+  #       kibana:
+  #         enabled: false
+  
+  #       extraInitContainers: |
+  #         - name: init-ph-ee-kafka-exporter
+  #           image: busybox:1.28
+  #           command: ['/bin/sh', '-c']
+  #           args: ['wget -O /exporters/ph-ee-kafka-exporter.jar "https://paymenthub-ee-dev.s3.us-east-2.amazonaws.com/jars/exporter-1.1.1-SNAPSHOT.jar"; ls -al /exporters/']
+  #           volumeMounts:
+  #           - name: exporters
+  #             mountPath: /exporters/
 
-#       elasticsearch:
-#         enabled: false
-#       kibana:
-#         enabled: false
-
-#       extraInitContainers: |
-#         - name: init-ph-ee-kafka-exporter
-#           image: busybox:1.28
-#           command: ['/bin/sh', '-c']
-#           args: ['wget -O /exporters/ph-ee-kafka-exporter.jar "https://paymenthub-ee-dev.s3.us-east-2.amazonaws.com/jars/exporter-1.1.1-SNAPSHOT.jar"; ls -al /exporters/']
-#           volumeMounts:
-#           - name: exporters
-#             mountPath: /exporters/
-  zeebe:
-    broker:
-      contactpoint: "zeebetest-zeebe-gateway:26500"
-      
   elasticsearch:
     enabled: true
     replicas: 1
@@ -132,7 +139,7 @@ ph-ee-engine:
       pathtype: ImplementationSpecific
       annotations: {}
       kubernetes.io/ingress.class: nginx
-      kubernetes.io/tls-acme: "true" 
+      kubernetes.io/tls-acme: "true"
       hosts:
         - host: analytics2.sandbox.fynarfin.io
           paths:
@@ -287,7 +294,7 @@ ph-ee-engine:
 
   connector_bulk:
     enabled: false
-        
+  
   zeebe_ops:
     enabled: true
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-zeebe-ops"
@@ -355,6 +362,9 @@ ph-ee-engine:
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-importer-rdbms"
     imageTag: latest
     LOGGING_LEVEL_ROOT: "DEBUG"
+  
+  #  ph_ee_integration_test:
+  #    enabled: true
 
   integration_test:
     enabled: true
@@ -392,8 +402,8 @@ ph-ee-engine:
     savings:
       base_url: "https://fynams2.sandbox.fynarfin.io"
     gradle:
-      command: "./gradlew cucumberCli -P tags=@ZeebeExport;"
-#      command: "cd /ph-ee-connector-integration-test; ./gradlew cucumberCli -P tags=@ZeebeExport"
+      command: "ls"
+  #      command: "cd /ph-ee-connector-integration-test; ./gradlew cucumberCli -P tags=@ZeebeExport"
 
   wildcardhostname: "*.sandbox.fynarfin.io"
 
