@@ -3,8 +3,6 @@ ph-ee-engine:
   camunda-platform:
     global:
       zeebe: "zeebetest-zeebe"
-      elasticsearch:
-        disableExporter: true
     zeebe:
       broker:
         contactpoint: "zeebetest-zeebe-gateway:26500"
