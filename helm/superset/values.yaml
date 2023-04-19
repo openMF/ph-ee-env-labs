@@ -615,6 +615,7 @@ ph-ee-engine:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
 
+
   zeebe_ops:
     enabled: true
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-zeebe-ops"
@@ -624,6 +625,19 @@ ph-ee-engine:
     elasticsearch_url: "http://ph-ee-elasticsearch:9200/"
     elasticsearch_contactpoint: "ph-ee-elasticsearch:9200"
     tenants: "gorilla,lion"
+    # Whether this chart should self-manage its service account, role, and associated role binding.
+    managedServiceAccount: true
+# Custom service account override that the pod will use
+    serviceAccount: "ph-ee-zeebe-ops"
+# Annotations to add to the ServiceAccount that is created if the serviceAccount value isn't set.
+    serviceAccountAnnotations: {}
+# This is the PriorityClass settings as defined in
+# https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass
+    priorityClassName: ""
+# Override various naming aspects of this chart
+# Only edit these if you know what you're doing
+    nameOverride: ""
+    fullnameOverride: ""
     elasticsearch_sslverification: false
     elasticsearch_security_enabled: false
     limits:
@@ -632,6 +646,8 @@ ph-ee-engine:
     requests:
       cpu: "100m"
       memory: "256M"
+# Enabling this will publicly expose Zeebe-ops service.
+# Only enable this if you have security enabled on your cluster
     ingress:
       enabled: true
       className: "nginx"
@@ -648,6 +664,9 @@ ph-ee-engine:
     deployment:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
+      # zeebe_opsConfig:
+      # - type: log
+      #   paths: {}         
 
   messagegateway:
     enabled: true
