@@ -10,7 +10,7 @@ ph-ee-superset:
     # operations:
 
     ph_ee_connector_ams_mifos:
-      imageTag: "v1.2.1"
+      imageTag: "v1.2.2"
 
     ph_ee_connector_mojaloop:
       imageTag: "latest"
@@ -18,11 +18,11 @@ ph-ee-superset:
     # kafka:
 
     channel:
-      imageTag: "v1.4.1"
+      imageTag: "v1.5.0"
 
 
     operations_app:
-      imageTag: "v1.3.0"
+      imageTag: "v1.4.0"
 
     operations_web:
       imageTag: "v1.3.1"
@@ -34,7 +34,7 @@ ph-ee-superset:
       imageTag: "v1.1.1"
 
     mpesa:
-      imageTag: "v1.3.1"
+      imageTag: "v1.4.1"
 
     roster_connector:
       imageTag: "v1.2.0"
@@ -43,10 +43,10 @@ ph-ee-superset:
       imageTag: "v1.5.0"
 
     notifications:
-      imageTag: "v1.0.2"
+      imageTag: "v1.1.0"
 
     connector_bulk:
-      imageTag: "v1.4.1"
+      imageTag: "v1.5.0"
 
     zeebe_ops:
       imageTag: "v1.0.2"
@@ -55,10 +55,10 @@ ph-ee-superset:
       imageTag: "v1.0.0"
 
     importer_es:
-      imageTag: "v1.3.0"
+      imageTag: "v1.4.0"
 
     importer_rdbms:
-      imageTag: "v1.2.0"
+      imageTag: "v1.3.1"
 
     # kong:
   
