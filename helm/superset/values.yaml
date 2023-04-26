@@ -291,7 +291,7 @@ ph-ee-engine:
     enabled: true
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-channel"
     imageTag: latest
-    SPRING_PROFILES_ACTIVE: "bb"
+    SPRING_PROFILES_ACTIVE: "bb,tenants"
     hostname: "channel.sandbox.fynarfin.io"
     stub_hostname: "channel-gsma.sandbox.fynarfin.io"
     DFSPIDS: "gorilla,lion"
@@ -333,6 +333,24 @@ ph-ee-engine:
     deployment:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
+
+
+  mockpayment:
+    enabled: true
+    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-mock-payment-schema"
+    imageTag: latest
+    SPRING_PROFILES_ACTIVE: "bb,tenants"
+    DFSPIDS: "gorilla,lion"
+    limits:
+      cpu: "500m"
+      memory: "512M"
+    requests:
+      cpu: "100m"
+      memory: "256M"
+    deployment:
+      annotations:
+        deployTime: "{{ .Values.deployTime }}"
+
 
   gsmachannel:
     enabled: true
