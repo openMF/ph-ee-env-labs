@@ -291,7 +291,7 @@ ph-ee-engine:
     enabled: true
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-channel"
     imageTag: latest
-    SPRING_PROFILES_ACTIVE: "bb"
+    SPRING_PROFILES_ACTIVE: "bb,tenants"
     hostname: "channel.sandbox.fynarfin.io"
     stub_hostname: "channel-gsma.sandbox.fynarfin.io"
     DFSPIDS: "gorilla,lion"
@@ -334,6 +334,91 @@ ph-ee-engine:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
 
+
+  mockpayment:
+    enabled: true
+    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-mock-payment-schema"
+    imageTag: latest
+    SPRING_PROFILES_ACTIVE: "bb,tenants"
+    DFSPIDS: "gorilla,lion"
+    limits:
+      cpu: "500m"
+      memory: "512M"
+    requests:
+      cpu: "100m"
+      memory: "256M"
+    deployment:
+      annotations:
+        deployTime: "{{ .Values.deployTime }}"
+
+
+  gsmachannel:
+    enabled: true
+    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-gsma-channel"
+    imageTag: latest
+    SPRING_PROFILES_ACTIVE: "bb"
+    DFSPIDS: "gorilla,lion"
+    limits:
+      cpu: "500m"
+      memory: "512M"
+    requests:
+      cpu: "100m"
+      memory: "256M"
+    ingress:
+      enabled: true
+      className: "nginx"
+      annotations:
+        kubernetes.io/ingress.class: "nginx"
+      tls:
+        - secretName: sandbox-secret
+      path: "/"
+      backend:
+        service:
+          name: ph-ee-connector-gsma-channel
+          port:
+            number: 80
+      stub_backend:
+        service:
+          name: ph-ee-connector-gsma-channel
+          port:
+            number: 82
+    deployment:
+      annotations:
+        deployTime: "{{ .Values.deployTime }}"
+
+    gsmachannelsimulator:
+      enabled: true
+      image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-gsma-channel-simulator"
+      imageTag: latest
+      SPRING_PROFILES_ACTIVE: "bb"
+      DFSPIDS: "gorilla,lion"
+      limits:
+        cpu: "500m"
+        memory: "512M"
+      requests:
+        cpu: "100m"
+        memory: "256M"
+      ingress:
+        enabled: true
+        className: "nginx"
+        annotations:
+          kubernetes.io/ingress.class: "nginx"
+        tls:
+          - secretName: sandbox-secret
+        path: "/"
+        backend:
+          service:
+            name: ph-ee-connector-gsma-channel-simulator
+            port:
+              number: 80
+        stub_backend:
+          service:
+            name: ph-ee-connector-gsma-channel-simulator
+            port:
+              number: 82
+      deployment:
+        annotations:
+          deployTime: "{{ .Values.deployTime }}"
 
   operations_app:
     enabled: true
@@ -417,6 +502,8 @@ ph-ee-engine:
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-gsma"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
+    api:
+      channel: ""
     limits:
       cpu: "500m"
       memory: "512M"
