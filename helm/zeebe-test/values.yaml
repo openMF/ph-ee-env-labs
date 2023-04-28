@@ -321,7 +321,7 @@ ph-ee-engine:
   importer_es:
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-es-importer"
     imageTag: latest
-    enabled: false
+    enabled: true
     elasticsearch_sslverification: false
     elasticsearch_security_enabled: false
     reporting:
