@@ -385,7 +385,7 @@ ph-ee-engine:
       topics: "zeebe-export"
     zeebe_operations:
       contactpoint: "https://zeebeops2.sandbox.fynarfin.io"
-      no_of_workflows: "100"
+      no_of_workflows: "10"
     max_retry_count: "5"
     retry_intervals: "15000"
     defaults:
