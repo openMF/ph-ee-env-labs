@@ -321,7 +321,7 @@ ph-ee-engine:
   importer_es:
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-es-importer"
     imageTag: latest
-    enabled: true
+    enabled: false
     elasticsearch_sslverification: false
     elasticsearch_security_enabled: false
     reporting:
@@ -354,7 +354,7 @@ ph-ee-engine:
         transferResponseCREATE: true
 
   importer_rdbms:
-    enabled: true
+    enabled: false
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-importer-rdbms"
     imageTag: latest
     LOGGING_LEVEL_ROOT: "INFO"
