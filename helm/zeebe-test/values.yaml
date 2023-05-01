@@ -383,9 +383,11 @@ ph-ee-engine:
     kafka:
       brokers: "kafka:9092"
       topics: "zeebe-export"
+      consumerTimeoutMs: "300000"
     zeebe_operations:
       contactpoint: "https://zeebeops2.sandbox.fynarfin.io"
       no_of_workflows: "10"
+      thread-count: "5"
     max_retry_count: "5"
     retry_intervals: "15000"
     defaults:
