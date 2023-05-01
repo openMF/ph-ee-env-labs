@@ -175,6 +175,12 @@ ph-ee-engine:
     ams_local_account_host: "https://fynams2.sandbox.fynarfin.io/"
     ams_local_customer_host: "https://fynams2.sandbox.fynarfin.io/"
     ams_local_auth_host: "https://fynams2.sandbox.fynarfin.io/"
+    limits:
+      cpu: "500m"
+      memory: "512M"
+    requests:
+      cpu: "100m"
+      memory: "256M"
     deployment:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
@@ -188,6 +194,12 @@ ph-ee-engine:
     advertised:
       host: "kafka"
       port: "9092"
+    limits:
+      cpu: "500m"
+      memory: "1G"
+    requests:
+      cpu: "100m"
+      memory: "512M"
     deployment:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
@@ -203,6 +215,12 @@ ph-ee-engine:
     zeebe:
       broker:
         contactpoint: "zeebetest-zeebe-gateway:26500"
+    limits:
+      cpu: "500m"
+      memory: "512M"
+    requests:
+      cpu: "100m"
+      memory: "256M"
     ingress:
       enabled: true
       annotations:
@@ -235,6 +253,12 @@ ph-ee-engine:
       host: "operationsmysql"
       port: 3306
       schema: "tenants"
+    limits:
+      cpu: "500m"
+      memory: "512M"
+    requests:
+      cpu: "100m"
+      memory: "256M"
     ingress:
       enabled: true
       annotations:
@@ -256,6 +280,12 @@ ph-ee-engine:
     SPRING_PROFILES_ACTIVE: "bb"
     hostname: "ops2.sandbox.fynarfin.io"
     webhost: "ops2.sandbox.fynarfin.io"
+    limits:
+      cpu: "500m"
+      memory: "512M"
+    requests:
+      cpu: "100m"
+      memory: "256M"
     ingress:
       enabled: true
       annotations:
@@ -290,7 +320,7 @@ ph-ee-engine:
 
   connector_bulk:
     enabled: false
-  
+        
   zeebe_ops:
     enabled: true
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-zeebe-ops"
@@ -301,6 +331,12 @@ ph-ee-engine:
     tenants: "rhino,gorilla"
     elasticsearch_sslverification: false
     elasticsearch_security_enabled: false
+    limits:
+      cpu: "500m"
+      memory: "512M"
+    requests:
+      cpu: "100m"
+      memory: "256M"
     ingress:
       enabled: true
       annotations:

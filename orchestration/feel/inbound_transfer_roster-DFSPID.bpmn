@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_12msh6t" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Zeebe Modeler" exporterVersion="0.11.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.0.0">
-  <bpmn:process id="mpesa_paybill-DFSPID" name="mpesa_paybill-DFSPID" isExecutable="true">
+  <bpmn:process id="inbound_transfer_roster-DFSPID" name="inbound_transfer_roster-DFSPID" isExecutable="true">
     <bpmn:endEvent id="End" name="End">
-      <bpmn:incoming>Flow_0mkgxc2</bpmn:incoming>
       <bpmn:incoming>Flow_0zj5svb</bpmn:incoming>
       <bpmn:incoming>Flow_0z91exw</bpmn:incoming>
+      <bpmn:incoming>Flow_0625458</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:endEvent id="Event_1bh40y1" name="Paybill Success">
       <bpmn:incoming>Flow_1ecfldo</bpmn:incoming>
@@ -25,9 +25,9 @@
       <bpmn:outgoing>Flow_16hk9gv</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:sequenceFlow id="Flow_16hk9gv" sourceRef="start-event" targetRef="ams-lookup" />
-    <bpmn:serviceTask id="transfer-settlement-paygops" name="Paygops Settlement">
+    <bpmn:serviceTask id="transfer-settlement" name="Settlement">
       <bpmn:extensionElements>
-        <zeebe:taskDefinition type="transfer-settlement-paygops" />
+        <zeebe:taskDefinition type="transfer-settlement" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_17r5yck</bpmn:incoming>
       <bpmn:outgoing>Flow_1kw3y0l</bpmn:outgoing>
@@ -38,7 +38,7 @@
       <bpmn:outgoing>Flow_17r5yck</bpmn:outgoing>
       <bpmn:outgoing>Flow_0mkgxc2</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="Flow_17r5yck" sourceRef="Gateway_0esi9al" targetRef="transfer-settlement-paygops">
+    <bpmn:sequenceFlow id="Flow_17r5yck" sourceRef="Gateway_0esi9al" targetRef="transfer-settlement">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=confirmationReceived = true</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:exclusiveGateway id="Gateway_116jc3f">
@@ -46,12 +46,12 @@
       <bpmn:outgoing>Flow_1ecfldo</bpmn:outgoing>
       <bpmn:outgoing>Flow_0z91exw</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="Flow_1kw3y0l" sourceRef="transfer-settlement-paygops" targetRef="Gateway_116jc3f" />
+    <bpmn:sequenceFlow id="Flow_1kw3y0l" sourceRef="transfer-settlement" targetRef="Gateway_116jc3f" />
     <bpmn:sequenceFlow id="Flow_1ecfldo" name="Clearance Successful" sourceRef="Gateway_116jc3f" targetRef="Event_1bh40y1">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=transferSettlementFailed = false</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_1mlv58f" sourceRef="Event_1t8ddwv" targetRef="Gateway_0esi9al" />
-    <bpmn:sequenceFlow id="Flow_0mkgxc2" name="Confirmation Received failure" sourceRef="Gateway_0esi9al" targetRef="End">
+    <bpmn:sequenceFlow id="Flow_0mkgxc2" name="Confirmation Received failure" sourceRef="Gateway_0esi9al" targetRef="delete-workflow-instancekey">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=confirmationReceived = false</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_0zj5svb" name="Failure" sourceRef="ams-lookup" targetRef="End">
@@ -67,6 +67,14 @@
       </bpmn:timerEventDefinition>
     </bpmn:boundaryEvent>
     <bpmn:sequenceFlow id="Flow_1oum6u4" name="confirmationRequestReceived" sourceRef="pendingConfirmation" targetRef="Gateway_0esi9al" />
+    <bpmn:sequenceFlow id="Flow_0625458" sourceRef="delete-workflow-instancekey" targetRef="End" />
+    <bpmn:serviceTask id="delete-workflow-instancekey" name="Clearance">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="delete-workflow-instancekey" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0mkgxc2</bpmn:incoming>
+      <bpmn:outgoing>Flow_0625458</bpmn:outgoing>
+    </bpmn:serviceTask>
   </bpmn:process>
   <bpmn:message id="Message_018uqlv" name="pendingConfirmation">
     <bpmn:extensionElements>
@@ -74,7 +82,7 @@
     </bpmn:extensionElements>
   </bpmn:message>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
-    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="mpesa_paybill-DFSPID">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="inbound_transfer_roster-DFSPID">
       <bpmndi:BPMNEdge id="Flow_1oum6u4_di" bpmnElement="Flow_1oum6u4">
         <di:waypoint x="630" y="480" />
         <di:waypoint x="765" y="480" />
@@ -100,10 +108,9 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0mkgxc2_di" bpmnElement="Flow_0mkgxc2">
         <di:waypoint x="790" y="455" />
-        <di:waypoint x="790" y="130" />
-        <di:waypoint x="1442" y="130" />
+        <di:waypoint x="790" y="360" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1045" y="86" width="79" height="27" />
+          <dc:Bounds x="1045" y="126" width="79" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1mlv58f_di" bpmnElement="Flow_1mlv58f">
@@ -143,6 +150,11 @@
           <dc:Bounds x="409" y="374" width="42" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0625458_di" bpmnElement="Flow_0625458">
+        <di:waypoint x="790" y="280" />
+        <di:waypoint x="790" y="130" />
+        <di:waypoint x="1442" y="130" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Event_0c5476n_di" bpmnElement="End" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
         <dc:Bounds x="1442" y="112" width="36" height="36" />
         <bpmndi:BPMNLabel>
@@ -170,7 +182,7 @@
           <dc:Bounds x="159" y="345" width="24" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_16ydzgs_di" bpmnElement="transfer-settlement-paygops" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
+      <bpmndi:BPMNShape id="Activity_16ydzgs_di" bpmnElement="transfer-settlement" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
         <dc:Bounds x="910" y="440" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_0esi9al_di" bpmnElement="Gateway_0esi9al" isMarkerVisible="true">
@@ -181,6 +193,9 @@
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1106" y="622" width="8" height="14" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1u2ypg2_di" bpmnElement="delete-workflow-instancekey" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
+        <dc:Bounds x="740" y="280" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1t8ddwv_di" bpmnElement="Event_1t8ddwv">
         <dc:Bounds x="582" y="422" width="36" height="36" />
