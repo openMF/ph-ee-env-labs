@@ -324,7 +324,7 @@ ph-ee-engine:
   zeebe_ops:
     enabled: true
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-zeebe-ops"
-    imageTag: latest
+    imageTag: test
     hostname: "zeebeops2.sandbox.fynarfin.io"
     zeebe_broker_contactpoint: "zeebetest-zeebe-gateway:26500"
     elasticsearch_contactpoint: "ph-ee-elasticsearch:9200"
