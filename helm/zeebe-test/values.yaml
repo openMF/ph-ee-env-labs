@@ -167,7 +167,7 @@ ph-ee-engine:
   ph_ee_connector_ams_mifos:
     enabled: true
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-ee-ams"
-    imageTag: latest
+    imageTag: test
     imagePullPolicy: "Always"
     SPRING_PROFILES_ACTIVE: "fin12,bb"
     ams_local_enabled: false
@@ -187,6 +187,7 @@ ph-ee-engine:
 
   ph_ee_connector_mojaloop:
     enabled: false
+    imageTag: test
 
   kafka:
     enabled: true
@@ -302,21 +303,26 @@ ph-ee-engine:
 
   ph_ee_connector_gsma:
     enabled: false
+    imageTag: test
 
   ph_ee_connector_slcb:
     enabled: false
+    imageTag: test
 
   mpesa:
     enabled: false
+    imageTag: test
 
   roster_connector:
     enabled: false
 
   paygops_connector:
     enabled: false
+    imageTag: test
 
   notifications:
     enabled: false
+    imageTag: test
 
   connector_bulk:
     enabled: false
