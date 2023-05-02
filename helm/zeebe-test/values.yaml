@@ -422,7 +422,7 @@ ph-ee-engine:
       consumerTimeoutMs: "300000"
     zeebe_operations:
       contactpoint: "https://zeebeops2.sandbox.fynarfin.io"
-      no_of_workflows: "100"
+      no_of_workflows: "1000"
       thread-count: "20"
     max_retry_count: "5"
     retry_intervals: "15000"
