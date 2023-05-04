@@ -30,7 +30,7 @@ secrets:
 	docker rm -f elastic-helm-charts-certs && \
 	openssl pkcs12 -nodes -passin pass:'' -in elastic-certificates.p12 -out elastic-certificate.pem && \
 	openssl x509 -outform der -in elastic-certificate.pem -out elastic-certificate.crt && \
-	kubectl create namespace folder-test && \
+	kubectl config set-context –current –namespace=folder-test  && \
 	kubectl create secret generic elastic-certificates --namespace=paymenthubtest --from-file=elastic-certificates.p12 && \
 	kubectl create secret generic elastic-certificate-pem --namespace=paymenthubtest --from-file=elastic-certificate.pem && \
 	kubectl create secret generic elastic-certificate-crt --namespace=paymenthubtest --from-file=elastic-certificate.crt && \
