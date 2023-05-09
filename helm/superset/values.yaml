@@ -673,11 +673,17 @@ ph-ee-engine:
   connector_bulk:
     enabled: true
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-bulk-processor"
-    SPRING_PROFILES_ACTIVE: "bb"
     imageTag: latest
     tenants: "gorilla,lion"
     hostname: "bulk-connector.sandbox.fynarfin.io"
-    SPRING_PROFILES_ACTIVE: "<issue: wasnot present earlier but it is in deployment>"
+    aws:
+      region: "us-east-2"
+      access_key: "AKIAX32JM37TZOJ5AKFB"
+      secret_key: "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"
+    operations_app:
+      contactpoint: "https://ops-bk.sandbox.fynarfin.io/"
+      endpoints:
+        batch_transaction: "/api/v1/batch/transactions"
     limits:
       cpu: "500m"
       memory: "512M"
@@ -932,44 +938,44 @@ ph-ee-engine:
 
   tls: "sandbox-secret"
   
-zeebe-operate:
-  ingress:
-    enabled: true
-    hostname: "zeebeoperate.sandbox.fynarfin.io"
-    className: "kong"
-    annotations:
-      kubernetes.io/ingress.class: "kong"
-    tls:
-      - secretName: sandbox-secret 
-    path: "/"
-    backend:
-      service:
-        name: "zeebe-operate"
-        port:
-          number: 80
-
-mock-oracle:
-  enabled: true
-  replicas: 1
-  image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/mock-asl-oracle"
-  imagePullPolicy: "Always"
-  hostname: "mockoracle.sandbox.fynarfin.io"
-  ingress:
-    enabled: true
-    path: "/"
-    className: "nginx"
-    annotations:
-        kubernetes.io/ingress.class: "nginx"
-    backend:
-      service:
-          name: mock-oracle
+  zeebe-operate:
+    ingress:
+      enabled: true
+      hostname: "zeebeoperate.sandbox.fynarfin.io"
+      className: "kong"
+      annotations:
+        kubernetes.io/ingress.class: "kong"
+      tls:
+        - secretName: sandbox-secret 
+      path: "/"
+      backend:
+        service:
+          name: "zeebe-operate"
           port:
             number: 80
-  deployment:
-    annotations:
-        deployTime: "{{ .Values.deployTime }}"
 
-redis:
-  enabled: true
-  replica:
-    replicaCount: 0
+  mock-oracle:
+    enabled: true
+    replicas: 1
+    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/mock-asl-oracle"
+    imagePullPolicy: "Always"
+    hostname: "mockoracle.sandbox.fynarfin.io"
+    ingress:
+      enabled: true
+      path: "/"
+      className: "nginx"
+      annotations:
+          kubernetes.io/ingress.class: "nginx"
+      backend:
+        service:
+            name: mock-oracle
+            port:
+              number: 80
+    deployment:
+      annotations:
+          deployTime: "{{ .Values.deployTime }}"
+
+  redis:
+    enabled: true
+    replica:
+      replicaCount: 0
