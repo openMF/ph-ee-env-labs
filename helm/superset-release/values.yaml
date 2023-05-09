@@ -18,7 +18,7 @@ ph-ee-superset:
     # kafka:
 
     channel:
-      imageTag: "v1.5.0"
+      imageTag: "v1.5.1"
 
 
     operations_app:
