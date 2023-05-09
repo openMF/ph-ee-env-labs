@@ -681,9 +681,9 @@ ph-ee-engine:
       access_key: "AKIAX32JM37TZOJ5AKFB"
       secret_key: "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"
     operations_app:
-        contactpoint: "https://ops-bk.sandbox.fynarfin.io/"
-        endpoints:
-          batch_transaction: "/api/v1/batch/transactions"
+      contactpoint: "https://ops-bk.sandbox.fynarfin.io/"
+      endpoints:
+        batch_transaction: "/api/v1/batch/transactions"
     limits:
       cpu: "500m"
       memory: "512M"
