@@ -3,10 +3,10 @@ name: ph-ee-superset
 description: PaymentHub EE Barebone Edition
 
 type: application
-version: 0.2.0
-appVersion: 1.16.0
+version: 4.0.0
+appVersion: 4.0.0
 
 dependencies:
 - name: ph-ee-engine
-  repository: https://fynarfin.io/images/ph-ee-engine-1.7.2-SNAPSHOT
-  version: 1.7.2-SNAPSHOT
+  repository: https://fynarfin.io/images/ph-ee-engine-4.0.0-SNAPSHOT
+  version: 4.0.0-SNAPSHOT
