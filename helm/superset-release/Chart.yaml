@@ -9,6 +9,5 @@ appVersion: 1.16.0
 dependencies:
 - name: ph-ee-superset
   repository: "file://../superset"
-  version: 0.2.0
-
+  version: 4.0.0
   
