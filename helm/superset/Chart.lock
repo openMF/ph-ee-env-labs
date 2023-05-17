@@ -1,0 +1,6 @@
+dependencies:
+- name: ph-ee-engine
+  repository: https://fynarfin.io/images/ph-ee-engine-1.7.2-SNAPSHOT
+  version: 1.7.2-SNAPSHOT
+digest: sha256:bf573c2e5576f9310c369c4467c7803cf182bac9d4c56a89efad9df27c73c04b
+generated: "2023-05-17T20:12:16.524237+05:30"
