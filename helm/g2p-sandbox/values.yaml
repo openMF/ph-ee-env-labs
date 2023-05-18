@@ -275,6 +275,17 @@ ph-ee-engine:
     hostname: "channel.mifos.g2pconnect.io"
     stub_hostname: "channel-gsma.mifos.g2pconnect.io"
     DFSPIDS: "rhino,gorilla"
+    operations:
+      url: "http://ops-bk.sandbox.fynarfin.io/api/v1"
+      authEnabled: false
+    tenantPrimary:
+      clientId: "mifos"
+      clientSecret: "password"
+      tenant: "rhino"
+    tenantSecondary:
+      clientId: "mifos"
+      clientSecret: "password"
+      tenant: "gorilla"
     limits:
       cpu: "500m"
       memory: "512M"
@@ -283,8 +294,11 @@ ph-ee-engine:
       memory: "256M"
     ingress:
       enabled: true
+      className: "nginx"
       annotations:
         kubernetes.io/ingress.class: "nginx"
+      tls:
+        - secretName: sandbox-secret
       path: "/"
       backend:
         service:
@@ -299,7 +313,6 @@ ph-ee-engine:
     deployment:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
-
 
   operations_app:
     enabled: true
@@ -520,10 +533,28 @@ ph-ee-engine:
     imageTag: latest
     tenant: "rhino,gorilla"
     hostname: "bulk-connector.mifos.g2pconnect.io"
+    aws:
+      region: "us-east-2"
+      access_key: "AKIAX32JM37TZOJ5AKFB"
+      secret_key: "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"
+    operations_app:
+      contactpoint: "https://ops-bk.sandbox.fynarfin.io/"
+      endpoints:
+        batch_transaction: "/api/v1/batch/transactions"
+    limits:
+      cpu: "500m"
+      memory: "512M"
+    requests:
+      cpu: "100m"
+      memory: "256M"
     ingress:
       enabled: true
+      className: "kong"
       annotations: 
-        kubernetes.io/ingress.class: "nginx"
+        kubernetes.io/ingress.class: "kong"
+        konghq.com/plugins: request-transformer,oidc,cors
+      tls:
+        - secretName: sandbox-secret
       path: "/"
       backend:
         service:
@@ -658,6 +689,102 @@ ph-ee-engine:
   wildcardhostname: "*.mifos.g2pconnect.io"
 
   tls: ""
+
+  keycloak:
+    enabled: true
+    ingress:
+      enabled: true
+      ingressClassName: "kong"
+      rules:
+        - host: 'keycloak.mifos.g2pconnect.io'
+          paths:
+          - path: /
+            pathType: Prefix
+      tls: []
+    extraVolumes: |
+      - name: realm-secret
+        secret:
+          secretName: realm-secret
+    extraVolumeMounts: |
+      - name: realm-secret
+        mountPath: "/realm/"
+        readOnly: true
+    extraEnv: |
+      - name: KEYCLOAK_IMPORT
+        value: /realm/kong-keycloak-realm.json
+
+  kong:
+    enabled: true
+    image:
+      repository: revomatico/docker-kong-oidc
+      tag: "latest"
+    env:
+      plugins: "bundled,oidc"
+    admin:
+      enabled: true
+      http:
+        enabled: true
+      tls:
+        enabled: false
+      ingress:
+        enabled: true
+        ingressClassName: "kong"
+        hostname: admin-kong.mifos.g2pconnect.io
+    extraObjects:
+      - apiVersion: configuration.konghq.com/v1
+        kind: KongClusterPlugin
+        metadata:
+          name: request-transformer
+          annotations:
+            kubernetes.io/ingress.class: "kong"
+          labels:
+            global: "false"
+        disabled: false # optionally disable the plugin in Kong
+        plugin: request-transformer
+        config:
+          remove:
+            headers:
+            - cookie
+            - x-id-token
+      - apiVersion: configuration.konghq.com/v1
+        kind: KongClusterPlugin
+        metadata:
+          name: cors
+          annotations:
+            kubernetes.io/ingress.class: "kong"
+          labels:
+            global: "true"    
+        disabled: false # optionally disable the plugin in Kong
+        plugin: cors
+        config: 
+          origins: 
+            - "*"
+          credentials: true
+          max_age: 3600
+          exposed_headers : 
+            - "X-Auth-Token"
+          preflight_continue: false
+      - apiVersion: configuration.konghq.com/v1
+        kind: KongClusterPlugin
+        metadata:
+          name: oidc
+          annotations:
+            kubernetes.io/ingress.class: "kong"
+          labels:
+            global: "false"
+        disabled: false # optionally disable the plugin in Kong
+        plugin: oidc
+        config: # configuration for the plugin
+          client_id: kong-oidc 
+          client_secret: xxxxxxxx  # Generated on keyCloak
+          realm: kong
+          discovery: https://keycloak.mifos.g2pconnect.io/auth/realms/kong-oidc/.well-known/openid-configuration
+          scope: openid
+
+  redis:
+    enabled: true
+    replica:
+      replicaCount: 0
   
 zeebe-operate:
   ingress:
@@ -671,4 +798,5 @@ zeebe-operate:
         name: "zeebe-operate"
         port:
           number: 80
+
 
