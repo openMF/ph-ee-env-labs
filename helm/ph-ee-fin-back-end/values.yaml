@@ -42,7 +42,7 @@ ph-ee-engine:
       enabled: false
       className: "kong"
       path: /
-      host: operate.sandbox.fynarfin.io
+      host: operate.sandbox.mifos.io
       tls:
         - secretName: sandbox-secret
 
@@ -163,7 +163,7 @@ ph-ee-engine:
       # kubernetes.io/ingress.class: kong
       # kubernetes.io/tls-acme: "true"
       hosts:
-        - host: analytics.sandbox.fynarfin.io
+        - host: analytics.sandbox.mifos.io
           paths:
             - path: /
       tls:
@@ -182,26 +182,24 @@ ph-ee-engine:
       rootPassword: "ethieTieCh8ahv"
     initdbScripts:
       setup.sql: |-
-        CREATE DATABASE messagegateway;
         CREATE DATABASE `lion`;
         CREATE DATABASE `gorilla`;
         GRANT ALL PRIVILEGES ON `lion`.* TO 'mifos';
         GRANT ALL PRIVILEGES ON `gorilla`.* TO 'mifos';
         GRANT ALL ON *.* TO 'root'@'%';
-        GRANT ALL PRIVILEGES ON messagegateway.* TO 'mifos';
 
   ph_ee_connector_ams_mifos:
     enabled: true
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-ee-ams"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "fin12"
-    hostname: "amsmifos.sandbox.fynarfin.io"
+    hostname: "amsmifos.sandbox.mifos.io"
     ams_local_enabled: true
-    ams_local_interop_host : "https://fynams.sandbox.fynarfin.io"
-    ams_local_customer_host : "https://fynams.sandbox.fynarfin.io"
-    ams_local_account_host : "https://fynams.sandbox.fynarfin.io"
-    ams_local_auth_host : "https://fynams.sandbox.fynarfin.io"
-    ams_local_loan_host : "https://fynams.sandbox.fynarfin.io/"
+    ams_local_interop_host : "https://fynams.sandbox.mifos.io"
+    ams_local_customer_host : "https://fynams.sandbox.mifos.io"
+    ams_local_account_host : "https://fynams.sandbox.mifos.io"
+    ams_local_auth_host : "https://fynams.sandbox.mifos.io"
+    ams_local_loan_host : "https://fynams.sandbox.mifos.io/"
     dfspids: "gorilla,rhino"
     ## tenants properties have been moved to fin12
     limits:
@@ -231,23 +229,23 @@ ph-ee-engine:
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-mojaloop"
     imageTag: "latest"
     SPRING_PROFILES_ACTIVE: "bb"
-    hostname: "mojaloop.sandbox.fynarfin.io"
+    hostname: "mojaloop.sandbox.mifos.io"
     DFSPIDS: "gorilla,rhino"
     switch:
       quotes:
-        host: "http://quoting-service.sandbox.fynarfin.io"
-        service: "quoting-service.sandbox.fynarfin.io"
+        host: "http://quoting-service.sandbox.mifos.io"
+        service: "quoting-service.sandbox.mifos.io"
       als:
-        host: "http://account-lookup-service.sandbox.fynarfin.io"
+        host: "http://account-lookup-service.sandbox.mifos.io"
         service: "account-lookup-service.local"
       transfers:
-        host: "http://api-adapter.sandbox.fynarfin.io"
-        service: "api-adapter.sandbox.fynarfin.io"
+        host: "http://api-adapter.sandbox.mifos.io"
+        service: "api-adapter.sandbox.mifos.io"
       transactions:
-        host: "http://ml-api-adapter.sandbox.fynarfin.io"
-        service: "ml-api-adapter.sandbox.fynarfin.io"
+        host: "http://ml-api-adapter.sandbox.mifos.io"
+        service: "ml-api-adapter.sandbox.mifos.io"
       oracle:
-        host: "http://moja-simulator.sandbox.fynarfin.io"
+        host: "http://moja-simulator.sandbox.mifos.io"
     limits:
       cpu: "500m"
       memory: "512M"
@@ -292,11 +290,11 @@ ph-ee-engine:
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-channel"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb,tenants"
-    hostname: "channel.sandbox.fynarfin.io"
-    stub_hostname: "channel-gsma.sandbox.fynarfin.io"
+    hostname: "channel.sandbox.mifos.io"
+    stub_hostname: "channel-gsma.sandbox.mifos.io"
     DFSPIDS: "gorilla,lion"
     operations:
-      url: "http://ops-bk.sandbox.fynarfin.io/api/v1"
+      url: "http://ops-bk.sandbox.mifos.io/api/v1"
       authEnabled: false
     tenantPrimary:
       clientId: "mifos"
@@ -426,7 +424,7 @@ ph-ee-engine:
     imageTag: "latest"
     SPRING_PROFILES_ACTIVE: "bb"
     tenants: "gorilla,lion, phdefault"
-    hostname: "ops-bk.sandbox.fynarfin.io"
+    hostname: "ops-bk.sandbox.mifos.io"
     datasource:
       username: "mifos"
       password: "password"
@@ -465,37 +463,10 @@ ph-ee-engine:
         deployTime: "{{ .Values.deployTime }}"
 
   operations_web:
-    enabled: true
-    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-ops-web"
-    imageTag: "latest"
-    SPRING_PROFILES_ACTIVE: "bb"
-    hostname: "ops.sandbox.fynarfin.io"
-    webhost: "ops.sandbox.fynarfin.io"
-    limits:
-      cpu: "500m"
-      memory: "512M"
-    requests:
-      cpu: "100m"
-      memory: "256M"
-    ingress:
-      className: "kong"
-      enabled: true
-      annotations:
-        kubernetes.io/ingress.class: "nginx"
-        konghq.com/plugins: request-transformer,oidc,cors
-      tls:
-        - secretName: sandbox-secret
-      path: "/"
-      backend:
-        service:
-          name: ph-ee-operations-web
-          port:
-            number: 4200
-    deployment:
-      config: {}
+    enabled: false
 
   identity:
-    hostname: "ops-bk.sandbox.fynarfin.io"
+    hostname: "ops-bk.sandbox.mifos.io"
 
   ph_ee_connector_gsma:
     enabled: true
@@ -528,10 +499,10 @@ ph-ee-engine:
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-mpesa"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
-    hostname: "mpesa.sandbox.fynarfin.io"
+    hostname: "mpesa.sandbox.mifos.io"
     tenant: "lion"
     zeebe_broker_contactpoint: "zeebe-zeebe-gateway:26500"
-    callback_host: "https://mpesa.sandbox.fynarfin.io/"
+    callback_host: "https://mpesa.sandbox.mifos.io/"
     retry_count: 3
     api_timeout: 60000
     channel:
@@ -639,7 +610,7 @@ ph-ee-engine:
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-ee-notifications"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
-    hostname: "notifications.sandbox.fynarfin.io"
+    hostname: "notifications.sandbox.mifos.io"
     MESSAGEGATEWAYCONFIG_HOST: "message-gateway"
     NOTIFICATION_LOCAL_HOST: "ph-ee-connector-notifications"
     NOTIFICATION_SUCCESS_ENABLED: "false"
@@ -675,13 +646,13 @@ ph-ee-engine:
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-bulk-processor"
     imageTag: latest
     tenants: "gorilla,lion"
-    hostname: "bulk-connector.sandbox.fynarfin.io"
+    hostname: "bulk-connector.sandbox.mifos.io"
     aws:
       region: "us-east-2"
       access_key: "AKIAX32JM37TZOJ5AKFB"
       secret_key: "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"
     operations_app:
-      contactpoint: "https://ops-bk.sandbox.fynarfin.io/"
+      contactpoint: "https://ops-bk.sandbox.mifos.io/"
       endpoints:
         batch_transaction: "/api/v1/batch/transactions"
     limits:
@@ -712,7 +683,7 @@ ph-ee-engine:
     enabled: true
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-zeebe-ops"
     imageTag: latest
-    hostname: "zeebeops.sandbox.fynarfin.io"
+    hostname: "zeebeops.sandbox.mifos.io"
     zeebe_broker_contactpoint: "zeebe-zeebe-gateway:26500"
     elasticsearch_url: "http://ph-ee-elasticsearch:9200/"
     elasticsearch_contactpoint: "ph-ee-elasticsearch:9200"
@@ -750,7 +721,7 @@ ph-ee-engine:
       value:
         api_key: "eKiC1_JWdKy7eaTGQFHxXXjXjacr60W9Zntl"
         project_id: "PJ5ff552ce01d2978c"
-    hostname: "messagegateway.sandbox.fynarfin.io"
+    hostname: "messagegateway.sandbox.mifos.io"
     CALLBACKCONFIG_HOST: "ph-ee-connector-notifications"
     HOSTCONFIG_HOST: "message-gateway"
     MYSQL_USERNAME: "mifos"
@@ -859,7 +830,7 @@ ph-ee-engine:
       ingress:
         enabled: true
         ingressClassName: "kong"
-        hostname: admin-kong.sandbox.fynarfin.io
+        hostname: admin-kong.sandbox.mifos.io
     extraObjects:
       - apiVersion: configuration.konghq.com/v1
         kind: KongClusterPlugin
@@ -908,7 +879,7 @@ ph-ee-engine:
           client_id: kong-oidc
           client_secret: xxxxxxxx  # Generated on keyCloak
           realm: kong
-          discovery: https://keycloak.sandbox.fynarfin.io/auth/realms/kong-oidc/.well-known/openid-configuration
+          discovery: https://keycloak.sandbox.mifos.io/auth/realms/kong-oidc/.well-known/openid-configuration
           scope: openid
 
   keycloak:
@@ -917,7 +888,7 @@ ph-ee-engine:
       enabled: true
       ingressClassName: "kong"
       rules:
-        - host: 'keycloak.sandbox.fynarfin.io'
+        - host: 'keycloak.sandbox.mifos.io'
           paths:
             - path: /
               pathType: Prefix
@@ -934,14 +905,14 @@ ph-ee-engine:
       - name: KEYCLOAK_IMPORT
         value: /realm/kong-keycloak-realm.json
 
-  wildcardhostname: "*.sandbox.fynarfin.io"
+  wildcardhostname: "*.sandbox.mifos.io"
 
   tls: "sandbox-secret"
 
   zeebe-operate:
     ingress:
       enabled: true
-      hostname: "zeebeoperate.sandbox.fynarfin.io"
+      hostname: "zeebeoperate.sandbox.mifos.io"
       className: "kong"
       annotations:
         kubernetes.io/ingress.class: "kong"
@@ -959,7 +930,7 @@ ph-ee-engine:
     replicas: 1
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/mock-asl-oracle"
     imagePullPolicy: "Always"
-    hostname: "mockoracle.sandbox.fynarfin.io"
+    hostname: "mockoracle.sandbox.mifos.io"
     ingress:
       enabled: true
       path: "/"
@@ -979,28 +950,27 @@ ph-ee-engine:
     enabled: true
     replica:
       replicaCount: 0
-
-
-  # kong:
-
-  # zeebe-operate:
-
-  # mock-oracle:
-
+    
 fin-engine:
-  mariadb:
-    enabled: false
-    fullnameOverride: fineract-mysql
-    auth:
-      username: "mifos"
-      password: "password"
-      rootPassword: "4ET6ywqlGt"
- 
-  #fineract: 
-  
   communityapp:
     enabled: false
-    
-#operations:
+  fineract:
+    enabled: true
+    ingress:
+      enabled: true
+      hostname: "fynams.sandbox.mifos.io"
+      path: "/"
+      wildcardhostname: "*.sandbox.mifos.io"
+      annotations:
+        kubernetes.io/ingress.class: "nginx"
+        nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+  mariadb:
+    enabled: true
+    fullnameOverride: mysql
+#    fullnameOverride: "fineract-mysql"
 
-  # grafana:
+operations:
+  grafana:
+    enabled: false
+  prometheus:
+    enabled: true
