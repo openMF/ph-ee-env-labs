@@ -1,20 +1,14 @@
 default: test
-
-include ../../../helpers/examples.mk
-
+include examples.mk
 RELEASE := helm-es-security
 ELASTICSEARCH_IMAGE := docker.elastic.co/elasticsearch/elasticsearch:$(STACK_VERSION)
 TIMEOUT := 1200s
-
 install:
 	helm upgrade --wait --timeout=$(TIMEOUT) --install --values values.yaml $(RELEASE) ../../
-
 test: secrets install goss
-
 purge:
-	kubectl delete secrets elastic-credentials elastic-certificates elastic-certificate-pem elastic-certificate-crt|| true
+	kubectl delete secrets elastic-certificates elastic-certificate-pem elastic-certificate-crt|| true
 	helm del $(RELEASE)
-
 pull-elasticsearch-image:
 	docker pull $(ELASTICSEARCH_IMAGE)
 
