@@ -42,7 +42,7 @@ ph-ee-engine:
       enabled: false
       className: "nginx"
       path: /
-      host: operate.mifos.g2pconnect.io
+      host: operate.sandbox.fynarfin.io
       tls:
         enabled: true
 
@@ -162,7 +162,7 @@ ph-ee-engine:
       kubernetes.io/ingress.class: nginx
       kubernetes.io/tls-acme: "true" 
       hosts:
-        - host: analytics.mifos.g2pconnect.io
+        - host: analytics.sandbox.fynarfin.io
           paths:
             - path: /
       #tls: []
@@ -192,14 +192,26 @@ ph-ee-engine:
   ph_ee_connector_ams_mifos:
     enabled: true
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-ee-ams"
-    imageTag: latest
+    imageTag: v1.2.2
     imagePullPolicy: "Always"
     SPRING_PROFILES_ACTIVE: "fin12,bb"
     ams_local_enabled: false
-    ams_local_interop_host: "https://fynams.mifos.g2pconnect.io/"
-    ams_local_account_host: "https://fynams.mifos.g2pconnect.io/"
-    ams_local_customer_host: "https://fynams.mifos.g2pconnect.io/"
-    ams_local_auth_host: "https://fynams.mifos.g2pconnect.io/"
+    ams_local_interop_host: "https://fynams.sandbox.fynarfin.io/"
+    ams_local_account_host: "https://fynams.sandbox.fynarfin.io/"
+    ams_local_customer_host: "https://fynams.sandbox.fynarfin.io/"
+    ams_local_auth_host: "https://fynams.sandbox.fynarfin.io/"
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: "nginx"
+      tls:
+        - secretName: sandbox-secret
+      path: "/"
+      backend:
+        service:
+          name: ph-ee-connector-ams-mifos
+          port:
+            number: 80
     limits:
       cpu: "500m"
       memory: "512M"
@@ -213,8 +225,9 @@ ph-ee-engine:
   ph_ee_connector_mojaloop:
     enabled: true
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-mojaloop"
+    imageTag: "latest"
     SPRING_PROFILES_ACTIVE: "bb"
-    hostname: "mojaloop.mifos.g2pconnect.io"
+    hostname: "mojaloop.sandbox.fynarfin.io"
     DFSPIDS: "gorilla,lion"
     limits:
       cpu: "500m"
@@ -258,11 +271,22 @@ ph-ee-engine:
   channel:
     enabled: true
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-channel"
-    imageTag: latest
+    imageTag: v1.5.1
     SPRING_PROFILES_ACTIVE: "bb"
-    hostname: "channel.mifos.g2pconnect.io"
-    stub_hostname: "channel-gsma.mifos.g2pconnect.io"
+    hostname: "channel.sandbox.fynarfin.io"
+    stub_hostname: "channel-gsma.sandbox.fynarfin.io"
     DFSPIDS: "rhino,gorilla"
+    operations:
+      url: "http://ops-bk.sandbox.fynarfin.io/api/v1"
+      authEnabled: false
+    tenantPrimary:
+      clientId: "mifos"
+      clientSecret: "password"
+      tenant: "rhino"
+    tenantSecondary:
+      clientId: "mifos"
+      clientSecret: "password"
+      tenant: "gorilla"
     limits:
       cpu: "500m"
       memory: "512M"
@@ -271,8 +295,11 @@ ph-ee-engine:
       memory: "256M"
     ingress:
       enabled: true
+      className: "nginx"
       annotations:
         kubernetes.io/ingress.class: "nginx"
+      tls:
+        - secretName: sandbox-secret
       path: "/"
       backend:
         service:
@@ -288,14 +315,13 @@ ph-ee-engine:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
 
-
   operations_app:
     enabled: true
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-ee-ops-bk"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
     tenants: "rhino,gorilla"
-    hostname: "ops-bk.mifos.g2pconnect.io"
+    hostname: "ops-bk.sandbox.fynarfin.io"
     datasource:
       username: "mifos"
       password: "password"
@@ -327,8 +353,8 @@ ph-ee-engine:
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-ops-web"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
-    hostname: "ops.mifos.g2pconnect.io"
-    webhost: "ops.mifos.g2pconnect.io"
+    hostname: "ops.sandbox.fynarfin.io"
+    webhost: "ops.sandbox.fynarfin.io"
     limits:
       cpu: "500m"
       memory: "512M"
@@ -336,9 +362,11 @@ ph-ee-engine:
       cpu: "100m"
       memory: "256M"
     ingress:
+      className: "kong"
       enabled: true
       annotations:
-        kubernetes.io/ingress.class: "nginx"
+        kubernetes.io/ingress.class: "kong"
+        konghq.com/plugins: request-transformer,oidc,cors
       path: "/"
       backend:
         service:
@@ -347,7 +375,7 @@ ph-ee-engine:
             number: 4200
 
   identity:
-    hostname: "ops-bk.mifos.g2pconnect.io"
+    hostname: "ops-bk.sandbox.fynarfin.io"
 
   ph_ee_connector_gsma:
     enabled: true
@@ -378,10 +406,10 @@ ph-ee-engine:
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-mpesa"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
-    hostname: "mpesa.mifos.g2pconnect.io"
+    hostname: "mpesa.sandbox.fynarfin.io"
     tenant: "rhino,gorilla"
     zeebe_broker_contactpoint: "zeebe-zeebe-gateway:26500"
-    callback_host: "https://mpesa.mifos.g2pconnect.io/"
+    callback_host: "https://mpesa.sandbox.fynarfin.io/"
     retry_count: 3
     api_timeout: 60000
     accounts:
@@ -472,7 +500,7 @@ ph-ee-engine:
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-ee-notifications"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
-    hostname: "notifications.mifos.g2pconnect.io"
+    hostname: "notifications.sandbox.fynarfin.io"
     MESSAGEGATEWAYCONFIG_HOST: "message-gateway"
     NOTIFICATION_LOCAL_HOST: "ph-ee-connector-notifications"
     NOTIFICATION_SUCCESS_ENABLED: "false"
@@ -507,11 +535,29 @@ ph-ee-engine:
     SPRING_PROFILES_ACTIVE: "bb"
     imageTag: latest
     tenant: "rhino,gorilla"
-    hostname: "bulk-connector.mifos.g2pconnect.io"
+    hostname: "bulk-connector.sandbox.fynarfin.io"
+    aws:
+      region: "us-east-2"
+      access_key: "AKIAX32JM37TZOJ5AKFB"
+      secret_key: "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"
+    operations_app:
+      contactpoint: "https://ops-bk.sandbox.fynarfin.io/"
+      endpoints:
+        batch_transaction: "/api/v1/batch/transactions"
+    limits:
+      cpu: "500m"
+      memory: "512M"
+    requests:
+      cpu: "100m"
+      memory: "256M"
     ingress:
       enabled: true
+      className: "kong"
       annotations: 
-        kubernetes.io/ingress.class: "nginx"
+        kubernetes.io/ingress.class: "kong"
+        konghq.com/plugins: request-transformer,oidc,cors
+      tls:
+        - secretName: sandbox-secret
       path: "/"
       backend:
         service:
@@ -526,7 +572,7 @@ ph-ee-engine:
     enabled: true
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-zeebe-ops"
     imageTag: latest
-    hostname: "zeebeops.mifos.g2pconnect.io"
+    hostname: "zeebeops.sandbox.fynarfin.io"
     zeebe_broker_contactpoint: "zeebe-zeebe-gateway:26500"
     elasticsearch_contactpoint: "ph-ee-elasticsearch:9200"
     tenants: "rhino,gorilla"
@@ -560,7 +606,7 @@ ph-ee-engine:
       value:
         api_key: "eKiC1_JWdKy7eaTGQFHxXXjXjacr60W9Zntl"
         project_id: "PJ5ff552ce01d2978c"
-    hostname: "messagegateway.mifos.g2pconnect.io"
+    hostname: "messagegateway.sandbox.fynarfin.io"
     CALLBACKCONFIG_HOST: "ph-ee-connector-notifications"
     HOSTCONFIG_HOST: "message-gateway"
     MYSQL_USERNAME: "mifos"
@@ -643,14 +689,110 @@ ph-ee-engine:
       port: 3306
       schema: "tenants"
 
-  wildcardhostname: "*.mifos.g2pconnect.io"
+  wildcardhostname: "*.sandbox.fynarfin.io"
 
   tls: ""
+
+  keycloak:
+    enabled: true
+    ingress:
+      enabled: true
+      ingressClassName: "kong"
+      rules:
+        - host: 'keycloak.sandbox.fynarfin.io'
+          paths:
+          - path: /
+            pathType: Prefix
+      tls: []
+    extraVolumes: |
+      - name: realm-secret
+        secret:
+          secretName: realm-secret
+    extraVolumeMounts: |
+      - name: realm-secret
+        mountPath: "/realm/"
+        readOnly: true
+    extraEnv: |
+      - name: KEYCLOAK_IMPORT
+        value: /realm/kong-keycloak-realm.json
+
+  kong:
+    enabled: true
+    image:
+      repository: revomatico/docker-kong-oidc
+      tag: "latest"
+    env:
+      plugins: "bundled,oidc"
+    admin:
+      enabled: true
+      http:
+        enabled: true
+      tls:
+        enabled: false
+      ingress:
+        enabled: true
+        ingressClassName: "kong"
+        hostname: admin-kong.sandbox.fynarfin.io
+    extraObjects:
+      - apiVersion: configuration.konghq.com/v1
+        kind: KongClusterPlugin
+        metadata:
+          name: request-transformer
+          annotations:
+            kubernetes.io/ingress.class: "kong"
+          labels:
+            global: "false"
+        disabled: false # optionally disable the plugin in Kong
+        plugin: request-transformer
+        config:
+          remove:
+            headers:
+            - cookie
+            - x-id-token
+      - apiVersion: configuration.konghq.com/v1
+        kind: KongClusterPlugin
+        metadata:
+          name: cors
+          annotations:
+            kubernetes.io/ingress.class: "kong"
+          labels:
+            global: "true"    
+        disabled: false # optionally disable the plugin in Kong
+        plugin: cors
+        config: 
+          origins: 
+            - "*"
+          credentials: true
+          max_age: 3600
+          exposed_headers : 
+            - "X-Auth-Token"
+          preflight_continue: false
+      - apiVersion: configuration.konghq.com/v1
+        kind: KongClusterPlugin
+        metadata:
+          name: oidc
+          annotations:
+            kubernetes.io/ingress.class: "kong"
+          labels:
+            global: "false"
+        disabled: false # optionally disable the plugin in Kong
+        plugin: oidc
+        config: # configuration for the plugin
+          client_id: kong-oidc 
+          client_secret: xxxxxxxx  # Generated on keyCloak
+          realm: kong
+          discovery: https://keycloak.sandbox.fynarfin.io/auth/realms/kong-oidc/.well-known/openid-configuration
+          scope: openid
+
+  redis:
+    enabled: true
+    replica:
+      replicaCount: 0
   
 zeebe-operate:
   ingress:
     enabled: true
-    hostname: "zeebeoperate.mifos.g2pconnect.io"
+    hostname: "zeebeoperate.sandbox.fynarfin.io"
     annotations:
       kubernetes.io/ingress.class: "nginx"
     path: "/"
@@ -659,4 +801,5 @@ zeebe-operate:
         name: "zeebe-operate"
         port:
           number: 80
+
 
