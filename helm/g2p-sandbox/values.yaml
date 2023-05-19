@@ -192,7 +192,7 @@ ph-ee-engine:
   ph_ee_connector_ams_mifos:
     enabled: true
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-ee-ams"
-    imageTag: latest
+    imageTag: v1.2.2
     imagePullPolicy: "Always"
     SPRING_PROFILES_ACTIVE: "fin12,bb"
     ams_local_enabled: false
@@ -225,6 +225,7 @@ ph-ee-engine:
   ph_ee_connector_mojaloop:
     enabled: true
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-mojaloop"
+    imageTag: "latest"
     SPRING_PROFILES_ACTIVE: "bb"
     hostname: "mojaloop.sandbox.fynarfin.io"
     DFSPIDS: "gorilla,lion"
@@ -270,7 +271,7 @@ ph-ee-engine:
   channel:
     enabled: true
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-channel"
-    imageTag: latest
+    imageTag: v1.5.1
     SPRING_PROFILES_ACTIVE: "bb"
     hostname: "channel.sandbox.fynarfin.io"
     stub_hostname: "channel-gsma.sandbox.fynarfin.io"
@@ -361,9 +362,11 @@ ph-ee-engine:
       cpu: "100m"
       memory: "256M"
     ingress:
+      className: "kong"
       enabled: true
       annotations:
-        kubernetes.io/ingress.class: "nginx"
+        kubernetes.io/ingress.class: "kong"
+        konghq.com/plugins: request-transformer,oidc,cors
       path: "/"
       backend:
         service:
