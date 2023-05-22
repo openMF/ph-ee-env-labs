@@ -3,6 +3,7 @@ ph-ee-engine:
     broker:
       contactpoint: "zeebe-zeebe-gateway:26500"
   zeebe-cluster-helm:
+    enabled: true
     global:
       elasticsearch:
         host: "ph-ee-elasticsearch"
@@ -175,6 +176,7 @@ ph-ee-engine:
     enabled: true
 
   operationsmysql:
+    enabled: true
     auth:
       database: "tenants"
       username: "mifos"
@@ -779,6 +781,7 @@ ph-ee-engine:
             number: 80
 
   importer_es:
+    enabled: true
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-es-importer"
     imageTag: latest
     elasticsearch_sslverification: false
