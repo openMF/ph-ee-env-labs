@@ -394,107 +394,18 @@ ph-ee-engine:
         deployTime: "{{ .Values.deployTime }}"
 
   ph_ee_connector_slcb:
-    enabled: true
-    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-ee-slcb"
-    imageTag: latest
-    SPRING_PROFILES_ACTIVE: "bb"
-    deployment:
-      annotations:
-        deployTime: "{{ .Values.deployTime }}"
+    enabled: false
+   
 
   mpesa:
     enabled: false
-    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-mpesa"
-    imageTag: latest
-    SPRING_PROFILES_ACTIVE: "bb"
-    hostname: "mpesa.sandbox.fynarfin.io"
-    tenant: "rhino,gorilla"
-    zeebe_broker_contactpoint: "zeebe-zeebe-gateway:26500"
-    callback_host: "https://mpesa.sandbox.fynarfin.io/"
-    retry_count: 3
-    api_timeout: 60000
-    accounts:
-      roster:
-        name: "roster"
-        business_short_code: "7385028"
-        till: "1234567"
-        auth_host: "https://sandbox.safaricom.co.ke/oauth/v1/generate"
-        api_host: "https://sandbox.safaricom.co.ke"
-        client_key: "0pLxbN83FrOl5Nd0Fh9Zi5BQlMxSL2n5"
-        client_secret: "YzuGNoJxeub8ZC6d"
-        pass_key: "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919"
-      paygops:
-        name: "paygops"
-        business_short_code: "668158"
-        till: "9347335"
-        auth_host: "https://sandbox.safaricom.co.ke/oauth/v1/generate"
-        api_host: "https://sandbox.safaricom.co.ke"
-        client_key: "0pLxbN83FrOl5Nd0Fh9Zi5BQlMxSL2n5"
-        client_secret: "YzuGNoJxeub8ZC6d"
-        pass_key: "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919"
-    limits:
-      cpu: "500m"
-      memory: "512M"
-    requests:
-      cpu: "100m"
-      memory: "256M"
-    ingress:
-      enabled: false
-      annotations:
-        kubernetes.io/ingress.class: "nginx"
-      path: "/"
-      backend:
-        service:
-          name: ph-ee-connector-mpesa
-          port:
-            number: 80
-    deployment:
-      annotations:
-        deployTime: "{{ .Values.deployTime }}"
-    skip:
-      enabled: false
-
+    
   roster_connector:
     enabled: false
-    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-roster"
-    imageTag: latest
-    SPRING_PROFILES_ACTIVE: "bb"
-    ams:
-      local:
-        enabled: false
-    pesacore:
-      auth_header: "PaymentHub"
-    limits:
-      cpu: "500m"
-      memory: "512M"
-    requests:
-      cpu: "100m"
-      memory: "256M"
-    deployment:
-      annotations:
-        deployTime: "{{ .Values.deployTime }}"
-
+    
   paygops_connector:
     enabled: false
-    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-connector-ams-paygops"
-    imageTag: latest
-    SPRING_PROFILES_ACTIVE: "bb"
-    LOGGING_LEVEL_ROOT: "INFO"
-    ams:
-      local:
-        enabled: false
-    paygops:
-      authheader: "PaymentHubTest"
-      base_url: "https://feature-test1.paygops.com/"
-    limits:
-      cpu: "500m"
-      memory: "512M"
-    requests:
-      cpu: "100m"
-      memory: "256M"
-    deployment:
-      annotations:
-        deployTime: "{{ .Values.deployTime }}"
+    
 
   notifications:
     enabled: true
@@ -638,33 +549,7 @@ ph-ee-engine:
     elasticsearch_sslverification: false
     elasticsearch_security_enabled: false
     reporting:
-      enabled: true
-      fields:
-        amount: true
-        accountId: true
-        errorCode: false
-        errorDescription: true
-        externalId: true
-        initiator: false
-        initiatorType: false
-        isNotificationsFailureEnabled: false
-        isNotificationsSuccessEnabled: false
-        mpesaTransactionId: false
-        mpesaTransactionStatusRetryCount: false
-        originDate: false
-        partyLookupFailed: false
-        phoneNumber: true
-        processDefinitionKey: false
-        processInstanceKey: true
-        scenario: false
-        tenantId: false
-        timer: false
-        timestamp: true
-        transactionFailed: false
-        transactionId: false
-        transferCreateFailed: false
-        transferSettlementFailed: false
-        transferResponseCREATE: false
+      enabled: false
     limits:
       cpu: "500m"
       memory: "512M"
