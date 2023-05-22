@@ -855,7 +855,7 @@ ph-ee-engine:
       schema: "tenants"
 
   kong:
-    enabled: flase
+    enabled: true
     image:
       repository: revomatico/docker-kong-oidc
       tag: "latest"
@@ -923,7 +923,7 @@ ph-ee-engine:
           scope: openid
 
   keycloak:
-    enabled: false
+    enabled: true
     ingress:
       enabled: true
       ingressClassName: "kong"
