@@ -1,4 +1,7 @@
+prometheus:
+  enabled: true
 grafana:
+  enabled: true
   ingress:
     enabled: true
     annotations:
