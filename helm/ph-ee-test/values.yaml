@@ -1,39 +1,17 @@
 ph-ee-engine:
-  zeebe:
-    broker:
-      contactpoint: "zeebe-zeebe-gateway:26500"
-  zeebe-cluster-helm:
+
+  camunda-platform:
     global:
-      elasticsearch:
-        host: "ph-ee-elasticsearch"
-    image:
-      repository: camunda/zeebe
-      tag: 1.1.0
+      zeebe: "zeebetest-zeebe"
+    zeebe:
+      broker:
+        contactpoint: "zeebetest-zeebe-gateway:26500"
 
-    clusterSize: "1"
-    partitionCount: "1"
-    replicationFactor: "1"
-    JavaOpts: "-Xms8g -Xmx8g -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:MaxRAMPercentage=25.0 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -XX:+PrintFlagsFinal"
-
-    elasticsearch:
-      enabled: false
-    kibana:
-      enabled: false
-
-    extraInitContainers: |
-      - name: init-ph-ee-kafka-exporter
-        image: busybox:1.28
-        command: ['/bin/sh', '-c']
-        args: ['wget -O /exporters/ph-ee-kafka-exporter.jar "https://paymenthub-ee-dev.s3.us-east-2.amazonaws.com/jars/exporter-1.0.0-SNAPSHOT.jar"; ls -al /exporters/']
-        volumeMounts:
-        - name: exporters
-          mountPath: /exporters/
-
-  zeebe-operate-helm:
+  operate:
     enabled: true
     image:
       repository: camunda/operate
-      tag: 1.1.0
+      tag: 8.1.1
     global:
       elasticsearch:
         host: "ph-ee-elasticsearch"
@@ -199,6 +177,7 @@ ph-ee-engine:
   kafka:
     enabled: true
     image: "spotify/kafka"
+    nodePort: "30092"
     advertised:
       host: "kafka"
       port: "9092"
@@ -217,9 +196,12 @@ ph-ee-engine:
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-channel"
     imageTag: v1.5.1
     SPRING_PROFILES_ACTIVE: "bb"
-    hostname: "channel.sandbox.fynarfin.io"
-    stub_hostname: "channel-gsma.sandbox.fynarfin.io"
+    hostname: "channel2.sandbox.fynarfin.io"
+    stub_hostname: "channel-gsma2.sandbox.fynarfin.io"
     DFSPIDS: "rhino,gorilla"
+    zeebe:
+      broker:
+        contactpoint: "zeebetest-zeebe-gateway:26500"
     operations:
       url: "http://ops-bk.sandbox.fynarfin.io/api/v1"
       authEnabled: false
@@ -265,7 +247,7 @@ ph-ee-engine:
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
     tenants: "rhino,gorilla"
-    hostname: "ops-bk.sandbox.fynarfin.io"
+    hostname: "ops-bk2.sandbox.fynarfin.io"
     datasource:
       username: "mifos"
       password: "password"
@@ -297,8 +279,8 @@ ph-ee-engine:
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-ops-web"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
-    hostname: "ops.sandbox.fynarfin.io"
-    webhost: "ops.sandbox.fynarfin.io"
+    hostname: "ops2.sandbox.fynarfin.io"
+    webhost: "ops2.sandbox.fynarfin.io"
     limits:
       cpu: "500m"
       memory: "512M"
@@ -319,7 +301,7 @@ ph-ee-engine:
             number: 4200
 
   identity:
-    hostname: "ops-bk.sandbox.fynarfin.io"
+    hostname: "ops-bk2.sandbox.fynarfin.io"
 
   ph_ee_connector_gsma:
     enabled: false
@@ -386,8 +368,8 @@ ph-ee-engine:
     enabled: true
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-zeebe-ops"
     imageTag: latest
-    hostname: "zeebeops.sandbox.fynarfin.io"
-    zeebe_broker_contactpoint: "zeebe-zeebe-gateway:26500"
+    hostname: "zeebeops2.sandbox.fynarfin.io"
+    zeebe_broker_contactpoint: "zeebetest-zeebe-gateway:26500"
     elasticsearch_contactpoint: "ph-ee-elasticsearch:9200"
     tenants: "rhino,gorilla"
     elasticsearch_sslverification: false
@@ -416,6 +398,7 @@ ph-ee-engine:
     enabled: false
 
   importer_es:
+    enabled: true
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-es-importer"
     imageTag: latest
     elasticsearch_sslverification: false
@@ -425,29 +408,12 @@ ph-ee-engine:
       fields:
         amount: true
         accountId: true
-        errorCode: false
         errorDescription: true
         externalId: true
-        initiator: false
-        initiatorType: false
-        isNotificationsFailureEnabled: false
-        isNotificationsSuccessEnabled: false
-        mpesaTransactionId: false
-        mpesaTransactionStatusRetryCount: false
-        originDate: false
-        partyLookupFailed: false
         phoneNumber: true
-        processDefinitionKey: false
         processInstanceKey: true
-        scenario: false
-        tenantId: false
-        timer: false
         timestamp: true
-        transactionFailed: false
-        transactionId: false
-        transferCreateFailed: false
-        transferSettlementFailed: false
-        transferResponseCREATE: false
+
     limits:
       cpu: "500m"
       memory: "512M"
@@ -472,6 +438,46 @@ ph-ee-engine:
       host: "operationsmysql"
       port: 3306
       schema: "tenants"
+  
+  integration_test:
+    enabled: true
+    replicas: 1
+    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-integration-test"
+    imageTag: latest
+    imagePullPolicy: "Always"
+    limits:
+      cpu: "500m"
+      memory: "3Gi"
+    requests:
+      cpu: "100m"
+      memory: "2Gi"
+    operations_app:
+      contactpoint: "https://ops-bk2.sandbox.fynarfin.io"
+    bulk_processor:
+      contactpoint: "https://bulk-connector2.sandbox.fynarfin.io"
+    channel_connector:
+      contactpoint: "https://channel2.sandbox.fynarfin.io"
+    kafka:
+      brokers: "kafka:9092"
+      topics: "zeebe-export"
+      consumerTimeoutMs: "300000"
+    zeebe_operations:
+      contactpoint: "https://zeebeops2.sandbox.fynarfin.io"
+      no_of_workflows: "100"
+      thread-count: "20"
+    max_retry_count: "5"
+    retry_intervals: "15000"
+    defaults:
+      tenant: "gorilla"
+      authorization: "Basic bWlmb3M6cGFzc3dvcmQ="
+    channel:
+      base_url: "https://channel2.sandbox.fynarfin.io"
+    loan:
+      base_url: "https://fynams2.sandbox.fynarfin.io"
+    savings:
+      base_url: "https://fynams2.sandbox.fynarfin.io"
+    gradle:
+      command: "./gradlew cucumberCli -P tags=@ZeebeExport;"
 
   wildcardhostname: "*.sandbox.fynarfin.io"
 
