@@ -199,6 +199,14 @@ ph-ee-engine:
     hostname: "channel2.sandbox.fynarfin.io"
     stub_hostname: "channel-gsma2.sandbox.fynarfin.io"
     DFSPIDS: "rhino,gorilla"
+    redis:
+      host: "127.0.0.1"
+      port: 6379
+      password: ""
+      idempotency:
+        enabled: true
+        keyFormat: "clientCorrelationId_tenant_api"
+        apiList: "/channel/transfer,/channel/collection,/channel/gsma/transaction,/channel/transactionRequest"
     zeebe:
       broker:
         contactpoint: "zeebetest-zeebe-gateway:26500"
