@@ -2,6 +2,14 @@ ph-ee-engine:
   zeebe:
     broker:
       contactpoint: "zeebe-zeebe-gateway:26500"
+
+  # Whether this chart should self-manage its service account, role, and associated role binding.
+  managedServiceAccount: true
+  # Custom service account override that the pod will use
+  serviceAccount: "paymenthub"    
+  # Annotations to add to the ServiceAccount that is created if the serviceAccount value isn't set.
+  serviceAccountAnnotations: {}
+
   zeebe-cluster-helm:
     enabled: true
     global:
@@ -42,7 +50,7 @@ ph-ee-engine:
     ingress:
       enabled: false
       className: "kong"
-      path: /
+      path: "/"
       host: operate.sandbox.fynarfin.io
       tls:
         - secretName: sandbox-secret
@@ -166,7 +174,7 @@ ph-ee-engine:
       hosts:
         - host: analytics.sandbox.fynarfin.io
           paths:
-            - path: /
+            - path: "/"
       tls:
         - secretName: sandbox-secret
       #    hosts:
@@ -1024,7 +1032,7 @@ ph-ee-engine:
           port:
             number: 80
 
-  mock-oracle:
+  mock_oracle:
     enabled: true
     replicas: 1
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/mock-asl-oracle"
@@ -1032,10 +1040,10 @@ ph-ee-engine:
     hostname: "mockoracle.sandbox.fynarfin.io"
     ingress:
       enabled: true
-      path: "/"
       className: "nginx"
       annotations:
           kubernetes.io/ingress.class: "nginx"
+      path: "/"    
       backend:
         service:
             name: mock-oracle
