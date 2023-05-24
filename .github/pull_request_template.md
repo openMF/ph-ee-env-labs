@@ -1,7 +1,7 @@
 ## Description
 
 * Describe the changes made and why they were made.
-* Add a link to teh design document or include the design bullet points related to this PR here.
+* Add a link to the design document or include the design bullet points related to this PR here.
 
  _(Ignore if these details are present on the associated JIRA ticket)_
 
@@ -9,7 +9,7 @@
 
 Please make sure these boxes are checked before submitting your pull request - thanks!
 
-- [ ] Design related bullet points or design document link related to this PR added in the description above. 
+- [ ] Design-related bullet points or design document links related to this PR are added in the description above. 
 
 - [ ] Updated corresponding Postman Collection or Api documentation for the changes in this PR.
 

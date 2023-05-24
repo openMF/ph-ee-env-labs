@@ -3,6 +3,7 @@ ph-ee-engine:
     broker:
       contactpoint: "zeebe-zeebe-gateway:26500"
   zeebe-cluster-helm:
+    enabled: true
     global:
       elasticsearch:
         host: "ph-ee-elasticsearch"
@@ -175,6 +176,7 @@ ph-ee-engine:
     enabled: true
 
   operationsmysql:
+    enabled: true
     auth:
       database: "tenants"
       username: "mifos"
@@ -334,6 +336,73 @@ ph-ee-engine:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
 
+  gsmachannel:
+    enabled: true
+    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-gsma-channel"
+    imageTag: latest
+    SPRING_PROFILES_ACTIVE: "bb"
+    DFSPIDS: "gorilla,lion"
+    limits:
+      cpu: "500m"
+      memory: "512M"
+    requests:
+      cpu: "100m"
+      memory: "256M"
+    ingress:
+      enabled: true
+      className: "nginx"
+      annotations:
+        kubernetes.io/ingress.class: "nginx"
+      tls:
+        - secretName: sandbox-secret
+      path: "/"
+      backend:
+        service:
+          name: ph-ee-connector-gsma-channel
+          port:
+            number: 80
+      stub_backend:
+        service:
+          name: ph-ee-connector-gsma-channel
+          port:
+            number: 82
+    deployment:
+      annotations:
+        deployTime: "{{ .Values.deployTime }}"
+
+    gsmachannelsimulator:
+      enabled: true
+      image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-gsma-channel-simulator"
+      imageTag: latest
+      SPRING_PROFILES_ACTIVE: "bb"
+      DFSPIDS: "gorilla,lion"
+      limits:
+        cpu: "500m"
+        memory: "512M"
+      requests:
+        cpu: "100m"
+        memory: "256M"
+      ingress:
+        enabled: true
+        className: "nginx"
+        annotations:
+          kubernetes.io/ingress.class: "nginx"
+        tls:
+          - secretName: sandbox-secret
+        path: "/"
+        backend:
+          service:
+            name: ph-ee-connector-gsma-channel-simulator
+            port:
+              number: 80
+        stub_backend:
+          service:
+            name: ph-ee-connector-gsma-channel-simulator
+            port:
+              number: 82
+      deployment:
+        annotations:
+          deployTime: "{{ .Values.deployTime }}"
 
   mockpayment:
     enabled: true
@@ -673,11 +742,17 @@ ph-ee-engine:
   connector_bulk:
     enabled: true
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-bulk-processor"
-    SPRING_PROFILES_ACTIVE: "bb"
     imageTag: latest
     tenants: "gorilla,lion"
     hostname: "bulk-connector.sandbox.fynarfin.io"
-    SPRING_PROFILES_ACTIVE: "<issue: wasnot present earlier but it is in deployment>"
+    aws:
+      region: "us-east-2"
+      access_key: "AKIAX32JM37TZOJ5AKFB"
+      secret_key: "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"
+    operations_app:
+      contactpoint: "https://ops-bk.sandbox.fynarfin.io/"
+      endpoints:
+        batch_transaction: "/api/v1/batch/transactions"
     limits:
       cpu: "500m"
       memory: "512M"
@@ -773,6 +848,7 @@ ph-ee-engine:
             number: 80
 
   importer_es:
+    enabled: true
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-es-importer"
     imageTag: latest
     elasticsearch_sslverification: false
@@ -932,44 +1008,44 @@ ph-ee-engine:
 
   tls: "sandbox-secret"
   
-zeebe-operate:
-  ingress:
-    enabled: true
-    hostname: "zeebeoperate.sandbox.fynarfin.io"
-    className: "kong"
-    annotations:
-      kubernetes.io/ingress.class: "kong"
-    tls:
-      - secretName: sandbox-secret 
-    path: "/"
-    backend:
-      service:
-        name: "zeebe-operate"
-        port:
-          number: 80
-
-mock-oracle:
-  enabled: true
-  replicas: 1
-  image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/mock-asl-oracle"
-  imagePullPolicy: "Always"
-  hostname: "mockoracle.sandbox.fynarfin.io"
-  ingress:
-    enabled: true
-    path: "/"
-    className: "nginx"
-    annotations:
-        kubernetes.io/ingress.class: "nginx"
-    backend:
-      service:
-          name: mock-oracle
+  zeebe-operate:
+    ingress:
+      enabled: true
+      hostname: "zeebeoperate.sandbox.fynarfin.io"
+      className: "kong"
+      annotations:
+        kubernetes.io/ingress.class: "kong"
+      tls:
+        - secretName: sandbox-secret 
+      path: "/"
+      backend:
+        service:
+          name: "zeebe-operate"
           port:
             number: 80
-  deployment:
-    annotations:
-        deployTime: "{{ .Values.deployTime }}"
 
-redis:
-  enabled: true
-  replica:
-    replicaCount: 0
+  mock-oracle:
+    enabled: true
+    replicas: 1
+    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/mock-asl-oracle"
+    imagePullPolicy: "Always"
+    hostname: "mockoracle.sandbox.fynarfin.io"
+    ingress:
+      enabled: true
+      path: "/"
+      className: "nginx"
+      annotations:
+          kubernetes.io/ingress.class: "nginx"
+      backend:
+        service:
+            name: mock-oracle
+            port:
+              number: 80
+    deployment:
+      annotations:
+          deployTime: "{{ .Values.deployTime }}"
+
+  redis:
+    enabled: true
+    replica:
+      replicaCount: 0

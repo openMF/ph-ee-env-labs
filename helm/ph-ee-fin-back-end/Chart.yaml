@@ -6,9 +6,9 @@ version: 1.0.0
 appVersion: "ph-ee-superset: v1.16.0; ph-ee-engine:v1.16.0; fin-engine: v1.0.0; operations: 1.0.0;"
 
 dependencies:
-- name: ph-ee-superset
-  repository: "https://fynarfin.io/images/superset/"
-  version: 0.2.0
+- name: ph-ee-engine
+  repository: "https://fynarfin.io/images/ph-ee-engine-1.7.2-SNAPSHOT/"
+  version: 1.7.2-SNAPSHOT
 - name: fin-engine
   repository: "https://fynarfin.io/images/fineract/"
   version: 1.0.0-SNAPSHOT
