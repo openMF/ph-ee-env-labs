@@ -1,0 +1,64 @@
+version: 2.1
+orbs:
+  slack: circleci/slack@4.12.5
+  helm: circleci/helm@2.0.1
+  aws-eks: circleci/aws-eks@2.2.0
+  kubernetes: circleci/kubernetes@1.3
+jobs:
+  build:
+    docker:
+      - image: docker:17.05.0-ce-git
+    working_directory: ~/repo
+    environment:
+      TERM: dumb
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run: rm -f helm/g2p-sandbox/Chart.lock helm/g2p-sandbox/requirements.lock helm/g2p-sandbox/charts/*
+      - run: helm dep up helm/g2p-sandbox
+      - run: helm package helm/g2p-sandbox
+      - run: helm repo index .
+      - run: scp -o StrictHostKeyChecking=No -i /var/lib/jenkins/fynarfin.pem index.yaml ph-ee-g2psandbox-0.2.0.tgz ec2-user@13.233.68.128:~/
+      - run: ssh -i /var/lib/jenkins/fynarfin.pem -o StrictHostKeyChecking=No ec2-user@13.233.68.128 sudo mv -t /apps/apache-tomcat-7.0.82/webapps/ROOT/images/ index.yaml ph-ee-g2psandbox-0.2.0.tgz
+  upgrade-helm-chart:
+    docker:
+      - image: cimg/python:3.10
+    parameters:
+      cluster-name:
+        description: "sit"
+        type: string
+    steps:
+      - aws-eks/update-kubeconfig-with-authenticator:
+          cluster-name: "sit"
+          aws-region: "us-east-2"
+      - helm/upgrade-helm-chart:
+          chart: "https://fynarfin.io/images/ph-ee-engine-1.7.2-SNAPSHOT.tgz"
+          release-name: g2p-sandbox
+          namespace: paymenthub
+          recreate-pods: true
+          add-repo: "https://fynarfin.io/images/"
+      - run: helm test g2p-sandbox --namespace=paymenthub 
+            # reset-values: true
+            # dry-run: true
+      # - helm/install-helm-chart:
+      #     add-repo: "https://fynarfin.io/images/"
+      #     chart: "https://fynarfin.io/images/ph-ee-g2psandbox-0.2.0.tgz"
+      #     release-name: g2p-sandbox
+      #     namespace: ph-test
+workflows:
+  build:
+    jobs:
+      - build:
+          context: 
+            - AWS
+            - slack
+  deploy:
+    jobs:
+      - upgrade-helm-chart:
+          cluster-name: sit
+      # - install-helm-chart:
+      #     cluster-name: sit
+      # - delete-helm-release:
+      #     cluster-name: sit
+      #     requires:
+      #       - install-helm-chart
