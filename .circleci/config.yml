@@ -15,6 +15,8 @@ jobs:
       - checkout
       - setup_remote_docker
       - run: rm -f helm/g2p-sandbox/Chart.lock helm/g2p-sandbox/requirements.lock helm/g2p-sandbox/charts/*
+      - helm/install-helm-client:
+          version: "v3.8.2"
       - run: helm dep up helm/g2p-sandbox
       - run: helm package helm/g2p-sandbox
       - run: helm repo index .
