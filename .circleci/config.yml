@@ -7,13 +7,12 @@ orbs:
 jobs:
   build:
     docker:
-      - image: docker:17.05.0-ce-git
+      - image: cimg/python:3.10
     working_directory: ~/repo
     environment:
       TERM: dumb
     steps:
       - checkout
-      - setup_remote_docker
       - run: rm -f helm/g2p-sandbox/Chart.lock helm/g2p-sandbox/requirements.lock helm/g2p-sandbox/charts/*
       - helm/install-helm-client:
           version: "v3.8.2"
