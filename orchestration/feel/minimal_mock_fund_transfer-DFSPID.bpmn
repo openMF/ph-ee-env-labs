@@ -64,7 +64,9 @@
     </bpmn:receiveTask>
     <bpmn:sequenceFlow id="Flow_0o8mgiy" sourceRef="Gateway_1jlz33e" targetRef="mockInitiateTransfer" />
     <bpmn:sequenceFlow id="Flow_0gya237" sourceRef="Gateway_1sp7hyy" targetRef="Event_1sh6bqo" />
-    <bpmn:sequenceFlow id="Flow_19zt5r8" name="Transfer Failed" sourceRef="Gateway_1sp7hyy" targetRef="Activity_1d2j8yq" />
+    <bpmn:sequenceFlow id="Flow_19zt5r8" name="Transfer Failed" sourceRef="Gateway_1sp7hyy" targetRef="Activity_1d2j8yq">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=transactionFailed = true</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
   </bpmn:process>
   <bpmn:message id="Message_19wj5f0" name="accessToken">
     <bpmn:extensionElements>
