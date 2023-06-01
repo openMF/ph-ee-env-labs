@@ -7,6 +7,6 @@ version: 0.2.0
 appVersion: 1.16.0
 
 dependencies:
-- name: ph-ee-engine
-  repository: https://fynarfin.io/images/ph-ee-engine-1.7.2-SNAPSHOT
-  version: 1.7.2-SNAPSHOT
+- name: ph-ee-g2psandbox
+  repository: https://fynarfin.io/images/ph-ee-g2psandbox-1.0.0
+  version: 1.0.0
