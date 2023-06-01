@@ -13,16 +13,16 @@ jobs:
       TERM: dumb
     steps:
       - checkout
-      - run: rm -f helm/g2p-sandbox/Chart.lock helm/g2p-sandbox/requirements.lock helm/g2p-sandbox/charts/*
+      - run: rm -f helm/g2p-sandbox-fynarfin-SIT/Chart.lock helm/g2p-sandbox-fynarfin-SIT/requirements.lock helm/g2p-sandbox-fynarfin-SIT/charts/*
       - helm/install-helm-client:
           version: "v3.8.2"
-      - run: helm dep up helm/g2p-sandbox
-      - run: helm package helm/g2p-sandbox
+      - run: helm dep up helm/g2p-sandbox-fynarfin-SIT
+      - run: helm package helm/g2p-sandbox-fynarfin-SIT
       - run: helm repo index .
       - run: echo "$CERT_FILE" | base64 --decode > b64encoded.pem
       - run: chmod 400 b64encoded.pem
       - run: scp -o StrictHostKeyChecking=No -i b64encoded.pem index.yaml ph-ee-g2psandbox-0.2.0.tgz ec2-user@13.233.68.128:~/
-      - run: ssh -i b64encoded.pem -o StrictHostKeyChecking=No ec2-user@13.233.68.128 sudo mv -t /apps/apache-tomcat-7.0.82/webapps/ROOT/images/ph-ee-g2psandbox-0.0.0 index.yaml ph-ee-g2psandbox-0.0.0.tgz
+      - run: ssh -i b64encoded.pem -o StrictHostKeyChecking=No ec2-user@13.233.68.128 sudo mv -t /apps/apache-tomcat-7.0.82/webapps/ROOT/images/ph-ee-g2psandbox-0.0.0 index.yaml ph-ee-g2psandbox-0.2.0.tgz
   upgrade-helm-chart:
     docker:
       - image: cimg/python:3.10
@@ -34,8 +34,9 @@ jobs:
       - aws-eks/update-kubeconfig-with-authenticator:
           cluster-name: "sit"
           aws-region: "us-east-2"
+      - run: helm ls
       - helm/upgrade-helm-chart:
-          chart: "https://fynarfin.io/images/ph-ee-g2psandbox-0.0.0/ph-ee-g2psandbox-0.0.0.tgz"
+          chart: "https://fynarfin.io/images/ph-ee-g2psandbox-0.0.0/ph-ee-g2psandbox-0.2.0.tgz"
           release-name: g2p-sandbox
           namespace: paymenthub
           recreate-pods: true
