@@ -22,7 +22,7 @@ jobs:
       - run: echo "$CERT_FILE" | base64 --decode > b64encoded.pem
       - run: chmod 400 b64encoded.pem
       - run: scp -o StrictHostKeyChecking=No -i b64encoded.pem index.yaml ph-ee-g2psandbox-0.2.0.tgz ec2-user@13.233.68.128:~/
-      - run: ssh -i b64encoded.pem -o StrictHostKeyChecking=No ec2-user@13.233.68.128 sudo mv -t /apps/apache-tomcat-7.0.82/webapps/ROOT/images/ index.yaml ph-ee-g2psandbox-0.2.0.tgz
+      - run: ssh -i b64encoded.pem -o StrictHostKeyChecking=No ec2-user@13.233.68.128 sudo mv -t /apps/apache-tomcat-7.0.82/webapps/ROOT/images/ph-ee-g2psandbox-0.0.0 index.yaml ph-ee-g2psandbox-0.0.0.tgz
   upgrade-helm-chart:
     docker:
       - image: cimg/python:3.10
@@ -35,7 +35,7 @@ jobs:
           cluster-name: "sit"
           aws-region: "us-east-2"
       - helm/upgrade-helm-chart:
-          chart: "https://fynarfin.io/images/ph-ee-engine-1.7.2-SNAPSHOT.tgz"
+          chart: "https://fynarfin.io/images/ph-ee-g2psandbox-0.0.0/ph-ee-g2psandbox-0.0.0.tgz"
           release-name: g2p-sandbox
           namespace: paymenthub
           recreate-pods: true
