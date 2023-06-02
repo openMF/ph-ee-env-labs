@@ -17,6 +17,7 @@ jobs:
       - helm/install-helm-client:
           version: "v3.8.2"
       - run: "sed -i '12s/.*/version: 0.0.0/' helm/g2p-sandbox-fynarfin-SIT/Chart.yaml"
+      - run: cat helm/g2p-sandbox-fynarfin-SIT/Chart.yaml
       - run: helm dep up helm/g2p-sandbox-fynarfin-SIT
       - run: helm package helm/g2p-sandbox-fynarfin-SIT
       - run: helm repo index .
