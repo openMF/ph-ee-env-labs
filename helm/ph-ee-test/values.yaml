@@ -2,10 +2,10 @@ ph-ee-engine:
 
   camunda-platform:
     global:
-      zeebe: "zeebetest-zeebe"
+      zeebe: "zeebe-zeebe"
     zeebe:
       broker:
-        contactpoint: "zeebetest-zeebe-gateway:26500"
+        contactpoint: "zeebe-zeebe-gateway:26500"
     operate:
       enabled: true
       image:
@@ -200,7 +200,7 @@ ph-ee-engine:
     DFSPIDS: "rhino,gorilla"
     zeebe:
       broker:
-        contactpoint: "zeebetest-zeebe-gateway:26500"
+        contactpoint: "zeebe-zeebe-gateway:26500"
     operations:
       url: "http://ops-bk2.sandbox.fynarfin.io/api/v1"
       authEnabled: false
@@ -368,7 +368,7 @@ ph-ee-engine:
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-zeebe-ops"
     imageTag: latest
     hostname: "zeebeops2.sandbox.fynarfin.io"
-    zeebe_broker_contactpoint: "zeebetest-zeebe-gateway:26500"
+    zeebe_broker_contactpoint: "zeebe-zeebe-gateway:26500"
     elasticsearch_contactpoint: "ph-ee-elasticsearch:9200"
     tenants: "rhino,gorilla"
     elasticsearch_sslverification: false
