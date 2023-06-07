@@ -262,13 +262,28 @@ ph-ee-engine:
     ingress:
       enabled: true
       annotations:
-        kubernetes.io/ingress.class: "nginx"
-      path: "/"
-      backend:
-        service:
-          name: ph-ee-operations-app
-          port:
-            number: 80
+        kubernetes.io/ingress.class: nginx
+      tls:
+        - secretName: sandbox-secret
+      hosts:
+        - host: ops-bk2.sandbox.fynarfin.io
+          paths:
+            - path: "/"
+              backend:
+                service:
+                  name: ph-ee-operations-app
+                  port:
+                    number: 80
+#    ingress:
+#      enabled: true
+#      annotations:
+#        kubernetes.io/ingress.class: "nginx"
+#      path: "/"
+#      backend:
+#        service:
+#          name: ph-ee-operations-app
+#          port:
+#            number: 80
     deployment:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
