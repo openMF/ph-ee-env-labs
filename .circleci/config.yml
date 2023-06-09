@@ -42,7 +42,7 @@ jobs:
           release-name: g2p-sandbox
           namespace: paymenthub
           recreate-pods: true
-          add-repo: "https://fynarfin.io/images/"
+          add-repo: "https://fynarfin.io/images/ph-ee-g2psandbox-0.0.0"
       - run: helm test g2p-sandbox --namespace=paymenthub 
             # reset-values: true
             # dry-run: true
@@ -63,6 +63,10 @@ workflows:
     jobs:
       - upgrade-helm-chart:
           cluster-name: sit
+          context:
+            - AWS
+            - Helm
+            - slack
       # - install-helm-chart:
       #     cluster-name: sit
       # - delete-helm-release:
