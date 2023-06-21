@@ -7,33 +7,64 @@ ph-ee-g2psandbox:
     kibana:
       enabled: false
 
-  # zeebe-operate-helm:
+  zeebe-operate-helm:
+    ingress:
+      enabled: true 
+      host: operate.sandbox.fynarfin.io 
+    
 
-  # kibana:
+  kibana:
+    ingress:
+      enabled: true 
+      hosts:
+        - host: analytics.sandbox.fynarfin.io 
 
-  # operations:
+  operations:
     
   ph_ee_connector_ams_mifos:
     enabled: true
-    imageTag: v1.2.2                   
+    imageTag: v1.2.2 
+    ingress:
+      enabled: true 
+      hosts:
+        - host: ams-mifos.sandbox.fynarfin.io                   
 
   ph_ee_connector_mojaloop:
     enabled: true
+    ingress:
+      enabled: true  
+      hosts:
+        - host: mojaloop.sandbox.fynarfin.io
 
   # kafka:
 
   channel:
     enabled: true
+    ingress:
+      enabled: true 
+      hosts:
+        - host: channel.sandbox.fynarfin.io
+        - host: channel-gsma.sandbox.fynarfin.io  
 
   operations_app:
     enabled: true
     tenants: "rhino,gorilla"
+    ingress:
+      enabled: true 
+      hosts:
+        - host: ops-bk.sandbox.fynarfin.io 
 
   operations_web:
-    enabled: true          
+    enabled: true 
+    ingress:
+      enabled: true
+      hosts:
+        - host: ops.sandbox.fynarfin.io            
 
   ph_ee_connector_gsma:
     enabled: true
+    ingress:
+      enabled: true  
 
   ph_ee_connector_slcb:
     enabled: false
@@ -50,6 +81,10 @@ ph-ee-g2psandbox:
   notifications:
     enabled: true
     NOTIFICATION_FAILURE_ENABLED: "false"
+    ingress:
+      enabled: true 
+      hosts:
+        - host: notifications.sandbox.fynarfin.io 
 
   connector_bulk:
     enabled: true
@@ -58,10 +93,20 @@ ph-ee-g2psandbox:
       region: "us-east-2"
       access_key: "AKIAX32JM37TZOJ5AKFB"
       secret_key: "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"
+    ingress:
+      enabled: true 
+      tls:
+      - secretName: sandbox-secret
+        hosts:
+          - bulk-connector.sandbox.fynarfin.io   
         
   zeebe_ops:
     enabled: true
     tenants: "rhino,gorilla"
+    ingress:
+      enabled: true 
+      hosts:
+        - host: zeebeops.sandbox.fynarfin.io  
 
   messagegateway:
     enabled: true
@@ -69,6 +114,10 @@ ph-ee-g2psandbox:
       value:
         api_key: "eKiC1_JWdKy7eaTGQFHxXXjXjacr60W9Zntl"
         project_id: "PJ5ff552ce01d2978c"
+    ingress:
+      enabled: true   
+      hosts:
+        - host: messagegateway.sandbox.fynarfin.io
                           
   importer_es:
     enabled: true
@@ -81,9 +130,16 @@ ph-ee-g2psandbox:
 
   keycloak:
     enabled: true
+    ingress:
+      enabled: true 
+      rules:
+        - host: 'keycloak.sandbox.fynarfin.io'
   
   kong:
     enabled: true
+    ingress:
+      enabled: true
+      hostname: admin-kong.sandbox.fynarfin.io 
 
   redis:
     enabled: true
