@@ -39,6 +39,7 @@ jobs:
       - helm/install-helm-client:
           version: "v3.8.2"
       - run: helm ls --namespace=paymenthub
+      - run: echo "${PH_CI_RELEASE}"
       - helm/upgrade-helm-chart:
           chart: "https://fynarfin.io/images/ph-ee-g2psandbox-0.0.0/ph-ee-g2psandbox-0.2.0.tgz"
           release-name: "${PH_CI_RELEASE}"
