@@ -16,9 +16,16 @@ ph-ee-g2psandbox:
 
     kibana:
       ingress:
-        enabled: true 
-        hosts:
-          - host: analytics.sandbox.fynarfin.io 
+      enabled: false
+      className: "nginx"
+      pathtype: "Prefix"
+      annotations: {}
+        # kubernetes.io/ingress.class: nginx
+        # kubernetes.io/tls-acme: "true"       
+      hosts:
+        - host: analytics.sandbox.mifos.io
+          paths:
+            - path: / 
 
     operations:
       
@@ -152,7 +159,13 @@ ph-ee-g2psandbox:
         tls:
         - secretName: sandbox-secret
           hosts:
-            - bulk-connector.sandbox.fynarfin.io   
+            - bulk-connector.sandbox.fynarfin.io 
+        path: "/"
+        backend:
+          service:
+            name: ph-ee-connector-bulk
+            port:
+              number: 80      
           
     zeebe_ops:
       enabled: true
@@ -201,7 +214,11 @@ ph-ee-g2psandbox:
       ingress:
         enabled: true 
         rules:
-          - host: 'keycloak.sandbox.fynarfin.io'
+          - host: 'keycloak.sandbox.mifos.io'
+            paths:
+            - path: /
+              pathType: Prefix
+
     
     kong:
       enabled: false
