@@ -66,17 +66,17 @@ jobs:
       - store_test_results:
           path: ph-ee-integration-test/build/test-results/test/TEST-org.mifos.integrationtest.TestRunner.xml
 workflows:
-  build:
+  deploy:
     jobs:
       - build:
           context: 
             - AWS
             - Helm
             - slack
-  deploy:
-    jobs:
       - upgrade-helm-chart:
           cluster-name: sit
+          requires:
+            - build
           context:
             - AWS
             - Helm
