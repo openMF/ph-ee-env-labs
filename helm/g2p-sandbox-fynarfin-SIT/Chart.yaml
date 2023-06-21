@@ -1,5 +1,5 @@
 apiVersion: v2
-name: ph-ee-g2psandbox
+name: ph-ee-g2psandbox-fynarfin
 description: PaymentHub EE Barebone Edition
 
 type: application
