@@ -58,6 +58,8 @@ ph-ee-g2psandbox:
     enabled: true 
     ingress:
       enabled: true
+      annotations:
+        kubernetes.io/ingress.class: "nginx"
       hosts:
         - host: ops.sandbox.fynarfin.io            
 
@@ -95,6 +97,8 @@ ph-ee-g2psandbox:
       secret_key: "SC71XxyRMqObXttOX63bRv6mIOMZwVgBX1QU7vha"
     ingress:
       enabled: true 
+      annotations:
+        kubernetes.io/ingress.class: "nginx"
       tls:
       - secretName: sandbox-secret
         hosts:
@@ -129,14 +133,14 @@ ph-ee-g2psandbox:
   tls: ""
 
   keycloak:
-    enabled: true
+    enabled: false
     ingress:
       enabled: true 
       rules:
         - host: 'keycloak.sandbox.fynarfin.io'
   
   kong:
-    enabled: true
+    enabled: false
     ingress:
       enabled: true
       hostname: admin-kong.sandbox.fynarfin.io 
