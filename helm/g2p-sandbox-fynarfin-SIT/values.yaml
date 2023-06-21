@@ -28,14 +28,28 @@ ph-ee-g2psandbox:
       ingress:
         enabled: true 
         hosts:
-          - host: ams-mifos.sandbox.fynarfin.io                   
+          - host: ams-mifos.sandbox.mifos.io          
+            paths: 
+            - path: "/"
+              backend:
+                service:
+                  name: ph-ee-connector-ams-mifos
+                  port:
+                    number: 80                   
 
     ph_ee_connector_mojaloop:
       enabled: true
       ingress:
         enabled: true  
         hosts:
-          - host: mojaloop.sandbox.fynarfin.io
+          - host: mojaloop.sandbox.mifos.io          
+            paths: 
+            - path: "/"
+              backend:
+                service:
+                  name: ph-ee-connector-mojaloop-java
+                  port:
+                    number: 80
 
     # kafka:
 
@@ -44,8 +58,22 @@ ph-ee-g2psandbox:
       ingress:
         enabled: true 
         hosts:
-          - host: channel.sandbox.fynarfin.io
-          - host: channel-gsma.sandbox.fynarfin.io  
+          - host: channel.sandbox.mifos.io          
+            paths: 
+            - path: "/"
+              backend:
+                service:
+                  name: "ph-ee-connector-channel"
+                  port:
+                    number: 80
+          - host: channel-gsma.sandbox.mifos.io          
+            paths:          
+            - path: "/"
+              backend:
+                service:
+                  name: "ph-ee-connector-channel-gsma"
+                  port:
+                    number: 82  
 
     operations_app:
       enabled: true
@@ -53,7 +81,14 @@ ph-ee-g2psandbox:
       ingress:
         enabled: true 
         hosts:
-          - host: ops-bk.sandbox.fynarfin.io 
+          - host: ops-bk.sandbox.mifos.io          
+            paths: 
+            - path: "/"
+              backend:
+                service:
+                  name: "ph-ee-operations-app"
+                  port:
+                    number: 80 
 
     operations_web:
       enabled: true 
@@ -62,7 +97,14 @@ ph-ee-g2psandbox:
         annotations:
           kubernetes.io/ingress.class: "nginx"
         hosts:
-          - host: ops.sandbox.fynarfin.io            
+          - host: ops.sandbox.mifos.io          
+            paths: 
+            - path: "/"
+              backend:
+                service:
+                  name: "ph-ee-operations-web"
+                  port:
+                    number: 4200            
 
     ph_ee_connector_gsma:
       enabled: true
@@ -87,7 +129,14 @@ ph-ee-g2psandbox:
       ingress:
         enabled: true 
         hosts:
-          - host: notifications.sandbox.fynarfin.io 
+          - host: notifications.sandbox.mifos.io         
+            paths: 
+            - path: "/"
+              backend:
+                service:
+                  name: "ph-ee-connector-notifications"
+                  port:
+                    number: 80 
 
     connector_bulk:
       enabled: true
@@ -111,7 +160,14 @@ ph-ee-g2psandbox:
       ingress:
         enabled: true 
         hosts:
-          - host: zeebeops.sandbox.fynarfin.io  
+          - host: zeebeops.sandbox.mifos.io          
+            paths: 
+            - path: "/"
+              backend:
+                service:
+                  name: "ph-ee-zeebe-ops"
+                  port:
+                    number: 80
 
     messagegateway:
       enabled: true
@@ -122,7 +178,14 @@ ph-ee-g2psandbox:
       ingress:
         enabled: true   
         hosts:
-          - host: messagegateway.sandbox.fynarfin.io
+          - host: messagegateway.sandbox.mifos.io       
+            paths: 
+            - path: "/"
+              backend:
+                service:
+                  name: "message-gateway"
+                  port:
+                    number: 80
                             
     importer_es:
       enabled: true
