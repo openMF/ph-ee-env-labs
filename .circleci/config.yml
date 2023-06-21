@@ -28,6 +28,7 @@ jobs:
   upgrade-helm-chart:
     docker:
       - image: cimg/python:3.10
+      - image: cimg/openjdk:17.0.0
     parameters:
       cluster-name:
         description: "sit"
