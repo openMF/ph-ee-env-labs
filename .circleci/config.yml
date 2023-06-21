@@ -41,10 +41,12 @@ jobs:
       - run: helm ls --namespace=paymenthub
       - helm/upgrade-helm-chart:
           chart: "https://fynarfin.io/images/ph-ee-g2psandbox-0.0.0/ph-ee-g2psandbox-0.2.0.tgz"
-          release-name: g2p-sandbox
+          release-name: "$PH_CI_RELEASE"
           namespace: paymenthub
           recreate-pods: true
           add-repo: "https://fynarfin.io/images/ph-ee-g2psandbox-0.0.0"
+          wait: true
+          timeout: "120"
       # - run: helm test g2p-sandbox --namespace=paymenthub 
             # reset-values: true
             # dry-run: true
@@ -77,6 +79,7 @@ workflows:
             - AWS
             - Helm
             - slack
+            - Secrets
       - test-chart:
           requires:
             - upgrade-helm-chart
