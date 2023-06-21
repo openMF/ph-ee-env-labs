@@ -46,7 +46,7 @@ jobs:
           recreate-pods: true
           add-repo: "https://fynarfin.io/images/ph-ee-g2psandbox-0.0.0"
           wait: true
-          timeout: "120"
+          timeout: "300s"
       # - run: helm test g2p-sandbox --namespace=paymenthub 
             # reset-values: true
             # dry-run: true
