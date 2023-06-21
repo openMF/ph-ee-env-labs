@@ -28,7 +28,6 @@ jobs:
   upgrade-helm-chart:
     docker:
       - image: cimg/python:3.10
-      - image: cimg/openjdk:17.0.0
     parameters:
       cluster-name:
         description: "sit"
@@ -46,8 +45,6 @@ jobs:
           namespace: paymenthub
           recreate-pods: true
           add-repo: "https://fynarfin.io/images/ph-ee-g2psandbox-0.0.0"
-      - run: git clone https://github.com/openmf/ph-ee-integration-test
-      - run: cd ph-ee-integration-test && ./gradlew test -Dcucumber.filter.tags=“@gov” 
       # - run: helm test g2p-sandbox --namespace=paymenthub 
             # reset-values: true
             # dry-run: true
@@ -56,6 +53,12 @@ jobs:
       #     chart: "https://fynarfin.io/images/ph-ee-g2psandbox-0.2.0.tgz"
       #     release-name: g2p-sandbox
       #     namespace: ph-test
+  test-chart:
+    docker:
+      - image: cimg/openjdk:17.0.0
+    steps:
+      - run: git clone https://github.com/openmf/ph-ee-integration-test
+      - run: cd ph-ee-integration-test && ./gradlew test -Dcucumber.filter.tags=“@gov” 
 workflows:
   build:
     jobs:
@@ -72,9 +75,18 @@ workflows:
             - AWS
             - Helm
             - slack
+      - test-chart:
+          requires:
+            - upgrade-helm-chart
+          context: 
+            - AWS
+            - Helm
+            - slack
       # - install-helm-chart:
       #     cluster-name: sit
       # - delete-helm-release:
       #     cluster-name: sit
       #     requires:
       #       - install-helm-chart
+  
+      
