@@ -62,6 +62,11 @@ ph-ee-g2psandbox:
 
     channel:
       enabled: true
+      extraEnvs:
+      - name: "server-ssl-key-password"
+        value: "password"
+      - name: "server-ssl-key-store-password"
+        value: "password"    
       ingress:
         enabled: true 
         hosts:
@@ -157,19 +162,20 @@ ph-ee-g2psandbox:
         endpoints:
           batch_transaction: "/api/v1/batch/transactions"  
       ingress:
-        enabled: true 
-        annotations:
-          kubernetes.io/ingress.class: "nginx"
+        enabled: true
+        annotations: 
+          kubernetes.io/ingress.class: nginx  
         tls:
-        - secretName: sandbox-secret
-          hosts:
-            - bulk-connector.sandbox.fynarfin.io 
-        path: "/"
-        backend:
-          service:
-            name: ph-ee-connector-bulk
-            port:
-              number: 80      
+          - secretName: sandbox-secret
+        hosts:
+          - host: bulk-connector.sandbox.fynarfin.io     
+            paths: 
+            - path: "/"
+              backend:
+                service:
+                  name: "ph-ee-connector-bulk"
+                  port:
+                    number: 80      
           
     zeebe_ops:
       enabled: true
