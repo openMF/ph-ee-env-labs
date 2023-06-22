@@ -23,7 +23,7 @@ ph-ee-g2psandbox:
         # kubernetes.io/ingress.class: nginx
         # kubernetes.io/tls-acme: "true"       
       hosts:
-        - host: analytics.sandbox.mifos.io
+        - host: analytics.sandbox.fynarfin.io
           paths:
             - path: / 
 
@@ -35,7 +35,7 @@ ph-ee-g2psandbox:
       ingress:
         enabled: true 
         hosts:
-          - host: ams-mifos.sandbox.mifos.io          
+          - host: ams-mifos.sandbox.fynarfin.io          
             paths: 
             - path: "/"
               backend:
@@ -49,7 +49,7 @@ ph-ee-g2psandbox:
       ingress:
         enabled: true  
         hosts:
-          - host: mojaloop.sandbox.mifos.io          
+          - host: mojaloop.sandbox.fynarfin.io          
             paths: 
             - path: "/"
               backend:
@@ -65,7 +65,7 @@ ph-ee-g2psandbox:
       ingress:
         enabled: true 
         hosts:
-          - host: channel.sandbox.mifos.io          
+          - host: channel.sandbox.fynarfin.io          
             paths: 
             - path: "/"
               backend:
@@ -73,7 +73,7 @@ ph-ee-g2psandbox:
                   name: "ph-ee-connector-channel"
                   port:
                     number: 80
-          - host: channel-gsma.sandbox.mifos.io          
+          - host: channel-gsma.sandbox.fynarfin.io          
             paths:          
             - path: "/"
               backend:
@@ -88,7 +88,7 @@ ph-ee-g2psandbox:
       ingress:
         enabled: true 
         hosts:
-          - host: ops-bk.sandbox.mifos.io          
+          - host: ops-bk.sandbox.fynarfin.io          
             paths: 
             - path: "/"
               backend:
@@ -104,7 +104,7 @@ ph-ee-g2psandbox:
         annotations:
           kubernetes.io/ingress.class: "nginx"
         hosts:
-          - host: ops.sandbox.mifos.io          
+          - host: ops.sandbox.fynarfin.io          
             paths: 
             - path: "/"
               backend:
@@ -136,7 +136,7 @@ ph-ee-g2psandbox:
       ingress:
         enabled: true 
         hosts:
-          - host: notifications.sandbox.mifos.io         
+          - host: notifications.sandbox.fynarfin.io         
             paths: 
             - path: "/"
               backend:
@@ -173,7 +173,7 @@ ph-ee-g2psandbox:
       ingress:
         enabled: true 
         hosts:
-          - host: zeebeops.sandbox.mifos.io          
+          - host: zeebeops.sandbox.fynarfin.io          
             paths: 
             - path: "/"
               backend:
@@ -191,7 +191,7 @@ ph-ee-g2psandbox:
       ingress:
         enabled: true   
         hosts:
-          - host: messagegateway.sandbox.mifos.io       
+          - host: messagegateway.sandbox.fynarfin.io       
             paths: 
             - path: "/"
               backend:
@@ -214,7 +214,7 @@ ph-ee-g2psandbox:
       ingress:
         enabled: true 
         rules:
-          - host: 'keycloak.sandbox.mifos.io'
+          - host: 'keycloak.sandbox.fynarfin.io'
             paths:
             - path: /
               pathType: Prefix
