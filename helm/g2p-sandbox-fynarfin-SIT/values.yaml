@@ -62,11 +62,10 @@ ph-ee-g2psandbox:
 
     channel:
       enabled: true
-      extraEnvs:
-      - name: "server-ssl-key-password"
-        value: "password"
-      - name: "server-ssl-key-store-password"
-        value: "password"    
+      server:
+        ssl:
+          key-password: "password"
+          key-store-password: "password"   
       ingress:
         enabled: true 
         hosts:
@@ -86,12 +85,7 @@ ph-ee-g2psandbox:
                   name: "ph-ee-connector-channel-gsma"
                   port:
                     number: 82  
-      deployment:
-        extraEnvs:
-        - name: "server-ssl-key-password"
-          value: "password"
-        - name: "server-ssl-key-store-password"
-          value: "password"              
+             
 
     operations_app:
       enabled: true
