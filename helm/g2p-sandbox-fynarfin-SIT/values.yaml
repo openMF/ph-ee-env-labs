@@ -64,8 +64,8 @@ ph-ee-g2psandbox:
       enabled: true
       server:
         ssl:
-          key-password: "password"
-          key-store-password: "password"   
+          keyPassword: "password"
+          keyStorePassword: "password"   
       ingress:
         enabled: true 
         hosts:
