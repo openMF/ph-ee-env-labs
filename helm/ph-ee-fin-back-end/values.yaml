@@ -225,7 +225,7 @@ ph-ee-engine:
         deployTime: "{{ .Values.deployTime }}"
 
   ph_ee_connector_mojaloop:
-    enabled: true
+    enabled: false
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-mojaloop"
     imageTag: "latest"
     SPRING_PROFILES_ACTIVE: "bb"
@@ -351,7 +351,7 @@ ph-ee-engine:
 
 
   gsmachannel:
-    enabled: true
+    enabled: false
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-gsma-channel"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
@@ -469,7 +469,7 @@ ph-ee-engine:
     hostname: "ops-bk.sandbox.mifos.io"
 
   ph_ee_connector_gsma:
-    enabled: true
+    enabled: false
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-gsma"
     imageTag: latest
     SPRING_PROFILES_ACTIVE: "bb"
@@ -883,7 +883,7 @@ ph-ee-engine:
           scope: openid
 
   keycloak:
-    enabled: true
+    enabled: false
     ingress:
       enabled: true
       ingressClassName: "kong"
@@ -956,6 +956,17 @@ fin-engine:
     enabled: false
   fineract:
     enabled: true
+    spec:
+      template:
+        spec:
+          containers:
+            env:
+              FINERACT_DEFAULT_TENANTDB_IDENTIFIER: "default"
+              FINERACT_DEFAULT_TENANTDB_NAME: "fineract_default"
+              FINERACT_DEFAULT_TENANTDB_HOSTNAME: "fineract-mysql"
+              FINERACT_DEFAULT_TENANTDB_PORT: "3306"
+              FINERACT_HIKARI_DRIVER_CLASS_NAME: org.mariadb.jdbc.Driver
+              FINERACT_HIKARI_JDBC_URL: jdbc:mariadb://fineract-mysql:3306/fineract_tenants
     ingress:
       enabled: true
       hostname: "fynams.sandbox.mifos.io"
