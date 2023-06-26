@@ -54,7 +54,6 @@ ph-ee-engine:
       cpu: "100m"
       memory: "256M"
     ingress:
-      className: "kong"
       enabled: true
       annotations:
         kubernetes.io/ingress.class: "nginx"
