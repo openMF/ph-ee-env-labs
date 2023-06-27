@@ -1,9 +1,166 @@
+<<<<<<< Updated upstream
 ph-ee-g2psandbox:
   ph-ee-engine:
     zeebe:
       broker:
         contactpoint: "zeebe-zeebe-gateway:26500"
     zeebe-cluster-helm:
+=======
+ph-ee-engine:
+  zeebe:
+    broker:
+      contactpoint: "zeebe-zeebe-gateway:26500"
+  zeebe-cluster-helm:
+    enabled: true
+    global:
+      elasticsearch:
+        host: "ph-ee-elasticsearch"
+    image:
+      repository: camunda/zeebe
+      tag: 1.1.0
+    clusterSize: "1"
+    partitionCount: "1"
+    replicationFactor: "1"
+    JavaOpts: "-Xms8g -Xmx8g -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:MaxRAMPercentage=25.0 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -XX:+PrintFlagsFinal"
+    elasticsearch:
+      enabled: false
+    kibana:
+      enabled: false
+    extraInitContainers: |
+      - name: init-ph-ee-kafka-exporter
+        image: busybox:1.28
+        command: ['/bin/sh', '-c']
+        args: ['wget -O /exporters/ph-ee-kafka-exporter.jar "https://paymenthub-ee-dev.s3.us-east-2.amazonaws.com/jars/exporter-1.0.0-SNAPSHOT.jar"; ls -al /exporters/']
+        volumeMounts:
+        - name: exporters
+          mountPath: /exporters/
+
+  zeebe-operate-helm:
+    enabled: true
+    image:
+      repository: camunda/operate
+      tag: 1.1.0
+    global:
+      elasticsearch:
+        host: "ph-ee-elasticsearch"
+        clusterName: "ph-ee-elasticsearch"
+    ingress:
+      enabled: false
+      annotations: 
+        kubernetes.io/ingress.class: nginx      
+      path: /
+      host: operate.sandbox.fynarfin.io
+      tls:
+        enabled: true
+
+  elasticsearch:
+    enabled: true
+    replicas: 1
+    imageTag: 7.16.3
+    minimumMasterNodes: 1
+    esConfig:
+      elasticsearch.yml: |
+        xpack.security.enabled: false
+        xpack.security.transport.ssl.enabled: false
+        xpack.security.transport.ssl.verification_mode: certificate
+        xpack.security.transport.ssl.keystore.path: /usr/share/elasticsearch/config/certs/elastic-certificates.p12
+        xpack.security.transport.ssl.truststore.path: /usr/share/elasticsearch/config/certs/elastic-certificates.p12
+        xpack.security.http.ssl.enabled: false
+        xpack.security.http.ssl.truststore.path: /usr/share/elasticsearch/config/certs/elastic-certificates.p12
+        xpack.security.http.ssl.keystore.path: /usr/share/elasticsearch/config/certs/elastic-certificates.p12
+    secretMounts:
+      - name: elastic-certificates
+        secretName: elastic-certificates
+        path: /usr/share/elasticsearch/config/certs
+    extraEnvs:
+      - name: ELASTIC_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: elastic-credentials
+            key: password
+
+    #Single Node Solution
+    clusterHealthCheckParams: "wait_for_status=yellow&timeout=100s"
+    protocol: http
+    master:
+      readinessProbe:
+        httpGet:
+          allow-insecure: true
+          username: elastic
+          password: "{{ .Env.ELASTIC_PASSWORD }}"
+          path: /_cluster/health?wait_for_status=yellow&timeout=5s
+          port: 9200
+        initialDelaySeconds: 30
+    data:
+      readinessProbe:
+        httpGet:
+          allow-insecure: true
+          username: elastic
+          password: "{{ .Env.ELASTIC_PASSWORD }}"
+          path: /_cluster/health?wait_for_status=yellow&timeout=5s
+          port: 9200
+        initialDelaySeconds: 30
+    # Shrink default JVM heap.
+    esJavaOpts: "-Xmx512m -Xms512m"
+    # Allocate smaller chunks of memory per pod.
+    resources:
+      requests:
+        cpu: "100m"
+        memory: "1024M"
+      limits:
+        cpu: "1000m"
+        memory: "1024M"
+    volumeClaimTemplate:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "gp2"
+      resources:
+        requests:
+          storage: 10Gi
+
+  kibana:
+    readinessProbe:
+      initialDelaySeconds: 45
+      timeoutSeconds: 15
+      successThreshold: 1
+    enabled: true
+    protocol: http
+    imageTag: 7.16.3
+    kibanaConfig:
+      kibana.yml: |
+        monitoring.enabled: false
+        xpack.encryptedSavedObjects.encryptionKey: 5f4dcc3b5aa765d61d8327deb882cf99
+        server.ssl:
+          enabled: false
+          key: /usr/share/kibana/config/certs/elastic-certificate.pem
+          certificate: /usr/share/kibana/config/certs/elastic-certificate.pem
+        xpack.security.encryptionKey: ${KIBANA_ENCRYPTION_KEY}
+        elasticsearch.ssl:
+          certificateAuthorities: /usr/share/kibana/config/certs/elastic-certificate.pem
+          verificationMode: certificate
+        console.enabled: true
+    #above line when set to false disables the dev tools from kibana
+    secretMounts:
+      - name: elastic-certificate-pem
+        secretName: elastic-certificate-pem
+        path: /usr/share/kibana/config/certs
+    extraEnvs:
+      - name: 'ELASTICSEARCH_USERNAME'
+        valueFrom:
+          secretKeyRef:
+            name: elastic-credentials
+            key: username
+      - name: 'ELASTICSEARCH_PASSWORD'
+        valueFrom:
+          secretKeyRef:
+            name: elastic-credentials
+            key: password
+      - name: 'KIBANA_ENCRYPTION_KEY'
+        valueFrom:
+          secretKeyRef:
+            name: kibana
+            key: encryptionkey
+    ingress:
+>>>>>>> Stashed changes
       enabled: true
 
       elasticsearch:
