@@ -155,6 +155,13 @@ ph-ee-g2psandbox:
 
     connector_bulk:
       enabled: true
+      resources:
+      limits:
+        memory: "2048M"
+        cpu: "500m"
+      requests:
+        memory: "1024M"
+        cpu: "300m"
       tenant: "rhino,gorilla"
       aws:
         region: "us-east-2"
