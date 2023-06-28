@@ -155,7 +155,7 @@ ph-ee-g2psandbox:
 
     connector_bulk:
       enabled: true
-      tenant: "rhino,gorilla"
+      tenants: "rhino,gorilla"
       aws:
         region: "us-east-2"
         access_key: "AKIAX32JM37TZOJ5AKFB"
