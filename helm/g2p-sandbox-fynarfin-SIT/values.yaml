@@ -1,8 +1,6 @@
 ph-ee-g2psandbox:
   ph-ee-engine:
-    zeebe:
-      broker:
-        contactpoint: "{{ .Release.Name }}-zeebe-gateway:26500"
+   
     zeebe-cluster-helm:
       enabled: true
 
