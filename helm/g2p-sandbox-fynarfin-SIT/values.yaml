@@ -7,14 +7,13 @@ ph-ee-g2psandbox:
       elasticsearch:
         enabled: false
       kibana:
-        enabled: false
+        enabled: true
 
     zeebe-operate-helm:
       ingress:
         enabled: true 
         host: operate.sandbox.fynarfin.io 
       
-
     kibana:
       ingress:
       enabled: true
