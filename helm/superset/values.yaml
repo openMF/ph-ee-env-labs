@@ -63,6 +63,7 @@ ph-ee-engine:
   kafka:
     enabled: true
     image: "spotify/kafka"
+    nodePort: 30093
     advertised:
       host: "kafka"
       port: "9093"
