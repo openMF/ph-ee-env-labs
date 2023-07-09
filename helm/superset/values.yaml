@@ -176,7 +176,8 @@ ph-ee-engine:
     ingress:
       enabled: true
       annotations:
-        kubernetes.io/ingress.class: ingress-controllers.konghq.com/kong
+        kubernetes.io/ingress.class: "kong"
+        konghq.com/plugins: "ratelimiter"
       tls:
         - secretName: sandbox-secret
       hosts:
