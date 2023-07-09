@@ -183,7 +183,7 @@ ph-ee-engine:
       hosts:
         - host: bulk-connector.sandbox.fynarfin.io
           paths:
-            - path: "bulk-connector.sandbox.fynarfin.io"
+            - path: ""
               backend:
                 service:
                   name: "ph-ee-connector-bulk"
