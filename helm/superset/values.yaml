@@ -60,7 +60,15 @@ ph-ee-engine:
                   port:
                     number: 80
 
-  # kafka:
+  kafka:
+    enabled: true
+    image: "spotify/kafka"
+    advertised:
+      host: "kafka"
+      port: "9093"
+    deployment:
+      annotations:
+        deployTime: "{{ .Values.deployTime }}"
 
   channel:
     enabled: false
