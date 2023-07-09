@@ -174,7 +174,7 @@ ph-ee-engine:
         batch_transaction: "/api/v1/batch/transactions"
     managedServiceAccount: false
     ingress:
-      enabled: true
+      enabled: false
       annotations:
         kubernetes.io/ingress.class: "kong"
         konghq.com/plugins: "ratelimiter"
