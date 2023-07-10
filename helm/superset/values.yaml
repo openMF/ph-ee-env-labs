@@ -178,6 +178,8 @@ ph-ee-engine:
       annotations:
         kubernetes.io/ingress.class: "kong"
         konghq.com/plugins: "ratelimiter"
+      tls:
+        - secretName: sandbox-secret
       hosts:
         - host: bulk-connector.sandbox.fynarfin.io
           paths:
