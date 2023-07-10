@@ -177,7 +177,6 @@ ph-ee-engine:
       enabled: true
       annotations:
         kubernetes.io/ingress.class: "kong"
-        konghq.com/plugins: "ratelimiter"
       tls:
         - secretName: sandbox-secret
       hosts:
@@ -233,7 +232,7 @@ ph-ee-engine:
   tls: ""
 
   keycloak:
-    enabled: false
+    enabled: true
     ingress:
       enabled: true
       rules:
@@ -244,13 +243,13 @@ ph-ee-engine:
 
 
   kong:
-    enabled: false
+    enabled: true
     ingress:
       enabled: true
       hostname: admin-kong.sandbox.fynarfin.io
 
 
   redis:
-    enabled: true
+    enabled: false
     replica:
       replicaCount: 0
