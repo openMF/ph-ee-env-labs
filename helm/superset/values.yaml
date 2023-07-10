@@ -249,7 +249,7 @@ ph-ee-engine:
       repository: revomatico/docker-kong-oidc
       tag: "latest"
     env:
-      plugins: "bundled,oidc,ratelimiter"
+      plugins: "bundled,oidc"
     admin:
       enabled: true
       http:
