@@ -233,7 +233,7 @@ ph-ee-engine:
   tls: ""
 
   keycloak:
-    enabled: false
+    enabled: true
     ingress:
       enabled: true
       rules:
