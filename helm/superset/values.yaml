@@ -244,21 +244,11 @@ ph-ee-engine:
 
 
   kong:
-    enabled: true
-    image:
-      repository: revomatico/docker-kong-oidc
-      tag: "latest"
-    env:
-      plugins: "bundled,oidc"
-    admin:
+    enabled: false
+    ingress:
       enabled: true
-      http:
-        enabled: true
-      tls:
-        enabled: true
-      ingress:
-        enabled: true
-        hostname: admin-kong.sandbox.mifos.io
+      hostname: admin-kong.sandbox.fynarfin.io
+
 
   redis:
     enabled: true
