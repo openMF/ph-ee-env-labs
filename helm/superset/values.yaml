@@ -233,7 +233,7 @@ ph-ee-engine:
   tls: ""
 
   keycloak:
-    enabled: true
+    enabled: false
     ingress:
       enabled: true
       rules:
@@ -249,13 +249,13 @@ ph-ee-engine:
       repository: revomatico/docker-kong-oidc
       tag: "latest"
     env:
-      plugins: "bundled,oidc"
+      plugins: "bundled,oidc,ratelimiter"
     admin:
       enabled: true
       http:
         enabled: true
       tls:
-        enabled: false
+        enabled: true
       ingress:
         enabled: true
         hostname: admin-kong.sandbox.mifos.io
