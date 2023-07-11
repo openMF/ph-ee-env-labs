@@ -105,7 +105,7 @@ workflows:
             - Secrets
       - git-clone:
           requires:
-            - upgrade-helm-char
+            - upgrade-helm-chart
       - create-secret:
           requires:
             - git-clone
