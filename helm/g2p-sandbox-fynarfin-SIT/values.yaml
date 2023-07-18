@@ -1,25 +1,22 @@
 ph-ee-g2psandbox:
   ph-ee-engine:
-    zeebe:
-      broker:
-        contactpoint: "zeebe-zeebe-gateway:26500"
+   
     zeebe-cluster-helm:
       enabled: true
 
       elasticsearch:
         enabled: false
       kibana:
-        enabled: false
+        enabled: true
 
     zeebe-operate-helm:
       ingress:
         enabled: true 
         host: operate.sandbox.fynarfin.io 
       
-
     kibana:
       ingress:
-      enabled: false
+      enabled: true
       className: "nginx"
       pathtype: "Prefix"
       annotations: {}
@@ -49,6 +46,7 @@ ph-ee-g2psandbox:
 
     ph_ee_connector_mojaloop:
       enabled: true
+      imageTag: "830df54849"
       ingress:
         enabled: true  
         hosts:
