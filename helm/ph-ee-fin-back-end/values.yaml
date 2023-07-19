@@ -815,7 +815,7 @@ ph-ee-engine:
       schema: "tenants"
 
   kong:
-    enabled: true
+    enabled: false
     image:
       repository: revomatico/docker-kong-oidc
       tag: "latest"
