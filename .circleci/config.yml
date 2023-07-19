@@ -110,7 +110,7 @@ workflows:
       
       - create-secret:
           requires: 
-            - upgrade-g2psandbox-helm-char
+            - upgrade-g2psandbox-helm-chart
           context: 
             - AWS
             - Helm
