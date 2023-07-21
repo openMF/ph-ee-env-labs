@@ -88,13 +88,21 @@ jobs:
       - run: echo $AWS_PROFILE
       - run: echo $AWS_DEFAULT_PROFILE
       - run: sh orchestration/deployBpmn.sh
-             
-  test-chart:
+
+  test-chart-gov:
     docker:
       - image: cimg/openjdk:17.0.0
     steps:
       - run: git clone https://github.com/openmf/ph-ee-integration-test
       - run: cd ph-ee-integration-test && ./gradlew test -Dcucumber.filter.tags="@gov" 
+      - store_test_results:
+          path: ph-ee-integration-test/build/test-results/test/TEST-org.mifos.integrationtest.TestRunner.xml
+  test-chart-ams:
+    docker:
+      - image: cimg/openjdk:17.0.0
+    steps:
+      - run: git clone https://github.com/openmf/ph-ee-integration-test
+      - run: cd ph-ee-integration-test && ./gradlew test -Dcucumber.filter.tags="@amsIntegration"
       - store_test_results:
           path: ph-ee-integration-test/build/test-results/test/TEST-org.mifos.integrationtest.TestRunner.xml
 
@@ -129,11 +137,18 @@ workflows:
           context: 
             - AWS
             - Helm
-            - slack  
-      - test-chart:
+            - slack
+      - test-chart-gov:
           requires:
             - deploying-bpmns
           context: 
+            - AWS
+            - Helm
+            - slack
+      - test-chart-ams:
+          requires:
+            - create-secret
+          context:
             - AWS
             - Helm
             - slack
