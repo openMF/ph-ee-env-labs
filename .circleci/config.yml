@@ -26,13 +26,13 @@ jobs:
       - run: chmod 400 b64encoded.pem
       - run: scp -o StrictHostKeyChecking=No -i b64encoded.pem index.yaml ph-ee-g2psandbox-fynarfin-0.2.0.tgz ec2-user@13.233.68.128:~/
       - run: ssh -i b64encoded.pem -o StrictHostKeyChecking=No ec2-user@13.233.68.128 sudo mv -t /apps/apache-tomcat-7.0.82/webapps/ROOT/images/ph-ee-g2psandbox-fynarfin index.yaml ph-ee-g2psandbox-fynarfin-0.2.0.tgz
-  upgrade-helm-chart:
+  upgrade-g2psandbox-helm-chart:
     docker:
       - image: cimg/python:3.10
     parameters:
       cluster-name:
         description: "sit"
-        type: string
+        type: string        
     steps:
       - aws-eks/update-kubeconfig-with-authenticator:
           cluster-name: "sit"
@@ -58,7 +58,39 @@ jobs:
       #     namespace: ph-test
 
       # kubectl delete secrets elastic-certificates elastic-certificate-pem elastic-certificate-crt|| true
-  test-chart:
+
+  create-secret:
+    docker:
+      - image: cimg/base:2022.06 
+    steps:
+      - setup_remote_docker:
+            version: 20.10.14
+      - kubernetes/install-kubectl
+      - checkout
+      - aws-eks/update-kubeconfig-with-authenticator:
+          cluster-name: "sit"
+          aws-region: "us-east-2"
+      - run: |
+          kubectl config use-context arn:aws:eks:us-east-2:419830066942:cluster/sit
+          kubectl config get-contexts
+          cd helm/kibana-secret/
+          make secrets || echo "kibana" already exists
+      - run: | 
+          kubectl config use-context arn:aws:eks:us-east-2:419830066942:cluster/sit
+          kubectl config get-contexts
+          cd helm/es-secret/
+          make secrets || echo "elastic-certificates" already exists
+                                       
+  deploying-bpmns:
+    docker:
+      - image: 'curlimages/curl:8.1.2' 
+    steps:
+      - checkout
+      - run: echo $AWS_PROFILE
+      - run: echo $AWS_DEFAULT_PROFILE
+      - run: sh orchestration/deployBpmn.sh
+
+  test-chart-gov:
     docker:
       - image: cimg/openjdk:17.0.0
     steps:
@@ -66,6 +98,15 @@ jobs:
       - run: cd ph-ee-integration-test && ./gradlew test -Dcucumber.filter.tags="@gov" 
       - store_test_results:
           path: ph-ee-integration-test/build/test-results/test/TEST-org.mifos.integrationtest.TestRunner.xml
+  test-chart-ams:
+    docker:
+      - image: cimg/openjdk:17.0.0
+    steps:
+      - run: git clone https://github.com/openmf/ph-ee-integration-test
+      - run: cd ph-ee-integration-test && ./gradlew test -Dcucumber.filter.tags="@amsIntegration"
+      - store_test_results:
+          path: ph-ee-integration-test/build/test-results/test/TEST-org.mifos.integrationtest.TestRunner.xml
+
 workflows:
   deploy:
     jobs:
@@ -74,7 +115,8 @@ workflows:
             - AWS
             - Helm
             - slack
-      - upgrade-helm-chart:
+
+      - upgrade-g2psandbox-helm-chart:
           cluster-name: sit
           requires:
             - build
@@ -82,14 +124,36 @@ workflows:
             - AWS
             - Helm
             - slack
-            - Secrets
-      - test-chart:
-          requires:
-            - upgrade-helm-chart
+            - Secrets      
+      - create-secret:
+          requires: 
+            - upgrade-g2psandbox-helm-chart
           context: 
             - AWS
             - Helm
             - slack
+      - deploying-bpmns:
+          requires:
+            - upgrade-g2psandbox-helm-chart
+          context: 
+            - AWS
+            - Helm
+            - slack
+      - test-chart-gov:
+          requires:
+            - deploying-bpmns
+          context: 
+            - AWS
+            - Helm
+            - slack
+      - test-chart-ams:
+          requires:
+            - create-secret
+          context:
+            - AWS
+            - Helm
+            - slack
+
       # - install-helm-chart:
       #     cluster-name: sit
       # - delete-helm-release:
@@ -97,4 +161,3 @@ workflows:
       #     requires:
       #       - install-helm-chart
   
-      

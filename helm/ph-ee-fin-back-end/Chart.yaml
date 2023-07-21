@@ -9,9 +9,12 @@ dependencies:
 - name: ph-ee-engine
   repository: "https://fynarfin.io/images/ph-ee-engine-1.7.2-SNAPSHOT/"
   version: 1.7.2-SNAPSHOT
+  condition: "ph-ee-engine.enabled"
 - name: fin-engine
   repository: "https://fynarfin.io/images/fineract/"
   version: 1.0.0-SNAPSHOT
+  condition: "fin-engine.enabled"
 - name: operations
   repository: "https://fynarfin.io/images/operations/"
   version: "0.1.0"
+  condition: "operations.enabled"

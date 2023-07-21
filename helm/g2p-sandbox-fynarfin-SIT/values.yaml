@@ -63,6 +63,8 @@ ph-ee-g2psandbox:
 
     channel:
       enabled: true
+      operations:
+        url: "http://ops-bk.sandbox.fynarfin.io/api/v1"
       server:
         ssl:
           keyPassword: "password"
