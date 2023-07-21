@@ -80,15 +80,24 @@ jobs:
           cd helm/es-secret/
           make secrets || echo "elastic-certificates" already exists
                                        
-  test-chart:
+  test-chart-gov:
     docker:
       - image: cimg/openjdk:17.0.0
     steps:
-      - run: git clone https://github.com/openmf/ph-ee-integration-test
-      - run: cd ph-ee-integration-test && ./gradlew test -Dcucumber.filter.tags="@gov" 
+      - checkout
+      #- run: git clone https://github.com/openmf/ph-ee-integration-test
+      - run: ./gradlew test -Dcucumber.filter.tags="@gov"
       - store_test_results:
-          path: ph-ee-integration-test/build/test-results/test/TEST-org.mifos.integrationtest.TestRunner.xml
-
+          path: build/test-results/test/TEST-org.mifos.integrationtest.TestRunner.xml
+  test-chart-ams:
+    docker:
+      - image: cimg/openjdk:17.0.0
+    steps:
+      - checkout
+      #- run: git clone https://github.com/openmf/ph-ee-integration-test
+      - run: ./gradlew test -Dcucumber.filter.tags="@amsIntegration"
+      - store_test_results:
+          path: build/test-results/test/TEST-org.mifos.integrationtest.TestRunner.xml
 workflows:
   deploy:
     jobs:
@@ -116,10 +125,17 @@ workflows:
             - Helm
             - slack
 
-      - test-chart:
+      - test-chart-gov:
           requires:
             - create-secret
           context: 
+            - AWS
+            - Helm
+            - slack
+      - test-chart-ams:
+          requires:
+            - create-secret
+          context:
             - AWS
             - Helm
             - slack
