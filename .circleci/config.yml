@@ -80,6 +80,15 @@ jobs:
           cd helm/es-secret/
           make secrets || echo "elastic-certificates" already exists
                                        
+  deploying-bpmns:
+    docker:
+      - image: 'curlimages/curl:8.1.2' 
+    steps:
+      - checkout
+      - run: echo $AWS_PROFILE
+      - run: echo $AWS_DEFAULT_PROFILE
+      - run: sh orchestration/deployBpmn.sh
+             
   test-chart:
     docker:
       - image: cimg/openjdk:17.0.0
@@ -106,8 +115,7 @@ workflows:
             - AWS
             - Helm
             - slack
-            - Secrets
-      
+            - Secrets      
       - create-secret:
           requires: 
             - upgrade-g2psandbox-helm-chart
@@ -115,10 +123,16 @@ workflows:
             - AWS
             - Helm
             - slack
-
+      - deploying-bpmns:
+          requires:
+            - upgrade-g2psandbox-helm-chart
+          context: 
+            - AWS
+            - Helm
+            - slack  
       - test-chart:
           requires:
-            - create-secret
+            - deploying-bpmns
           context: 
             - AWS
             - Helm
