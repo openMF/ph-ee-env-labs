@@ -1,0 +1,133 @@
+ph-ee-g2psandbox:
+  ph-ee-engine:
+   
+    zeebe-cluster-helm:
+      enabled: true
+
+      elasticsearch:
+        enabled: false
+      kibana:
+        enabled: true
+
+    zeebe-operate-helm:
+      ingress:
+        enabled: false
+      
+    kibana:
+      ingress:
+      enabled: false 
+
+    operations:
+      
+    ph_ee_connector_ams_mifos:
+      enabled: true
+      imageTag: v1.2.2 
+      ingress:
+        enabled: false                 
+
+    ph_ee_connector_mojaloop:
+      enabled: true
+      imageTag: "830df54849"
+      ingress:
+        enabled: false
+
+    # kafka:
+
+    channel:
+      enabled: true
+      operations:
+        url: "http://ops-bk.sandbox.fynarfin.io/api/v1"
+      server:
+        ssl:
+          keyPassword: "password"
+          keyStorePassword: "password"   
+      ingress:
+        enabled: false
+             
+    operations_app:
+      enabled: true
+      tenants: "rhino,gorilla"
+      ingress:
+        enabled: false
+
+    operations_web:
+      enabled: true 
+      ingress:
+        enabled: false           
+
+    ph_ee_connector_gsma:
+      enabled: true
+      ingress:
+        enabled: false
+
+    ph_ee_connector_slcb:
+      enabled: false
+    
+    mpesa:
+      enabled: false
+      
+    roster_connector:
+      enabled: false
+      
+    paygops_connector:
+      enabled: false
+      
+    notifications:
+      enabled: true
+      NOTIFICATION_FAILURE_ENABLED: "false"
+      ingress:
+        enabled: false 
+
+    connector_bulk:
+      enabled: true
+      tenants: "rhino,gorilla"
+      aws:
+        region: "us-east-2"
+        access_key: "AKIAX32JM37TZOJ5AKFB"
+        secret_key: "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"
+      operations_app:
+        contactpoint: "https://ops-bk.sandbox.fynarfin.io/"
+        endpoints:
+          batch_transaction: "/api/v1/batch/transactions"  
+      ingress:
+        enabled: false
+
+    zeebe_ops:
+      enabled: true
+      tenants: "rhino,gorilla"
+      ingress:
+        enabled: false
+
+    messagegateway:
+      enabled: true
+      secret:
+        value:
+          api_key: "eKiC1_JWdKy7eaTGQFHxXXjXjacr60W9Zntl"
+          project_id: "PJ5ff552ce01d2978c"
+      ingress:
+        enabled: false
+                            
+    importer_es:
+      enabled: true
+
+    importer_rdbms:
+      enabled: true
+
+    wildcardhostname: ""
+    tls: ""
+
+    keycloak:
+      enabled: false
+      ingress:
+        enabled: false
+
+    kong:
+      enabled: false
+      ingress:
+        enabled: false
+
+    redis:
+      enabled: true
+      replica:
+        replicaCount: 0
+        
