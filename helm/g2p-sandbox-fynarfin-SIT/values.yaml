@@ -157,7 +157,7 @@ ph-ee-g2psandbox:
       enabled: true
       tenants: "rhino,gorilla"
       aws:
-        region: "us-east-2"
+        region: "ap-south-1"
         access_key: "AKIAX32JM37TZOJ5AKFB"
         secret_key: "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"
       operations_app:

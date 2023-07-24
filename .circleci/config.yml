@@ -35,7 +35,7 @@ jobs:
     steps:
       - aws-eks/update-kubeconfig-with-authenticator:
           cluster-name: "sit"
-          aws-region: "us-east-2"
+          aws-region: "ap-south-1"
       - helm/install-helm-client:
           version: "v3.8.2"
       - run: helm ls --namespace=paymenthub
@@ -68,7 +68,7 @@ jobs:
       - checkout
       - aws-eks/update-kubeconfig-with-authenticator:
           cluster-name: "sit"
-          aws-region: "us-east-2"
+          aws-region: "ap-south-1"
       - run: |
           kubectl config use-context arn:aws:eks:us-east-2:419830066942:cluster/sit
           kubectl config get-contexts
