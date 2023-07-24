@@ -84,7 +84,7 @@
       <bpmn:outgoing>Flow_153sx5h</bpmn:outgoing>
       <bpmn:outgoing>Flow_01p8efv</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="Flow_153sx5h" sourceRef="Gateway_1up9qwo" targetRef="Gateway_0kn02j8">
+    <bpmn:sequenceFlow id="Flow_153sx5h" sourceRef="Gateway_1up9qwo" targetRef="authorizationEnableCheck">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=partyLookupFailed = false</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:exclusiveGateway id="partyLookupUpEnableCheck">
@@ -95,7 +95,7 @@
     <bpmn:sequenceFlow id="Flow_0xq6gd6" sourceRef="partyLookupUpEnableCheck" targetRef="partyLookup">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=partyLookupEnabled = true</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_1j06peu" sourceRef="partyLookupUpEnableCheck" targetRef="Gateway_0kn02j8">
+    <bpmn:sequenceFlow id="Flow_1j06peu" sourceRef="partyLookupUpEnableCheck" targetRef="authorizationEnableCheck">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=partyLookupEnabled = false</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:exclusiveGateway id="Gateway_1rhnyf0">
@@ -456,16 +456,16 @@
     </bpmn:receiveTask>
     <bpmn:sequenceFlow id="Flow_12b909u" sourceRef="Activity_0l3i96s" targetRef="Activity_0wk6qa6" />
     <bpmn:sequenceFlow id="Flow_1tforqk" sourceRef="Activity_0wk6qa6" targetRef="Gateway_0s4fo96" />
-    <bpmn:exclusiveGateway id="Gateway_0kn02j8">
+    <bpmn:exclusiveGateway id="authorizationEnableCheck">
       <bpmn:incoming>Flow_153sx5h</bpmn:incoming>
       <bpmn:incoming>Flow_1j06peu</bpmn:incoming>
       <bpmn:outgoing>Flow_0tmsrlx</bpmn:outgoing>
       <bpmn:outgoing>Flow_19l7kvs</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="Flow_0tmsrlx" sourceRef="Gateway_0kn02j8" targetRef="Activity_0l3i96s">
+    <bpmn:sequenceFlow id="Flow_0tmsrlx" sourceRef="authorizationEnableCheck" targetRef="Activity_0l3i96s">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=authorizationEnabled = true</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_19l7kvs" sourceRef="Gateway_0kn02j8" targetRef="approvalEnableCheck">
+    <bpmn:sequenceFlow id="Flow_19l7kvs" sourceRef="authorizationEnableCheck" targetRef="approvalEnableCheck">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=authorizationEnabled = false</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:exclusiveGateway id="Gateway_0s4fo96">
@@ -1152,7 +1152,7 @@
       <bpmndi:BPMNShape id="Activity_0048c6f_di" bpmnElement="Activity_0l3i96s" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
         <dc:Bounds x="870" y="697" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_0kn02j8_di" bpmnElement="Gateway_0kn02j8" isMarkerVisible="true">
+      <bpmndi:BPMNShape id="Gateway_0kn02j8_di" bpmnElement="authorizationEnableCheck" isMarkerVisible="true">
         <dc:Bounds x="735" y="712" width="50" height="50" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_0s4fo96_di" bpmnElement="Gateway_0s4fo96" isMarkerVisible="true">
