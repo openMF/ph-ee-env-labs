@@ -71,12 +71,12 @@ jobs:
           cluster-name: "sit"
           aws-region: "ap-south-1"
       - run: |
-          kubectl config use-context arn:aws:eks:us-east-2:419830066942:cluster/sit
+          kubectl config use-context arn:aws:eks:ap-south-1:419830066942:cluster/sit
           kubectl config get-contexts
           cd helm/kibana-secret/
           make secrets || echo "kibana" already exists
-      - run: | 
-          kubectl config use-context arn:aws:eks:us-east-2:419830066942:cluster/sit
+      - run: |
+          kubectl config use-context arn:aws:eks:ap-south-1:419830066942:cluster/sit
           kubectl config get-contexts
           cd helm/es-secret/
           make secrets || echo "elastic-certificates" already exists
