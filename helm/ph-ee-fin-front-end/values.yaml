@@ -80,9 +80,15 @@ ph-ee-engine:
 
   roster_connector:
     enabled: false
+    #remove this after updating the env-template chart
+    pesacore:
+      auth_header: "PaymentHub"
 
   paygops_connector:
     enabled: false
+    #remove this after updating the env-template chart
+    paygops:
+      authheader: "PaymentHub"
 
   notifications:
     enabled: false
