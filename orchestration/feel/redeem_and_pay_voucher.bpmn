@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" id="Definitions_1rob3jd" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Zeebe Modeler" exporterVersion="0.11.0">
+  <bpmn:process id="redeem_and_pay_voucher" name="redeem_and_pay_voucher" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_00w7ruu</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="Event_0fmr600">
+      <bpmn:incoming>Flow_0olwtrb</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_00w7ruu" sourceRef="StartEvent_1" targetRef="payee-account-Lookup-voucher" />
+    <bpmn:sequenceFlow id="Flow_0icotx4" sourceRef="call-transfer-API" targetRef="check-transfer-status" />
+    <bpmn:serviceTask id="payee-account-Lookup-voucher" name="Payee Account Lookup">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="payee-account-Lookup-voucher" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_00w7ruu</bpmn:incoming>
+      <bpmn:outgoing>Flow_1g8i8wm</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="call-transfer-API" name="Call Transfer API">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="call-transfer-API" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0jkpjqm</bpmn:incoming>
+      <bpmn:outgoing>Flow_0icotx4</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="check-transfer-status" name="Check Transfer Status">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="check-transfer-status" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0icotx4</bpmn:incoming>
+      <bpmn:outgoing>Flow_1r6nv26</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:receiveTask id="Activity_0tw62jw" name="Account Lookup Callback" messageRef="Message_0tko6mo">
+      <bpmn:incoming>Flow_1g8i8wm</bpmn:incoming>
+      <bpmn:outgoing>Flow_1mq18rg</bpmn:outgoing>
+    </bpmn:receiveTask>
+    <bpmn:sequenceFlow id="Flow_1g8i8wm" sourceRef="payee-account-Lookup-voucher" targetRef="Activity_0tw62jw" />
+    <bpmn:exclusiveGateway id="Gateway_0arc0yl" default="Flow_0jkpjqm">
+      <bpmn:incoming>Flow_1mq18rg</bpmn:incoming>
+      <bpmn:outgoing>Flow_0jkpjqm</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0b379n1</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_1mq18rg" sourceRef="Activity_0tw62jw" targetRef="Gateway_0arc0yl" />
+    <bpmn:sequenceFlow id="Flow_0jkpjqm" sourceRef="Gateway_0arc0yl" targetRef="call-transfer-API" />
+    <bpmn:sequenceFlow id="Flow_0b379n1" sourceRef="Gateway_0arc0yl" targetRef="send-failure-voucher">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=accountLookupFailed = true</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0olwtrb" sourceRef="send-failure-voucher" targetRef="Event_0fmr600" />
+    <bpmn:endEvent id="Event_1iy2h0w">
+      <bpmn:incoming>Flow_1r6nv26</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1r6nv26" sourceRef="check-transfer-status" targetRef="Event_1iy2h0w" />
+    <bpmn:serviceTask id="send-failure-voucher" name="Send Failure to Voucher">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="send-failure-voucher" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0b379n1</bpmn:incoming>
+      <bpmn:outgoing>Flow_0olwtrb</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmn:message id="Message_0tko6mo" name="account-lookup">
+    <bpmn:extensionElements>
+      <zeebe:subscription correlationKey="=cachedTransactionId" />
+    </bpmn:extensionElements>
+  </bpmn:message>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="redeem_and_pay_voucher">
+      <bpmndi:BPMNEdge id="Flow_00w7ruu_di" bpmnElement="Flow_00w7ruu">
+        <di:waypoint x="188" y="310" />
+        <di:waypoint x="250" y="310" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0icotx4_di" bpmnElement="Flow_0icotx4">
+        <di:waypoint x="750" y="310" />
+        <di:waypoint x="800" y="310" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1g8i8wm_di" bpmnElement="Flow_1g8i8wm">
+        <di:waypoint x="350" y="310" />
+        <di:waypoint x="420" y="310" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1mq18rg_di" bpmnElement="Flow_1mq18rg">
+        <di:waypoint x="520" y="310" />
+        <di:waypoint x="555" y="310" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0jkpjqm_di" bpmnElement="Flow_0jkpjqm">
+        <di:waypoint x="605" y="310" />
+        <di:waypoint x="650" y="310" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0b379n1_di" bpmnElement="Flow_0b379n1">
+        <di:waypoint x="580" y="285" />
+        <di:waypoint x="580" y="140" />
+        <di:waypoint x="800" y="140" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0olwtrb_di" bpmnElement="Flow_0olwtrb">
+        <di:waypoint x="900" y="140" />
+        <di:waypoint x="992" y="140" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1r6nv26_di" bpmnElement="Flow_1r6nv26">
+        <di:waypoint x="900" y="310" />
+        <di:waypoint x="992" y="310" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="152" y="292" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0gewkpu_di" bpmnElement="payee-account-Lookup-voucher" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <dc:Bounds x="250" y="270" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1lrgo3b_di" bpmnElement="Activity_0tw62jw" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <dc:Bounds x="420" y="270" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0uaph01_di" bpmnElement="check-transfer-status" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <dc:Bounds x="800" y="270" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_04st4gi_di" bpmnElement="call-transfer-API" bioc:stroke="rgb(251, 140, 0)" bioc:fill="rgb(255, 224, 178)">
+        <dc:Bounds x="650" y="270" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0arc0yl_di" bpmnElement="Gateway_0arc0yl" isMarkerVisible="true">
+        <dc:Bounds x="555" y="285" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0fmr600_di" bpmnElement="Event_0fmr600" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
+        <dc:Bounds x="992" y="122" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1iy2h0w_di" bpmnElement="Event_1iy2h0w" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <dc:Bounds x="992" y="292" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1lrvkup_di" bpmnElement="send-failure-voucher" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <dc:Bounds x="800" y="100" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
