@@ -35,7 +35,7 @@ jobs:
     steps:
       - aws-eks/update-kubeconfig-with-authenticator:
           cluster-name: "sit"
-          aws-region: "us-east-2"
+          aws-region: "$REGION"
       - helm/install-helm-client:
           version: "v3.8.2"
       - run: helm ls --namespace=paymenthub
@@ -68,14 +68,14 @@ jobs:
       - checkout
       - aws-eks/update-kubeconfig-with-authenticator:
           cluster-name: "sit"
-          aws-region: "us-east-2"
+          aws-region: "$REGION"
       - run: |
-          kubectl config use-context arn:aws:eks:us-east-2:419830066942:cluster/sit
+          kubectl config use-context arn:aws:eks:$REGION:419830066942:cluster/sit
           kubectl config get-contexts
           cd helm/kibana-secret/
           make secrets || echo "kibana" already exists
-      - run: | 
-          kubectl config use-context arn:aws:eks:us-east-2:419830066942:cluster/sit
+      - run: |
+          kubectl config use-context arn:aws:eks:$REGION:419830066942:cluster/sit
           kubectl config get-contexts
           cd helm/es-secret/
           make secrets || echo "elastic-certificates" already exists
@@ -159,4 +159,5 @@ workflows:
       #     cluster-name: sit
       #     requires:
       #       - install-helm-chart
+
   
