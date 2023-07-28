@@ -140,6 +140,7 @@ workflows:
             - slack
       - test-chart-gov:
           requires:
+            - create-secret
             - deploying-bpmns
           context: 
             - AWS
@@ -148,6 +149,7 @@ workflows:
       - test-chart-ams:
           requires:
             - create-secret
+            - deploying-bpmns
           context:
             - AWS
             - Helm
