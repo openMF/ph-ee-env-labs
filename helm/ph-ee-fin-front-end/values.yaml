@@ -42,32 +42,6 @@ ph-ee-engine:
 
   operations_web:
     enabled: true
-    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-ops-web"
-    imageTag: "latest"
-    SPRING_PROFILES_ACTIVE: "bb"
-    hostname: "ops.sandbox.mifos.io"
-    webhost: "ops.sandbox.mifos.io"
-    limits:
-      cpu: "500m"
-      memory: "512M"
-    requests:
-      cpu: "100m"
-      memory: "256M"
-    ingress:
-      enabled: true
-      annotations:
-        kubernetes.io/ingress.class: "nginx"
-        konghq.com/plugins: request-transformer,oidc,cors
-      tls:
-        - secretName: sandbox-secret
-      path: "/"
-      backend:
-        service:
-          name: ph-ee-operations-web
-          port:
-            number: 4200
-    deployment:
-      config: {}
 
   ph_ee_connector_gsma:
     enabled: false
