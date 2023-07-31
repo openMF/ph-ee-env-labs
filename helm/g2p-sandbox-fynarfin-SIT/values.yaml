@@ -153,13 +153,14 @@ ph-ee-g2psandbox:
                   port:
                     number: 80 
 
+
     connector_bulk:
       enabled: true
       tenants: "rhino,gorilla"
       aws:
-        region: "us-east-2"
-        access_key: "AKIAX32JM37TZOJ5AKFB"
-        secret_key: "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"
+        region: "ap-south-1"
+        access_key: "aws-access-key"
+        secret_key: "aws-secret-key"
       operations_app:
         contactpoint: "https://ops-bk.sandbox.fynarfin.io/"
         endpoints:
