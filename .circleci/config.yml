@@ -79,6 +79,12 @@ jobs:
           kubectl config get-contexts
           cd helm/es-secret/
           make secrets || echo "elastic-certificates" already exists
+
+      - run: |
+          kubectl delete secret bulk-processor-secret -n paymenthub || echo "delete the secret if exist"
+          kubectl create secret generic bulk-processor-secret \
+          --from-literal=aws-access-key="$S3_ACCESS_KEY_ID" \
+          --from-literal=aws-secret-key="$S3_SECRET_ACCESS_KEY" -n paymenthub
                                        
   deploying-bpmns:
     docker:
@@ -131,6 +137,7 @@ workflows:
             - AWS
             - Helm
             - slack
+            - Secrets  
       - deploying-bpmns:
           requires:
             - upgrade-g2psandbox-helm-chart
