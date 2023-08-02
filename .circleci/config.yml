@@ -137,6 +137,7 @@ workflows:
             - AWS
             - Helm
             - slack
+            - Secrets  
       - deploying-bpmns:
           requires:
             - upgrade-g2psandbox-helm-chart
