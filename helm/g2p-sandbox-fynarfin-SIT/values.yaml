@@ -16,16 +16,16 @@ ph-ee-g2psandbox:
       
     kibana:
       ingress:
-      enabled: true
-      className: "nginx"
-      pathtype: "Prefix"
-      annotations: {}
+        enabled: true
+        className: "nginx"
+        pathtype: "Prefix"
+        annotations: {}
         # kubernetes.io/ingress.class: nginx
-        # kubernetes.io/tls-acme: "true"       
-      hosts:
-        - host: analytics.sandbox.fynarfin.io
-          paths:
-            - path: / 
+        # kubernetes.io/tls-acme: "true"
+        hosts:
+          - host: analytics.sandbox.fynarfin.io
+            paths:
+              - path: /
 
     operations:
       
