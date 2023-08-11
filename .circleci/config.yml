@@ -91,6 +91,29 @@ jobs:
           --from-literal=aws-access-key="$S3_ACCESS_KEY_ID" \
           --from-literal=aws-secret-key="$S3_SECRET_ACCESS_KEY" -n $ENV_NAMESPACE
 
+  upgrade-g2psandbox-security-helm-chart:
+    docker:
+      - image: cimg/python:3.10
+    parameters:
+      cluster-name:
+        description: "sit"
+        type: string        
+    steps:
+      - aws-eks/update-kubeconfig-with-authenticator:
+          cluster-name: "sit"
+          aws-region: "$REGION"
+      - helm/install-helm-client:
+          version: "v3.8.2"
+      - run: helm ls --namespace=security
+      - helm/upgrade-helm-chart:
+          chart: "https://fynarfin.io/images/ph-ee-g2psandbox-security/ph-ee-g2psandbox-security-0.0.0.tgz"
+          release-name: "g2p-sandbox-security"
+          namespace: security
+          recreate-pods: true
+          add-repo: "https://fynarfin.io/images/ph-ee-g2psandbox-security"
+          wait: true
+          timeout: "300s"     
+
   create-secret-security-namespace:
     docker:
       - image: cimg/base:2022.06
@@ -166,7 +189,7 @@ workflows:
             - AWS
             - Helm
             - slack
-            - Secrets      
+            - Secrets        
       - create-secret-paymenthub-namespace:
           requires: 
             - upgrade-g2psandbox-helm-chart
@@ -175,7 +198,18 @@ workflows:
             - Helm
             - slack
             - Secrets  
+      - upgrade-g2psandbox-security-helm-chart:
+          cluster-name: sit
+          requires:
+            - build
+          context:
+            - AWS
+            - Helm
+            - slack
+            - Secrets 
       - create-secret-security-namespace:
+          requires: 
+            - upgrade-g2psandbox-security-helm-chart
           context: 
             - AWS
             - Helm
