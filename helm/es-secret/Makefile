@@ -1,6 +1,5 @@
 default: test
 include examples.mk
-NAMESPACE = $(ENV_NAMESPACE)
 RELEASE := helm-es-security
 ELASTICSEARCH_IMAGE := docker.elastic.co/elasticsearch/elasticsearch:$(STACK_VERSION)
 TIMEOUT := 1200s
