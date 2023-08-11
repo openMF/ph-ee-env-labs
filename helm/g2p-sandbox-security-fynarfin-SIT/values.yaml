@@ -1,0 +1,111 @@
+ph-ee-g2psandbox:
+  ph-ee-engine:
+
+    zeebe-operate-helm:
+      enabled: false
+  
+    channel:
+      enabled: true
+      image: docker.io/openmf/ph-ee-connector-channel:latest
+      operations:
+        url: "http://ops-bk.sandbox.fynarfin.io/api/v1"
+      server:
+        ssl:
+          keyPassword: "password"
+          keyStorePassword: "password"   
+      ingress:
+        enabled: true 
+        hosts:
+          - host: channel.sandbox.fynarfin.io          
+            paths: 
+            - path: "/"
+              backend:
+                service:
+                  name: "ph-ee-connector-channel"
+                  port:
+                    number: 8443
+          - host: channel-gsma.sandbox.fynarfin.io          
+            paths:          
+            - path: "/"
+              backend:
+                service:
+                  name: "ph-ee-connector-channel-gsma"
+                  port:
+                    number: 82  
+             
+    operations_app:
+      enabled: true
+      image: docker.io/openmf/ph-ee-operations-app:latest
+      ingress:
+        enabled: true 
+        hosts:
+          - host: ops-bk.sandbox.fynarfin.io          
+            paths: 
+            - path: "/"
+              backend:
+                service:
+                  name: "ph-ee-operations-app"
+                  port:
+                    number: 80 
+
+    connector_bulk:
+      enabled: true
+      image: docker.io/openmf/ph-ee-bulk-processor:latest
+      tenants: "rhino,gorilla"
+      aws:
+        region: "ap-south-1"
+        access_key: "aws-access-key"
+        secret_key: "aws-secret-key"
+      operations_app:
+        contactpoint: "https://ops-bk.sandbox.fynarfin.io/"
+        endpoints:
+          batch_transaction: "/api/v1/batch/transactions"  
+      ingress:
+        enabled: true
+        annotations: 
+          kubernetes.io/ingress.class: nginx  
+        tls:
+          - secretName: sandbox-secret
+        hosts:
+          - host: bulk-connector.sandbox.fynarfin.io     
+            paths: 
+            - path: "/"
+              backend:
+                service:
+                  name: "ph-ee-connector-bulk"
+                  port:
+                    number: 80                             
+
+    keycloak:
+      enabled: false
+      ingress:
+        enabled: true 
+        rules:
+          - host: 'keycloak.sandbox.fynarfin.io'
+            paths:
+            - path: /
+              pathType: Prefix
+
+    kong:
+      enabled: false
+      ingress:
+        enabled: true
+        hostname: admin-kong.sandbox.fynarfin.io 
+
+    wildcardhostname: "*.sandbox.fynarfin.io"
+    tls: ""
+
+  ph_ee_identity_account_mapper:
+
+    identity_account_mapper:
+      enabled: true
+      ingress:
+        enabled: true
+        hostname: "identity.sandbox.fynarfin.io"
+        path: "/"
+        wildcardhostname: "*.sandbox.fynarfin.io"
+        className: "kong"
+        annotations:
+          kubernetes.io/ingress.class: ""
+          nginx.ingress.kubernetes.io/backend-protocol: ""
+          konghq.com/plugins: "oidc,request-transformer,cors"
