@@ -70,12 +70,12 @@ jobs:
           cluster-name: "sit"
           aws-region: "$REGION"
       - run: |
-          export ENV_NAMESPACE=paymenthub
           kubectl config use-context arn:aws:eks:$REGION:419830066942:cluster/sit
           kubectl config get-contexts
           cd helm/kibana-secret/
           make secrets || echo "kibana" already exists
       - run: |
+          export ENV_NAMESPACE=paymenthub
           kubectl config use-context arn:aws:eks:$REGION:419830066942:cluster/sit
           kubectl config get-contexts
           cd helm/es-secret/
