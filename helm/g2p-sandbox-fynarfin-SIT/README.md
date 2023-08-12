@@ -3,17 +3,19 @@ helm upgrade -f helm/g2p-sandbox/values.yaml g2pconnect helm/g2p-sandbox --insta
 
 Known Issue 
 Migration script race condition Operation app startup issue work around
-1. port forward ops-mysql -3307
-2. connect the mysql with root passwrod 
-3. delete tenants 
+1. Port forward operationsmysqlpodname -3307 (kubectl get operationsmysql pod name)
+2. Connect to mysql with root passwrod (kubectl get secret operationsmysql, take root password and base64 decode it, mysql -uroot -P3307 -p)
+3. Delete tenants (drop database tenants;)
 4. Run the SQL scripts which didn’t run successfully
 
-CREATE DATABASE `tenants`;
-GRANT ALL PRIVILEGES ON `tenants`.* TO 'mifos';
-CREATE DATABASE `rhino`;
-CREATE DATABASE `gorilla`;
-GRANT ALL PRIVILEGES ON `rhino`.* TO 'mifos';
-GRANT ALL PRIVILEGES ON `gorilla`.* TO 'mifos';
-GRANT ALL ON *.* TO 'root'@'%';
+4a. CREATE DATABASE `tenants`;
 
-5. restart ops-app pod
+4b. GRANT ALL PRIVILEGES ON `tenants`.* TO 'mifos';
+
+4c. GRANT ALL PRIVILEGES ON `rhino`.* TO 'mifos';
+
+4d. GRANT ALL PRIVILEGES ON `gorilla`.* TO 'mifos';
+
+4e. GRANT ALL ON *.* TO 'root'@'%';
+
+5. Restart ops-app pod
