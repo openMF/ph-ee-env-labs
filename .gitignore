@@ -33,3 +33,4 @@ integration-tests/out/
 module/dummy/starter/out/
 chart.lock
 *.tgz
+charts/

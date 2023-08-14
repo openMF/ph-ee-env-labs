@@ -78,6 +78,9 @@ ph-ee-g2psandbox:
 
     keycloak:
       enabled: false
+      postgresql:
+        initdbScripts: |-
+              CREATE DATABASE kong;
       ingress:
         enabled: true 
         rules:
