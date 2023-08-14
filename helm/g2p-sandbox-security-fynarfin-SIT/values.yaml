@@ -11,8 +11,8 @@ ph-ee-g2psandbox-security:
         url: "http://ops-bk.sandbox.fynarfin.io/api/v1"
       server:
         ssl:
-          key-password: "password"
-          key-store-password: "password"   
+          keyPassword: "password"
+          keyStorePassword: "password"
       ingress:
         enabled: true 
         className: "kong"
