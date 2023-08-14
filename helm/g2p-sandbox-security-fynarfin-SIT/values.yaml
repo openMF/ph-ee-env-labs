@@ -1,4 +1,4 @@
-ph-ee-g2psandbox:
+ph-ee-g2psandbox-security:
   ph-ee-engine:
 
     zeebe-operate-helm:
@@ -16,7 +16,7 @@ ph-ee-g2psandbox:
       ingress:
         enabled: true 
         hosts:
-          - host: channel.sandbox.fynarfin.io          
+          - host: channel-sec.sandbox.fynarfin.io
             paths: 
             - path: "/"
               backend:
@@ -24,7 +24,7 @@ ph-ee-g2psandbox:
                   name: "ph-ee-connector-channel"
                   port:
                     number: 8443
-          - host: channel-gsma.sandbox.fynarfin.io          
+          - host: channel-gsma-sec.sandbox.fynarfin.io
             paths:          
             - path: "/"
               backend:
@@ -67,7 +67,7 @@ ph-ee-g2psandbox:
         tls:
           - secretName: sandbox-secret
         hosts:
-          - host: bulk-connector.sandbox.fynarfin.io     
+          - host: bulk-connector-sec.sandbox.fynarfin.io
             paths: 
             - path: "/"
               backend:
@@ -77,23 +77,22 @@ ph-ee-g2psandbox:
                     number: 80                             
 
     keycloak:
-      enabled: false
-      postgresql:
-        initdbScripts: |-
-              CREATE DATABASE kong;
+      enabled: true
       ingress:
         enabled: true 
         rules:
-          - host: 'keycloak.sandbox.fynarfin.io'
+          - host: 'keycloak-sec.sandbox.fynarfin.io'
             paths:
             - path: /
               pathType: Prefix
 
     kong:
-      enabled: false
+      enabled: true
+      env:
+        pg_host: "g2p-sandbox-security-postgresql"
       ingress:
         enabled: true
-        hostname: admin-kong.sandbox.fynarfin.io 
+        hostname: admin-kong-sec.sandbox.fynarfin.io
 
     wildcardhostname: "*.sandbox.fynarfin.io"
     tls: ""
