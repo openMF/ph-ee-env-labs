@@ -15,7 +15,7 @@ ph-ee-g2psandbox-security:
           keyStorePassword: "password"
       ingress:
         enabled: true 
-        className: "kong"
+        #className: "kong"
         hosts:
           - host: channel-sec.sandbox.fynarfin.io
             paths: 
@@ -58,9 +58,11 @@ ph-ee-g2psandbox-security:
         contactpoint: "https://ops-bk.sandbox.fynarfin.io/"
         endpoints:
           batch_transaction: "/api/v1/batch/transactions"  
+      aws:
+        region: "ap-south-1"
       ingress:
         enabled: true
-        className: "kong"
+        #className: "kong"
         tls:
           - secretName: sandbox-secret
         hosts:
