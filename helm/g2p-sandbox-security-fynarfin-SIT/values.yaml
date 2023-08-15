@@ -5,7 +5,7 @@ ph-ee-g2psandbox-security:
       enabled: false
   
     channel:
-      enabled: true
+      enabled: false
       image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-channel"
       imageTag: "latest"
       operations:
@@ -53,7 +53,7 @@ ph-ee-g2psandbox-security:
                     number: 80 
 
     connector_bulk:
-      enabled: true
+      enabled: false
       image: "docker.io/openmf/ph-ee-bulk-processor"
       imageTag: "latest"
       tenants: "rhino,gorilla"
@@ -79,7 +79,7 @@ ph-ee-g2psandbox-security:
                     number: 80                             
 
     keycloak:
-      enabled: true
+      enabled: false
       ingress:
         enabled: true 
         rules:
@@ -89,7 +89,7 @@ ph-ee-g2psandbox-security:
               pathType: Prefix
 
     kong:
-      enabled: true
+      enabled: false
       env:
         pg_host: "g2p-sandbox-security-postgresql"
       ingress:
