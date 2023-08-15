@@ -6,7 +6,8 @@ ph-ee-g2psandbox-security:
   
     channel:
       enabled: true
-      image: docker.io/openmf/ph-ee-connector-channel:latest
+      image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-channel"
+      imageTag: "latest"
       operations:
         url: "http://ops-bk.sandbox.fynarfin.io/api/v1"
       server:
@@ -36,7 +37,8 @@ ph-ee-g2psandbox-security:
              
     operations_app:
       enabled: true
-      image: docker.io/openmf/ph-ee-operations-app:latest
+      image: "docker.io/openmf/ph-ee-operations-app"
+      imageTag: "latest"
       ingress:
         enabled: true 
         className: "kong"
@@ -52,7 +54,8 @@ ph-ee-g2psandbox-security:
 
     connector_bulk:
       enabled: true
-      image: docker.io/openmf/ph-ee-bulk-processor:latest
+      image: "docker.io/openmf/ph-ee-bulk-processor"
+      imageTag: "latest"
       tenants: "rhino,gorilla"
       operations_app:
         contactpoint: "https://ops-bk.sandbox.fynarfin.io/"
