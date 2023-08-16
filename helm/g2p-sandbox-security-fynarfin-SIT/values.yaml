@@ -1,6 +1,9 @@
 ph-ee-g2psandbox-security:
   ph-ee-engine:
 
+    camunda-platform-helm:
+      enabled: false
+
     zeebe-operate-helm:
       enabled: false
   
@@ -36,7 +39,7 @@ ph-ee-g2psandbox-security:
                     number: 82  
              
     operations_app:
-      enabled: true
+      enabled: false
       image: "docker.io/openmf/ph-ee-operations-app"
       imageTag: "latest"
       ingress:
@@ -79,7 +82,7 @@ ph-ee-g2psandbox-security:
                     number: 80                             
 
     keycloak:
-      enabled: false
+      enabled: true
       ingress:
         enabled: true 
         rules:
@@ -89,7 +92,7 @@ ph-ee-g2psandbox-security:
               pathType: Prefix
 
     kong:
-      enabled: false
+      enabled: true
       env:
         pg_host: "g2p-sandbox-security-postgresql"
       ingress:
@@ -98,18 +101,3 @@ ph-ee-g2psandbox-security:
 
     wildcardhostname: "*.sandbox.fynarfin.io"
     tls: ""
-
-  ph_ee_identity_account_mapper:
-
-    identity_account_mapper:
-      enabled: true
-      ingress:
-        enabled: true
-        hostname: "identity.sandbox.fynarfin.io"
-        path: "/"
-        wildcardhostname: "*.sandbox.fynarfin.io"
-        className: "kong"
-        annotations:
-          kubernetes.io/ingress.class: ""
-          nginx.ingress.kubernetes.io/backend-protocol: ""
-          konghq.com/plugins: "oidc,request-transformer,cors"
