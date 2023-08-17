@@ -165,6 +165,9 @@ ph-ee-g2psandbox:
         contactpoint: "https://ops-bk.sandbox.fynarfin.io/"
         endpoints:
           batch_transaction: "/api/v1/batch/transactions"  
+      deployment:
+        annotations:
+          rollme: {{ randAlphaNum 5 | quote }}
       ingress:
         enabled: true
         annotations: 
