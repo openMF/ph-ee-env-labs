@@ -167,7 +167,7 @@ ph-ee-g2psandbox:
           batch_transaction: "/api/v1/batch/transactions"  
       deployment:
         annotations:
-          rollme: {{ randAlphaNum 5 | quote }}
+          - rollme: {{ randAlphaNum 5 | quote }}
       ingress:
         enabled: true
         annotations: 
