@@ -219,6 +219,22 @@ ph-ee-g2psandbox:
 
     importer_rdbms:
       enabled: true
+    
+    mockpayment:
+      enabled: true
+      ingress:
+        enabled: true
+        annotations: { }
+        # kubernetes.io/ingress.class: "nginx"
+        pathtype: ImplementationSpecific
+        hosts:
+          - host: mockpaymentschema.sandbox.fynarfin.io
+            paths:
+              - path: "/"
+        tls: [ ]
+        #  - secretName: sandbox-secret
+        #    hosts:
+        #      - chart-example.local
 
     wildcardhostname: "*.sandbox.fynarfin.io"
     tls: ""
