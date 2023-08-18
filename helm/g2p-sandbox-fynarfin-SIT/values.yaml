@@ -220,7 +220,7 @@ ph-ee-g2psandbox:
     importer_rdbms:
       enabled: true
     
-    mock-payment-schema:
+    mockpayment:
       enabled: true
       ingress:
         enabled: true
