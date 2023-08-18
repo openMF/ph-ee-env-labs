@@ -55,6 +55,10 @@ ph-ee-g2psandbox-security:
                   port:
                     number: 80 
 
+    operations:
+      mysql:
+        enabled: false
+
     connector_bulk:
       enabled: false
       image: "docker.io/openmf/ph-ee-bulk-processor"
@@ -81,12 +85,34 @@ ph-ee-g2psandbox-security:
                   port:
                     number: 80                             
 
+    importer_es:
+      enabled: false
+
+    importer_rdbms:
+      enabled: false
+
+    zeebe_ops:
+      enabled: false
+
+    elasticsearch:
+      enabled: false
+
+    mockpayment:
+      enabled: false
+
+    kafka:
+      enabled: false
+
+    redis:
+      enabled: false
+
     keycloak:
       enabled: true
       ingress:
         enabled: true 
+        ingressClassName: "kong"
         rules:
-          - host: 'keycloak-sec.sandbox.fynarfin.io'
+          - host: 'keycloak.sandbox.fynarfin.io'
             paths:
             - path: /
               pathType: Prefix
@@ -95,9 +121,10 @@ ph-ee-g2psandbox-security:
       enabled: true
       env:
         pg_host: "g2p-sandbox-security-postgresql"
-      ingress:
-        enabled: true
-        hostname: admin-kong-sec.sandbox.fynarfin.io
+      admin:
+        ingress:
+          enabled: true
+          hostname: 'kong-admin.sandbox.fynarfin.io'
 
     wildcardhostname: "*.sandbox.fynarfin.io"
     tls: ""
