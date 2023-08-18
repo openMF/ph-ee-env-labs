@@ -236,17 +236,15 @@ ph-ee-g2psandbox:
       enabled: true
       ingress:
         enabled: true
-        annotations: { }
-        # kubernetes.io/ingress.class: "nginx"
-        pathtype: ImplementationSpecific
         hosts:
           - host: mockpaymentschema.sandbox.fynarfin.io
             paths:
               - path: "/"
-        tls: [ ]
-        #  - secretName: sandbox-secret
-        #    hosts:
-        #      - chart-example.local
+                backend:
+                  service:
+                    name: "ph-ee-connector-mock-payment-schema"
+                    port:
+                      number: 8080
 
     wildcardhostname: "*.sandbox.fynarfin.io"
     tls: ""
