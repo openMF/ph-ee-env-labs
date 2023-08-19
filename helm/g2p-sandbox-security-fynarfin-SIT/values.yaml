@@ -119,7 +119,10 @@ ph-ee-g2psandbox-security:
 
     kong:
       enabled: true
+      migrations:
+        init: true
       env:
+        database: "postgres"
         pg_host: "g2p-sandbox-security-postgresql"
       admin:
         ingress:
