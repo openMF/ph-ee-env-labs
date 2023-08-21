@@ -108,6 +108,7 @@ ph-ee-g2psandbox-security:
 
     keycloak:
       enabled: true
+      fullnameOverride: "keycloak"
       ingress:
         enabled: true 
         ingressClassName: "kong"
