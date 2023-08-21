@@ -125,6 +125,11 @@ jobs:
           aws-region: "$REGION"
       - helm/install-helm-client:
           version: "v3.8.2"
+      - kubernetes/install-kubectl
+      - run: |
+          if ! kubectl get ns security > /dev/null 2>&1; then
+              kubectl create namespace security
+          fi
       - run: helm ls --namespace=security
       - helm/upgrade-helm-chart:
           chart: "https://fynarfin.io/images/ph-ee-g2psandbox-security-fynarfin/ph-ee-g2psandbox-security-fynarfin-0.0.0.tgz"
