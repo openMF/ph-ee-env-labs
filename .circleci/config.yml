@@ -183,6 +183,7 @@ workflows:
           cluster-name: sit
           requires:
             - build
+            - upgrade-g2psandbox-security-helm-chart
           context:
             - AWS
             - Helm
