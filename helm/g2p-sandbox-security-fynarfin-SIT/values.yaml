@@ -1,111 +1,6 @@
 ph-ee-g2psandbox-security:
   ph-ee-engine:
 
-    camunda-platform-helm:
-      enabled: false
-
-    zeebe-operate-helm:
-      enabled: false
-  
-    channel:
-      enabled: false
-      image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/phee-channel"
-      imageTag: "latest"
-      operations:
-        url: "http://ops-bk.sandbox.fynarfin.io/api/v1"
-      server:
-        ssl:
-          keyPassword: "password"
-          keyStorePassword: "password"
-      ingress:
-        enabled: true 
-        className: "kong"
-        hosts:
-          - host: channel-sec.sandbox.fynarfin.io
-            paths: 
-            - path: "/"
-              backend:
-                service:
-                  name: "ph-ee-connector-channel"
-                  port:
-                    number: 8443
-          - host: channel-gsma-sec.sandbox.fynarfin.io
-            paths:          
-            - path: "/"
-              backend:
-                service:
-                  name: "ph-ee-connector-channel-gsma"
-                  port:
-                    number: 82  
-             
-    operations_app:
-      enabled: false
-      image: "docker.io/openmf/ph-ee-operations-app"
-      imageTag: "latest"
-      ingress:
-        enabled: true 
-        className: "kong"
-        hosts:
-          - host: ops-bk.sandbox.fynarfin.io          
-            paths: 
-            - path: "/"
-              backend:
-                service:
-                  name: "ph-ee-operations-app"
-                  port:
-                    number: 80 
-
-    operations:
-      mysql:
-        enabled: false
-
-    connector_bulk:
-      enabled: false
-      image: "docker.io/openmf/ph-ee-bulk-processor"
-      imageTag: "latest"
-      tenants: "rhino,gorilla"
-      operations_app:
-        contactpoint: "https://ops-bk.sandbox.fynarfin.io/"
-        endpoints:
-          batch_transaction: "/api/v1/batch/transactions"  
-      aws:
-        region: "ap-south-1"
-      ingress:
-        enabled: true
-        className: "kong"
-        tls:
-          - secretName: sandbox-secret
-        hosts:
-          - host: bulk-connector-sec.sandbox.fynarfin.io
-            paths: 
-            - path: "/"
-              backend:
-                service:
-                  name: "ph-ee-connector-bulk"
-                  port:
-                    number: 80                             
-
-    importer_es:
-      enabled: false
-
-    importer_rdbms:
-      enabled: false
-
-    zeebe_ops:
-      enabled: false
-
-    elasticsearch:
-      enabled: false
-
-    mockpayment:
-      enabled: false
-
-    kafka:
-      enabled: false
-
-    redis:
-      enabled: false
-
     keycloak:
       enabled: true
       ingress:
@@ -119,8 +14,6 @@ ph-ee-g2psandbox-security:
 
     kong:
       enabled: true
-      migrations:
-        init: true
       env:
         database: "postgres"
         pg_host: "g2p-sandbox-security-postgresql"
