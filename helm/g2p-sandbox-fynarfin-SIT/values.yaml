@@ -179,8 +179,7 @@ ph-ee-g2psandbox:
           batch_transaction: "/api/v1/batch/transactions"  
       ingress:
         enabled: true
-        annotations: 
-          kubernetes.io/ingress.class: nginx  
+        className: "kong"
         tls:
           - secretName: sandbox-secret
         hosts:
