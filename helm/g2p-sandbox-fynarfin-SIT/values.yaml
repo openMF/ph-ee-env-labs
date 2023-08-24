@@ -273,6 +273,9 @@ ph-ee-g2psandbox:
 
   account_mapper:
     enabled: true
+    deployment:
+      annotations:
+        rollme: "{{ randAlphaNum 5 | quote }}"
     ingress:
       enabled: true
       annotations:
