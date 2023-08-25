@@ -134,7 +134,7 @@ jobs:
       - helm/upgrade-helm-chart:
           chart: "https://fynarfin.io/images/ph-ee-g2psandbox-security-fynarfin/ph-ee-g2psandbox-security-fynarfin-0.0.0.tgz"
           release-name: "g2p-sandbox-security"
-          namespace: security
+          namespace: ph-infrastructure
           recreate-pods: true
           add-repo: "https://fynarfin.io/images/ph-ee-g2psandbox-security"
           wait: true
