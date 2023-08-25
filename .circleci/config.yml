@@ -130,7 +130,7 @@ jobs:
           if ! kubectl get ns security > /dev/null 2>&1; then
               kubectl create namespace security
           fi
-      - run: helm ls --namespace=security
+      - run: helm ls --namespace=ph-infrastructure
       - helm/upgrade-helm-chart:
           chart: "https://fynarfin.io/images/ph-ee-g2psandbox-security-fynarfin/ph-ee-g2psandbox-security-fynarfin-0.0.0.tgz"
           release-name: "g2p-sandbox-security"
