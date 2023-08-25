@@ -127,8 +127,8 @@ jobs:
           version: "v3.8.2"
       - kubernetes/install-kubectl
       - run: |
-          if ! kubectl get ns security > /dev/null 2>&1; then
-              kubectl create namespace security
+          if ! kubectl get ns ph-infrastructure > /dev/null 2>&1; then
+              kubectl create namespace ph-infrastructure
           fi
       - run: helm ls --namespace=ph-infrastructure
       - helm/upgrade-helm-chart:
