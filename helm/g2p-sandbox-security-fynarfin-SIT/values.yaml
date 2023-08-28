@@ -16,7 +16,6 @@ ph-ee-g2psandbox-security:
       enabled: true
       env:
         database: "postgres"
-        pg_host: "g2p-sandbox-security-postgresql"
       admin:
         ingress:
           enabled: true

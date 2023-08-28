@@ -175,6 +175,8 @@ workflows:
             - Helm
             - slack
       - host-g2-sandbox-security-fynarfin-chart:
+          requires:
+            - build
           context:
             - AWS
             - Helm
