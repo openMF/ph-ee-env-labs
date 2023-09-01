@@ -13,5 +13,5 @@ purge:
 
 secrets:
 	encryptionkey=$$(docker run --rm busybox:1.31.1 /bin/sh -c "< /dev/urandom tr -dc _A-Za-z0-9 | head -c50") && \
-  kubectl create namespace paymenthub || echo "namespace already exists"  && \
-	kubectl create secret generic kibana --namespace=paymenthub --from-literal=encryptionkey=$$encryptionkey
+  kubectl create namespace $(NAMESPACE) || echo "namespace already exists"  && \
+	kubectl create secret generic kibana --namespace=$(NAMESPACE) --from-literal=encryptionkey=$$encryptionkey

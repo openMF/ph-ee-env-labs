@@ -4,6 +4,7 @@ GOSS_FILE ?= goss.yaml
 GOSS_SELECTOR ?= release=$(RELEASE)
 STACK_VERSION := 7.17.3
 TIMEOUT := 900s
+NAMESPACE = $(ENV_NAMESPACE)
 
 .PHONY: help
 help: ## Display this help

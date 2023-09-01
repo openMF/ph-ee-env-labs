@@ -25,6 +25,7 @@ jobs:
       - run: chmod 400 b64encoded.pem
       - run: scp -o StrictHostKeyChecking=No -i b64encoded.pem index.yaml ph-ee-g2psandbox-fynarfin-0.2.0.tgz ec2-user@13.233.68.128:~/
       - run: ssh -i b64encoded.pem -o StrictHostKeyChecking=No ec2-user@13.233.68.128 sudo mv -t /apps/apache-tomcat-7.0.82/webapps/ROOT/images/ph-ee-g2psandbox-fynarfin index.yaml ph-ee-g2psandbox-fynarfin-0.2.0.tgz
+  
   upgrade-g2psandbox-helm-chart:
     docker:
       - image: cimg/python:3.10
@@ -58,9 +59,9 @@ jobs:
 
       # kubectl delete secrets elastic-certificates elastic-certificate-pem elastic-certificate-crt|| true
 
-  create-secret:
+  create-secret-paymenthub-namespace:
     docker:
-      - image: cimg/base:2022.06 
+      - image: cimg/base:2022.06
     steps:
       - setup_remote_docker:
             version: 20.10.14
@@ -70,21 +71,74 @@ jobs:
           cluster-name: "sit"
           aws-region: "$REGION"
       - run: |
+          export ENV_NAMESPACE=paymenthub
           kubectl config use-context arn:aws:eks:$REGION:419830066942:cluster/sit
           kubectl config get-contexts
           cd helm/kibana-secret/
           make secrets || echo "kibana" already exists
+
       - run: |
+          export ENV_NAMESPACE=paymenthub
           kubectl config use-context arn:aws:eks:$REGION:419830066942:cluster/sit
           kubectl config get-contexts
           cd helm/es-secret/
           make secrets || echo "elastic-certificates" already exists
 
       - run: |
-          kubectl delete secret bulk-processor-secret -n paymenthub || echo "delete the secret if exist"
+          export ENV_NAMESPACE=paymenthub
+          kubectl delete secret bulk-processor-secret -n $ENV_NAMESPACE || echo "delete the secret if exist"
           kubectl create secret generic bulk-processor-secret \
           --from-literal=aws-access-key="$S3_ACCESS_KEY_ID" \
-          --from-literal=aws-secret-key="$S3_SECRET_ACCESS_KEY" -n paymenthub
+          --from-literal=aws-secret-key="$S3_SECRET_ACCESS_KEY" -n $ENV_NAMESPACE
+
+  host-g2-sandbox-security-fynarfin-chart:
+    docker:
+      - image: cimg/python:3.10
+    working_directory: ~/repo
+    environment:
+      TERM: dumb
+    steps:
+      - checkout
+      - run: rm -f helm/g2p-sandbox-security-fynarfin-SIT/Chart.lock helm/g2p-sandbox-security-fynarfin-SIT/requirements.lock helm/g2p-sandbox-security-fynarfin-SIT/charts/*
+      - helm/install-helm-client:
+          version: "v3.8.2"
+      - run: cat helm/g2p-sandbox-security-fynarfin-SIT/Chart.yaml
+      - run: helm dep up helm/g2p-sandbox-security-fynarfin-SIT
+      - run: helm package helm/g2p-sandbox-security-fynarfin-SIT
+      - run: helm repo index .
+      - run: echo "$CERT_FILE" | base64 --decode > b64encoded.pem
+      - run: chmod 400 b64encoded.pem
+      - run: ssh -i b64encoded.pem -o StrictHostKeyChecking=No ec2-user@13.233.68.128 sudo mkdir -p /apps/apache-tomcat-7.0.82/webapps/ROOT/images/ph-ee-g2psandbox-security-fynarfin
+      - run: scp -o StrictHostKeyChecking=No -i b64encoded.pem index.yaml ph-ee-g2psandbox-security-fynarfin-0.0.0.tgz ec2-user@13.233.68.128:~/
+      - run: ssh -i b64encoded.pem -o StrictHostKeyChecking=No ec2-user@13.233.68.128 sudo mv -t /apps/apache-tomcat-7.0.82/webapps/ROOT/images/ph-ee-g2psandbox-security-fynarfin index.yaml ph-ee-g2psandbox-security-fynarfin-0.0.0.tgz
+
+  upgrade-g2psandbox-security-helm-chart:
+    docker:
+      - image: cimg/python:3.10
+    parameters:
+      cluster-name:
+        description: "sit"
+        type: string        
+    steps:
+      - aws-eks/update-kubeconfig-with-authenticator:
+          cluster-name: "sit"
+          aws-region: "$REGION"
+      - helm/install-helm-client:
+          version: "v3.8.2"
+      - kubernetes/install-kubectl
+      - run: |
+          if ! kubectl get ns ph-infrastructure > /dev/null 2>&1; then
+              kubectl create namespace ph-infrastructure
+          fi
+      - run: helm ls --namespace=ph-infrastructure
+      - helm/upgrade-helm-chart:
+          chart: "https://fynarfin.io/images/ph-ee-g2psandbox-security-fynarfin/ph-ee-g2psandbox-security-fynarfin-0.0.0.tgz"
+          release-name: "g2p-sandbox-security"
+          namespace: ph-infrastructure
+          recreate-pods: true
+          add-repo: "https://fynarfin.io/images/ph-ee-g2psandbox-security"
+          wait: true
+          timeout: "300s"     
                                        
   deploying-bpmns:
     docker:
@@ -120,17 +174,24 @@ workflows:
             - AWS
             - Helm
             - slack
-
-      - upgrade-g2psandbox-helm-chart:
-          cluster-name: sit
+      - host-g2-sandbox-security-fynarfin-chart:
           requires:
             - build
           context:
             - AWS
             - Helm
             - slack
-            - Secrets      
-      - create-secret:
+      - upgrade-g2psandbox-helm-chart:
+          cluster-name: sit
+          requires:
+            - build
+            - upgrade-g2psandbox-security-helm-chart
+          context:
+            - AWS
+            - Helm
+            - slack
+            - Secrets        
+      - create-secret-paymenthub-namespace:
           requires: 
             - upgrade-g2psandbox-helm-chart
           context: 
@@ -138,6 +199,15 @@ workflows:
             - Helm
             - slack
             - Secrets  
+      - upgrade-g2psandbox-security-helm-chart:
+          cluster-name: sit
+          requires:
+            - host-g2-sandbox-security-fynarfin-chart
+          context:
+            - AWS
+            - Helm
+            - slack
+            - Secrets 
       - deploying-bpmns:
           requires:
             - upgrade-g2psandbox-helm-chart
@@ -147,7 +217,7 @@ workflows:
             - slack
       - test-chart-gov:
           requires:
-            - create-secret
+            - create-secret-paymenthub-namespace
             - deploying-bpmns
           context: 
             - AWS
@@ -155,7 +225,7 @@ workflows:
             - slack
       - test-chart-ams:
           requires:
-            - create-secret
+            - create-secret-paymenthub-namespace
             - deploying-bpmns
           context:
             - AWS

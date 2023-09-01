@@ -1,0 +1,11 @@
+apiVersion: v2
+name: ph-ee-g2psandbox-security-fynarfin
+description: PaymentHub EE Barebone Edition
+type: application
+version: 0.0.0
+appVersion: 1.0.0
+
+dependencies:
+- name: ph-ee-g2psandbox-security
+  repository: https://fynarfin.io/images/ph-ee-g2psandbox-security
+  version: 0.0.0

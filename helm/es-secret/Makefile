@@ -25,9 +25,9 @@ secrets:
 	docker rm -f elastic-helm-charts-certs && \
 	openssl pkcs12 -nodes -passin pass:'' -in elastic-certificates.p12 -out elastic-certificate.pem && \
 	openssl x509 -outform der -in elastic-certificate.pem -out elastic-certificate.crt && \
-	kubectl create namespace paymenthub || echo "namespace already exists"  && \
-	kubectl create secret generic elastic-certificates --namespace=paymenthub --from-file=elastic-certificates.p12 && \	
-	kubectl create secret generic elastic-certificate-pem --namespace=paymenthub --from-file=elastic-certificate.pem && \
-	kubectl create secret generic elastic-certificate-crt --namespace=paymenthub  --from-file=elastic-certificate.crt && \
-	kubectl create secret generic elastic-credentials --namespace=paymenthub --from-literal=password=$$password --from-literal=username=elastic && \
+	kubectl create namespace $(NAMESPACE) || echo "namespace already exists"  && \
+	kubectl create secret generic elastic-certificates --namespace=$(NAMESPACE) --from-file=elastic-certificates.p12 && \
+	kubectl create secret generic elastic-certificate-pem --namespace=$(NAMESPACE) --from-file=elastic-certificate.pem && \
+	kubectl create secret generic elastic-certificate-crt --namespace=$(NAMESPACE)  --from-file=elastic-certificate.crt && \
+	kubectl create secret generic elastic-credentials --namespace=$(NAMESPACE) --from-literal=password=$$password --from-literal=username=elastic && \
 	rm -f elastic-certificates.p12 elastic-certificate.pem elastic-certificate.crt elastic-stack-ca.p12	

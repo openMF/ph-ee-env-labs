@@ -1,0 +1,25 @@
+ph-ee-g2psandbox-security:
+  ph-ee-engine:
+
+    keycloak:
+      enabled: true
+      ingress:
+        enabled: true 
+        ingressClassName: "kong"
+        rules:
+          - host: 'keycloak.sandbox.fynarfin.io'
+            paths:
+            - path: /
+              pathType: Prefix
+
+    kong:
+      enabled: true
+      env:
+        database: "postgres"
+      admin:
+        ingress:
+          enabled: true
+          hostname: 'kong-admin.sandbox.fynarfin.io'
+
+    wildcardhostname: "*.sandbox.fynarfin.io"
+    tls: ""
