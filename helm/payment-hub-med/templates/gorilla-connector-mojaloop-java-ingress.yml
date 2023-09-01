@@ -9,6 +9,10 @@ spec:
     - host: in03tn06.mifos.io
       http:
         paths:
-        - backend:
-            serviceName: ph-ee-connector-mojaloop-java
-            servicePort: 80
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: ph-ee-connector-mojaloop-java
+                port:
+                  number: 80   
