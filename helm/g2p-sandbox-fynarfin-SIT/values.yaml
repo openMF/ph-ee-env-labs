@@ -34,7 +34,11 @@ ph-ee-g2psandbox:
       imageTag: v1.2.2 
       deployment:
         annotations:
-          rollme: "{{ randAlphaNum 5 | quote }}"
+          rollme: '{{ randAlphaNum 5 | quote }}'
+      ams_local_interop_host: "https://fynams.sandbox.fynarfin.io/"
+      ams_local_account_host: "https://fynams.sandbox.fynarfin.io/"
+      ams_local_customer_host: "https://fynams.sandbox.fynarfin.io/"
+      ams_local_auth_host: "https://fynams.sandbox.fynarfin.io/"
       ingress:
         enabled: true 
         hosts:
