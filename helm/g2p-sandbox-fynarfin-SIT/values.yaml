@@ -92,6 +92,7 @@ ph-ee-g2psandbox:
           rollme: "{{ randAlphaNum 5 | quote }}"
       ingress:
         enabled: true 
+        className: "kong"
         hosts:
           - host: channel.sandbox.fynarfin.io          
             paths: 
