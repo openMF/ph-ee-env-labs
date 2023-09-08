@@ -39,11 +39,11 @@ jobs:
           aws-region: "$REGION"
       - helm/install-helm-client:
           version: "v3.8.2"
-      - run: helm ls --namespace=paymenthub
+      - run: helm ls --namespace=paymenthub-new
       - helm/upgrade-helm-chart:
           chart: "https://fynarfin.io/images/ph-ee-g2psandbox-fynarfin/ph-ee-g2psandbox-fynarfin-0.2.0.tgz"
           release-name: "g2p-sandbox"
-          namespace: paymenthub
+          namespace: paymenthub-new
           recreate-pods: true
           add-repo: "https://fynarfin.io/images/ph-ee-g2psandbox-fynarfin"
           wait: true
@@ -71,21 +71,21 @@ jobs:
           cluster-name: "sit"
           aws-region: "$REGION"
       - run: |
-          export ENV_NAMESPACE=paymenthub
+          export ENV_NAMESPACE=paymenthub-new
           kubectl config use-context arn:aws:eks:$REGION:419830066942:cluster/sit
           kubectl config get-contexts
           cd helm/kibana-secret/
           make secrets || echo "kibana" already exists
 
       - run: |
-          export ENV_NAMESPACE=paymenthub
+          export ENV_NAMESPACE=paymenthub-new
           kubectl config use-context arn:aws:eks:$REGION:419830066942:cluster/sit
           kubectl config get-contexts
           cd helm/es-secret/
           make secrets || echo "elastic-certificates" already exists
 
       - run: |
-          export ENV_NAMESPACE=paymenthub
+          export ENV_NAMESPACE=paymenthub-new
           kubectl delete secret bulk-processor-secret -n $ENV_NAMESPACE || echo "delete the secret if exist"
           kubectl create secret generic bulk-processor-secret \
           --from-literal=aws-access-key="$S3_ACCESS_KEY_ID" \
