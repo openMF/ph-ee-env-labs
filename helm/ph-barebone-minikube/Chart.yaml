@@ -1,9 +1,9 @@
 apiVersion: v2
-name: payment-hub-barebone
-description: PaymentHub EE Barebone Edition
+name: ph-barebone-minikube
+description: PaymentHub EE Barebone minikube Edition
 
 type: application
-version: 0.1.0
+version: 0.0.0
 appVersion: 1.16.0
 
 dependencies:
