@@ -198,7 +198,7 @@ ph-ee-g2psandbox:
           
     zeebe_ops:
       enabled: true
-      tenants: "rhino,gorilla"
+      tenants: "rhino,gorilla,lion"
       ingress:
         enabled: true 
         hosts:
