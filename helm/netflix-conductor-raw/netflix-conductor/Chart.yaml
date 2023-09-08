@@ -1,0 +1,20 @@
+name: docker-compose
+description: A generated Helm Chart for docker-compose from Skippbox Kompose
+version: 0.0.1
+apiVersion: v2
+keywords:
+  - docker-compose
+dependencies:
+  - name: postgresql
+    version: 12.10.0
+    repository: https://charts.bitnami.com/bitnami
+
+  - name: elasticsearch
+    repository: http://helm.elastic.co
+    version: 7.16.3
+    condition: "elasticsearch.enabled"
+
+  - name: redis
+    version: 17.9.3
+    repository: "https://charts.bitnami.com/bitnami"
+    condition: "redis.enabled"

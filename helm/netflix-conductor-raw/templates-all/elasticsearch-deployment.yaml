@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: Kompose convert -c
+    kompose.version: 1.30.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: elasticsearch
+  name: elasticsearch
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: elasticsearch
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: Kompose convert -c
+        kompose.version: 1.30.0 (HEAD)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/docker-internal: "true"
+        io.kompose.service: elasticsearch
+    spec:
+      containers:
+        - env:
+            - name: ES_JAVA_OPTS
+              value: -Xms512m -Xmx1024m
+            - name: discovery.type
+              value: single-node
+            - name: transport.host
+              value: 0.0.0.0
+            - name: xpack.security.enabled
+              value: "false"
+          image: elasticsearch:6.8.15
+          livenessProbe:
+            exec:
+              command:
+                - wget http://localhost:9200/ -O /dev/null
+            failureThreshold: 12
+            periodSeconds: 5
+            timeoutSeconds: 5
+          name: elasticsearch
+          ports:
+            - containerPort: 9200
+              hostPort: 9200
+              protocol: TCP
+            - containerPort: 9300
+              hostPort: 9300
+              protocol: TCP
+          resources: {}
+          volumeMounts:
+            - mountPath: /usr/share/elasticsearch/data
+              name: esdata-conductor
+      restartPolicy: Always
+      volumes:
+        - name: esdata-conductor
+          persistentVolumeClaim:
+            claimName: esdata-conductor
+status: {}
