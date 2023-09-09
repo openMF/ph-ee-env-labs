@@ -59,29 +59,12 @@ ph-ee-engine:
       idempotency:
         enabled: false
     ingress:
-      enabled: true
-      hosts:
-        - host: "barebone-connector-channel.sandbox.fynarfin.io"
-          paths:
-            - path: "/"
-              backend:
-                service:
-                  name: "ph-ee-connector-channel"
-                  port:
-                    number: 8443
+      enabled: false
+
   operations_app:
     SPRING_PROFILES_ACTIVE: "bb"
     ingress:
-      enabled: true
-      hosts:
-        - host: "barebone-operations.sandbox.fynarfin.io"
-          paths:
-            - path: "/"
-              backend:
-                service:
-                  name: "ph-ee-operations-app"
-                  port:
-                    number: 80
+      enabled: false
 
   mpesa:
     enabled: false
@@ -136,15 +119,4 @@ ph-ee-engine:
   mockpayment:
     enabled: true
     ingress:
-      enabled: true
-      annotations:
-        kubernetes.io/ingress.class: nginx
-      hosts:
-        - host: barebone-mockpaymentschema.sandbox.fynarfin.io
-          paths:
-            - path: "/"
-              backend:
-                service:
-                  name: "ph-ee-connector-mock-payment-schema"
-                  port:
-                    number: 8080
+      enabled: false
