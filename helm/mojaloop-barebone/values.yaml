@@ -1,0 +1,129 @@
+ph-ee-engine:
+  zeebe-cluster-helm:
+    global:
+      elasticsearch:
+        host: "ph-ee-elasticsearch"
+    image:
+      repository: camunda/zeebe
+      tag: 1.1.0
+
+    clusterSize: "1"
+    partitionCount: "1"
+    replicationFactor: "1"
+    
+    elasticsearch:
+      enabled: false
+    kibana:
+      enabled: false
+
+    extraInitContainers: |
+      - name: init-ph-ee-kafka-exporter
+        image: busybox:1.28
+        command: ['/bin/sh', '-c']
+        args: ['wget -O /exporters/ph-ee-kafka-exporter.jar "https://paymenthub-ee-dev.s3.us-east-2.amazonaws.com/jars/exporter-1.0.0-SNAPSHOT.jar"; ls -al /exporters/']
+        volumeMounts:
+        - name: exporters
+          mountPath: /exporters/
+
+  zeebe-operate-helm:
+    enabled: true
+    image:
+      repository: camunda/operate
+      tag: 1.1.0
+    global:
+      elasticsearch:
+        host: "ph-ee-elasticsearch"
+        clusterName: "ph-ee-elasticsearch"
+
+  elasticsearch:
+    enabled: true
+    replicas: 1
+    imageTag: 7.13.2
+    minimumMasterNodes: 1
+
+    #Single Node Solution
+    clusterHealthCheckParams: "wait_for_status=yellow&timeout=100s" 
+    master:
+      readinessProbe:
+        httpGet:
+          path: /_cluster/health?wait_for_status=yellow&timeout=5s
+          port: 9200
+        initialDelaySeconds: 30
+    data:
+      readinessProbe:
+        httpGet:
+          path: /_cluster/health?wait_for_status=yellow&timeout=5s
+          port: 9200
+        initialDelaySeconds: 30
+
+
+    # Shrink default JVM heap.
+    esJavaOpts: "-Xmx512m -Xms512m"
+
+    # Allocate smaller chunks of memory per pod.
+    resources:
+      requests:
+        cpu: "200m"
+        memory: "1024M"
+      limits:
+        cpu: "1000m"
+        memory: "1024M"
+    volumeClaimTemplate:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "standard"
+      resources:
+        requests:
+          storage: 10Gi
+
+  kibana:
+    enabled: true
+    imageTag: 7.13.2
+
+    kibanaConfig:
+      kibana.yml: |
+        monitoring.enabled: false
+
+  operations:
+    enabled: true
+
+  operationsMysql:
+    mysqlRootPassword: "ethieTieCh8ahv"
+    mysqlUser: "mifos"
+    mysqlPassword: "password"
+    mysqlDatabase: "tenants"
+    initializationFiles:
+      setup.sql: |-
+        CREATE DATABASE tn03;
+        CREATE DATABASE tn04;
+        GRANT ALL PRIVILEGES ON tn03.* TO 'mifos';
+        GRANT ALL PRIVILEGES ON tn04.* TO 'mifos';
+
+  ph_ee_connector_ams_mifos:
+    SPRING_PROFILES_ACTIVE: "fin12,bb"
+
+  ph_ee_connector_mojaloop:
+    SPRING_PROFILES_ACTIVE: "bb"
+
+  ph_ee_connector_channel:
+    SPRING_PROFILES_ACTIVE: "bb"
+    hostname: "barebone-connector-channel.mifos.io"
+    AWS_ACCESS_KEY: "xxx"
+    AWS_SECRET_KEY: "xxx"
+
+  ph_ee_operations_app:
+    SPRING_PROFILES_ACTIVE: "bb"
+    hostname: "barebone-operations.mifos.io"
+
+  ph_ee_operations:
+    SPRING_PROFILES_ACTIVE: "bb"
+    hostname: "barebone-operations.mifos.io"
+    webhost: "barebone-operations-ui.mifos.io"
+
+  ph_ee_identity:
+    hostname: "barebone-identity.mifos.io"
+
+  ph-ee-connector-mpesa:
+    hostname: "mpesa.ibank.financial"
+
+  ph_ee_connector_gsma:
+    SPRING_PROFILES_ACTIVE: "bb"

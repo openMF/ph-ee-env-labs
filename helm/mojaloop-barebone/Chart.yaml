@@ -1,5 +1,5 @@
 apiVersion: v2
-name: payment-hub-barebone
+name: ph-ee-barebone
 description: PaymentHub EE Barebone Edition
 
 type: application
@@ -8,5 +8,5 @@ appVersion: 1.16.0
 
 dependencies:
 - name: ph-ee-engine
-  repository: https://fynarfin.io/images/ph-ee-engine-0.0.0-SNAPSHOT/
-  version: 0.0.0-SNAPSHOT
+  repository: https://fynarfin.io/images/
+  version: 1.0.0-SNAPSHOT

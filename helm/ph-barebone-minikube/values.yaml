@@ -30,6 +30,7 @@ ph-ee-engine:
         memory: "1024M"
     volumeClaimTemplate:
       accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "standard"
       resources:
         requests:
           storage: 10Gi
@@ -37,6 +38,8 @@ ph-ee-engine:
   kibana:
     enabled: true
     imageTag: 7.13.2
+    ingress:
+      enabled: false
 
     kibanaConfig:
       kibana.yml: |
@@ -45,19 +48,20 @@ ph-ee-engine:
   operations:
     enabled: true
 
+
   ph_ee_connector_ams_mifos:
     SPRING_PROFILES_ACTIVE: "fin12,bb"
+    ingress:
+      enabled: false
 
   ph_ee_connector_mojaloop:
     SPRING_PROFILES_ACTIVE: "bb"
+    ingress:
+      enabled: false
 
   channel:
     enabled: true
     SPRING_PROFILES_ACTIVE: "bb"
-    imageTag: latest
-    redis:
-      idempotency:
-        enabled: false
     ingress:
       enabled: false
 
@@ -68,9 +72,13 @@ ph-ee-engine:
 
   mpesa:
     enabled: false
+    ingress:
+      enabled: false
 
   ph_ee_connector_gsma:
     enabled: false
+    ingress:
+      enabled: false
 
   operationsmysql:
     auth:
@@ -94,29 +102,32 @@ ph-ee-engine:
 
   kafka:
     enabled: true
-    nodePort: 30094
+    image: "spotify/kafka"
     advertised:
       host: "kafka"
-      port: "8096"
-    image: "spotify/kafka"
+      port: "9092"
     deployment:
       annotations:
         deployTime: "{{ .Values.deployTime }}"
 
   notifications:
     enabled: false
+    ingress:
+      enabled: false
 
   operations_web:
     enabled: false
+    ingress:
+      enabled: false
 
   redis:
     enabled: false
 
+
   importer_es:
     enabled: true
-    imageTag: latest
 
   mockpayment:
     enabled: true
     ingress:
-      enabled: false
+      enabled: fasle
