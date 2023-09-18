@@ -1,6 +1,5 @@
 elasticsearch:
   enabled: true
-  #  imageTag: 7.16.3
   replicas: 1
   protocol: http
   fullnameOverride: "elasticsearch"
@@ -38,6 +37,20 @@ elasticsearch:
 #        secretKeyRef:
 #          name: elastic-credentials
 #          key: password
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "1024M"
+    limits:
+      cpu: "1000m"
+      memory: "1024M"
+  volumeClaimTemplate:
+#    accessModes: [ "ReadWriteOnce" ]
+    storageClassName: "gp2"
+    resources:
+      requests:
+        storage: 10Gi
+
 
 redis:
   enabled: true

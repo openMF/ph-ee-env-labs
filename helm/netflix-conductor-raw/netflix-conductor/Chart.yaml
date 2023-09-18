@@ -12,7 +12,7 @@ dependencies:
 
   - name: elasticsearch
     repository: http://helm.elastic.co
-    version: 8.5.1
+    version: 7.17.3
     condition: "elasticsearch.enabled"
 
   - name: redis
