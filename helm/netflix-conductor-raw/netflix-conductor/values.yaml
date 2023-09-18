@@ -60,8 +60,14 @@ postgresql:
   postgresPassword: conductor
   persistence:
     enabled: true
+  primary:
+    initdb:
+      scripts:
+        setup.sql: |-
+          CREATE DATABASE conductor;
+          GRANT ALL PRIVILEGES ON `conductor`.* TO 'conductor';
+          GRANT ALL ON *.* TO 'root'@'%';
 #    existingClaim: pgdata-conductor
-
 
 networks:
   internal: {}
