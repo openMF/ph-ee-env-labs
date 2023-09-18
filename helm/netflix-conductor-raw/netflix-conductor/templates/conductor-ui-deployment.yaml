@@ -1,12 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: kompose convert -c
-    kompose.version: 1.30.0 (HEAD)
-  creationTimestamp: null
-  labels:
-    io.kompose.service: conductor-ui
   name: conductor-ui
   namespace: netflix
 spec:
@@ -14,15 +8,9 @@ spec:
   selector:
     matchLabels:
       io.kompose.service: conductor-ui
-  strategy: {}
   template:
     metadata:
-      annotations:
-        kompose.cmd: kompose convert -c
-        kompose.version: 1.30.0 (HEAD)
-      creationTimestamp: null
       labels:
-        io.kompose.network/docker-internal: "true"
         io.kompose.service: conductor-ui
     spec:
       containers:
@@ -30,12 +18,8 @@ spec:
             - name: WF_SERVER
               value: http://conductor-server:8080
           image: anover/conductor:ui
+          imagePullPolicy: Always
           name: conductor-ui
           ports:
             - containerPort: 5000
               hostPort: 5004
-              protocol: TCP
-          resources: {}
-          stdin: true
-      restartPolicy: Always
-status: {}

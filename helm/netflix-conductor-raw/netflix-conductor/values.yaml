@@ -1,10 +1,10 @@
 elasticsearch:
   enabled: true
-  imageTag: 7.16.3
+  #  imageTag: 7.16.3
   replicas: 1
   protocol: http
-  fullnameOverride: "ph-ee-elasticsearch"
-  clusterName: "ph-ee-elasticsearch"
+  fullnameOverride: "elasticsearch"
+  clusterName: "elasticsearch"
   minimumMasterNodes: 1
   esConfig:
     elasticsearch.yml: |
@@ -16,10 +16,22 @@ elasticsearch:
       xpack.security.http.ssl.enabled: false
       xpack.security.http.ssl.truststore.path: /usr/share/elasticsearch/config/certs/elastic-certificates.p12
       xpack.security.http.ssl.keystore.path: /usr/share/elasticsearch/config/certs/elastic-certificates.p12
-#  secretMounts:
-#    - name: elastic-certificates
-#      secretName: elastic-certificates
-#      path: /usr/share/elasticsearch/config/certs
+  #  secretMounts:
+  #    - name: elastic-certificates
+  #      secretName: elastic-certificates
+  #      path: /usr/share/elasticsearch/config/certs
+  extraEnvs:
+    - name: ES_JAVA_OPTS
+      value: "-Xms512m -Xmx1024m"
+  config:
+    transport.host: 0.0.0.0
+    discovery.type: single-node
+    xpack.security.enabled: "false"
+  healthCheckPath: /
+  healthCheckPort: 9200
+  persistence:
+    enabled: true
+#    existingClaim: esdata-conductor
 #  extraEnvs:
 #    - name: ELASTIC_PASSWORD
 #      valueFrom:
@@ -29,12 +41,27 @@ elasticsearch:
 
 redis:
   enabled: true
+  fullnameOverride: "redis"
   replica:
-    replicaCount: 1
+    replicaCount: 0
+  usePassword: false
 
 global:
   postgresql:
     auth:
-      postgresPassword: "password"
-      username: "user"
-      password: "password"
+      postgresPassword: "conductor"
+      username: "conductor"
+      password: "conductor"
+
+postgresql:
+  enabled: true
+  fullnameOverride: "postgres"
+  postgresUser: conductor
+  postgresPassword: conductor
+  persistence:
+    enabled: true
+#    existingClaim: pgdata-conductor
+
+
+networks:
+  internal: {}

@@ -8,10 +8,11 @@ dependencies:
   - name: postgresql
     version: 12.10.0
     repository: https://charts.bitnami.com/bitnami
+    condition: "postgresql.enabled"
 
   - name: elasticsearch
     repository: http://helm.elastic.co
-    version: 7.16.3
+    version: 8.5.1
     condition: "elasticsearch.enabled"
 
   - name: redis
