@@ -150,8 +150,8 @@ spec:
                 name: conductor-server
                 port:
                   number: 8080
-  tls:
-    - hosts:
-        - "{{ .Values.conductorserver.ingress.wildcardhostname }}"
-      secretName: "{{ .Values.tls }}"
+#  tls:
+#    - hosts:
+#        - "{{ .Values.conductorserver.ingress.wildcardhostname }}"
+#      secretName: "{{ .Values.tls }}"
 {{- end }}
