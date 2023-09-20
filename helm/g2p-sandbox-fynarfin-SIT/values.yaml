@@ -101,7 +101,7 @@ ph-ee-g2psandbox:
                 service:
                   name: "ph-ee-connector-channel"
                   port:
-                    number: 8443
+                    number: 80
           - host: channel-gsma.sandbox.fynarfin.io          
             paths:          
             - path: "/"
