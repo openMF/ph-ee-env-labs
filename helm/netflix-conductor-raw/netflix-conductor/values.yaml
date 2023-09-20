@@ -1,27 +1,20 @@
+ingress:
+  enabled: true
+
 elasticsearch:
   enabled: true
   replicas: 1
   protocol: http
-  fullnameOverride: "elasticsearch"
+  fullnameOverride: "es"
   clusterName: "elasticsearch"
   minimumMasterNodes: 1
   esConfig:
     elasticsearch.yml: |
       xpack.security.enabled: false
-      xpack.security.transport.ssl.enabled: false
-      xpack.security.transport.ssl.verification_mode: certificate
-      xpack.security.transport.ssl.keystore.path: /usr/share/elasticsearch/config/certs/elastic-certificates.p12
-      xpack.security.transport.ssl.truststore.path: /usr/share/elasticsearch/config/certs/elastic-certificates.p12
-      xpack.security.http.ssl.enabled: false
-      xpack.security.http.ssl.truststore.path: /usr/share/elasticsearch/config/certs/elastic-certificates.p12
-      xpack.security.http.ssl.keystore.path: /usr/share/elasticsearch/config/certs/elastic-certificates.p12
-  #  secretMounts:
-  #    - name: elastic-certificates
-  #      secretName: elastic-certificates
-  #      path: /usr/share/elasticsearch/config/certs
-  extraEnvs:
-    - name: ES_JAVA_OPTS
-      value: "-Xms512m -Xmx1024m"
+      transport.host: 0.0.0.0
+#  extraEnvs:
+#    - name: ES_JAVA_OPTS
+#      value: "-Xms512m -Xmx1024m"
   config:
     transport.host: 0.0.0.0
     discovery.type: single-node
@@ -31,12 +24,6 @@ elasticsearch:
   persistence:
     enabled: true
 #    existingClaim: esdata-conductor
-#  extraEnvs:
-#    - name: ELASTIC_PASSWORD
-#      valueFrom:
-#        secretKeyRef:
-#          name: elastic-credentials
-#          key: password
   resources:
     requests:
       cpu: "100m"
@@ -45,7 +32,7 @@ elasticsearch:
       cpu: "1000m"
       memory: "1024M"
   volumeClaimTemplate:
-#    accessModes: [ "ReadWriteOnce" ]
+    accessModes: [ "ReadWriteOnce" ]
     storageClassName: "gp2"
     resources:
       requests:
@@ -54,10 +41,12 @@ elasticsearch:
 
 redis:
   enabled: true
-  fullnameOverride: "redis"
+  fullnameOverride: "rs"
   replica:
     replicaCount: 0
   usePassword: false
+  auth:
+    enabled: false
 
 global:
   postgresql:
@@ -84,3 +73,25 @@ postgresql:
 
 networks:
   internal: {}
+
+tls: ""
+
+conductorui:
+  ingress:
+    enabled: true
+    hostname: "conductor-ui.sandbox.fynarfin.io"
+    path: "/"
+    wildcardhostname: "*.sandbox.fynarfin.io"
+    annotations:
+      kubernetes.io/ingress.class: "nginx"
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+
+conductorserver:
+  ingress:
+    enabled: true
+    hostname: "conductor-server.sandbox.fynarfin.io"
+    path: "/"
+    wildcardhostname: "*.sandbox.fynarfin.io"
+    annotations:
+      kubernetes.io/ingress.class: "nginx"
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"

@@ -7,19 +7,84 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: conductor-ui
+      app: conductor-ui
   template:
     metadata:
       labels:
-        io.kompose.service: conductor-ui
+        app: conductor-ui
     spec:
       containers:
         - env:
             - name: WF_SERVER
-              value: http://conductor-server:8080
+              value: "http://conductor-server.netflix.svc.cluster.local:8080/"
           image: anover/conductor:ui
           imagePullPolicy: Always
           name: conductor-ui
           ports:
             - containerPort: 5000
-              hostPort: 5004
+              hostPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: conductor-ui
+  namespace: netflix
+spec:
+  ports:
+    - port: 80
+      targetPort: 5000
+      protocol: TCP
+  type: NodePort
+  selector:
+    app: conductor-ui
+---
+
+{{- if .Values.conductorui.ingress.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: conductor-ui
+  annotations:
+{{- if .Values.conductorui.ingress.annotations }}
+{{ toYaml .Values.conductorui.ingress.annotations | indent 4 }}
+{{- end }}
+spec:
+  rules:
+    - host: "{{ .Values.conductorui.ingress.hostname }}"
+      http:
+        paths:
+          - path: "{{ .Values.conductorui.ingress.path }}"
+            pathType: Prefix
+            backend:
+              service:
+                name: conductor-ui
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - "{{ .Values.conductorui.ingress.wildcardhostname }}"
+      secretName: "{{ .Values.tls }}"
+{{- end }}
+
+#---
+#apiVersion: networking.k8s.io/v1
+#kind: Ingress
+#metadata:
+#  namespace: netflix
+#  name: conductor-ui-ingress
+#  annotations:
+#    kubernetes.io/ingress.class: alb
+#    alb.ingress.kubernetes.io/scheme: internet-facing
+#    alb.ingress.kubernetes.io/target-type: instance
+#spec:
+#  rules:
+#    - host: "conductor-ui.sandbox.fynarfin.io"
+#      http:
+#        paths:
+#          - path: /
+#            pathType: Prefix
+#            backend:
+#              service:
+#                name: conductor-ui
+#                port:
+#                  number: 80
