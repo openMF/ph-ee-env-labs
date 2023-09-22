@@ -1,0 +1,18 @@
+{{- if .Values.enabled -}}
+apiVersion: {{ .Values.service.apiversion }}
+kind: Service
+metadata:
+  labels:
+    app: dpga-connector-channel
+  name: dpga-connector-channel
+spec:
+  ports:
+    - name: port
+      port: 80
+      protocol: TCP
+      targetPort: 8081
+  selector:
+    app: dpga-connector-channel
+  sessionAffinity: None
+  type: ClusterIP
+{{- end }}  

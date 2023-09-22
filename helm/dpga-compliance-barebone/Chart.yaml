@@ -1,0 +1,15 @@
+apiVersion: v2
+name: dpga-barebone
+description: DPGA Barebone Edition
+
+type: application
+version: 1.0.0
+appVersion: 1.0.0
+
+dependencies:
+  - name: dpga-channel
+    repository: "file://./dpga-connector-channel"
+    version: 1.0.0
+  - name: netflix-conductor
+    repository: "file://./netflix-conductor"
+    version: 0.0.1

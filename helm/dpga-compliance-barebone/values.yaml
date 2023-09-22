@@ -1,0 +1,122 @@
+ph-ee-engine:
+  camunda-platform:
+    global:
+      elasticsearch:
+        host: "ph-ee-elasticsearch"
+#    zeebe:
+#      javaOpts: "-Xms2g -Xmx2g -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:MaxRAMPercentage=25.0 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -XX:+PrintFlagsFinal"
+    elasticsearch:
+      enabled: false
+
+  elasticsearch:
+    enabled: true
+    replicas: 1
+#    imageTag: 7.13.2
+    minimumMasterNodes: 1
+
+    #Single Node Solution
+    clusterHealthCheckParams: "wait_for_status=yellow&timeout=100s" 
+
+    # Shrink default JVM heap.
+    esJavaOpts: "-Xmx512m -Xms512m"
+
+    # Allocate smaller chunks of memory per pod.
+    resources:
+      requests:
+        cpu: "200m"
+        memory: "1024M"
+      limits:
+        cpu: "1000m"
+        memory: "1024M"
+    volumeClaimTemplate:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 10Gi
+
+  kibana:
+    enabled: true
+    imageTag: 7.13.2
+
+    kibanaConfig:
+      kibana.yml: |
+        monitoring.enabled: false
+
+  operations:
+    enabled: true
+
+  ph_ee_connector_ams_mifos:
+    SPRING_PROFILES_ACTIVE: "fin12,bb"
+
+  ph_ee_connector_mojaloop:
+    SPRING_PROFILES_ACTIVE: "bb"
+
+  channel:
+    enabled: true
+    SPRING_PROFILES_ACTIVE: "bb"
+    imageTag: latest
+    redis:
+      idempotency:
+        enabled: false
+    ingress:
+      enabled: false
+
+  operations_app:
+    SPRING_PROFILES_ACTIVE: "bb"
+    ingress:
+      enabled: false
+
+  mpesa:
+    enabled: false
+
+  ph_ee_connector_gsma:
+    enabled: false
+
+  operationsmysql:
+    auth:
+      database: "tenants"
+      username: "mifos"
+      password: "password"
+      rootPassword: "ethieTieCh8ahv"
+    initdbScripts:
+      setup.sql: |-
+        CREATE DATABASE messagegateway;
+        CREATE DATABASE `rhino`;
+        CREATE DATABASE `gorilla`;
+        CREATE DATABASE `identity_account_mapper`;
+        CREATE DATABASE `voucher_management`;
+        GRANT ALL PRIVILEGES ON `rhino`.* TO 'mifos';
+        GRANT ALL PRIVILEGES ON `gorilla`.* TO 'mifos';
+        GRANT ALL ON *.* TO 'root'@'%';
+        GRANT ALL PRIVILEGES ON messagegateway.* TO 'mifos';
+        GRANT ALL PRIVILEGES ON `identity_account_mapper`.* TO 'mifos';
+        GRANT ALL PRIVILEGES ON `voucher_management`.* TO 'mifos';
+
+  kafka:
+    enabled: true
+    nodePort: 30094
+    advertised:
+      host: "kafka"
+      port: "8096"
+    image: "spotify/kafka"
+    deployment:
+      annotations:
+        deployTime: "{{ .Values.deployTime }}"
+
+  notifications:
+    enabled: false
+
+  operations_web:
+    enabled: false
+
+  redis:
+    enabled: false
+
+  importer_es:
+    enabled: true
+    imageTag: latest
+
+  mockpayment:
+    enabled: true
+    ingress:
+      enabled: false

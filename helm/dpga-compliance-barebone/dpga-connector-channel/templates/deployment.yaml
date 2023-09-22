@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dpga-connector-channel
+  labels:
+    app: dpga-connector-channel
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dpga-connector-channel
+  template:
+    metadata:
+      labels:
+        app: dpga-connector-channel
+      annotations:
+        kubernetes.io/ingress.class: "nginx"
+        nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    spec:
+      containers:
+        - name: ph-ee-connector-channel
+          image: "{{ .Values.image }}"
+          ports:
+            - containerPort: 8081
+          imagePullPolicy: "{{ .Values.imagePullPolicy }}"
+          resources:
+            limits:
+              memory: "{{ .Values.limits.memory }}"
+              cpu: "{{ .Values.limits.cpu }}"
+            requests:
+              memory: "{{ .Values.requests.memory }}"
+              cpu: "{{ .Values.requests.cpu }}"
