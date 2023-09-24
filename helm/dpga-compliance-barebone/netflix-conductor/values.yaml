@@ -23,7 +23,6 @@ elasticsearch:
   healthCheckPort: 9200
   persistence:
     enabled: true
-#    existingClaim: esdata-conductor
   resources:
     requests:
       cpu: "100m"
@@ -69,7 +68,6 @@ postgresql:
           CREATE DATABASE conductor;
           GRANT ALL PRIVILEGES ON `conductor`.* TO 'conductor';
           GRANT ALL ON *.* TO 'root'@'%';
-#    existingClaim: pgdata-conductor
 
 networks:
   internal: {}
