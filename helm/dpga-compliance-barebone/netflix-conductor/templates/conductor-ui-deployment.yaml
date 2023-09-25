@@ -65,26 +65,3 @@ spec:
         - "{{ .Values.conductorui.ingress.wildcardhostname }}"
       secretName: "{{ .Values.tls }}"
 {{- end }}
-
-#---
-#apiVersion: networking.k8s.io/v1
-#kind: Ingress
-#metadata:
-#  namespace: netflix
-#  name: conductor-ui-ingress
-#  annotations:
-#    kubernetes.io/ingress.class: alb
-#    alb.ingress.kubernetes.io/scheme: internet-facing
-#    alb.ingress.kubernetes.io/target-type: instance
-#spec:
-#  rules:
-#    - host: "conductor-ui.sandbox.fynarfin.io"
-#      http:
-#        paths:
-#          - path: /
-#            pathType: Prefix
-#            backend:
-#              service:
-#                name: conductor-ui
-#                port:
-#                  number: 80
