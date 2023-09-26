@@ -1,1 +1,1 @@
-This chart was created by Kompose
+Basic Helm Chart for Netflix Conductor
