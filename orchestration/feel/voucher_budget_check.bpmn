@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" id="Definitions_10t7av2" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Zeebe Modeler" exporterVersion="0.11.0">
+  <bpmn:process id="voucher_budget_check" name="voucher_budget_check" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_1a7rxbb</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1a7rxbb" sourceRef="StartEvent_1" targetRef="call-batch-authorization" />
+    <bpmn:sequenceFlow id="Flow_1x764j5" sourceRef="call-batch-authorization" targetRef="Activity_0kck9qt" />
+    <bpmn:serviceTask id="call-batch-authorization" name="Call Batch Authorization">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="call-batch-authorization" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1a7rxbb</bpmn:incoming>
+      <bpmn:outgoing>Flow_1x764j5</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:receiveTask id="Activity_0kck9qt" name="Batch Authorization Callback" messageRef="Message_1jps21y">
+      <bpmn:incoming>Flow_1x764j5</bpmn:incoming>
+      <bpmn:outgoing>Flow_027y2fy</bpmn:outgoing>
+    </bpmn:receiveTask>
+    <bpmn:sequenceFlow id="Flow_027y2fy" sourceRef="Activity_0kck9qt" targetRef="create-vouchers" />
+    <bpmn:endEvent id="Event_08y0ck0">
+      <bpmn:incoming>Flow_1cf5s97</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1cf5s97" sourceRef="create-vouchers" targetRef="Event_08y0ck0" />
+    <bpmn:serviceTask id="create-vouchers" name="Create Vouchers">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="create-vouchers" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_027y2fy</bpmn:incoming>
+      <bpmn:outgoing>Flow_1cf5s97</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmn:message id="Message_1jps21y" name="batch-authorization">
+    <bpmn:extensionElements>
+      <zeebe:subscription correlationKey="=cachedTransactionId" />
+    </bpmn:extensionElements>
+  </bpmn:message>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="voucher_budget_check">
+      <bpmndi:BPMNEdge id="Flow_1a7rxbb_di" bpmnElement="Flow_1a7rxbb">
+        <di:waypoint x="215" y="117" />
+        <di:waypoint x="280" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1x764j5_di" bpmnElement="Flow_1x764j5">
+        <di:waypoint x="380" y="117" />
+        <di:waypoint x="470" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_027y2fy_di" bpmnElement="Flow_027y2fy">
+        <di:waypoint x="570" y="117" />
+        <di:waypoint x="650" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1cf5s97_di" bpmnElement="Flow_1cf5s97">
+        <di:waypoint x="750" y="117" />
+        <di:waypoint x="812" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1" bioc:stroke="black" bioc:fill="white">
+        <dc:Bounds x="179" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_173qdz0_di" bpmnElement="call-batch-authorization" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <dc:Bounds x="280" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ib7m6r_di" bpmnElement="Activity_0kck9qt" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <dc:Bounds x="470" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_08y0ck0_di" bpmnElement="Event_08y0ck0" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <dc:Bounds x="812" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1lj78th_di" bpmnElement="create-vouchers" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <dc:Bounds x="650" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
