@@ -29,35 +29,35 @@
         <zeebe:taskDefinition type="payee-loan-transfer-DFSPID" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_13zeayn</bpmn:incoming>
-      <bpmn:outgoing>Flow_14652oy</bpmn:outgoing>
+      <bpmn:outgoing>Flow_12wedix</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="payee-deposit-transfer-DFSPID" name="Deposit Savings Worker">
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="payee-deposit-transfer-DFSPID" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1drryfj</bpmn:incoming>
-      <bpmn:outgoing>Flow_1223sup</bpmn:outgoing>
+      <bpmn:outgoing>Flow_06gwhv5</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="send-callback" name="Send Callback Worker">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="send-callback" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_12wedix</bpmn:incoming>
+      <bpmn:incoming>Flow_06gwhv5</bpmn:incoming>
+      <bpmn:outgoing>Flow_0gxopv1</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:endEvent id="Event_1bh40y1" name="End">
-      <bpmn:incoming>Flow_1223sup</bpmn:incoming>
-      <bpmn:incoming>Flow_14652oy</bpmn:incoming>
+      <bpmn:incoming>Flow_0gxopv1</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sequenceFlow id="Flow_1223sup" sourceRef="payee-deposit-transfer-DFSPID" targetRef="Event_1bh40y1" />
-    <bpmn:sequenceFlow id="Flow_14652oy" sourceRef="payee-loan-transfer-DFSPID" targetRef="Event_1bh40y1" />
+    <bpmn:sequenceFlow id="Flow_0gxopv1" sourceRef="send-callback" targetRef="Event_1bh40y1" />
+    <bpmn:sequenceFlow id="Flow_12wedix" sourceRef="payee-loan-transfer-DFSPID" targetRef="send-callback" />
+    <bpmn:sequenceFlow id="Flow_06gwhv5" sourceRef="payee-deposit-transfer-DFSPID" targetRef="send-callback" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="inbound_transfer-mifos-DFSPID">
-      <bpmndi:BPMNEdge id="Flow_14652oy_di" bpmnElement="Flow_14652oy">
-        <di:waypoint x="660" y="120" />
-        <di:waypoint x="761" y="120" />
-        <di:waypoint x="761" y="250" />
-        <di:waypoint x="862" y="250" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1223sup_di" bpmnElement="Flow_1223sup">
-        <di:waypoint x="660" y="380" />
-        <di:waypoint x="761" y="380" />
-        <di:waypoint x="761" y="250" />
-        <di:waypoint x="862" y="250" />
+      <bpmndi:BPMNEdge id="Flow_0gxopv1_di" bpmnElement="Flow_0gxopv1">
+        <di:waypoint x="910" y="250" />
+        <di:waypoint x="992" y="250" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1drryfj_di" bpmnElement="Flow_1drryfj">
         <di:waypoint x="470" y="275" />
@@ -83,6 +83,18 @@
         <di:waypoint x="215" y="250" />
         <di:waypoint x="280" y="250" />
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_12wedix_di" bpmnElement="Flow_12wedix">
+        <di:waypoint x="660" y="120" />
+        <di:waypoint x="735" y="120" />
+        <di:waypoint x="735" y="250" />
+        <di:waypoint x="810" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_06gwhv5_di" bpmnElement="Flow_06gwhv5">
+        <di:waypoint x="660" y="380" />
+        <di:waypoint x="735" y="380" />
+        <di:waypoint x="735" y="250" />
+        <di:waypoint x="810" y="250" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
         <dc:Bounds x="179" y="232" width="36" height="36" />
         <bpmndi:BPMNLabel>
@@ -101,10 +113,13 @@
       <bpmndi:BPMNShape id="Activity_049ddsb_di" bpmnElement="payee-deposit-transfer-DFSPID" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
         <dc:Bounds x="560" y="340" width="100" height="80" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1feivgb_di" bpmnElement="send-callback" bioc:stroke="rgb(142, 36, 170)" bioc:fill="rgb(225, 190, 231)">
+        <dc:Bounds x="810" y="210" width="100" height="80" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_00ydts2_di" bpmnElement="Event_1bh40y1" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
-        <dc:Bounds x="862" y="232" width="36" height="36" />
+        <dc:Bounds x="992" y="232" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="870" y="275" width="20" height="14" />
+          <dc:Bounds x="1000" y="275" width="20" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
