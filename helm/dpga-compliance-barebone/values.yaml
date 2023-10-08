@@ -1,0 +1,33 @@
+kafka:
+  enabled: true
+
+  global:
+    imageRegistry: docker.io
+    imagePullSecrets: [ ]
+    storageClass: ""
+
+  provisioning:
+    enabled: true
+    topics:
+      - name: conductor
+        partitions: 1
+        replicationFactor: 1
+
+  controller:
+    replicaCount: 1
+
+  listeners:
+    client:
+      protocol: PLAINTEXT
+
+    controller:
+      protocol: PLAINTEXT
+
+    interbroker:
+      protocol: PLAINTEXT
+
+    external:
+      protocol: PLAINTEXT
+
+  kraft:
+    clusterId: spDnn4oSr6DLKPx3cEheLp

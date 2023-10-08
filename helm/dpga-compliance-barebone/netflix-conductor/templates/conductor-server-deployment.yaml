@@ -109,6 +109,11 @@ data:
     conductor.elasticsearch.indexName=conductor
 
     conductor.elasticsearch.clusterHealthColor=yellow
+    
+    conductor.workflow-status-listener.type=custom
+    conductor.task-status-listener.type=custom
+    
+    spring.kafka.bootstrap-servers=dpga-release-kafka:9092
 
     # Load sample kitchen sink workflow
     # loadSample=true
