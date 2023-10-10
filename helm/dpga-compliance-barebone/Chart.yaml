@@ -33,3 +33,4 @@ dependencies:
     version: 1.0.0
     repository: "file://./operations-web"
     condition: "operations_web.enabled"
+
