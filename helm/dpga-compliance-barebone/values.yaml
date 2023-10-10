@@ -1,3 +1,9 @@
+global:
+  SPRING_PROFILES_ACTIVE: "bb"
+  imagePullPolicy: "Always"
+  LOGGING_LEVEL_ROOT: "INFO"
+  LOGGING_PATTERN_CONSOLE: "%d{dd-MM-yyyy HH:mm:ss.SSS} %magenta([%thread]) %highlight(%-5level) %logger.%M - %msg%n"
+
 kafka:
   enabled: true
   fullnameOverride: kafka
