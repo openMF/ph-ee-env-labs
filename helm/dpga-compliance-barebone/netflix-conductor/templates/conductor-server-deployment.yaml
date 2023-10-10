@@ -113,7 +113,7 @@ data:
     conductor.workflow-status-listener.type=custom
     conductor.task-status-listener.type=custom
     
-    spring.kafka.bootstrap-servers=dpga-release-kafka:9092
+    spring.kafka.bootstrap-servers=kafka:9092
 
     # Load sample kitchen sink workflow
     # loadSample=true

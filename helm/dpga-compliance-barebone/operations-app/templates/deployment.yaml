@@ -1,0 +1,87 @@
+{{- if .Values.enabled -}}
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ph-ee-operations-app
+  labels:
+    app: ph-ee-operations-app
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: ph-ee-operations-app
+  template:
+    metadata:
+      labels:
+        app: ph-ee-operations-app
+      annotations:
+{{- if .Values.deployment.annotations }}
+{{ toYaml .Values.deployment.annotations | indent 8 }}
+{{- end }}
+    spec:
+      containers:
+        - name: ph-ee-operations-app
+          image: "{{ .Values.image }}"
+          imagePullPolicy: "{{ .Values.global.imagePullPolicy }}"
+          ports:
+            - containerPort: 5000
+          readinessProbe:
+            httpGet:
+              path: /oauth/token_key
+              port: 5000
+            periodSeconds: 30
+            timeoutSeconds: 5
+          resources:
+            limits:
+              memory: "{{ .Values.limits.memory }}"
+              cpu: "{{ .Values.limits.cpu }}"
+            requests:
+              memory: "{{ .Values.requests.memory }}"
+              cpu: "{{ .Values.requests.cpu }}"
+          env:
+            - name: "FINERACT_DATASOURCE_CORE_USERNAME"
+              value: "{{ .Values.datasource.username }}" 
+            - name: "FINERACT_DATASOURCE_CORE_PASSWORD"
+              valueFrom:
+                secretKeyRef:
+                  name: "operations-app-secret"
+                  key: "database-password"
+            - name: "FINERACT_DATASOURCE_CORE_HOST"
+              value: "{{ .Values.datasource.host }}"
+            - name: "FINERACT_DATASOURCE_CORE_PORT"
+              value: "{{ .Values.datasource.port }}"
+            - name: "FINERACT_DATASOURCE_CORE_SCHEMA"
+              value: "{{ .Values.datasource.schema }}"
+            - name: "SPRING_PROFILES_ACTIVE"
+              value: "{{ .Values.global.SPRING_PROFILES_ACTIVE }}"
+            - name: "TOKEN_CLIENT_CHANNEL_SECRET"
+              value: "{{ .Values.token_client_channel_secret }}"
+            - name: "TENANTS"
+              value: "{{ .Values.global.tenants }}"
+            - name: "LOGGING_LEVEL_ROOT"
+              value: "{{ .Values.global.LOGGING_LEVEL_ROOT }}"
+            - name: "LOGGING_PATTERN_CONSOLE"
+              value: "{{ .Values.global.LOGGING_PATTERN_CONSOLE }}"
+{{- if .Values.extraEnvs | default .Values.deployment.extraEnvs }}
+{{ toYaml ( .Values.extraEnvs | default .Values.deployment.extraEnvs ) | indent 10 }}
+{{- end }}        
+          envFrom: {{ toYaml ( .Values.envFrom | default .Values.deployment.envFrom ) | nindent 12 }}
+          securityContext: {{ toYaml ( .Values.podSecurityContext | default .Values.deployment.securityContext ) | nindent 12 }}              
+
+          volumeMounts:
+            - name: ph-ee-config
+              mountPath: "/config"
+      initContainers:
+        - name: wait-db
+          image: jwilder/dockerize
+          imagePullPolicy: IfNotPresent
+          args:
+            - -timeout=120s
+            - -wait
+            - tcp://{{ .Values.secret.datasource.host }}:3306
+      volumes:
+        - name: ph-ee-config
+          configMap:
+            name: ph-ee-config
+{{- end }}

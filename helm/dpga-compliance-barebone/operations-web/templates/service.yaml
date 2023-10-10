@@ -1,0 +1,12 @@
+{{- if .Values.enabled -}}
+apiVersion: {{ .Values.service.apiversion }}
+kind: Service
+metadata:
+  name: ph-ee-operations-web
+spec:
+  selector:
+    app: ph-ee-operations-web
+  ports:
+    - protocol: TCP
+      port: 4200
+{{- end }}      

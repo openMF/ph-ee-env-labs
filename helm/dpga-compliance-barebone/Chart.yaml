@@ -10,6 +10,9 @@ dependencies:
   - name: dpga-channel
     repository: "file://./dpga-connector-channel"
     version: 1.0.0
+  - name: dpg-importer-rdbms
+    repository: "file://./ph-ee-dpg-importer-rdbms"
+    version: 1.0.0
   - name: netflix-conductor
     repository: "file://./netflix-conductor"
     version: 0.0.1
@@ -17,3 +20,16 @@ dependencies:
     version: 25.3.1
     repository: "https://charts.bitnami.com/bitnami"
     condition: "kafka.enabled"
+  - name: mysql
+    version: 9.4.5
+    repository: "https://charts.bitnami.com/bitnami"
+    alias: operationsmysql
+    condition: "operations.mysql.enabled"
+  - name: operations_app
+    version: 1.0.0
+    repository: "file://./operations-app"
+    condition: "operations_app.enabled"
+  - name: operations_web
+    version: 1.0.0
+    repository: "file://./operations-web"
+    condition: "operations_web.enabled"
