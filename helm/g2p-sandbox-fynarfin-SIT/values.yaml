@@ -50,7 +50,15 @@ ph-ee-g2psandbox:
                 service:
                   name: ph-ee-connector-ams-mifos
                   port:
-                    number: 80                   
+                    number: 80
+          - host: ams-mifos-mock.sandbox.fynarfin.io
+            paths:
+              - path: "/"
+                backend:
+                  service:
+                    name: ph-ee-connector-ams-mifos
+                    port:
+                      number: 7070
 
     ph_ee_connector_mojaloop:
       enabled: true
