@@ -246,6 +246,8 @@ ph-ee-g2psandbox:
     
     mockpayment:
       enabled: true
+      mockFailure:
+        percentage: "50"
       ingress:
         enabled: true
         annotations:
