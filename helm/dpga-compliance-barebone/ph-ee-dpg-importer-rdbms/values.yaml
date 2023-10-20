@@ -8,7 +8,7 @@ configmap:
   apiversion: "v1"
 
 enabled: true
-image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-ee-dpg-importer-rdbms:latest"
+image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-ee-dpg-importer-rdbms:trial"
 imageTag: latest
 imagePullPolicy: "Always"
 SPRING_PROFILES_ACTIVE: "application"
@@ -42,3 +42,7 @@ ingress:
   annotations:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+
+kafka:
+  brokers: "kafka:9092"
+  consumer_group: ch1

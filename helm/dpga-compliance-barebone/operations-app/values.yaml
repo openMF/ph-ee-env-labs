@@ -26,7 +26,7 @@ requests:
 # Enabling this will publicly expose your Elasticsearch instance.
 # Only enable this if you have security enabled on your cluster
 ingress:
-  enabled: false
+  enabled: true
   annotations: {}
   # kubernetes.io/ingress.class: "nginx"
   pathtype: ImplementationSpecific

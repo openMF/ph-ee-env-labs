@@ -3,6 +3,11 @@ global:
   imagePullPolicy: "Always"
   LOGGING_LEVEL_ROOT: "INFO"
   LOGGING_PATTERN_CONSOLE: "%d{dd-MM-yyyy HH:mm:ss.SSS} %magenta([%thread]) %highlight(%-5level) %logger.%M - %msg%n"
+  postgresql:
+    auth:
+      postgresPassword: "conductor"
+      username: "conductor"
+      password: "conductor"
 
 kafka:
   enabled: true
@@ -20,7 +25,7 @@ kafka:
         replicationFactor: 1
 
   controller:
-    replicaCount: 1
+    replicaCount: 3
 
   listeners:
     client:
@@ -70,11 +75,11 @@ operationsmysql:
 operations_app:
   enabled: true
   replicas: 1
-  image: docker.io/openmf/ph-ee-operations-app:latest
+  image: 419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-ee-dpg-operations-app:dpg
   imagePullPolicy: "Always"
   token_client_channel_secret: ""
-  tenants: "rhino,gorilla"
-  hostname: "ops-bk.sandbox.mifos.io"
+  tenants: "rhino,gorilla,lion"
+#  hostname: "ops-bk.sandbox.mifos.io"
   datasource:
     username: "mifos"
     password: "password"
@@ -131,13 +136,13 @@ operations_app:
   # Enabling this will publicly expose your operations_app instance.
   # Only enable this if you have security enabled on your cluster
   ingress:
-    enabled: false
+    enabled: true
     annotations:
       kubernetes.io/ingress.class: nginx
     tls:
       - secretName: sandbox-secret
     hosts:
-      - host: ops-bk.sandbox.mifos.io
+      - host: ops-bk-dpg.sandbox.fynarfin.io
         paths:
           - path: "/"
             backend:
@@ -230,11 +235,11 @@ operations_web:
   # Enabling this will publicly expose your operations_web instance.
   # Only enable this if you have security enabled on your cluster
   ingress:
-    enabled: false
+    enabled: true
     tls:
       - secretName: sandbox-secret
     hosts:
-      - host: ops.sandbox.mifos.io
+      - host: ops-dpg.sandbox.fynarfin.io
         paths:
           - path: "/"
             backend:
@@ -272,3 +277,73 @@ operations_web:
     # such as ph-ee-operations-web.yml for deployment
     # ph-ee-operations-webConfig: {}
     #   ph-ee-operations-web.yml: |
+
+ingress:
+  enabled: true
+
+elasticsearch:
+  enabled: true
+  replicas: 1
+  protocol: http
+  fullnameOverride: "es"
+  clusterName: "elasticsearch"
+  minimumMasterNodes: 1
+  esConfig:
+    elasticsearch.yml: |
+      xpack.security.enabled: false
+      transport.host: 0.0.0.0
+  #  extraEnvs:
+  #    - name: ES_JAVA_OPTS
+  #      value: "-Xms512m -Xmx1024m"
+  config:
+    transport.host: 0.0.0.0
+    discovery.type: single-node
+    xpack.security.enabled: "false"
+  healthCheckPath: /
+  healthCheckPort: 9200
+  persistence:
+    enabled: true
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "1024M"
+    limits:
+      cpu: "1000m"
+      memory: "1024M"
+  volumeClaimTemplate:
+    accessModes: [ "ReadWriteOnce" ]
+    storageClassName: "gp2"
+    resources:
+      requests:
+        storage: 10Gi
+
+
+redis:
+  enabled: true
+  fullnameOverride: "rs"
+  replica:
+    replicaCount: 0
+  usePassword: false
+  auth:
+    enabled: false
+
+
+postgresql:
+  enabled: true
+  fullnameOverride: "postgres"
+  postgresUser: conductor
+  postgresPassword: conductor
+  persistence:
+    enabled: true
+  primary:
+    initdb:
+      scripts:
+        setup.sql: |-
+          CREATE DATABASE conductor;
+          GRANT ALL PRIVILEGES ON `conductor`.* TO 'conductor';
+          GRANT ALL ON *.* TO 'root'@'%';
+
+networks:
+  internal: {}
+
+tls: ""

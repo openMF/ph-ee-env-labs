@@ -20,6 +20,11 @@ spec:
       containers:
         - name: ph-ee-dpg-importer-rdbms
           image: "{{ .Values.image }}"
+          env:
+            - name: kafka.brokers
+              value: {{ .Values.kafka.brokers }}
+            - name: kafka.consumer-group
+              value: {{ .Values.kafka.consumer_group }}
           ports:
             - containerPort: 8080
           imagePullPolicy: "{{ .Values.imagePullPolicy }}"
@@ -30,3 +35,10 @@ spec:
             requests:
               memory: "{{ .Values.requests.memory }}"
               cpu: "{{ .Values.requests.cpu }}"
+#          volumeMounts:
+#            - name: importer-config
+#              mountPath: "/etc/config"
+#      volumes:
+#        - name: importer-config
+#          configMap:
+#            name: importer-config

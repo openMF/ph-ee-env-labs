@@ -4,18 +4,3 @@ version: 0.0.1
 apiVersion: v2
 keywords:
   - netflix-conductor
-dependencies:
-  - name: postgresql
-    version: 12.10.0
-    repository: https://charts.bitnami.com/bitnami
-    condition: "postgresql.enabled"
-
-  - name: elasticsearch
-    repository: http://helm.elastic.co
-    version: 7.17.3
-    condition: "elasticsearch.enabled"
-
-  - name: redis
-    version: 17.9.3
-    repository: "https://charts.bitnami.com/bitnami"
-    condition: "redis.enabled"

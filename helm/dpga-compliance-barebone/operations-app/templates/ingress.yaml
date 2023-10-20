@@ -4,7 +4,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ph-ee-operations-app
+  name: ph-ee-dpg-operations-app
   labels:
     app: {{ .Chart.Name }}
     release: {{ .Release.Name }}
