@@ -8,7 +8,7 @@
       <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
         <collectionProp name="Arguments.arguments"/>
       </elementProp>
-      <stringProp name="TestPlan.user_define_classpath">/etc/wiremock/wiremock-standalone-3.0.4.jar</stringProp>
+      <stringProp name="TestPlan.user_define_classpath">/Users/dhavalmaniyar/Downloads/wiremock-standalone-3.0.4.jar</stringProp>
     </TestPlan>
     <hashTree>
       <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
@@ -30,7 +30,7 @@
           </elementProp>
           <elementProp name="threads" elementType="Argument">
             <stringProp name="Argument.name">threads</stringProp>
-            <stringProp name="Argument.value">${__P(threads,200)}</stringProp>
+            <stringProp name="Argument.value">${__P(threads,2000)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="duration" elementType="Argument">
@@ -40,7 +40,7 @@
           </elementProp>
           <elementProp name="rampup" elementType="Argument">
             <stringProp name="Argument.name">rampup</stringProp>
-            <stringProp name="Argument.value">${__P(rampup,10)}</stringProp>
+            <stringProp name="Argument.value">${__P(rampup,65)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="operationshost" elementType="Argument">
@@ -75,7 +75,7 @@
           </elementProp>
           <elementProp name="" elementType="Header">
             <stringProp name="Header.name">X-CallbackURL</stringProp>
-            <stringProp name="Header.value">http://jmeter-slaves-svc.jmeter.svc.cluster.local:8080/callback</stringProp>
+            <stringProp name="Header.value">http://localhost:8080/callback</stringProp>
           </elementProp>
         </collectionProp>
       </HeaderManager>
