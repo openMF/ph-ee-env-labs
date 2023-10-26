@@ -189,7 +189,9 @@ ph-ee-g2psandbox:
       operations_app:
         contactpoint: "https://ops-bk.sandbox.fynarfin.io/"
         endpoints:
-          batch_transaction: "/api/v1/batch/transactions"  
+          batch_transaction: "/api/v1/batch/transactions"
+      identity_account_mapper:
+        hostname: "https://identity-mapper.sandbox.fynarfin.io"
       ingress:
         enabled: true
         className: "kong"
