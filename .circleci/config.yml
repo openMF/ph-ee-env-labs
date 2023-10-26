@@ -176,6 +176,7 @@ jobs:
         description: "sit"
         type: string
     steps:
+      - checkout
       - run: |
           if [[ -n $(git show --name-only $CIRCLE_SHA1 | grep "^helm/dpga-compliance-barebone/") ]]; then
             echo "Directory has changed. Running the job."
