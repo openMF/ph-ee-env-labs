@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: conductor-ui
-  namespace: netflix
+  namespace: paymenthub-dpg
 spec:
   replicas: 1
   selector:
@@ -16,7 +16,7 @@ spec:
       containers:
         - env:
             - name: WF_SERVER
-              value: "http://conductor-server.netflix.svc.cluster.local:8080/"
+              value: "http://conductor-server.paymenthub-dpg.svc.cluster.local:8080/"
           image: anover/conductor:ui
           imagePullPolicy: Always
           name: conductor-ui
@@ -28,7 +28,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: conductor-ui
-  namespace: netflix
+  namespace: paymenthub-dpg
 spec:
   ports:
     - port: 80

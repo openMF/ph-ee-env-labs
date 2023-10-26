@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: conductor-server
-  namespace: netflix
+  namespace: paymenthub-dpg
   labels:
     app: conductor-server
 spec:
@@ -47,41 +47,12 @@ spec:
         - name: db-config
           configMap:
             name: server-db-config
-#---
-#apiVersion: v1
-#kind: Service
-#metadata:
-#  name: es
-#  namespace: netflix
-#spec:
-#  selector:
-#    app: elasticsearch
-#  type: ClusterIP
-#  ports:
-#    - name: http
-#      protocol: TCP
-#      port: 9200
-#---
-#apiVersion: v1
-#kind: Service
-#metadata:
-#  name: rs
-#  namespace: netflix
-#spec:
-#  selector:
-#    app: redis-master
-##    component: master
-#  type: ClusterIP
-#  ports:
-#    - name: http
-#      protocol: TCP
-#      port: 6379
 ---
 kind: ConfigMap
 apiVersion: v1
 metadata:
   name: server-db-config
-  namespace: netflix
+  namespace: paymenthub-dpg
 data:
   config-postgres.properties: |
     # Servers.
@@ -122,7 +93,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: conductor-server
-  namespace: netflix
+  namespace: paymenthub-dpg
 spec:
   selector:
     app: conductor-server

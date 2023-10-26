@@ -190,14 +190,14 @@ jobs:
           version: "v3.8.2"
       - kubernetes/install-kubectl
       - run: |
-          if ! kubectl get ns netflix > /dev/null 2>&1; then
-              kubectl create namespace netflix
+          if ! kubectl get ns paymenthub-dpg > /dev/null 2>&1; then
+              kubectl create namespace paymenthub-dpg
           fi
-      - run: helm ls --namespace=netflix
+      - run: helm ls --namespace=paymenthub-dpg
       - helm/upgrade-helm-chart:
           chart: "https://fynarfin.io/images/dpga-barebone/dpga-barebone-1.0.0.tgz"
           release-name: "dpga-release"
-          namespace: netflix
+          namespace: paymenthub-dpg
           recreate-pods: true
           add-repo: "https://fynarfin.io/images/dpga-barebone"
           wait: true
