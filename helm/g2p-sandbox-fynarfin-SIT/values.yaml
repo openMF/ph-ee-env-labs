@@ -115,8 +115,14 @@ ph-ee-g2psandbox:
       deployment:
         annotations:
           rollme: "{{ randAlphaNum 5 | quote }}"
+          
       ingress:
         enabled: true 
+        annotations:
+          nginx.ingress.kubernetes.io/cors-allow-headers: 'platform-tenantid'
+          nginx.ingress.kubernetes.io/cors-allow-methods: PUT, GET, POST, OPTIONS, DELETE
+          nginx.ingress.kubernetes.io/cors-allow-origin: '*'
+          nginx.ingress.kubernetes.io/enable-cors: "true"
         hosts:
           - host: ops-bk.sandbox.fynarfin.io          
             paths: 
@@ -287,9 +293,12 @@ ph-ee-g2psandbox:
 
     vouchers:
       enabled: true
-
       voucher:
         hostname: "https://vouchers.sandbox.fynarfin.io"
+      ingress:
+        annotations:
+          nginx.ingress.kubernetes.io/enable-cors: "true"
+          nginx.ingress.kubernetes.io/access-control-allow-origin: "true"
 
       salting:
         enabled: true
