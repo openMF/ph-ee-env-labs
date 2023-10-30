@@ -287,10 +287,9 @@ ph-ee-g2psandbox:
 
     vouchers:
       enabled: true
-
       voucher:
         hostname: "https://vouchers.sandbox.fynarfin.io"
-      extraEnvs:
+      extraEnv:
         - name: registeringInstitutionId
           value: "SocialWelfare"
 
