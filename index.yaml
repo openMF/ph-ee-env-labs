@@ -1,0 +1,123 @@
+apiVersion: v1
+entries:
+  ph-ee-engine:
+  - apiVersion: v1
+    appVersion: 0.0.0
+    created: "2023-10-16T08:05:24.58475188Z"
+    dependencies:
+    - condition: camunda-platform-helm.enabled
+      name: camunda-platform
+      repository: https://helm.camunda.io
+      version: 8.2.12
+    - condition: elasticsearch.enabled
+      name: elasticsearch
+      repository: http://helm.elastic.co
+      version: 7.17.3
+    - condition: kibana.enabled
+      name: kibana
+      repository: http://helm.elastic.co
+      version: 7.16.3
+    - alias: operationsmysql
+      condition: operations.mysql.enabled
+      name: mysql
+      repository: https://charts.bitnami.com/bitnami
+      version: 9.4.5
+    - condition: kong.enabled
+      name: kong
+      repository: https://charts.konghq.com
+      version: 2.13.1
+    - condition: keycloak.enabled
+      name: keycloak
+      repository: https://codecentric.github.io/helm-charts
+      version: 18.1.1
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 17.9.3
+    - condition: operations_app.enabled
+      name: operations_app
+      repository: file://./operations-app
+      version: 1.0.0
+    - condition: ph_ee_connector_gsma.enabled
+      name: ph_ee_connector_gsma
+      repository: file://./connector-gsma
+      version: 1.0.0
+    - condition: notifications.enabled
+      name: notifications
+      repository: file://./connector-notifications
+      version: 1.0.0
+    - condition: paygops_connector.enabled
+      name: paygops_connector
+      repository: file://./ams-paygops
+      version: 1.0.0
+    - condition: roster_connector.enabled
+      name: roster_connector
+      repository: file://./ams-roster
+      version: 1.0.0
+    - condition: mpesa.enabled
+      name: mpesa
+      repository: file://./connector-mpesa
+      version: 1.0.0
+    - condition: operations_web.enabled
+      name: operations_web
+      repository: file://./operations-web
+      version: 1.0.0
+    - condition: ph_ee_connector_mojaloop.enabled
+      name: ph_ee_connector_mojaloop
+      repository: file://./connector-mojaloop
+      version: 1.0.0
+    - condition: ph_ee_connector_slcb.enabled
+      name: ph_ee_connector_slcb
+      repository: file://./connector-slcb
+      version: 1.0.0
+    - condition: importer_es.enabled
+      name: importer_es
+      repository: file://./operations-importer-es
+      version: 1.0.0
+    - condition: messagegateway.enabled
+      name: messagegateway
+      repository: file://./message-gateway
+      version: 1.0.0
+    - condition: ph_ee_connector_ams_mifos.enabled
+      name: ph_ee_connector_ams_mifos
+      repository: file://./connector-ams-mifos
+      version: 1.0.0
+    - condition: connector_bulk.enabled
+      name: connector_bulk
+      repository: file://./connector-bulk
+      version: 1.0.0
+    - condition: channel.enabled
+      name: channel
+      repository: file://./connector-channel
+      version: 1.0.0
+    - condition: importer_rdbms.enabled
+      name: importer_rdbms
+      repository: file://./operations-importer-rdbms
+      version: 1.0.0
+    - condition: zeebe_ops.enabled
+      name: zeebe_ops
+      repository: file://./zeebe-ops
+      version: 1.0.0
+    - condition: kafka.enabled
+      name: kafka
+      repository: file://./kafka
+      version: 1.0.0
+    - condition: connector_bulk_closedloop.enabled
+      name: connector_bulk_closedloop
+      repository: file://./connector-bulk-closedloop
+      version: 1.0.0
+    - condition: mockpayment.enabled
+      name: mockpayment
+      repository: file://./connector-mock-payment-schema
+      version: 1.0.0
+    - condition: vouchers.enabled
+      name: vouchers
+      repository: file://./vouchers
+      version: 1.0.0
+    description: PaymentHub EE Engine
+    digest: 9df0369270e6ae0ce69a62adeb19f856f16cb7c5d9da86e72bcea82215831beb
+    name: ph-ee-engine
+    urls:
+    - ph-ee-engine-0.0.0-SNAPSHOT.tgz
+    version: 0.0.0-SNAPSHOT
+generated: "2023-10-16T08:05:24.503247233Z"

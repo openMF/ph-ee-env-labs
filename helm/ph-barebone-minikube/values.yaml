@@ -9,13 +9,13 @@ ph-ee-engine:
       enabled: false
 
   elasticsearch:
-    enabled: true
+    enabled: false
     replicas: 1
 #    imageTag: 7.13.2
     minimumMasterNodes: 1
 
     #Single Node Solution
-    clusterHealthCheckParams: "wait_for_status=yellow&timeout=100s" 
+    clusterHealthCheckParams: "wait_for_status=yellow&timeout=100s"
 
     # Shrink default JVM heap.
     esJavaOpts: "-Xmx512m -Xms512m"
@@ -30,13 +30,12 @@ ph-ee-engine:
         memory: "1024M"
     volumeClaimTemplate:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: "standard"
       resources:
         requests:
           storage: 10Gi
 
   kibana:
-    enabled: true
+    enabled: false
     imageTag: 7.13.2
     ingress:
       enabled: false
@@ -50,6 +49,7 @@ ph-ee-engine:
 
 
   ph_ee_connector_ams_mifos:
+    enabled: false
     SPRING_PROFILES_ACTIVE: "fin12,bb"
     ingress:
       enabled: false
@@ -60,15 +60,35 @@ ph-ee-engine:
       enabled: false
 
   channel:
+    image: docker.io/openmf/ph-ee-connector-channel:latest
+    redis:
+      idempotency:
+        enabled: false
+    enabled: false
+    SPRING_PROFILES_ACTIVE: "bb"
+    ingress:
+      enabled: false
+    resources:
+      limits:
+        memory: "256M"
+        cpu: "100m"
+      requests:
+        memory: "128M"
+        cpu: "100m"
+
+  operations_app:
     enabled: true
     SPRING_PROFILES_ACTIVE: "bb"
     ingress:
       enabled: false
+    resources:
+      limits:
+        memory: "512M"
+        cpu: "500m"
+      requests:
+        memory: "128M"
+        cpu: "100m"
 
-  operations_app:
-    SPRING_PROFILES_ACTIVE: "bb"
-    ingress:
-      enabled: false
 
   mpesa:
     enabled: false
@@ -101,7 +121,7 @@ ph-ee-engine:
         GRANT ALL PRIVILEGES ON `voucher_management`.* TO 'mifos';
 
   kafka:
-    enabled: true
+    enabled: false
     image: "spotify/kafka"
     advertised:
       host: "kafka"
@@ -124,10 +144,25 @@ ph-ee-engine:
     enabled: false
 
 
+  importer_rdbms:
+    enabled: false
+
   importer_es:
-    enabled: true
+    image: docker.io/openmf/ph-ee-importer-es:latest
+    enabled: false
 
   mockpayment:
-    enabled: true
+    enabled: false
     ingress:
-      enabled: fasle
+      enabled: false
+
+  zeebe_ops:
+    enabled: false
+    tenants: "rhino,gorilla"
+    resources:
+      limits:
+        memory: "512M"
+        cpu: "500m"
+      requests:
+        memory: "256M"
+        cpu: "100m"
