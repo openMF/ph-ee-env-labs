@@ -1,0 +1,13 @@
+apiVersion: {{ .Values.configmap.apiversion }}
+kind: ConfigMap
+data:
+  configuration.properties: |
+    oauth.enabled false
+    oauth.basicAuth true
+    oauth.basicAuthToken Y2xpZW50Og==
+    oauth.serverUrl https://{{ .Values.configmap.identity.hostname }}
+    serverUrl https://{{ .Values.configmap.hostname }}
+    auth.enabled false
+    auth.tenant phdefault
+metadata:
+  name: ph-ee-operations-web-config

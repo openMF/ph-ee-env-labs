@@ -1,0 +1,5 @@
+apiVersion: v1
+description: dpga-connector-channel
+name: dpga-channel
+version: 1.0.0
+appVersion: "1.0.0"

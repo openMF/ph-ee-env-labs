@@ -138,8 +138,72 @@ jobs:
           recreate-pods: true
           add-repo: "https://fynarfin.io/images/ph-ee-g2psandbox-security"
           wait: true
-          timeout: "300s"     
-                                       
+          timeout: "300s"
+
+  host-dpga-compliance-barebone-chart:
+    docker:
+      - image: cimg/python:3.10
+    working_directory: ~/repo
+    environment:
+      TERM: dumb
+    steps:
+      - checkout
+      - run: |
+          if [[ -n $(git show --name-only $CIRCLE_SHA1 | grep "^helm/dpga-compliance-barebone/") ]]; then
+            echo "Directory has changed. Running the job."
+          else
+            echo "Directory has not changed. Skipping the job."
+            circleci step halt
+          fi
+      - run: rm -f helm/dpga-compliance-barebone/Chart.lock helm/dpga-compliance-barebone/charts/*
+      - helm/install-helm-client:
+          version: "v3.8.2"
+      - run: cat helm/dpga-compliance-barebone/Chart.yaml
+      - run: helm dep up helm/dpga-compliance-barebone
+      - run: helm package helm/dpga-compliance-barebone
+      - run: helm repo index .
+      - run: echo "$CERT_FILE" | base64 --decode > b64encoded.pem
+      - run: chmod 400 b64encoded.pem
+      - run: ssh -i b64encoded.pem -o StrictHostKeyChecking=No ec2-user@13.233.68.128 sudo mkdir -p /apps/apache-tomcat-7.0.82/webapps/ROOT/images/dpga-barebone
+      - run: scp -o StrictHostKeyChecking=No -i b64encoded.pem index.yaml dpga-barebone-1.0.0.tgz ec2-user@13.233.68.128:~/
+      - run: ssh -i b64encoded.pem -o StrictHostKeyChecking=No ec2-user@13.233.68.128 sudo mv -t /apps/apache-tomcat-7.0.82/webapps/ROOT/images/dpga-barebone index.yaml dpga-barebone-1.0.0.tgz
+
+  upgrade-dpga-compliance-barebone-chart:
+    docker:
+      - image: cimg/python:3.10
+    parameters:
+      cluster-name:
+        description: "sit"
+        type: string
+    steps:
+      - checkout
+      - run: |
+          if [[ -n $(git show --name-only $CIRCLE_SHA1 | grep "^helm/dpga-compliance-barebone/") ]]; then
+            echo "Directory has changed. Running the job."
+          else
+            echo "Directory has not changed. Skipping the job."
+            circleci step halt
+          fi
+      - aws-eks/update-kubeconfig-with-authenticator:
+          cluster-name: "sit"
+          aws-region: "$REGION"
+      - helm/install-helm-client:
+          version: "v3.8.2"
+      - kubernetes/install-kubectl
+      - run: |
+          if ! kubectl get ns paymenthub-dpg > /dev/null 2>&1; then
+              kubectl create namespace paymenthub-dpg
+          fi
+      - run: helm ls --namespace=paymenthub-dpg
+      - helm/upgrade-helm-chart:
+          chart: "https://fynarfin.io/images/dpga-barebone/dpga-barebone-1.0.0.tgz"
+          release-name: "dpga-release"
+          namespace: paymenthub-dpg
+          recreate-pods: true
+          add-repo: "https://fynarfin.io/images/dpga-barebone"
+          wait: true
+          timeout: "300s"
+
   deploying-bpmns:
     docker:
       - image: 'curlimages/curl:8.1.2' 
@@ -231,7 +295,20 @@ workflows:
             - AWS
             - Helm
             - slack
-
+      - host-dpga-compliance-barebone-chart:
+          context:
+            - AWS
+            - Helm
+            - slack
+      - upgrade-dpga-compliance-barebone-chart:
+          cluster-name: sit
+          requires:
+            - host-dpga-compliance-barebone-chart
+          context:
+            - AWS
+            - Helm
+            - slack
+            - Secrets
       # - install-helm-chart:
       #     cluster-name: sit
       # - delete-helm-release:

@@ -1,0 +1,57 @@
+apiVersion: v2
+name: dpga-barebone
+description: DPGA Barebone Edition
+
+type: application
+version: 1.0.0
+appVersion: 1.0.0
+
+dependencies:
+  - name: postgresql
+    version: 12.10.0
+    repository: https://charts.bitnami.com/bitnami
+    condition: "postgresql.enabled"
+
+  - name: elasticsearch
+    repository: http://helm.elastic.co
+    version: 7.17.3
+    condition: "elasticsearch.enabled"
+
+  - name: redis
+    version: 17.9.3
+    repository: "https://charts.bitnami.com/bitnami"
+    condition: "redis.enabled"
+
+  - name: dpga-channel
+    repository: "file://./dpga-connector-channel"
+    version: 1.0.0
+
+  - name: dpg-importer-rdbms
+    repository: "file://./ph-ee-dpg-importer-rdbms"
+    version: 1.0.0
+
+  - name: netflix-conductor
+    repository: "file://./netflix-conductor"
+    version: 0.0.1
+
+  - name: kafka
+    version: 25.3.1
+    repository: "https://charts.bitnami.com/bitnami"
+    condition: "kafka.enabled"
+
+  - name: mysql
+    version: 9.4.5
+    repository: "https://charts.bitnami.com/bitnami"
+    alias: operationsmysql
+    condition: "operations.mysql.enabled"
+
+  - name: operations_app
+    version: 1.0.0
+    repository: "file://./operations-app"
+    condition: "operations_app.enabled"
+
+  - name: operations_web
+    version: 1.0.0
+    repository: "file://./operations-web"
+    condition: "operations_web.enabled"
+

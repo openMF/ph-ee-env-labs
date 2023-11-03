@@ -1,0 +1,18 @@
+{{- if .Values.enabled -}}
+apiVersion: {{ .Values.service.apiversion }}
+kind: Service
+metadata:
+  labels:
+    app: ph-ee-operations-app
+  name: ph-ee-operations-app
+spec:
+  ports:
+    - name: port
+      port: 80
+      protocol: TCP
+      targetPort: 5000
+  selector:
+    app: ph-ee-operations-app
+  sessionAffinity: None
+  type: ClusterIP
+{{- end }}  

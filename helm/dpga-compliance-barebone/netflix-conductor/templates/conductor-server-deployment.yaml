@@ -1,0 +1,133 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: conductor-server
+  namespace: paymenthub-dpg
+  labels:
+    app: conductor-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: conductor-server
+  template:
+    metadata:
+      labels:
+        app: conductor-server
+    spec:
+      containers:
+        - env:
+            - name: CONFIG_PROP
+              value: config-postgres.properties
+          image: anover/conductor:server
+          imagePullPolicy: Always
+          name: conductor-server
+          ports:
+            - containerPort: 8080
+              hostPort: 8080
+          volumeMounts:
+            - name: db-config
+              mountPath: /app/config/config-postgres.properties
+              subPath: config-postgres.properties
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 20
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 20
+            periodSeconds: 30
+      volumes:
+        - name: db-config
+          configMap:
+            name: server-db-config
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: server-db-config
+  namespace: paymenthub-dpg
+data:
+  config-postgres.properties: |
+    # Servers.
+    conductor.grpc-server.enabled=false
+
+    # Database persistence type.
+    conductor.db.type=postgres
+    conductor.queue.type=postgres
+
+    spring.datasource.url=jdbc:postgresql://postgres:5432/conductor
+    spring.datasource.username=conductor
+    spring.datasource.password=conductor
+
+    # Hikari pool sizes are -1 by default and prevent startup
+    spring.datasource.hikari.maximum-pool-size=10
+    spring.datasource.hikari.minimum-idle=2
+
+    # Elastic search instance indexing is enabled.
+    conductor.indexing.enabled=true
+
+    # Transport address to elasticsearch
+    conductor.elasticsearch.url=http://es:9200
+
+    # Name of the elasticsearch cluster
+    conductor.elasticsearch.indexName=conductor
+
+    conductor.elasticsearch.clusterHealthColor=yellow
+    
+    conductor.workflow-status-listener.type=custom
+    conductor.task-status-listener.type=custom
+    
+    spring.kafka.bootstrap-servers=kafka:9092
+
+    # Load sample kitchen sink workflow
+    # loadSample=true
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: conductor-server
+  namespace: paymenthub-dpg
+spec:
+  selector:
+    app: conductor-server
+  type: ClusterIP
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+---
+
+{{- if .Values.conductorserver.ingress.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: conductor-server
+  annotations:
+{{- if .Values.conductorserver.ingress.annotations }}
+{{ toYaml .Values.conductorserver.ingress.annotations | indent 4 }}
+{{- end }}
+spec:
+  rules:
+    - host: "{{ .Values.conductorserver.ingress.hostname }}"
+      http:
+        paths:
+          - path: "{{ .Values.conductorserver.ingress.path }}"
+            pathType: Prefix
+            backend:
+              service:
+                name: conductor-server
+                port:
+                  number: 8080
+#  tls:
+#    - hosts:
+#        - "{{ .Values.conductorserver.ingress.wildcardhostname }}"
+#      secretName: "{{ .Values.tls }}"
+{{- end }}

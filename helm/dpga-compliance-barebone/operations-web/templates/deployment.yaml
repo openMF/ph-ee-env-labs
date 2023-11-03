@@ -1,0 +1,44 @@
+{{- if .Values.enabled -}}
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ph-ee-operations-web
+  labels:
+    app: ph-ee-operations-web
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: ph-ee-operations-web
+  template:
+    metadata:
+      labels:
+        app: ph-ee-operations-web
+      annotations:
+{{- if .Values.deployment.annotations }}
+{{ toYaml .Values.deployment.annotations | indent 8 }}
+{{- end }}
+    spec:
+      containers:
+        - name: ph-ee-operations-web
+          image: "{{ .Values.image }}"
+          imagePullPolicy: "{{ .Values.global.imagePullPolicy }}"
+          ports:
+            - containerPort: 4200
+          resources:
+            limits:
+              memory: "{{ .Values.limits.memory }}"
+              cpu: "{{ .Values.limits.cpu }}"
+            requests:
+              memory: "{{ .Values.requests.memory }}"
+              cpu: "{{ .Values.requests.cpu }}"
+          volumeMounts:
+{{- if .Values.deployment.config }}
+{{ toYaml .Values.deployment.config | indent 12 }}
+{{- end }}
+      volumes:
+        - name: ph-ee-operations-web-config
+          configMap:
+            name: ph-ee-operations-web-config
+{{- end }}

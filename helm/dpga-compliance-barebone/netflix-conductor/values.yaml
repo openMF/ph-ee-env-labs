@@ -1,0 +1,95 @@
+ingress:
+  enabled: true
+
+elasticsearch:
+  enabled: true
+  replicas: 1
+  protocol: http
+  fullnameOverride: "es"
+  clusterName: "elasticsearch"
+  minimumMasterNodes: 1
+  esConfig:
+    elasticsearch.yml: |
+      xpack.security.enabled: false
+      transport.host: 0.0.0.0
+#  extraEnvs:
+#    - name: ES_JAVA_OPTS
+#      value: "-Xms512m -Xmx1024m"
+  config:
+    transport.host: 0.0.0.0
+    discovery.type: single-node
+    xpack.security.enabled: "false"
+  healthCheckPath: /
+  healthCheckPort: 9200
+  persistence:
+    enabled: true
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "1024M"
+    limits:
+      cpu: "1000m"
+      memory: "1024M"
+  volumeClaimTemplate:
+    accessModes: [ "ReadWriteOnce" ]
+    storageClassName: "gp2"
+    resources:
+      requests:
+        storage: 10Gi
+
+
+redis:
+  enabled: true
+  fullnameOverride: "rs"
+  replica:
+    replicaCount: 0
+  usePassword: false
+  auth:
+    enabled: false
+
+global:
+  postgresql:
+    auth:
+      postgresPassword: "conductor"
+      username: "conductor"
+      password: "conductor"
+
+postgresql:
+  enabled: true
+  fullnameOverride: "postgres"
+  postgresUser: conductor
+  postgresPassword: conductor
+  persistence:
+    enabled: true
+  primary:
+    initdb:
+      scripts:
+        setup.sql: |-
+          CREATE DATABASE conductor;
+          GRANT ALL PRIVILEGES ON `conductor`.* TO 'conductor';
+          GRANT ALL ON *.* TO 'root'@'%';
+
+networks:
+  internal: {}
+
+tls: ""
+
+conductorui:
+  ingress:
+    enabled: true
+    hostname: "conductor-ui.sandbox.fynarfin.io"
+    path: "/"
+    wildcardhostname: "*.sandbox.fynarfin.io"
+    annotations:
+      kubernetes.io/ingress.class: "nginx"
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+
+conductorserver:
+  ingress:
+    enabled: true
+    hostname: "conductor-server.sandbox.fynarfin.io"
+    path: "/"
+    wildcardhostname: "*.sandbox.fynarfin.io"
+    annotations:
+      kubernetes.io/ingress.class: "nginx"
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"

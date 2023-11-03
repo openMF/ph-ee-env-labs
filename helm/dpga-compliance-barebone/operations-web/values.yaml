@@ -1,0 +1,42 @@
+service:
+  apiversion: "v1"
+
+secret:
+  apiversion: "v1"
+
+enabled: true
+image: ""
+imageTag: ""
+SPRING_PROFILES_ACTIVE: "bb"
+hostname: "ops.sandbox.mifos.io"
+webhost: "ops.sandbox.mifos.io"
+limits:
+  cpu: "500m"
+  memory: "512M"
+requests:
+  cpu: "100m"
+  memory: "256M"
+# Enabling this will publicly expose your Elasticsearch instance.
+# Only enable this if you have security enabled on your cluster
+ingress:
+  enabled: false
+  annotations: {}
+  # kubernetes.io/ingress.class: "nginx"
+  pathtype: ImplementationSpecific
+  hosts:
+    - host: "" 
+      paths:
+        - path: /
+  tls: []
+  #  - secretName: sandbox-secret
+  #    hosts:
+  #      - chart-example.local
+deployment:
+  apiVersion: "apps/v1"
+  config: {}
+
+configmap:
+  apiversion: "v1"
+  hostname: "ops.sandbox.mifos.io"
+  identity:
+    hostname: "ops-bk.sandbox.mifos.io"

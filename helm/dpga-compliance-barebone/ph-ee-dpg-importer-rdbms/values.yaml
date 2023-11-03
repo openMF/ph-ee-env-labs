@@ -1,0 +1,48 @@
+service:
+  apiversion: "v1"
+
+secret:
+  apiversion: "v1"
+
+configmap:
+  apiversion: "v1"
+
+enabled: true
+image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-ee-dpg-importer-rdbms:trial"
+imageTag: latest
+imagePullPolicy: "Always"
+SPRING_PROFILES_ACTIVE: "application"
+#LOGGING_LEVEL_ROOT: "INFO"
+DFSPIDS: "lion,gorilla,rhino"
+limits:
+  cpu: "500m"
+  memory: "512M"
+requests:
+  cpu: "100m"
+  memory: "256M"
+livenessProbe:
+  httpGet:
+    path: /actuator/health/liveness
+    port: 8443
+  initialDelaySeconds: 20
+  periodSeconds: 30
+readinessProbe:
+  httpGet:
+    path: /actuator/health/readiness
+    port: 8443
+  initialDelaySeconds: 20
+  periodSeconds: 30
+## Enabling this will publicly expose your channel instance.
+## Only enable this if you have security enabled on your cluster
+ingress:
+  enabled: true
+  hostname: "ph-ee-dpg-importer-rdbms.sandbox.fynarfin.io"
+  path: "/"
+  wildcardhostname: "*.sandbox.fynarfin.io"
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+
+kafka:
+  brokers: "kafka:9092"
+  consumer_group: ch1

@@ -1,0 +1,349 @@
+global:
+  SPRING_PROFILES_ACTIVE: "bb"
+  imagePullPolicy: "Always"
+  LOGGING_LEVEL_ROOT: "INFO"
+  LOGGING_PATTERN_CONSOLE: "%d{dd-MM-yyyy HH:mm:ss.SSS} %magenta([%thread]) %highlight(%-5level) %logger.%M - %msg%n"
+  postgresql:
+    auth:
+      postgresPassword: "conductor"
+      username: "conductor"
+      password: "conductor"
+
+kafka:
+  enabled: true
+  fullnameOverride: kafka
+  global:
+    imageRegistry: docker.io
+    imagePullSecrets: [ ]
+    storageClass: ""
+
+  provisioning:
+    enabled: true
+    topics:
+      - name: conductor
+        partitions: 1
+        replicationFactor: 1
+
+  controller:
+    replicaCount: 3
+
+  listeners:
+    client:
+      protocol: PLAINTEXT
+
+    controller:
+      protocol: PLAINTEXT
+
+    interbroker:
+      protocol: PLAINTEXT
+
+    external:
+      protocol: PLAINTEXT
+
+  kraft:
+    clusterId: spDnn4oSr6DLKPx3cEheLp
+
+operationsmysql:
+  fullnameOverride: "operationsmysql"
+  image:
+    tag: "5.7"
+    debug: false
+  auth:
+    database: "tenants"
+    username: "mifos"
+    password: "password"
+    rootPassword: "ethieTieCh8ahv"
+  initdbScripts:
+    setup.sql: |-
+      CREATE DATABASE messagegateway;
+      CREATE DATABASE `rhino`;
+      CREATE DATABASE `gorilla`;
+      CREATE DATABASE `lion`;
+      CREATE DATABASE `identity_account_mapper`;
+      CREATE DATABASE `voucher_management`;
+      GRANT ALL PRIVILEGES ON `rhino`.* TO 'mifos';
+      GRANT ALL PRIVILEGES ON `gorilla`.* TO 'mifos';
+      GRANT ALL PRIVILEGES ON `lion`.* TO 'mifos';
+      GRANT ALL ON *.* TO 'root'@'%';
+      GRANT ALL PRIVILEGES ON messagegateway.* TO 'mifos';
+      GRANT ALL PRIVILEGES ON `identity_account_mapper`.* TO 'mifos';
+      GRANT ALL PRIVILEGES ON `voucher_management`.* TO 'mifos';
+  volumeClaimTemplate:
+    storageClassName: "gp2"
+
+
+operations_app:
+  enabled: true
+  replicas: 1
+  image: 419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-ee-dpg-operations-app:dpg
+  imagePullPolicy: "Always"
+  token_client_channel_secret: ""
+  tenants: "rhino,gorilla,lion"
+#  hostname: "ops-bk.sandbox.mifos.io"
+  datasource:
+    username: "mifos"
+    password: "password"
+    host: "operationsmysql"
+    port: 3306
+    schema: "tenants"
+  livenessProbe:
+    httpGet:
+      path: /actuator/health/liveness
+      port: 9191
+    initialDelaySeconds: 120
+    periodSeconds: 30
+    failureThreshold: 3
+    timeoutSeconds: 5
+  readinessProbe:
+    httpGet:
+      path: /actuator/health/readiness
+      port: 9191
+    initialDelaySeconds: 120
+    periodSeconds: 30
+    failureThreshold: 3
+    timeoutSeconds: 5
+  # Whether this chart should self-manage its service account, role, and associated role binding.
+  managedServiceAccount: true
+  # Custom service account override that the pod will use
+  serviceAccount: ""
+  # Annotations to add to the ServiceAccount that is created if the serviceAccount value isn't set.
+  serviceAccountAnnotations: {}
+  # How long to wait for operations_app pods to stop gracefully
+  terminationGracePeriod: 30
+  # Extra environment variables for operations_app container.
+  envFrom: []
+  # - configMapRef:
+  #     name: config-secret
+  extraEnvs: []
+  # This is the PriorityClass settings as defined in
+  # https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass
+  priorityClassName: ""
+  # operations_appConfig: ""
+  #   operations_app.yml: |
+  # - User that the container will execute as.
+  # Not necessary to run as root (0) as the operations_app Deployment use cases do not need access to Kubernetes Node internals
+  # - Typically not necessarily unless running within environments such as OpenShift.
+  securityContext:
+    runAsUser: 0
+    privileged: false
+  resources:
+    limits:
+      memory: "512M"
+      cpu: "500m"
+    requests:
+      memory: "512M"
+      cpu: "100m"
+  # Enabling this will publicly expose your operations_app instance.
+  # Only enable this if you have security enabled on your cluster
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: nginx
+    tls:
+      - secretName: sandbox-secret
+    hosts:
+      - host: ops-bk-dpg.sandbox.fynarfin.io
+        paths:
+          - path: "/"
+            backend:
+              service:
+                name: "ph-ee-operations-app"
+                port:
+                  number: 80
+  deployment:
+    annotations:
+      deployTime: "{{ .Values.deployTime }}"
+    affinity: {}
+    nodeSelector: {}
+    tolerations: []
+    envFrom: []
+    # - configMapRef:
+    #     name: config-secret
+    extraEnvs: []
+    # - User that the container will execute as.
+    # Not necessary to run as root (0) as the operations_app Deployment use cases do not need access to Kubernetes Node internals
+    # - Typically not necessarily unless running within environments such as OpenShift.
+    securityContext:
+      runAsUser: 0
+      privileged: false
+    resources:
+      limits:
+        memory: "512M"
+        cpu: "500m"
+      requests:
+        memory: "512M"
+        cpu: "100m"
+    # Allows you to add any config files in /usr/share/
+    # such as operations_app.yml for deployment
+
+
+operations_web:
+  enabled: true
+  replicas: 1
+  image: docker.io/openmf/ph-ee-operations-web:latest
+  hostname: "ops.sandbox.mifos.io"
+  imagePullPolicy: "Always"
+  imagePullSecrets: []
+  webhost: ""
+  livenessProbe:
+    httpGet:
+      path: /actuator/health/liveness
+      port: 9191
+    initialDelaySeconds: 120
+    periodSeconds: 30
+    failureThreshold: 3
+    timeoutSeconds: 5
+  readinessProbe:
+    httpGet:
+      path: /actuator/health/readiness
+      port: 9191
+    initialDelaySeconds: 120
+    periodSeconds: 30
+    failureThreshold: 3
+    timeoutSeconds: 5
+  # Whether this chart should self-manage its service account, role, and associated role binding.
+  managedServiceAccount: true
+  # Custom service account override that the pod will use
+  serviceAccount: ""
+  # Annotations to add to the ServiceAccount that is created if the serviceAccount value isn't set.
+  serviceAccountAnnotations: {}
+  # How long to wait for operations_web pods to stop gracefully
+  terminationGracePeriod: 30
+  # Extra environment variables for operations_web container.
+  envFrom: []
+  # - configMapRef:
+  #     name: config-secret
+  extraEnvs: []
+  # This is the PriorityClass settings as defined in
+  # https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass
+  priorityClassName: ""
+  # ph-ee-operations-web-configConfig: ""
+  #   ph-ee-operations-web-config.yml: |
+  # - User that the container will execute as.
+  # Not necessary to run as root (0) as the operations_web Deployment use cases do not need access to Kubernetes Node internals
+  # - Typically not necessarily unless running within environments such as OpenShift.
+  securityContext:
+    runAsUser: 0
+    privileged: false
+  resources:
+    limits:
+      memory: "512M"
+      cpu: "500m"
+    requests:
+      memory: "512M"
+      cpu: "100m"
+  # Enabling this will publicly expose your operations_web instance.
+  # Only enable this if you have security enabled on your cluster
+  ingress:
+    enabled: true
+    tls:
+      - secretName: sandbox-secret
+    hosts:
+      - host: ops-dpg.sandbox.fynarfin.io
+        paths:
+          - path: "/"
+            backend:
+              service:
+                name: "ph-ee-operations-web"
+                port:
+                  number: 4200
+  deployment:
+    config:
+      - name: ph-ee-operations-web-config
+        mountPath: "/usr/share/nginx/html/assets/configuration.properties"
+        subPath: "configuration.properties"
+    annotations: {}
+    affinity: {}
+    nodeSelector: {}
+    tolerations: []
+    envFrom: []
+    # - configMapRef:
+    #     name: config-secret
+    extraEnvs: []
+    # - User that the container will execute as.
+    # Not necessary to run as root (0) as the operation-web Deployment use cases do not need access to Kubernetes Node internals
+    # - Typically not necessarily unless running within environments such as OpenShift.
+    securityContext:
+      runAsUser: 0
+      privileged: false
+    resources:
+      limits:
+        memory: "512M"
+        cpu: "500m"
+      requests:
+        memory: "512M"
+        cpu: "100m"
+    # Allows you to add any config files in /usr/share/
+    # such as ph-ee-operations-web.yml for deployment
+    # ph-ee-operations-webConfig: {}
+    #   ph-ee-operations-web.yml: |
+
+ingress:
+  enabled: true
+
+elasticsearch:
+  enabled: true
+  replicas: 1
+  protocol: http
+  fullnameOverride: "es"
+  clusterName: "elasticsearch"
+  minimumMasterNodes: 1
+  esConfig:
+    elasticsearch.yml: |
+      xpack.security.enabled: false
+      transport.host: 0.0.0.0
+  #  extraEnvs:
+  #    - name: ES_JAVA_OPTS
+  #      value: "-Xms512m -Xmx1024m"
+  config:
+    transport.host: 0.0.0.0
+    discovery.type: single-node
+    xpack.security.enabled: "false"
+  healthCheckPath: /
+  healthCheckPort: 9200
+  persistence:
+    enabled: true
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "1024M"
+    limits:
+      cpu: "1000m"
+      memory: "1024M"
+  volumeClaimTemplate:
+    accessModes: [ "ReadWriteOnce" ]
+    storageClassName: "gp2"
+    resources:
+      requests:
+        storage: 10Gi
+
+
+redis:
+  enabled: true
+  fullnameOverride: "rs"
+  replica:
+    replicaCount: 0
+  usePassword: false
+  auth:
+    enabled: false
+
+
+postgresql:
+  enabled: true
+  fullnameOverride: "postgres"
+  postgresUser: conductor
+  postgresPassword: conductor
+  persistence:
+    enabled: true
+  primary:
+    initdb:
+      scripts:
+        setup.sql: |-
+          CREATE DATABASE conductor;
+          GRANT ALL PRIVILEGES ON `conductor`.* TO 'conductor';
+          GRANT ALL ON *.* TO 'root'@'%';
+
+networks:
+  internal: {}
+
+tls: ""
