@@ -64,7 +64,9 @@ ph-ee-g2psandbox:
       enabled: true
       imageTag: "830df54849"
       ingress:
-        enabled: true  
+        enabled: true
+        tls:
+          - secretName: fyn-cert
         hosts:
           - host: mojaloop.sandbox.fynarfin.io          
             paths: 
