@@ -174,18 +174,18 @@ workflows:
             - AWS
             - Helm
             - slack
-      - host-g2-sandbox-security-fynarfin-chart:
-          requires:
-            - build
-          context:
-            - AWS
-            - Helm
-            - slack
+      # - host-g2-sandbox-security-fynarfin-chart:
+      #     requires:
+      #       - build
+      #     context:
+      #       - AWS
+      #       - Helm
+      #       - slack
       - upgrade-g2psandbox-helm-chart:
           cluster-name: sit
           requires:
             - build
-            - upgrade-g2psandbox-security-helm-chart
+            # - upgrade-g2psandbox-security-helm-chart
           context:
             - AWS
             - Helm
@@ -231,20 +231,20 @@ workflows:
             - AWS
             - Helm
             - slack
-      - host-dpga-compliance-barebone-chart:
-          context:
-            - AWS
-            - Helm
-            - slack
-      - upgrade-dpga-compliance-barebone-chart:
-          cluster-name: sit
-          requires:
-            - host-dpga-compliance-barebone-chart
-          context:
-            - AWS
-            - Helm
-            - slack
-            - Secrets
+      # - host-dpga-compliance-barebone-chart:
+      #     context:
+      #       - AWS
+      #       - Helm
+      #       - slack
+      # - upgrade-dpga-compliance-barebone-chart:
+      #     cluster-name: sit
+      #     requires:
+      #       - host-dpga-compliance-barebone-chart
+      #     context:
+      #       - AWS
+      #       - Helm
+      #       - slack
+      #       - Secrets
       # - install-helm-chart:
       #     cluster-name: sit
       # - delete-helm-release:
