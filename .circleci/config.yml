@@ -217,7 +217,7 @@ workflows:
             - slack
       - test-chart-gov:
           requires:
-            - create-secret-paymenthub-namespace
+            - create-secret-namespace
             - deploying-bpmns
           context: 
             - AWS
@@ -225,7 +225,7 @@ workflows:
             - slack
       - test-chart-ams:
           requires:
-            - create-secret-paymenthub-namespace
+            - create-secret-namespace
             - deploying-bpmns
           context:
             - AWS
