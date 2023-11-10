@@ -90,6 +90,9 @@ ph-ee-g2psandbox:
       deployment:
         annotations:
           rollme: "{{ randAlphaNum 5 | quote }}"
+      service:
+        annotations:
+          konghq.com/protocol: "https"
       ingress:
         enabled: true 
         className: "kong"
