@@ -1,5 +1,5 @@
 #!/bin/sh
-HOST="https://zeebeops.sandbox.fynarfin.io/zeebe/upload"
+HOST="https://zeebeops-ns.sandbox.fynarfin.io/zeebe/upload"
 deploy(){
     cmd="curl --insecure --location --request POST $HOST \
     --header 'Platform-TenantId: gorilla' \
