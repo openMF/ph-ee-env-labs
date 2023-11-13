@@ -295,20 +295,20 @@ workflows:
             - AWS
             - Helm
             - slack
-      - host-dpga-compliance-barebone-chart:
-          context:
-            - AWS
-            - Helm
-            - slack
-      - upgrade-dpga-compliance-barebone-chart:
-          cluster-name: sit
-          requires:
-            - host-dpga-compliance-barebone-chart
-          context:
-            - AWS
-            - Helm
-            - slack
-            - Secrets
+      # - host-dpga-compliance-barebone-chart:
+      #     context:
+      #       - AWS
+      #       - Helm
+      #       - slack
+      # - upgrade-dpga-compliance-barebone-chart:
+      #     cluster-name: sit
+      #     requires:
+      #       - host-dpga-compliance-barebone-chart
+      #     context:
+      #       - AWS
+      #       - Helm
+      #       - slack
+      #       - Secrets
       # - install-helm-chart:
       #     cluster-name: sit
       # - delete-helm-release:
