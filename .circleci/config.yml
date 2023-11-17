@@ -298,7 +298,8 @@ workflows:
       - helm-test:
           cluster-name: sit
           requires:
-            - upgrade-helm-chart
+            - deploying-bpmns
+            - create-secret-paymenthub-namespace
           context:
             - AWS
             - Helm
