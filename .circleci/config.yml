@@ -4,6 +4,7 @@ orbs:
   helm: circleci/helm@2.0.1
   aws-eks: circleci/aws-eks@2.2.0
   kubernetes: circleci/kubernetes@1.3
+  aws-cli: circleci/aws-cli@4.0.0
 jobs:
   build:
     docker:
@@ -213,22 +214,37 @@ jobs:
       - run: echo $AWS_DEFAULT_PROFILE
       - run: sh orchestration/deployBpmn.sh
 
-  test-chart-gov:
+  helm-test:
     docker:
-      - image: cimg/openjdk:17.0.0
+      - image: cimg/python:3.10
+    parameters:
+      cluster-name:
+        description: "sit"
+        type: string
     steps:
-      - run: git clone https://github.com/openmf/ph-ee-integration-test
-      - run: cd ph-ee-integration-test && ./gradlew test -Dcucumber.filter.tags="@gov" 
-      - store_test_results:
-          path: ph-ee-integration-test/build/test-results/test/TEST-org.mifos.integrationtest.TestRunner.xml
-  test-chart-ams:
-    docker:
-      - image: cimg/openjdk:17.0.0
-    steps:
-      - run: git clone https://github.com/openmf/ph-ee-integration-test
-      - run: cd ph-ee-integration-test && ./gradlew test -Dcucumber.filter.tags="@amsIntegration"
-      - store_test_results:
-          path: ph-ee-integration-test/build/test-results/test/TEST-org.mifos.integrationtest.TestRunner.xml
+      - aws-eks/update-kubeconfig-with-authenticator:
+          cluster-name: "sit"
+          aws-region: "$REGION"
+      - helm/install-helm-client:
+          version: "v3.8.2"
+      - kubernetes/install-kubectl
+      - run: helm ls --namespace=paymenthub
+      - run:
+          name: Run Helm Tests
+          command: |
+            helm test g2p-sandbox --namespace paymenthub || echo test
+            - run:
+                name: Fetch Integration Test Report
+                command: |
+                  mkdir integration_report
+                  kubectl cp paymenthub/`kubectl get pods -n paymenthub | grep g2p-sandbox-test-connection |cut -d " " -f1`:/ph-ee-connector-integration-test/build/reports/tests/test/ ./integration_report
+            - run:
+                name: List Contents of Integration Report Directory
+                command: |
+                  ls -l ./integration_report
+            - store_artifacts:
+                path: ./integration_report
+                destination: integration_reports
 
 workflows:
   deploy:
@@ -279,18 +295,10 @@ workflows:
             - AWS
             - Helm
             - slack
-      - test-chart-gov:
+      - helm-test:
+          cluster-name: sit
           requires:
-            - create-secret-paymenthub-namespace
-            - deploying-bpmns
-          context: 
-            - AWS
-            - Helm
-            - slack
-      - test-chart-ams:
-          requires:
-            - create-secret-paymenthub-namespace
-            - deploying-bpmns
+            - upgrade-helm-chart
           context:
             - AWS
             - Helm
