@@ -233,18 +233,18 @@ jobs:
           name: Run Helm Tests
           command: |
             helm test g2p-sandbox --namespace paymenthub || echo test
-            - run:
-                name: Fetch Integration Test Report
-                command: |
-                  mkdir integration_report
-                  kubectl cp paymenthub/`kubectl get pods -n paymenthub | grep g2p-sandbox-test-connection |cut -d " " -f1`:/ph-ee-connector-integration-test/build/reports/tests/test/ ./integration_report
-            - run:
-                name: List Contents of Integration Report Directory
-                command: |
-                  ls -l ./integration_report
-            - store_artifacts:
-                path: ./integration_report
-                destination: integration_reports
+      - run:
+          name: Fetch Integration Test Report
+          command: |
+            mkdir integration_report
+            kubectl cp paymenthub/`kubectl get pods -n paymenthub | grep g2p-sandbox-test-connection |cut -d " " -f1`:/ph-ee-connector-integration-test/build/reports/tests/test/ ./integration_report
+      - run:
+          name: List Contents of Integration Report Directory
+          command: |
+            ls -l ./integration_report
+      - store_artifacts:
+          path: ./integration_report
+          destination: integration_reports
 
 workflows:
   deploy:
