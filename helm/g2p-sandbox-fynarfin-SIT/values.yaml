@@ -251,6 +251,8 @@ ph-ee-g2psandbox:
 
     importer_rdbms:
       enabled: true
+      aws:
+        region: "ap-south-1"
     
     mockpayment:
       enabled: true
