@@ -1,0 +1,15 @@
+ph-ee-g2psandbox.ph-ee-engine.community-app.image docker.io/openmf/community-app
+ph-ee-g2psandbox.ph-ee-engine.ph_ee_connector_ams_mifos.image docker.io/openmf/ph-ee-connector-ams-mifos
+ph-ee-g2psandbox.ph-ee-engine.connector_bulk.image docker.io/openmf/ph-ee-bulk-processor
+ph-ee-g2psandbox.ph-ee-engine.importer_rdbms.image docker.io/openmf/ph-ee-importer-rdbms
+ph-ee-g2psandbox.ph-ee-engine.channel.image docker.io/openmf/ph-ee-connector-channel
+ph-ee-g2psandbox.ph-ee-engine.messagegateway.image docker.io/openmf/message-gateway
+ph-ee-g2psandbox.ph-ee-engine.ph_ee_connector_gsma.image docker.io/openmf/ph-ee-connector-gsma
+ph-ee-g2psandbox.ph-ee-engine.mockpayment.image docker.io/openmf/ph-ee-connector-mock-payment-schema
+ph-ee-g2psandbox.ph-ee-engine.ph_ee_connector_mojaloop.image docker.io/openmf/ph-ee-connector-mojaloop
+ph-ee-g2psandbox.ph-ee-engine.notifications.image docker.io/openmf/ph-ee-notifications
+ph-ee-g2psandbox.account_mapper.image docker.io/openmf/ph-ee-identity-account-mapper
+ph-ee-g2psandbox.ph-ee-engine.importer_es.image docker.io/openmf/ph-ee-importer-es
+ph-ee-g2psandbox.ph-ee-engine.operations_app.image docker.io/openmf/ph-ee-operations-app
+ph-ee-g2psandbox.ph-ee-engine.operations_web.image docker.io/openmf/ph-ee-operations-web
+ph-ee-g2psandbox.ph-ee-engine.vouchers.image docker.io/openmf/ph-ee-vouchers
