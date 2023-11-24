@@ -153,13 +153,13 @@ ph-ee-g2psandbox:
       enabled: false
 
     mpesa:
-      enabled: true
+      enabled: false
 
     roster_connector:
-      enabled: true
+      enabled: false
 
     paygops_connector:
-      enabled: true
+      enabled: false
 
     notifications:
       enabled: true
