@@ -13,7 +13,7 @@ jobs:
       TERM: dumb
     steps:
       - checkout
-      - run: rm -f helm/g2p-sandbox-fynarfin-SIT/Chart.lock helm/g2p-sandbox-fynarfin-SIT/requirements.lock helm/g2p-sandbox-fynarfin-SIT/charts/*
+      - run: rm -f helm/g2p-sandbox-fynarfin-SIT-NS2/Chart.lock helm/g2p-sandbox-fynarfin-SIT-NS2/requirements.lock helm/g2p-sandbox-fynarfin-SIT-NS2/charts/*
       - helm/install-helm-client:
           version: "v3.8.2"
       # - run: "sed -i '12s/.*/version: 0.0.0/' helm/g2p-sandbox-fynarfin-SIT-NS2/Chart.yaml"
