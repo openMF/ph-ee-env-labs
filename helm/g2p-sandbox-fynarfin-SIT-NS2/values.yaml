@@ -176,7 +176,6 @@ ph-ee-g2psandbox:
                 port:
                   number: 80
 
-
     connector_bulk:
       enabled: true
       tenants: "rhino,gorilla"
