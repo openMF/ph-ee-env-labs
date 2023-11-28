@@ -13,6 +13,6 @@ dependencies:
 
 - name: grafana
   repository: https://grafana.github.io/helm-charts
-  version: 6.5.0
+  version: 7.0.0
   condition: "grafana.enabled"
 
