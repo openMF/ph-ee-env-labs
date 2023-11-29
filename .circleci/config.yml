@@ -135,6 +135,9 @@ jobs:
     docker:
       - image: cimg/python:3.10
     steps:
+      - aws-eks/update-kubeconfig-with-authenticator:
+          cluster-name: "sit"
+          aws-region: "$REGION"
       - kubernetes/install-kubectl
       - run: |
           if ! kubectl get ns ph-infrastructure > /dev/null 2>&1; then
@@ -206,6 +209,9 @@ jobs:
             echo "Directory has not changed. Skipping the job."
             circleci step halt
           fi
+      - aws-eks/update-kubeconfig-with-authenticator:
+          cluster-name: "sit"
+          aws-region: "$REGION"
       - kubernetes/install-kubectl
       - run: |
           if ! kubectl get ns paymenthub-dpg > /dev/null 2>&1; then
