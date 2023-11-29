@@ -143,7 +143,6 @@ jobs:
           if ! kubectl get ns ph-infrastructure > /dev/null 2>&1; then
               kubectl create namespace ph-infrastructure
           fi
-      - run: helm ls --namespace=ph-infrastructure
       - mifos-orb/docker-image-availability-check-and-upgrade:
           namespace: ph-infrastructure
           chart-base-url: https://fynarfin.io/images
