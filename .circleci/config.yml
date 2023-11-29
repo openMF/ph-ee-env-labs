@@ -264,7 +264,6 @@ workflows:
             - Helm
             - slack
       - upgrade-g2psandbox-helm-chart:
-          cluster-name: sit
           requires:
             - build
             - upgrade-g2psandbox-security-helm-chart
@@ -282,7 +281,6 @@ workflows:
             - slack
             - Secrets  
       - upgrade-g2psandbox-security-helm-chart:
-          cluster-name: sit
           requires:
             - host-g2-sandbox-security-fynarfin-chart
           context:
@@ -319,7 +317,6 @@ workflows:
             - Helm
             - slack
       - upgrade-dpga-compliance-barebone-chart:
-          cluster-name: sit
           requires:
             - host-dpga-compliance-barebone-chart
           context:
