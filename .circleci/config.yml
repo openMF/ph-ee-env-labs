@@ -31,9 +31,16 @@ jobs:
                 if [ -z "$JIRA_STORY" ]; then echo "Invalid PR title" && exit 1; else echo "Ticket NO: $JIRA_STORY" && JIRA_STORY_DIR=$(echo /jira-story-version); fi
                 echo Charts will save in https://fynarfin.io/images$JIRA_STORY_DIR
             fi
+            CHART_URL="https://fynarfin.io/images$JIRA_STORY_DIR/ph-ee-g2psandbox$JIRA_STORY"
+            if curl --output /dev/null --silent --head --fail "$CHART_URL"; then
+              sed -i "11s@^ *repository:.*\$@  repository: $CHART_URL@" helm/g2p-sandbox-fynarfin-SIT/Chart.yaml
+              sed -i "12s@^ *version:.*\$@  version: 0.0.0$JIRA_STORY@" helm/g2p-sandbox-fynarfin-SIT/Chart.yaml
+              echo "chart used: < $CHART_URL >"
+            else
+              CHART_URL="https://fynarfin.io/images/ph-ee-g2psandbox-0.0.0"
+              echo "chart used: < $CHART_URL >"
+            fi
             sed -i "6s/.*/version: 0.2.0$JIRA_STORY/" helm/g2p-sandbox-fynarfin-SIT/Chart.yaml
-            sed -i "11s@^ *repository:.*\$@  repository: https://fynarfin.io/images$JIRA_STORY_DIR/ph-ee-g2psandbox$JIRA_STORY@" helm/g2p-sandbox-fynarfin-SIT/Chart.yaml
-            sed -i "12s@^ *version:.*\$@  version: 0.0.0$JIRA_STORY@" helm/g2p-sandbox-fynarfin-SIT/Chart.yaml
             cat helm/g2p-sandbox-fynarfin-SIT/Chart.yaml
             helm dep up helm/g2p-sandbox-fynarfin-SIT
             helm package helm/g2p-sandbox-fynarfin-SIT
@@ -117,9 +124,16 @@ jobs:
               JIRA_STORY=-$(echo $PR_TITLE | cut -d "[" -f2 | cut -d "]" -f1 | tr '[A-Z]' '[a-z]')
               if [ -z "$JIRA_STORY" ]; then echo "Invalid PR title" && exit 1; else echo "Ticket NO: $JIRA_STORY" && JIRA_STORY_DIR=$(echo /jira-story-version); fi
             fi
+            CHART_URL="https://fynarfin.io/images$JIRA_STORY_DIR/ph-ee-g2psandbox-security$JIRA_STORY"
+            if curl --output /dev/null --silent --head --fail "$CHART_URL"; then
+              sed -i "10s@^ *repository:.*\$@  repository: $CHART_URL@" helm/g2p-sandbox-security-fynarfin-SIT/Chart.yaml
+              sed -i "11s@^ *version:.*\$@  version: 0.0.0$JIRA_STORY@" helm/g2p-sandbox-security-fynarfin-SIT/Chart.yaml
+              echo "chart used: < $CHART_URL >"
+            else
+              CHART_URL="https://fynarfin.io/images/ph-ee-g2psandbox-security"
+              echo "chart used: < $CHART_URL >"
+            fi
             sed -i "5s/.*/version: 0.0.0$JIRA_STORY/" helm/g2p-sandbox-security-fynarfin-SIT/Chart.yaml
-            sed -i "10s@^ *repository:.*\$@  repository: https://fynarfin.io/images$JIRA_STORY_DIR/ph-ee-g2psandbox-security$JIRA_STORY@" helm/g2p-sandbox-security-fynarfin-SIT/Chart.yaml
-            sed -i "11s@^ *version:.*\$@  version: 0.0.0$JIRA_STORY@" helm/g2p-sandbox-security-fynarfin-SIT/Chart.yaml
             cat helm/g2p-sandbox-security-fynarfin-SIT/Chart.yaml
             # - run: "sed -i '4s/.*/version: 0.0.0-SNAPSHOT/' helm/g2p-sandbox-security/requirements.yaml"
             # SED & replace dependency with 0.0.0
