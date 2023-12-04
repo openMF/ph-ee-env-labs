@@ -65,6 +65,36 @@ ph-ee-g2psandbox:
       enabled: true
       image: docker.io/openmf/ph-ee-connector-mojaloop:latest
       imageTag: "830df54849"
+      switch:
+        quotes:
+          host: "http://quoting-service.sandbox.fynarfin.io"
+          service: "quoting-service.sandbox.fynarfin.io"
+        als:
+          host: "http://account-lookup-service.sandbox.fynarfin.io"
+          service: "account-lookup-service.sandbox.fynarfin.io"
+        transfers:
+          host: "http://ml-api-adapter.sandbox.fynarfin.io"
+          service: "api-adapter.sandbox.fynarfin.io"
+        transactions:
+          host: "http://ml-api-adapter.sandbox.fynarfin.io"
+          service: "ml-api-adapter.sandbox.fynarfin.io"
+        oracle:
+          host: "http://moja-simulator.sandbox.fynarfin.io"
+      deployment:
+        extraEnvs:
+          - name: parties_0_domain
+            value: "https://fynams.sandbox.fynarfin.io/"
+          - name: parties_1_domain
+            value: "mojaloop.sandbox.fynarfin.io"
+          - name: parties_0_tenantId
+            value: "gorilla"
+          - name: parties_1_tenantId
+            value: "lion"
+          - name: parties_0_fspId
+            value: "payerfsp"
+          - name: parties_1_fspId
+            value: "payeefsp"
+
       ingress:
         enabled: true
         tls:
