@@ -11,12 +11,12 @@ ph-ee-g2psandbox:
 
     zeebe-operate-helm:
       ingress:
-        enabled: true 
+        enabled: false
         host: operate.sandbox.fynarfin.io 
       
     kibana:
       ingress:
-        enabled: true
+        enabled: false
         className: "nginx"
         pathtype: "Prefix"
         annotations: {}
@@ -42,7 +42,7 @@ ph-ee-g2psandbox:
       ams_local_auth_host: "https://fynams.sandbox.fynarfin.io/"
       ams_local_loan_host: "https://fynams.sandbox.fynarfin.io/"
       ingress:
-        enabled: true 
+        enabled: false 
         hosts:
           - host: ams-mifos.sandbox.fynarfin.io          
             paths: 
@@ -96,7 +96,7 @@ ph-ee-g2psandbox:
             value: "payeefsp"
 
       ingress:
-        enabled: true
+        enabled: false
         tls:
           - secretName: fyn-cert
         hosts:
@@ -127,7 +127,7 @@ ph-ee-g2psandbox:
         annotations:
           konghq.com/protocol: "https"
       ingress:
-        enabled: true 
+        enabled: false
         className: "kong"
         hosts:
           - host: channel.sandbox.fynarfin.io          
@@ -156,7 +156,7 @@ ph-ee-g2psandbox:
         annotations:
           rollme: "{{ randAlphaNum 5 | quote }}"
       ingress:
-        enabled: true 
+        enabled: false
         hosts:
           - host: ops-bk.sandbox.fynarfin.io          
             paths: 
@@ -171,7 +171,7 @@ ph-ee-g2psandbox:
       enabled: true
       image: docker.io/openmf/ph-ee-operations-web:latest
       ingress:
-        enabled: true
+        enabled: false
         annotations:
           kubernetes.io/ingress.class: "nginx"
         hosts:
@@ -188,7 +188,7 @@ ph-ee-g2psandbox:
       enabled: true
       image: docker.io/openmf/ph-ee-connector-gsma:latest
       ingress:
-        enabled: true  
+        enabled: false  
 
     ph_ee_connector_slcb:
       enabled: false
@@ -207,7 +207,7 @@ ph-ee-g2psandbox:
       image: docker.io/openmf/ph-ee-notifications:latest
       NOTIFICATION_FAILURE_ENABLED: "false"
       ingress:
-        enabled: true 
+        enabled: false 
         hosts:
           - host: notifications.sandbox.fynarfin.io         
             paths: 
@@ -237,7 +237,7 @@ ph-ee-g2psandbox:
       identity_account_mapper:
         hostname: "https://identity-mapper.sandbox.fynarfin.io"
       ingress:
-        enabled: true
+        enabled: false
         className: "kong"
         tls:
           - secretName: sandbox-secret
@@ -255,7 +255,7 @@ ph-ee-g2psandbox:
       enabled: true
       tenants: "rhino,gorilla"
       ingress:
-        enabled: true 
+        enabled: false
         hosts:
           - host: zeebeops.sandbox.fynarfin.io          
             paths: 
@@ -274,7 +274,7 @@ ph-ee-g2psandbox:
           api_key: "eKiC1_JWdKy7eaTGQFHxXXjXjacr60W9Zntl"
           project_id: "PJ5ff552ce01d2978c"
       ingress:
-        enabled: true   
+        enabled: false  
         hosts:
           - host: messagegateway.sandbox.fynarfin.io       
             paths: 
@@ -299,7 +299,7 @@ ph-ee-g2psandbox:
       enabled: true
       image: docker.io/openmf/ph-ee-connector-mock-payment-schema:latest
       ingress:
-        enabled: true
+        enabled: false
         annotations:
           kubernetes.io/ingress.class: nginx
         hosts:
@@ -318,7 +318,7 @@ ph-ee-g2psandbox:
     keycloak:
       enabled: false
       ingress:
-        enabled: true 
+        enabled: false
         rules:
           - host: 'keycloak.sandbox.fynarfin.io'
             paths:
@@ -329,7 +329,7 @@ ph-ee-g2psandbox:
     kong:
       enabled: false
       ingress:
-        enabled: true
+        enabled: false
         hostname: admin-kong.sandbox.fynarfin.io 
 
     redis:
@@ -358,7 +358,7 @@ ph-ee-g2psandbox:
         annotations:
           rollme: "{{ randAlphaNum 5 | quote }}"
       ingress:
-        enabled: true
+        enabled: false
         annotations:
           kubernetes.io/ingress.class: nginx
         tls:
@@ -381,7 +381,7 @@ ph-ee-g2psandbox:
       annotations:
         rollme: "{{ randAlphaNum 5 | quote }}"
     ingress:
-      enabled: true
+      enabled: false
       annotations:
         kubernetes.io/ingress.class: nginx
       tls:
