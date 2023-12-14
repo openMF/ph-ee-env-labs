@@ -16,7 +16,7 @@ ph-ee-g2psandbox:
       
     kibana:
       ingress:
-        enabled: true
+        enabled: false
         className: "nginx"
         pathtype: "Prefix"
         annotations: {}
