@@ -318,7 +318,7 @@ ph-ee-g2psandbox:
     keycloak:
       enabled: false
       ingress:
-        enabled: true 
+        enabled: false
         rules:
           - host: 'keycloak.sandbox.fynarfin.io'
             paths:
@@ -329,7 +329,7 @@ ph-ee-g2psandbox:
     kong:
       enabled: false
       ingress:
-        enabled: true
+        enabled: false
         hostname: admin-kong.sandbox.fynarfin.io 
 
     redis:
