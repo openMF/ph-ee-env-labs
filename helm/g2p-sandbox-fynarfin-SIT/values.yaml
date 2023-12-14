@@ -226,11 +226,6 @@ ph-ee-g2psandbox:
       deployment:
         annotations:
           rollme: "{{ randAlphaNum 5 | quote }}"
-      aws:
-        host: "http://minio:9000"
-        region: "ap-south-1"
-        access_key: "aws-access-key"
-        secret_key: "aws-secret-key"
       operations_app:
         contactpoint: "https://ops-bk.sandbox.fynarfin.io/"
         endpoints:
