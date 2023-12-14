@@ -31,7 +31,7 @@ jobs:
                 if [ -z "$JIRA_STORY" ]; then echo "Invalid PR title" && exit 1; else echo "Ticket NO: $JIRA_STORY" && JIRA_STORY_DIR=$(echo /jira-story-version); fi
                 echo Charts will save in https://fynarfin.io/images$JIRA_STORY_DIR
             fi
-            CHART_URL="https://fynarfin.io/images$JIRA_STORY_DIR/ph-ee-g2psandbox$JIRA_STORY"
+            CHART_URL="https://fynarfin.io/images$JIRA_STORY_DIR/ph-ee-g2psandbox-0.0.0$JIRA_STORY"
             if curl --output /dev/null --silent --head --fail "$CHART_URL"; then
               sed -i "11s@^ *repository:.*\$@  repository: $CHART_URL@" helm/g2p-sandbox-fynarfin-SIT/Chart.yaml
               sed -i "12s@^ *version:.*\$@  version: 0.0.0$JIRA_STORY@" helm/g2p-sandbox-fynarfin-SIT/Chart.yaml
