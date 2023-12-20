@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_02ccm6h" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Zeebe Modeler" exporterVersion="0.11.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.19.0">
+  <bpmn:process id="bill_inquiry" name="bill_inquiry-DFSPID" isExecutable="true" camunda:historyTimeToLive="180">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_1guz4a0</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1guz4a0" sourceRef="StartEvent_1" targetRef="discover-bill" />
+    <bpmn:serviceTask id="fetch-bill" name="Bill Fetch">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="fetch-bill" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1bwc6vb</bpmn:incoming>
+      <bpmn:outgoing>Flow_0hxrt63</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="discover-bill" name="Biller Discovery">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="discover-biller" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1guz4a0</bpmn:incoming>
+      <bpmn:outgoing>Flow_1q3mrws</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Event_1ucyl4y">
+      <bpmn:incoming>Flow_0cwtu2e</bpmn:incoming>
+      <bpmn:incoming>Flow_0nvd0uz</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="Gateway_1e1yz1e" default="Flow_1bwc6vb">
+      <bpmn:incoming>Flow_1q3mrws</bpmn:incoming>
+      <bpmn:outgoing>Flow_1bwc6vb</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0cwtu2e</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_1q3mrws" sourceRef="discover-bill" targetRef="Gateway_1e1yz1e" />
+    <bpmn:sequenceFlow id="Flow_1bwc6vb" sourceRef="Gateway_1e1yz1e" targetRef="fetch-bill" />
+    <bpmn:sequenceFlow id="Flow_0cwtu2e" name="Biller details Not found" sourceRef="Gateway_1e1yz1e" targetRef="Event_1ucyl4y">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=billerFetchFailed= true</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:serviceTask id="billFetchResponse" name="Bill Fetch Response">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="billFetchResponse" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0hxrt63</bpmn:incoming>
+      <bpmn:outgoing>Flow_0nvd0uz</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0nvd0uz" sourceRef="billFetchResponse" targetRef="Event_1ucyl4y" />
+    <bpmn:sequenceFlow id="Flow_0hxrt63" sourceRef="fetch-bill" targetRef="billFetchResponse" />
+    <bpmn:group id="Group_0mrvwks" categoryValueRef="CategoryValue_0p38xic" />
+    <bpmn:group id="Group_12ph6ud" categoryValueRef="CategoryValue_14nmddk" />
+    <bpmn:group id="Group_1eq9w8l" categoryValueRef="CategoryValue_16spcr9" />
+  </bpmn:process>
+  <bpmn:message id="Message_10p44lf" name="fetchbillCallback">
+    <bpmn:extensionElements>
+      <zeebe:subscription correlationKey="=transactionId" />
+    </bpmn:extensionElements>
+  </bpmn:message>
+  <bpmn:category id="Category_12ki0h5">
+    <bpmn:categoryValue id="CategoryValue_0p38xic" value="Bill Aggregator/Govt Entity" />
+  </bpmn:category>
+  <bpmn:category id="Category_0c0vfi9">
+    <bpmn:categoryValue id="CategoryValue_14nmddk" value="Payments BB" />
+  </bpmn:category>
+  <bpmn:category id="Category_1xa7f6m">
+    <bpmn:categoryValue id="CategoryValue_16spcr9" value="Payments BB" />
+  </bpmn:category>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="bill_inquiry">
+      <bpmndi:BPMNEdge id="Flow_0nvd0uz_di" bpmnElement="Flow_0nvd0uz">
+        <di:waypoint x="820" y="320" />
+        <di:waypoint x="942" y="320" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0cwtu2e_di" bpmnElement="Flow_0cwtu2e">
+        <di:waypoint x="380" y="295" />
+        <di:waypoint x="380" y="70" />
+        <di:waypoint x="960" y="70" />
+        <di:waypoint x="960" y="302" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="619" y="46" width="80" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1bwc6vb_di" bpmnElement="Flow_1bwc6vb">
+        <di:waypoint x="405" y="320" />
+        <di:waypoint x="450" y="320" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1q3mrws_di" bpmnElement="Flow_1q3mrws">
+        <di:waypoint x="310" y="320" />
+        <di:waypoint x="355" y="320" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1guz4a0_di" bpmnElement="Flow_1guz4a0">
+        <di:waypoint x="148" y="320" />
+        <di:waypoint x="210" y="320" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0hxrt63_di" bpmnElement="Flow_0hxrt63">
+        <di:waypoint x="550" y="320" />
+        <di:waypoint x="720" y="320" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_1bisq9c_di" bpmnElement="fetch-bill" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)" color:background-color="#e1bee7" color:border-color="#5b176d">
+        <dc:Bounds x="450" y="280" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1yrerk4_di" bpmnElement="discover-bill" bioc:stroke="#5b176d" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#5b176d">
+        <dc:Bounds x="210" y="280" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1e1yz1e_di" bpmnElement="Gateway_1e1yz1e" isMarkerVisible="true">
+        <dc:Bounds x="355" y="295" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ghtic6_di" bpmnElement="billFetchResponse" bioc:stroke="#5b176d" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#5b176d">
+        <dc:Bounds x="720" y="280" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1" bioc:stroke="#43a047" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#43a047">
+        <dc:Bounds x="112" y="302" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1ucyl4y_di" bpmnElement="Event_1ucyl4y" bioc:stroke="#831311" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#831311">
+        <dc:Bounds x="942" y="302" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Group_1eq9w8l_di" bpmnElement="Group_1eq9w8l">
+        <dc:Bounds x="690" y="218" width="150" height="232" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="732" y="225" width="67" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Group_0mrvwks_di" bpmnElement="Group_0mrvwks">
+        <dc:Bounds x="420" y="224" width="160" height="220" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="462" y="231" width="81" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Group_12ph6ud_di" bpmnElement="Group_12ph6ud">
+        <dc:Bounds x="190" y="237" width="140" height="205" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="227" y="244" width="67" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
