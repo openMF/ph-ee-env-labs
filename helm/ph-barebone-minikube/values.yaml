@@ -3,19 +3,19 @@ ph-ee-engine:
     global:
       elasticsearch:
         host: "ph-ee-elasticsearch"
-#    zeebe:
-#      javaOpts: "-Xms2g -Xmx2g -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:MaxRAMPercentage=25.0 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -XX:+PrintFlagsFinal"
+  zeebe:
+    javaOpts: "-Xms2g -Xmx2g -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:MaxRAMPercentage=25.0 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -XX:+PrintFlagsFinal"
     elasticsearch:
       enabled: false
 
   elasticsearch:
-    enabled: false
+    enabled: true
     replicas: 1
 #    imageTag: 7.13.2
     minimumMasterNodes: 1
 
     #Single Node Solution
-    clusterHealthCheckParams: "wait_for_status=yellow&timeout=100s"
+    clusterHealthCheckParams: "wait_for_status=yellow&timeout=200s"
 
     # Shrink default JVM heap.
     esJavaOpts: "-Xmx512m -Xms512m"
@@ -34,6 +34,8 @@ ph-ee-engine:
         requests:
           storage: 10Gi
 
+
+
   kibana:
     enabled: false
     imageTag: 7.13.2
@@ -49,7 +51,7 @@ ph-ee-engine:
 
 
   ph_ee_connector_ams_mifos:
-    enabled: false
+    enabled: true
     SPRING_PROFILES_ACTIVE: "fin12,bb"
     ingress:
       enabled: false
@@ -64,17 +66,25 @@ ph-ee-engine:
     redis:
       idempotency:
         enabled: false
-    enabled: false
-    SPRING_PROFILES_ACTIVE: "bb"
+    enabled: true
+    SPRING_PROFILES_ACTIVE: "bb,tenants"
     ingress:
       enabled: false
     resources:
       limits:
         memory: "256M"
-        cpu: "100m"
+        cpu: "500m"
       requests:
         memory: "128M"
         cpu: "100m"
+    terminationGracePeriod: 300
+    livenessProbe:
+      periodSeconds: 180
+    readinessProbe:
+      periodSeconds: 180
+
+  connector_bulk:
+    enabled: true
 
   operations_app:
     enabled: true
@@ -88,6 +98,11 @@ ph-ee-engine:
       requests:
         memory: "128M"
         cpu: "100m"
+    terminationGracePeriod: 300
+    livenessProbe:
+      periodSeconds: 180
+    readinessProbe:
+      periodSeconds: 180
 
 
   mpesa:
@@ -121,7 +136,7 @@ ph-ee-engine:
         GRANT ALL PRIVILEGES ON `voucher_management`.* TO 'mifos';
 
   kafka:
-    enabled: false
+    enabled: true
     image: "spotify/kafka"
     advertised:
       host: "kafka"
@@ -145,19 +160,38 @@ ph-ee-engine:
 
 
   importer_rdbms:
-    enabled: false
+    enabled: true
+    image: docker.io/openmf/ph-ee-importer-rdbms:latest
+    terminationGracePeriod: 300
+    livenessProbe:
+      periodSeconds: 180
+    readinessProbe:
+      periodSeconds: 180
 
   importer_es:
     image: docker.io/openmf/ph-ee-importer-es:latest
-    enabled: false
+    enabled: true
+    terminationGracePeriod: 300
+    livenessProbe:
+      periodSeconds: 180
+    readinessProbe:
+      periodSeconds: 180
 
   mockpayment:
-    enabled: false
+    enabled: true
     ingress:
       enabled: false
+#    resources:
+#      limits:
+#        memory: "512M"
+#        cpu: "500m"
+#      requests:
+#        memory: "256M"
+#        cpu: "100m"
+#    terminationGracePeriod: 240
 
   zeebe_ops:
-    enabled: false
+    enabled: true
     tenants: "rhino,gorilla"
     resources:
       limits:
@@ -166,3 +200,8 @@ ph-ee-engine:
       requests:
         memory: "256M"
         cpu: "100m"
+    terminationGracePeriod: 300
+    livenessProbe:
+      periodSeconds: 180
+    readinessProbe:
+      periodSeconds: 180
