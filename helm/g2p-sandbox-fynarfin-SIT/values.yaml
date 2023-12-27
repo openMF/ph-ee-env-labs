@@ -387,7 +387,7 @@ ph-ee-g2psandbox:
       tls:
         - secretName: sandbox-secret
       hosts:
-        - host: identity-mapper.sandbox.fynarfin.io
+        - host:  identity-mapper.sandbox.fynarfin.io
           paths:
             - path: "/"
               backend:
