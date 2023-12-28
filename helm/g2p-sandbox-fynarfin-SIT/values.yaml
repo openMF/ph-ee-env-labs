@@ -312,6 +312,39 @@ ph-ee-g2psandbox:
                     port:
                       number: 8080
 
+    billPay:
+      enabled: true
+      image: docker.io/openmf/ph-ee-bill-pay:latest
+      ingress:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: nginx
+        hosts:
+          - host: bill-pay.sandbox.fynarfin.io
+            paths:
+              - path: "/"
+                backend:
+                  service:
+                    name: "ph-ee-connector-bill-pay"
+                    port:
+                      number: 8080
+    crm:
+      enabled: true
+      image: docker.io/openmf/ph-ee-connector-crm:latest
+      ingress:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: nginx
+        hosts:
+          - host: connector-crm.sandbox.fynarfin.io
+            paths:
+              - path: "/"
+                backend:
+                  service:
+                    name: "ph-ee-connector-crm"
+                    port:
+                      number: 8080
+
     wildcardhostname: "*.sandbox.fynarfin.io"
     tls: ""
 
@@ -395,4 +428,3 @@ ph-ee-g2psandbox:
                   name: "ph-ee-identity-account-mapper"
                   port:
                     number: 80
-
