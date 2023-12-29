@@ -315,9 +315,9 @@ ph-ee-g2psandbox:
     billPay:
       enabled: true
       image: docker.io/openmf/ph-ee-bill-pay:latest
-      ph_ee_bill_pay:
+      billpay:
         contactpoint: "https://bill-pay.sandbox.fynarfin.io"
-      ph_ee_connector:
+      connector:
         contactpoint: "https://connector.sandbox.fynarfin.io"
       ingress:
         enabled: true
