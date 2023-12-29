@@ -431,7 +431,7 @@ ph-ee-g2psandbox:
                   
     connector:
       enabled: true
-      image: docker.io/openmf/ph-ee-connector:latest
+      image: docker.io/openmf/ph-ee-connector-bulk:latest
       deployment:
         annotations:
           rollme: "{{ randAlphaNum 5 | quote }}"
