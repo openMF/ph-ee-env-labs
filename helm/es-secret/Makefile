@@ -30,4 +30,4 @@ secrets:
 	kubectl create secret generic elastic-certificate-pem --namespace=$(NAMESPACE) --from-file=elastic-certificate.pem && \
 	kubectl create secret generic elastic-certificate-crt --namespace=$(NAMESPACE)  --from-file=elastic-certificate.crt && \
 	kubectl create secret generic elastic-credentials --namespace=$(NAMESPACE) --from-literal=password=$$password --from-literal=username=elastic && \
-	rm -f elastic-certificates.p12 elastic-certificate.pem elastic-certificate.crt elastic-stack-ca.p12	
+	rm -f elastic-certificates.p12 elastic-certificate.pem elastic-certificate.crt elastic-stack-ca.p12
