@@ -315,6 +315,10 @@ ph-ee-g2psandbox:
     billPay:
       enabled: true
       image: docker.io/openmf/ph-ee-bill-pay:latest
+      billpay:
+        contactpoint: "https://bill-pay.sandbox.fynarfin.io"
+      connector:
+        contactpoint: "https://connector.sandbox.fynarfin.io"
       ingress:
         enabled: true
         annotations:
@@ -405,6 +409,28 @@ ph-ee-g2psandbox:
                     name: "ph-ee-vouchers"
                     port:
                       number: 80
+      
+    connector:
+      enabled: true
+      image: docker.io/openmf/ph-ee-connector-bulk:latest
+      deployment:
+        annotations:
+          rollme: "{{ randAlphaNum 5 | quote }}"
+      ingress:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: nginx
+        tls:
+          - secretName: sandbox-secret
+        hosts:
+          - host: connector.sandbox.fynarfin.io
+            paths:
+              - path: "/"
+                backend:
+                  service:
+                    name: "ph-ee-connector"
+                    port:
+                      number: 80
 
 
   account_mapper:
@@ -428,3 +454,6 @@ ph-ee-g2psandbox:
                   name: "ph-ee-identity-account-mapper"
                   port:
                     number: 80
+                  
+
+
