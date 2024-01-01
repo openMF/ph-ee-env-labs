@@ -17,4 +17,4 @@ ph-ee-g2psandbox.ph-ee-engine.ph_ee_connector_slcb.image docker.io/openmf/ph-ee-
 ph-ee-g2psandbox.ph-ee-engine.mpesa.image openmf/ph-ee-connector-mpesa
 ph-ee-g2psandbox.ph-ee-engine.crm.image openmf/ph-ee-connector-crm
 ph-ee-g2psandbox.ph-ee-engine.billPay.image openmf/ph-ee-bill-pay
-ph-ee-g2psandbox.ph-ee-engine.connector.image openmf/ph-ee-connector
+ph-ee-g2psandbox.ph-ee-engine.connector.image openmf/ph-ee-connector-bulk
