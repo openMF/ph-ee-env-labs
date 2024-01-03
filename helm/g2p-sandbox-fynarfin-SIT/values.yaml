@@ -349,7 +349,7 @@ ph-ee-g2psandbox:
     tls: ""
 
     job: 
-      enabled: false
+      enabled: true
 
     keycloak:
       enabled: false
