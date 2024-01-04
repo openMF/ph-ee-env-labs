@@ -226,10 +226,6 @@ ph-ee-g2psandbox:
       deployment:
         annotations:
           rollme: "{{ randAlphaNum 5 | quote }}"
-      aws:
-        region: "ap-south-1"
-        access_key: "aws-access-key"
-        secret_key: "aws-secret-key"
       operations_app:
         contactpoint: "https://ops-bk.sandbox.fynarfin.io/"
         endpoints:
@@ -409,7 +405,6 @@ ph-ee-g2psandbox:
                     name: "ph-ee-vouchers"
                     port:
                       number: 80
-      
     connector:
       enabled: true
       image: docker.io/openmf/ph-ee-connector-bulk:latest
@@ -431,8 +426,15 @@ ph-ee-g2psandbox:
                     name: "ph-ee-connector"
                     port:
                       number: 80
-
-
+    minio:
+      enabled: true
+      consoleIngress:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: "nginx"
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+        hosts:
+          - minio-console.sandbox.fynarfin.io
   account_mapper:
     enabled: true
     image: docker.io/openmf/ph-ee-identity-account-mapper:latest

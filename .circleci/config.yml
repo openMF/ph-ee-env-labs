@@ -94,13 +94,6 @@ jobs:
           cd helm/es-secret/
           make secrets || echo "elastic-certificates" already exists
 
-      - run: |
-          export ENV_NAMESPACE=paymenthub
-          kubectl delete secret bulk-processor-secret -n $ENV_NAMESPACE || echo "delete the secret if exist"
-          kubectl create secret generic bulk-processor-secret \
-          --from-literal=aws-access-key="$S3_ACCESS_KEY_ID" \
-          --from-literal=aws-secret-key="$S3_SECRET_ACCESS_KEY" -n $ENV_NAMESPACE
-
   host-g2-sandbox-security-fynarfin-chart:
     docker:
       - image: cimg/python:3.10
