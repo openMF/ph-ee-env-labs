@@ -348,7 +348,7 @@ ph-ee-g2psandbox:
     wildcardhostname: "*.sandbox.fynarfin.io"
     tls: ""
 
-    job: 
+    job:
       enabled: true
 
     keycloak:
