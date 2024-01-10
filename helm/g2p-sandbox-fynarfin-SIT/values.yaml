@@ -348,6 +348,9 @@ ph-ee-g2psandbox:
     wildcardhostname: "*.sandbox.fynarfin.io"
     tls: ""
 
+    post_installation_job: 
+      enabled: true
+
     keycloak:
       enabled: false
       ingress:

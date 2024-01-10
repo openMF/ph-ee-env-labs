@@ -69,31 +69,6 @@ jobs:
           aws-region: "$REGION"
           service-file-path: https://raw.githubusercontent.com/openMF/ph-ee-env-labs/master/.circleci/services.txt
 
-  create-secret-paymenthub-namespace:
-    docker:
-      - image: cimg/base:2022.06
-    steps:
-      - setup_remote_docker:
-            version: 20.10.14
-      - kubernetes/install-kubectl
-      - checkout
-      - aws-eks/update-kubeconfig-with-authenticator:
-          cluster-name: "sit"
-          aws-region: "$REGION"
-      - run: |
-          export ENV_NAMESPACE=paymenthub
-          kubectl config use-context arn:aws:eks:$REGION:419830066942:cluster/sit
-          kubectl config get-contexts
-          cd helm/kibana-secret/
-          make secrets || echo "kibana" already exists
-
-      - run: |
-          export ENV_NAMESPACE=paymenthub
-          kubectl config use-context arn:aws:eks:$REGION:419830066942:cluster/sit
-          kubectl config get-contexts
-          cd helm/es-secret/
-          make secrets || echo "elastic-certificates" already exists
-
   host-g2-sandbox-security-fynarfin-chart:
     docker:
       - image: cimg/python:3.10
@@ -235,15 +210,6 @@ jobs:
           aws-region: "$REGION"
           service-file-path: https://raw.githubusercontent.com/openMF/ph-ee-env-labs/master/.circleci/services.txt
 
-  deploying-bpmns:
-    docker:
-      - image: 'curlimages/curl:8.1.2' 
-    steps:
-      - checkout
-      - run: echo $AWS_PROFILE
-      - run: echo $AWS_DEFAULT_PROFILE
-      - run: sh orchestration/deployBpmn.sh
-
   test-chart-gov:
     docker:
       - image: cimg/openjdk:17.0.0
@@ -283,31 +249,14 @@ workflows:
           context:
             - AWS
             - Helm
-            - slack
-            - Secrets        
-      - create-secret-paymenthub-namespace:
-          requires: 
-            - upgrade-g2psandbox-helm-chart
-          context: 
-            - AWS
-            - Helm
-            - slack
-            - Secrets  
+            - slack      
       - upgrade-g2psandbox-security-helm-chart:
           requires:
             - host-g2-sandbox-security-fynarfin-chart
           context:
             - AWS
             - Helm
-            - slack
-            - Secrets 
-      - deploying-bpmns:
-          requires:
-            - upgrade-g2psandbox-helm-chart
-          context: 
-            - AWS
-            - Helm
-            - slack
+            - slack 
       - host-dpga-compliance-barebone-chart:
           context:
             - AWS
@@ -320,7 +269,6 @@ workflows:
             - AWS
             - Helm
             - slack
-            - Secrets
       # - install-helm-chart:
       #     cluster-name: sit
       # - delete-helm-release:
