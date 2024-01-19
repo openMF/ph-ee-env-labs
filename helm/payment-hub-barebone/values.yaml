@@ -54,7 +54,7 @@ ph-ee-engine:
   channel:
     enabled: true
     SPRING_PROFILES_ACTIVE: "bb"
-    imageTag: latest
+    image: docker.io/openmf/ph-ee-connector-channel:latest
     redis:
       idempotency:
         enabled: false

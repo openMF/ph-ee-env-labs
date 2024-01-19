@@ -3,8 +3,8 @@ ph-ee-engine:
     global:
       elasticsearch:
         host: "ph-ee-elasticsearch"
-#    zeebe:
-#      javaOpts: "-Xms2g -Xmx2g -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:MaxRAMPercentage=25.0 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -XX:+PrintFlagsFinal"
+  zeebe:
+    javaOpts: "-Xms2g -Xmx2g -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:MaxRAMPercentage=25.0 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -XX:+PrintFlagsFinal"
     elasticsearch:
       enabled: false
 
@@ -15,7 +15,7 @@ ph-ee-engine:
     minimumMasterNodes: 1
 
     #Single Node Solution
-    clusterHealthCheckParams: "wait_for_status=yellow&timeout=100s" 
+    clusterHealthCheckParams: "wait_for_status=yellow&timeout=200s"
 
     # Shrink default JVM heap.
     esJavaOpts: "-Xmx512m -Xms512m"
@@ -30,13 +30,14 @@ ph-ee-engine:
         memory: "1024M"
     volumeClaimTemplate:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: "standard"
       resources:
         requests:
           storage: 10Gi
 
+
+
   kibana:
-    enabled: true
+    enabled: false
     imageTag: 7.13.2
     ingress:
       enabled: false
@@ -50,6 +51,7 @@ ph-ee-engine:
 
 
   ph_ee_connector_ams_mifos:
+    enabled: true
     SPRING_PROFILES_ACTIVE: "fin12,bb"
     ingress:
       enabled: false
@@ -60,15 +62,48 @@ ph-ee-engine:
       enabled: false
 
   channel:
+    image: docker.io/openmf/ph-ee-connector-channel:latest
+    redis:
+      idempotency:
+        enabled: false
+    enabled: true
+    SPRING_PROFILES_ACTIVE: "bb,tenants"
+    ingress:
+      enabled: false
+    resources:
+      limits:
+        memory: "256M"
+        cpu: "500m"
+      requests:
+        memory: "128M"
+        cpu: "100m"
+    terminationGracePeriod: 300
+    livenessProbe:
+      periodSeconds: 180
+    readinessProbe:
+      periodSeconds: 180
+
+  connector_bulk:
+    enabled: true
+
+  operations_app:
     enabled: true
     SPRING_PROFILES_ACTIVE: "bb"
     ingress:
       enabled: false
+    resources:
+      limits:
+        memory: "512M"
+        cpu: "500m"
+      requests:
+        memory: "128M"
+        cpu: "100m"
+    terminationGracePeriod: 300
+    livenessProbe:
+      periodSeconds: 180
+    readinessProbe:
+      periodSeconds: 180
 
-  operations_app:
-    SPRING_PROFILES_ACTIVE: "bb"
-    ingress:
-      enabled: false
 
   mpesa:
     enabled: false
@@ -124,10 +159,49 @@ ph-ee-engine:
     enabled: false
 
 
-  importer_es:
+  importer_rdbms:
     enabled: true
+    image: docker.io/openmf/ph-ee-importer-rdbms:latest
+    terminationGracePeriod: 300
+    livenessProbe:
+      periodSeconds: 180
+    readinessProbe:
+      periodSeconds: 180
+
+  importer_es:
+    image: docker.io/openmf/ph-ee-importer-es:latest
+    enabled: true
+    terminationGracePeriod: 300
+    livenessProbe:
+      periodSeconds: 180
+    readinessProbe:
+      periodSeconds: 180
 
   mockpayment:
     enabled: true
     ingress:
-      enabled: fasle
+      enabled: false
+#    resources:
+#      limits:
+#        memory: "512M"
+#        cpu: "500m"
+#      requests:
+#        memory: "256M"
+#        cpu: "100m"
+#    terminationGracePeriod: 240
+
+  zeebe_ops:
+    enabled: true
+    tenants: "rhino,gorilla"
+    resources:
+      limits:
+        memory: "512M"
+        cpu: "500m"
+      requests:
+        memory: "256M"
+        cpu: "100m"
+    terminationGracePeriod: 300
+    livenessProbe:
+      periodSeconds: 180
+    readinessProbe:
+      periodSeconds: 180
