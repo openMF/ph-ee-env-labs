@@ -114,8 +114,6 @@ ph-ee-g2psandbox:
     channel:
       enabled: true
       image: docker.io/openmf/ph-ee-connector-channel:latest
-      operations:
-        url: "http://ops-bk.sandbox.fynarfin.io/api/v1"
       server:
         ssl:
           keyPassword: "password"
