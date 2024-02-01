@@ -182,9 +182,9 @@ ph-ee-g2psandbox:
                   port:
                     number: 4200
       backend:
-        PH_OPS_BACKEND_SERVER_URL: http://ops-bk.sandbox.fynarfin.io/api/v1
-        PH_VOU_BACKEND_SERVER_URL: https://ops-bk.sandbox.fynarfin.io/api/v1
-        PH_ACT_BACKEND_SERVER_URL: https://ops-bk.sandbox.fynarfin.io/api/v1
+        PH_OPS_BACKEND_SERVER_URL: https://ops-bk.sandbox.fynarfin.io/api/v1
+        PH_VOU_BACKEND_SERVER_URL: https://vouchers.sandbox.fynarfin.io
+        PH_ACT_BACKEND_SERVER_URL: https://identity-mapper.sandbox.fynarfin.io
         PH_PLATFORM_TENANT_ID: gorilla
         PH_PLATFORM_TENANT_IDS: gorilla
         PH_REGISTERING_INSTITUTION_ID: 123
