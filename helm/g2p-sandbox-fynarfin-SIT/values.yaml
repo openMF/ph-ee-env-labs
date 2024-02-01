@@ -180,7 +180,26 @@ ph-ee-g2psandbox:
                 service:
                   name: "ph-ee-operations-web"
                   port:
-                    number: 4200            
+                    number: 4200
+      backend:
+        PH_OPS_BACKEND_SERVER_URL: https://ops-bk.sandbox.fynarfin.io/api/v1
+        PH_VOU_BACKEND_SERVER_URL: https://vouchers.sandbox.fynarfin.io
+        PH_ACT_BACKEND_SERVER_URL: https://identity-mapper.sandbox.fynarfin.io
+        PH_PLATFORM_TENANT_ID: gorilla
+        PH_PLATFORM_TENANT_IDS: gorilla
+        PH_REGISTERING_INSTITUTION_ID: 123
+      auth:
+        PH_AUTH_ENABLED: false
+        PH_OAUTH_ENABLED: false
+        PH_OAUTH_TYPE: keycloak
+        PH_OAUTH_SERVER_URL: http://keycloak.sandbox.fynarfin.io/auth
+        PH_OAUTH_REALM: paymenthub
+        PH_OAUTH_CLIENT_ID: opsapp
+        PH_OAUTH_CLIENT_SECRET: Y2xpZW50Og==
+        PH_OAUTH_BASIC_AUTH: true
+        PH_OAUTH_BASIC_AUTH_TOKEN: Y2xpZW50Og==
+      PH_DEFAULT_LANGUAGE: en
+      PH_SUPPORTED_LANGUAGES: en,fr,es
 
     ph_ee_connector_gsma:
       enabled: true
