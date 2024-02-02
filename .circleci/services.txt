@@ -18,3 +18,4 @@ ph-ee-g2psandbox.ph-ee-engine.mpesa.image openmf/ph-ee-connector-mpesa
 ph-ee-g2psandbox.ph-ee-engine.crm.image openmf/ph-ee-connector-crm
 ph-ee-g2psandbox.ph-ee-engine.billPay.image openmf/ph-ee-bill-pay
 ph-ee-g2psandbox.ph-ee-engine.connector.image openmf/ph-ee-connector-bulk
+ph-ee-g2psandbox.ph-ee-engine.integration_test.image /openmf/ph-ee-integration-test
