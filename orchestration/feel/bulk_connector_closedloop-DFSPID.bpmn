@@ -15,7 +15,7 @@
     <bpmn:sequenceFlow id="Flow_0bptiw6" name="Batch Summary Complete" sourceRef="Gateway_1c15u60" targetRef="batchDetails">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">= batchSummarySuccess = true</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:exclusiveGateway id="Gateway_15mjxzp" name="Batch Detail Status Gateway">
+    <bpmn:exclusiveGateway id="Gateway_15mjxzp" name="Batch Detail Status Gateway" default="Flow_02silk7">
       <bpmn:incoming>Flow_19jf63d</bpmn:incoming>
       <bpmn:outgoing>Flow_0tp63bk</bpmn:outgoing>
       <bpmn:outgoing>Flow_02silk7</bpmn:outgoing>
@@ -41,7 +41,6 @@
         <zeebe:taskDefinition type="batchDetails" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0bptiw6</bpmn:incoming>
-      <bpmn:incoming>Flow_02silk7</bpmn:incoming>
       <bpmn:outgoing>Flow_19jf63d</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:endEvent id="Event_0fvyohg" name="Reconciliation Successfull">
@@ -52,6 +51,7 @@
     </bpmn:sequenceFlow>
     <bpmn:endEvent id="Event_0x0pgi7" name="Batch Status Failed">
       <bpmn:incoming>Flow_0wr743r</bpmn:incoming>
+      <bpmn:incoming>Flow_02silk7</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:intermediateCatchEvent id="Event_1u4dcce" name="Wait Timer">
       <bpmn:incoming>Flow_0y0aw9b</bpmn:incoming>
@@ -75,12 +75,28 @@
     <bpmn:sequenceFlow id="Flow_0y0aw9b" sourceRef="Gateway_131meoa" targetRef="Event_1u4dcce">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">= currentRetryCount &lt;= maxRetryCount</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_02silk7" sourceRef="Gateway_15mjxzp" targetRef="batchDetails">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">= batchDetailSuccess = true</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_02silk7" sourceRef="Gateway_15mjxzp" targetRef="Event_0x0pgi7" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="bulk_connector_closedloop-DFSPID">
+      <bpmndi:BPMNEdge id="Flow_02silk7_di" bpmnElement="Flow_02silk7">
+        <di:waypoint x="1000" y="275" />
+        <di:waypoint x="1000" y="190" />
+        <di:waypoint x="1200" y="190" />
+        <di:waypoint x="1200" y="138" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0y0aw9b_di" bpmnElement="Flow_0y0aw9b">
+        <di:waypoint x="615" y="120" />
+        <di:waypoint x="498" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1r2y00f_di" bpmnElement="Flow_1r2y00f">
+        <di:waypoint x="640" y="275" />
+        <di:waypoint x="640" y="145" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0wr743r_di" bpmnElement="Flow_0wr743r">
+        <di:waypoint x="665" y="120" />
+        <di:waypoint x="1182" y="120" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0ok3dms_di" bpmnElement="Flow_0ok3dms">
         <di:waypoint x="480" y="138" />
         <di:waypoint x="480" y="260" />
@@ -115,24 +131,6 @@
         <di:waypoint x="188" y="300" />
         <di:waypoint x="250" y="300" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0wr743r_di" bpmnElement="Flow_0wr743r">
-        <di:waypoint x="665" y="120" />
-        <di:waypoint x="1182" y="120" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1r2y00f_di" bpmnElement="Flow_1r2y00f">
-        <di:waypoint x="640" y="275" />
-        <di:waypoint x="640" y="145" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0y0aw9b_di" bpmnElement="Flow_0y0aw9b">
-        <di:waypoint x="615" y="120" />
-        <di:waypoint x="498" y="120" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_02silk7_di" bpmnElement="Flow_02silk7">
-        <di:waypoint x="1000" y="275" />
-        <di:waypoint x="1000" y="190" />
-        <di:waypoint x="830" y="190" />
-        <di:waypoint x="830" y="260" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
         <dc:Bounds x="152" y="282" width="36" height="36" />
       </bpmndi:BPMNShape>
@@ -166,7 +164,7 @@
       <bpmndi:BPMNShape id="Event_0x0pgi7_di" bpmnElement="Event_0x0pgi7" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
         <dc:Bounds x="1182" y="102" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1169" y="145" width="63" height="27" />
+          <dc:Bounds x="1168" y="64.5" width="63" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1u4dcce_di" bpmnElement="Event_1u4dcce">
