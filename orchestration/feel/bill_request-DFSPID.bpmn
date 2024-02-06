@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1uy0umc" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Zeebe Modeler" exporterVersion="0.11.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.19.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1uy0umc" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Zeebe Modeler" exporterVersion="0.11.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.19.0">
   <bpmn:process id="bill_request" name="bill_request-DFSPID" isExecutable="true" camunda:historyTimeToLive="180">
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>Flow_18mhs3y</bpmn:outgoing>
@@ -13,12 +13,11 @@
       <bpmn:outgoing>Flow_0nmf60x</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="Flow_0nmf60x" sourceRef="payerRtpRequest" targetRef="payerRtpResponse" />
-    <bpmn:sequenceFlow id="Flow_1jl9gd4" sourceRef="payerRtpResponse" targetRef="billerRtpResponse" />
     <bpmn:serviceTask id="billerRtpResponse" name="Bill RTP Response">
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="billerRtpResponse" />
       </bpmn:extensionElements>
-      <bpmn:incoming>Flow_1jl9gd4</bpmn:incoming>
+      <bpmn:incoming>Flow_0own4p9</bpmn:incoming>
       <bpmn:outgoing>Flow_01bodrz</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="Flow_01bodrz" sourceRef="billerRtpResponse" targetRef="Event_0bwq9cj" />
@@ -30,8 +29,29 @@
         <zeebe:taskDefinition type="payerRtpResponse" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0nmf60x</bpmn:incoming>
-      <bpmn:outgoing>Flow_1jl9gd4</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1bkzw6r</bpmn:outgoing>
     </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_1keuf56" default="Flow_0oxlbkd">
+      <bpmn:incoming>Flow_1bkzw6r</bpmn:incoming>
+      <bpmn:outgoing>Flow_0own4p9</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0oxlbkd</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_1bkzw6r" sourceRef="payerRtpResponse" targetRef="Gateway_1keuf56" />
+    <bpmn:sequenceFlow id="Flow_0own4p9" sourceRef="Gateway_1keuf56" targetRef="billerRtpResponse">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">= payerRtpRequestSuccess = true</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:serviceTask id="Activity_1synvgz" name="Send Error">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="sendError" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0oxlbkd</bpmn:incoming>
+      <bpmn:outgoing>Flow_1uwblh4</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Event_0attztk">
+      <bpmn:incoming>Flow_1uwblh4</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1uwblh4" sourceRef="Activity_1synvgz" targetRef="Event_0attztk" />
+    <bpmn:sequenceFlow id="Flow_0oxlbkd" sourceRef="Gateway_1keuf56" targetRef="Activity_1synvgz" />
   </bpmn:process>
   <bpmn:message id="Message_0x6ko1v" name="payerRtpResponse">
     <bpmn:extensionElements>
@@ -44,10 +64,6 @@
         <di:waypoint x="960" y="120" />
         <di:waypoint x="1192" y="120" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1jl9gd4_di" bpmnElement="Flow_1jl9gd4">
-        <di:waypoint x="680" y="120" />
-        <di:waypoint x="860" y="120" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0nmf60x_di" bpmnElement="Flow_0nmf60x">
         <di:waypoint x="520" y="120" />
         <di:waypoint x="580" y="120" />
@@ -56,6 +72,23 @@
         <di:waypoint x="208" y="120" />
         <di:waypoint x="420" y="120" />
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1bkzw6r_di" bpmnElement="Flow_1bkzw6r">
+        <di:waypoint x="680" y="120" />
+        <di:waypoint x="735" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0own4p9_di" bpmnElement="Flow_0own4p9">
+        <di:waypoint x="785" y="120" />
+        <di:waypoint x="860" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1uwblh4_di" bpmnElement="Flow_1uwblh4">
+        <di:waypoint x="960" y="290" />
+        <di:waypoint x="1192" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0oxlbkd_di" bpmnElement="Flow_0oxlbkd">
+        <di:waypoint x="760" y="145" />
+        <di:waypoint x="760" y="290" />
+        <di:waypoint x="860" y="290" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
         <dc:Bounds x="172" y="102" width="36" height="36" />
       </bpmndi:BPMNShape>
@@ -63,14 +96,23 @@
         <dc:Bounds x="420" y="80" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0bwq9cj_di" bpmnElement="Event_0bwq9cj" bioc:stroke="#831311" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#831311">
-        <dc:Bounds x="1192" y="102" width="36" height="36" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1s8axbd_di" bpmnElement="billerRtpResponse" bioc:stroke="#0d4372" bioc:fill="#bbdefb" color:background-color="#bbdefb" color:border-color="#0d4372">
         <dc:Bounds x="860" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0bwq9cj_di" bpmnElement="Event_0bwq9cj" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)" color:background-color="#ffcdd2" color:border-color="#831311">
+        <dc:Bounds x="1192" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1a6epde_di" bpmnElement="payerRtpResponse" bioc:stroke="#6b3c00" bioc:fill="#ffe0b2">
         <dc:Bounds x="580" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1keuf56_di" bpmnElement="Gateway_1keuf56" isMarkerVisible="true">
+        <dc:Bounds x="735" y="95" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1synvgz_di" bpmnElement="Activity_1synvgz" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <dc:Bounds x="860" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0attztk_di" bpmnElement="Event_0attztk" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
+        <dc:Bounds x="1192" y="272" width="36" height="36" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
