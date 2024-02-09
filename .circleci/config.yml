@@ -58,7 +58,7 @@ jobs:
       TERM: dumb
     steps:
       - mifos-orb/docker-image-availability-check-and-upgrade:
-          namespace: paymenthub
+          namespace: paymenthub-demo
           chart-base-url: https://fynarfin.io/images
           chart-name: ph-ee-g2psandbox-fynarfin
           chart-version: 0.2.0
