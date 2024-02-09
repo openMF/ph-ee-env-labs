@@ -85,7 +85,7 @@ ph-ee-g2psandbox:
           - name: parties_0_domain
             value: "https://fynams.sandbox.fynarfin.io/"
           - name: parties_1_domain
-            value: "mojaloop.sandbox.fynarfin.io"
+            value: "mojaloop-demo.sandbox.fynarfin.io"
           - name: parties_0_tenantId
             value: "gorilla"
           - name: parties_1_tenantId
