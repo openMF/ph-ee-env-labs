@@ -336,7 +336,7 @@ jobs:
           cd helm/es-secret/
           make secrets || echo "elastic-certificates" already exists  
 
-  create-tls-secret-paymenthub-namespace:
+  create-tls-secret-paymenthub-demo-namespace:
     docker:
       - image: 'cimg/base:2022.06'
     environment:
