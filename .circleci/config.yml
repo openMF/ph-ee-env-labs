@@ -302,6 +302,7 @@ jobs:
           #until nc -vz https://zeebeops-demo.sandbox.fynarfin.io 443; do echo "Waiting for zeebe-ops service"; sleep 2; done;
       - run: |
           cd ph-ee-env-labs
+          sed -i 's/zeebeops/zeebeops-demo/g' orchestration/deployBpmn.sh
           sh orchestration/deployBpmn.sh
 
   create-secret-paymenthub-demo-namespace:
