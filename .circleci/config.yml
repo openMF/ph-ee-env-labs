@@ -271,6 +271,8 @@ jobs:
           if ! kubectl get ns paymenthub-demo > /dev/null 2>&1; then
               kubectl create namespace paymenthub-demo
           fi
+      - run: "kubectl delete clusterroles `kubectl get clusterroles |grep c-role|cut -d ' ' -f1` || echo ' ' "
+      - run: "kubectl delete clusterrolebinding `kubectl get clusterrolebinding |grep c-role|cut -d ' ' -f1` || echo ' ' "
       - mifos-orb/docker-image-availability-check-and-upgrade:
           namespace: paymenthub-demo
           chart-base-url: https://fynarfin.io/images
@@ -378,33 +380,33 @@ jobs:
 workflows:
   deploy:
     jobs:
-      #- build:
-      #    context:
-      #      - AWS
-      #      - Helm
-      #      - slack
-      #- host-g2-sandbox-security-fynarfin-chart:
-      #    requires:
-      #      - build
-      #    context:
-      #      - AWS
-      #      - Helm
-      #      - slack
-      #- upgrade-g2psandbox-helm-chart:
-      #    requires:
-      #      - build
-      #      - upgrade-g2psandbox-security-helm-chart
-      #    context:
-      #      - AWS
-      #      - Helm
-      #      - slack
-      #- upgrade-g2psandbox-security-helm-chart:
-      #    requires:
-      #      - host-g2-sandbox-security-fynarfin-chart
-      #    context:
-      #      - AWS
-      #      - Helm
-      #      - slack
+      - build:
+          context:
+            - AWS
+            - Helm
+            - slack
+      - host-g2-sandbox-security-fynarfin-chart:
+          requires:
+            - build
+          context:
+            - AWS
+            - Helm
+            - slack
+      - upgrade-g2psandbox-helm-chart:
+          requires:
+            - build
+            - upgrade-g2psandbox-security-helm-chart
+          context:
+            - AWS
+            - Helm
+            - slack
+      - upgrade-g2psandbox-security-helm-chart:
+          requires:
+            - host-g2-sandbox-security-fynarfin-chart
+          context:
+            - AWS
+            - Helm
+            - slack
       - host-dpga-compliance-barebone-chart:
           context:
             - AWS
