@@ -210,12 +210,162 @@ jobs:
           aws-region: "$REGION"
           service-file-path: https://raw.githubusercontent.com/openMF/ph-ee-env-labs/master/.circleci/services.txt
 
+  host-g2p-sandbox-fynarfin-demo-chart:
+    docker:
+      - image: cimg/python:3.10
+    working_directory: ~/repo
+    environment:
+      TERM: dumb
+    steps:
+      - checkout
+      - run: |
+          if [[ -n $(git show --name-only $CIRCLE_SHA1 | grep "^helm/g2p-sandbox-fynarfin-demo/") ]]; then
+            echo "Directory has changed. Running the job."
+          else
+            echo "Directory has not changed. Skipping the job."
+            circleci step halt
+          fi
+      - run: rm -f helm/g2p-sandbox-fynarfin-demo/Chart.lock helm/g2p-sandbox-fynarfin-demo/charts/*
+      - helm/install-helm-client:
+          version: "v3.8.2"
+      - run:
+          name: host-g2p-sandbox-fynarfin-demo
+          environment:
+            JIRA_STORY: ''
+            JIRA_STORY_DIR: ''
+          command: |
+            if [ "$CIRCLE_BRANCH" != "master" ]; then
+              PR_NUMBER=$(basename $CIRCLE_PULL_REQUEST)
+              PR_TITLE=$(curl -sSL "https://api.github.com/repos/openmf/$CIRCLE_PR_REPONAME/pulls/$PR_NUMBER" | jq -r '.title')
+              JIRA_STORY=-$(echo $PR_TITLE | cut -d "[" -f2 | cut -d "]" -f1 | tr '[A-Z]' '[a-z]')
+              if [ -z "$JIRA_STORY" ]; then echo "Invalid PR title" && exit 1; else echo "Ticket NO: $JIRA_STORY" && JIRA_STORY_DIR=$(echo /jira-story-version); fi
+            fi
+            sed -i "6s/.*/version: 1.0.0$JIRA_STORY/" helm/g2p-sandbox-fynarfin-demo/Chart.yaml
+            cat helm/g2p-sandbox-fynarfin-demo/Chart.yaml
+            helm dep up helm/g2p-sandbox-fynarfin-demo
+            helm package helm/g2p-sandbox-fynarfin-demo
+            helm repo index .
+            echo "$CERT_FILE" | base64 --decode > b64encoded.pem
+            chmod 400 b64encoded.pem
+            ssh -i b64encoded.pem -o StrictHostKeyChecking=No ec2-user@13.233.68.128 sudo mkdir -p /apps/apache-tomcat-7.0.82/webapps/ROOT/images$JIRA_STORY_DIR/ph-ee-g2psandbox-fynarfin-demo$JIRA_STORY
+            scp -o StrictHostKeyChecking=No -i b64encoded.pem index.yaml ph-ee-g2psandbox-fynarfin-demo-1.0.0$JIRA_STORY.tgz ec2-user@13.233.68.128:~/
+            ssh -i b64encoded.pem -o StrictHostKeyChecking=No ec2-user@13.233.68.128 sudo mv -t /apps/apache-tomcat-7.0.82/webapps/ROOT/images$JIRA_STORY_DIR/ph-ee-g2psandbox-fynarfin-demo$JIRA_STORY index.yaml ph-ee-g2psandbox-fynarfin-demo-1.0.0$JIRA_STORY.tgz
+
+  upgrade-g2p-sandbox-fynarfin-demo-chart:
+    docker:
+      - image: cimg/python:3.10
+    steps:
+      - checkout
+      - run: |
+          if [[ -n $(git show --name-only $CIRCLE_SHA1 | grep "^helm/g2p-sandbox-fynarfin-demo/") ]]; then
+            echo "Directory has changed. Running the job."
+          else
+            echo "Directory has not changed. Skipping the job."
+            circleci step halt
+          fi
+      - aws-eks/update-kubeconfig-with-authenticator:
+          cluster-name: "sit"
+          aws-region: "$REGION"
+      - kubernetes/install-kubectl
+      - run: |
+          if ! kubectl get ns paymenthub-demo > /dev/null 2>&1; then
+              kubectl create namespace paymenthub-demo
+          fi
+      - run: "kubectl delete clusterroles `kubectl get clusterroles |grep c-role|cut -d ' ' -f1` || echo ' ' "
+      - run: "kubectl delete clusterrolebinding `kubectl get clusterrolebinding |grep c-role|cut -d ' ' -f1` || echo ' ' "
+      - mifos-orb/docker-image-availability-check-and-upgrade:
+          namespace: paymenthub-demo
+          chart-base-url: https://fynarfin.io/images
+          chart-name: ph-ee-g2psandbox-fynarfin-demo
+          chart-version: 1.0.0
+          release-name: g2p-sandbox-demo
+          cluster-name: "sit"
+          aws-region: "$REGION"
+          service-file-path: https://raw.githubusercontent.com/openMF/ph-ee-env-labs/master/.circleci/services.txt
+
+  deploying-bpmns-demo-namespace:
+    docker:
+      - image: 'cimg/base:2022.06'
+    steps:
+      - checkout
+      - run: |
+          if [[ -n $(git show --name-only $CIRCLE_SHA1 | grep "^helm/g2p-sandbox-fynarfin-demo/") ]]; then
+            echo "Directory has changed. Running the job."
+          else
+            echo "Directory has not changed. Skipping the job."
+            circleci step halt
+          fi
+      - run: git clone https://github.com/openmf/ph-ee-env-labs
+      - run: echo $AWS_PROFILE
+      - run: echo $AWS_DEFAULT_PROFILE
+      - run: |
+          #sleep 5
+          #sudo apt install -y netcat
+          #until nc -vz https://zeebeops-demo.sandbox.fynarfin.io 443; do echo "Waiting for zeebe-ops service"; sleep 2; done;
+      - run: |
+          cd ph-ee-env-labs
+          sed -i 's/zeebeops/zeebeops-demo/g' orchestration/deployBpmn.sh
+          sh orchestration/deployBpmn.sh
+
+  create-secret-paymenthub-demo-namespace:
+    docker:
+      - image: 'cimg/base:2022.06'
+    environment:
+      TERM: dumb
+      NAMESPACE: paymenthub-demo
+    steps:
+      - setup_remote_docker:
+          version: 20.10.14
+      - kubernetes/install-kubectl
+      - run: git clone https://github.com/openmf/ph-ee-env-labs
+      - aws-eks/update-kubeconfig-with-authenticator:
+          cluster-name: "sit"
+          aws-region: "$REGION"
+      - run: |
+          cd ph-ee-env-labs
+          export ENV_NAMESPACE=$NAMESPACE
+          kubectl config use-context arn:aws:eks:$REGION:419830066942:cluster/sit
+          kubectl config get-contexts
+          cd helm/kibana-secret/
+          make secrets || echo "kibana" already exists
+
+      - run: |
+          cd ph-ee-env-labs
+          export ENV_NAMESPACE=$NAMESPACE
+          kubectl config use-context arn:aws:eks:$REGION:419830066942:cluster/sit
+          kubectl config get-contexts
+          cd helm/es-secret/
+          make secrets || echo "elastic-certificates" already exists  
+
+  create-tls-secret-paymenthub-demo-namespace:
+    docker:
+      - image: 'cimg/base:2022.06'
+    environment:
+      TERM: dumb
+      NAMESPACE: paymenthub-demo
+    steps:
+      - setup_remote_docker:
+          version: 20.10.14
+      - kubernetes/install-kubectl
+      - aws-eks/update-kubeconfig-with-authenticator:
+          cluster-name: "sit"
+          aws-region: "$REGION"
+      - run: |
+          echo "$KEY" | tr '#' '\n' > key.pem
+          echo "$SSL_BUNDLE" | tr '#' '\n' > ssl-bundle.crt
+          openssl x509 -in ssl-bundle.crt -text -noout
+          if kubectl get secret fyn-cert --namespace $NAMESPACE &> /dev/null; then
+            echo "Secret fyn-cert already exists. Skipping creation."
+          else
+            kubectl create secret tls fyn-cert --namespace $NAMESPACE --key=key.pem --cert=ssl-bundle.crt -o yaml
+          fi
+
   test-chart-gov:
     docker:
       - image: cimg/openjdk:17.0.0
     steps:
       - run: git clone https://github.com/openmf/ph-ee-integration-test
-      - run: cd ph-ee-integration-test && ./gradlew test -Dcucumber.filter.tags="@gov" 
+      - run: cd ph-ee-integration-test && ./gradlew test -Dcucumber.filter.tags="@gov"
       - store_test_results:
           path: ph-ee-integration-test/build/test-results/test/TEST-org.mifos.integrationtest.TestRunner.xml
   test-chart-ams:
@@ -231,7 +381,7 @@ workflows:
   deploy:
     jobs:
       - build:
-          context: 
+          context:
             - AWS
             - Helm
             - slack
@@ -249,14 +399,14 @@ workflows:
           context:
             - AWS
             - Helm
-            - slack      
+            - slack
       - upgrade-g2psandbox-security-helm-chart:
           requires:
             - host-g2-sandbox-security-fynarfin-chart
           context:
             - AWS
             - Helm
-            - slack 
+            - slack
       - host-dpga-compliance-barebone-chart:
           context:
             - AWS
@@ -269,6 +419,42 @@ workflows:
             - AWS
             - Helm
             - slack
+      - host-g2p-sandbox-fynarfin-demo-chart:
+          context:
+            - AWS
+            - Helm
+            - slack
+      - upgrade-g2p-sandbox-fynarfin-demo-chart:
+          requires:
+            - host-g2p-sandbox-fynarfin-demo-chart
+          context:
+            - AWS
+            - Helm
+            - slack
+      - deploying-bpmns-demo-namespace:
+          requires:
+            - upgrade-g2p-sandbox-fynarfin-demo-chart
+          context:
+            - AWS
+            - Helm
+            - slack
+      - create-secret-paymenthub-demo-namespace:
+          requires:
+            - deploying-bpmns-demo-namespace
+          context:
+            - AWS
+            - Helm
+            - slack
+            - Secrets
+      - create-tls-secret-paymenthub-demo-namespace:
+          requires:
+            - upgrade-g2p-sandbox-fynarfin-demo-chart
+          context:
+            - AWS
+            - Helm
+            - slack
+            - Secrets
+            - TLS
       # - install-helm-chart:
       #     cluster-name: sit
       # - delete-helm-release:
