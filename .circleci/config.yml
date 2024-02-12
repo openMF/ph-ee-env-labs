@@ -447,6 +447,8 @@ workflows:
             - slack
             - Secrets
       - create-tls-secret-paymenthub-demo-namespace:
+          requires:
+            - upgrade-g2p-sandbox-fynarfin-demo-chart
           context:
             - AWS
             - Helm
