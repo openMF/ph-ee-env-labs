@@ -7,13 +7,6 @@ deploy(){
     echo $cmd
     eval $cmd 
     #If curl response is not 200 it should fail the eval cmd
-    
-    cmd="curl --insecure --location --request POST $HOST \
-    --header 'Platform-TenantId: rhino' \
-    --form 'file=@\"$PWD/$1\"'"
-    echo $cmd
-    eval $cmd
-    #If curl response is not 200 it should fail the eval cmd
 }
 
 LOC=orchestration/feel/*.bpmn
