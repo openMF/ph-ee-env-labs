@@ -12,7 +12,10 @@ ph-ee-g2psandbox:
     zeebe-operate-helm:
       ingress:
         enabled: true 
-        host: operate.sandbox.fynarfin.io 
+        host: operate.sandbox.fynarfin.io
+
+    global:
+      DFSPIDS: "gorilla,rhino,wakanda,pluto,venus,jupiter"
       
     kibana:
       ingress:
