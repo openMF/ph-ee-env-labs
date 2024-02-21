@@ -90,9 +90,9 @@ ph-ee-g2psandbox:
           - name: parties_1_domain
             value: "mojaloop.sandbox.fynarfin.io"
           - name: parties_0_tenantId
-            value: "gorilla"
+            value: "wakanda"
           - name: parties_1_tenantId
-            value: "lion"
+            value: "jupiter"
           - name: parties_0_fspId
             value: "payerfsp"
           - name: parties_1_fspId
