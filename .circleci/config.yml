@@ -303,8 +303,9 @@ jobs:
       - run: 
           name: Check for zeebe-ops service
           command: |
-            #insatll netcat
-            apt install -y netcat
+            #install netcat
+            sudo apt-get update
+            sudo apt install -y netcat
             check_count=0
             until ((check_count==12)) || nc -vz ph-ee-zeebe-ops 80; do 
                 echo "Waiting for zeebe-ops service"; 
