@@ -288,24 +288,36 @@ jobs:
       - image: 'cimg/base:2022.06'
     steps:
       - checkout
-      - run: |
-          if [[ -n $(git show --name-only $CIRCLE_SHA1 | grep "^helm/g2p-sandbox-fynarfin-demo/") ]]; then
-            echo "Directory has changed. Running the job."
-          else
-            echo "Directory has not changed. Skipping the job."
-            circleci step halt
-          fi
+      - run: 
+          name: Directory has change check
+          command: |
+            if [[ -n $(git show --name-only $CIRCLE_SHA1 | grep "^helm/g2p-sandbox-fynarfin-demo/") ]]; then
+              echo "Directory has changed. Running the job."
+            else
+              echo "Directory has not changed. Skipping the job."
+              circleci step halt
+            fi
       - run: git clone https://github.com/openmf/ph-ee-env-labs
       - run: echo $AWS_PROFILE
       - run: echo $AWS_DEFAULT_PROFILE
-      - run: |
-          #sleep 5
-          #sudo apt install -y netcat
-          #until nc -vz https://zeebeops-demo.sandbox.fynarfin.io 443; do echo "Waiting for zeebe-ops service"; sleep 2; done;
-      - run: |
-          cd ph-ee-env-labs
-          sed -i 's/zeebeops/zeebeops-demo/g' orchestration/deployBpmn.sh
-          sh orchestration/deployBpmn.sh
+      - run: 
+          name: Check for zeebe-ops service
+          command: |
+            #insatll netcat
+            apt install -y netcat
+            check_count=0
+            until ((check_count==12)) || nc -vz ph-ee-zeebe-ops 80; do 
+                echo "Waiting for zeebe-ops service"; 
+                sleep 5; 
+                check_count=$(($check_count + 1));
+            done;
+            echo ------zeebe-ops service available-----------
+      - run: 
+          name: Deploy BPMN
+          command: |
+            cd ph-ee-env-labs
+            sed -i 's/zeebeops/zeebeops-demo/g' orchestration/deployBpmn.sh
+            sh orchestration/deployBpmn.sh
 
   create-secret-paymenthub-demo-namespace:
     docker:
