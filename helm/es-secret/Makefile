@@ -28,7 +28,6 @@ secrets:
 	password="XVYgwycNuEygEEEI0hQF" && \
 	openssl pkcs12 -nodes -passin pass:'' -in /elastic-certificates.p12 -out elastic-certificate.pem && \
 	openssl x509 -outform der -in elastic-certificate.pem -out elastic-certificate.crt && \
-	ls -lart && \
 	kubectl create namespace $(NAMESPACE) || echo "namespace already exists"  && \
 	kubectl create secret generic elastic-certificates --namespace=$(NAMESPACE) --from-file=elastic-certificates.p12 && \
 	kubectl create secret generic elastic-certificate-pem --namespace=$(NAMESPACE) --from-file=elastic-certificate.pem && \
