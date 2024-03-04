@@ -369,7 +369,7 @@ ph-ee-g2psandbox:
     tls: ""
 
     post_installation_job: 
-      enabled: false
+      enabled: true
 
     keycloak:
       enabled: false
