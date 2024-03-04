@@ -12,6 +12,8 @@ purge:
 	helm del $(RELEASE)
 
 secrets:
-	encryptionkey=$$(docker run --rm busybox:1.31.1 /bin/sh -c "< /dev/urandom tr -dc _A-Za-z0-9 | head -c50") && \
-  kubectl create namespace $(NAMESPACE) || echo "namespace already exists"  && \
+	#encryptionkey=$$(docker run --rm busybox:1.31.1 /bin/sh -c "< /dev/urandom tr -dc _A-Za-z0-9 | head -c50") && \
+	
+	encryptionkey=MMFI5EFpJnib4MDDbRPuJ1UNIRiHuMud_r_EfBNprx7qVRlO7R && \
+    kubectl create namespace $(NAMESPACE) || echo "namespace already exists"  && \
 	kubectl create secret generic kibana --namespace=$(NAMESPACE) --from-literal=encryptionkey=$$encryptionkey
