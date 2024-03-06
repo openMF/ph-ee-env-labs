@@ -15,7 +15,7 @@
         <collectionProp name="Arguments.arguments">
           <elementProp name="host" elementType="Argument">
             <stringProp name="Argument.name">host</stringProp>
-            <stringProp name="Argument.value">${__P(host,bulk-connector.sandbox.fynarfin.io)}</stringProp>
+            <stringProp name="Argument.value">${__P(host,vouchers.sandbox.fynarfin.io)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="protocol" elementType="Argument">
@@ -40,7 +40,7 @@
           </elementProp>
           <elementProp name="rampup" elementType="Argument">
             <stringProp name="Argument.name">rampup</stringProp>
-            <stringProp name="Argument.value">${__P(rampup,600)}</stringProp>
+            <stringProp name="Argument.value">${__P(rampup,100)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
@@ -84,36 +84,16 @@
       <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
         <collectionProp name="HeaderManager.headers">
           <elementProp name="" elementType="Header">
-            <stringProp name="Header.name">Platform-TenantId</stringProp>
-            <stringProp name="Header.value">gorilla</stringProp>
-          </elementProp>
-          <elementProp name="" elementType="Header">
-            <stringProp name="Header.name">X-CorrelationID</stringProp>
-            <stringProp name="Header.value">123456</stringProp>
-          </elementProp>
-          <elementProp name="" elementType="Header">
-            <stringProp name="Header.name">X-SIGNATURE</stringProp>
-            <stringProp name="Header.value">FOBpzWFS/r8ICMF9RJD7Z+uNv+Iw/y7CPX90Cg9T9MwgrObxkZ88AQ5QIKS+g/cjAkX5IMp/cikEOyW6fp5tJdDqYaWPt17WXDDncG1z0GgOq6Qy2Wy9GW+z5p+DUPtty6l0utvesVr2EGPiAEuO3oZ7bT+i0O4xs4NNFpXCBfjxo748cTL8zsljajG4lBiLYg2iLQ28g/qNUCB5G4PNnCUwnCh0ArC4i3dlywHGdeAgLFyb9WmF8NYrEC4bWSLWwTFcUuxB5Eige1bf7i/PZfweBLbht0PGx3vmormTN12clIjENXd1PNMwp8TTwgZPcz/zvCo30bl+Wlu0/J1XRA==</stringProp>
-          </elementProp>
-          <elementProp name="" elementType="Header">
-            <stringProp name="Header.name">Type</stringProp>
-            <stringProp name="Header.value">csv</stringProp>
-          </elementProp>
-          <elementProp name="" elementType="Header">
-            <stringProp name="Header.name">Purpose</stringProp>
-            <stringProp name="Header.value">test payment</stringProp>
-          </elementProp>
-          <elementProp name="" elementType="Header">
-            <stringProp name="Header.name">filename</stringProp>
-            <stringProp name="Header.value">ph-ee-bulk-demo-20.csv</stringProp>
+            <stringProp name="Header.name">X-Registering-Institution-ID</stringProp>
+            <stringProp name="Header.value">SocialWelfare</stringProp>
           </elementProp>
           <elementProp name="" elementType="Header">
             <stringProp name="Header.name">content-type</stringProp>
-            <stringProp name="Header.value">multipart/form-data; boundary=dQuAbXmyd4VUkLVo2pz1fXTsZ0So5eb6rGCf5y</stringProp>
+            <stringProp name="Header.value">application/json</stringProp>
           </elementProp>
           <elementProp name="" elementType="Header">
             <stringProp name="Header.name">X-CallbackURL</stringProp>
-            <stringProp name="Header.value">https://webhook.site/4b2cb424-274d-4afe-88e2-8c89eab46146</stringProp>
+            <stringProp name="Header.value">http://wiremock.sandbox.fynarfin.io/vouchercallback</stringProp>
           </elementProp>
         </collectionProp>
       </HeaderManager>
@@ -196,25 +176,26 @@ catch (Throwable ex) {
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
       </ThreadGroup>
       <hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Batch-Transaction-API" enabled="true">
-          <elementProp name="HTTPsampler.Files" elementType="HTTPFileArgs">
-            <collectionProp name="HTTPFileArgs.files">
-              <elementProp name="/Users/dhavalmaniyar/Downloads/ph-ee-bulk-demo-20.csv" elementType="HTTPFileArg">
-                <stringProp name="File.mimetype">text/csv</stringProp>
-                <stringProp name="File.path">/Users/dhavalmaniyar/Downloads/ph-ee-bulk-demo-20.csv</stringProp>
-                <stringProp name="File.paramname">data</stringProp>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Voucher-redeem-and-pay" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+  &quot;requestId&quot;: &quot;1131&quot;,&#xd;
+  &quot;agentId&quot;: &quot;1234567890&quot;,&#xd;
+  &quot;voucherSecretNumber&quot;: ${voucherNumber}&#xd;
+}   </stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
-          </elementProp>
-          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
-          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
-            <collectionProp name="Arguments.arguments"/>
           </elementProp>
           <stringProp name="HTTPSampler.domain">${host}</stringProp>
           <stringProp name="HTTPSampler.port">${port}</stringProp>
           <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
-          <stringProp name="HTTPSampler.path">/batchtransactions</stringProp>
-          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <stringProp name="HTTPSampler.path">/vouchers?command=redeemPay</stringProp>
+          <stringProp name="HTTPSampler.method">PUT</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
           <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
@@ -226,7 +207,20 @@ catch (Throwable ex) {
           <boolProp name="HTTPSampler.md5">false</boolProp>
           <intProp name="HTTPSampler.ipSourceType">0</intProp>
         </HTTPSamplerProxy>
-        <hashTree/>
+        <hashTree>
+          <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config" enabled="true">
+            <stringProp name="filename">/Users/dhavalmaniyar/Documents/projects/ph-ee-connector-integration-test/vouchertest/loadTest.csv</stringProp>
+            <stringProp name="fileEncoding"></stringProp>
+            <stringProp name="variableNames"></stringProp>
+            <boolProp name="ignoreFirstLine">false</boolProp>
+            <stringProp name="delimiter">,</stringProp>
+            <boolProp name="quotedData">false</boolProp>
+            <boolProp name="recycle">true</boolProp>
+            <boolProp name="stopThread">false</boolProp>
+            <stringProp name="shareMode">shareMode.all</stringProp>
+          </CSVDataSet>
+          <hashTree/>
+        </hashTree>
         <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config" enabled="false">
           <stringProp name="filename">/Users/dhavalmaniyar/Downloads/gsma_body.csv</stringProp>
           <stringProp name="fileEncoding"></stringProp>
@@ -377,7 +371,12 @@ Thread.sleep(10000);
 </stringProp>
           <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
         </BeanShellSampler>
-        <hashTree/>
+        <hashTree>
+          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+            <stringProp name="ConstantTimer.delay">120000</stringProp>
+          </ConstantTimer>
+          <hashTree/>
+        </hashTree>
         <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="Check for callback" enabled="false">
           <stringProp name="BeanShellAssertion.query">import static com.github.tomakehurst.wiremock.client.WireMock.*;
 try{
@@ -398,10 +397,6 @@ catch (Exception ex) {
           <stringProp name="BeanShellAssertion.parameters"></stringProp>
           <boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
         </BeanShellAssertion>
-        <hashTree/>
-        <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
-          <stringProp name="ConstantTimer.delay">60000</stringProp>
-        </ConstantTimer>
         <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP Request" enabled="true">
           <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
