@@ -28,4 +28,6 @@ ph-ee-g2psandbox-security:
     kafka:
       provisioning:
         enabled: false
+    minio:
+    enabled: false
     
