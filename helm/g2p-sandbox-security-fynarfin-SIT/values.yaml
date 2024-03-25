@@ -29,5 +29,5 @@ ph-ee-g2psandbox-security:
       provisioning:
         enabled: false
     minio:
-    enabled: false
+      enabled: false
     
