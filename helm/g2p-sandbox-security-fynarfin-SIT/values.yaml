@@ -23,3 +23,11 @@ ph-ee-g2psandbox-security:
 
     wildcardhostname: "*.sandbox.fynarfin.io"
     tls: ""
+    post_installation_job: 
+      enabled: false
+    kafka:
+      provisioning:
+        enabled: false
+    minio:
+      enabled: false
+    
