@@ -153,6 +153,7 @@ ph-ee-g2psandbox:
       enabled: true
       image: docker.io/openmf/ph-ee-operations-app:latest
       tenants: "rhino,gorilla"
+      minio_public_host: "http://minio.sandbox.fynarfin.io"
       deployment:
         annotations:
           rollme: "{{ randAlphaNum 5 | quote }}"
