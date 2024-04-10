@@ -458,6 +458,13 @@ ph-ee-g2psandbox:
           nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
         hosts:
           - minio-console.sandbox.fynarfin.io
+      ingress:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: "nginx"
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+        hosts:
+          - minio.sandbox.fynarfin.io
   account_mapper:
     enabled: true
     image: docker.io/openmf/ph-ee-identity-account-mapper:latest
