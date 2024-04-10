@@ -167,9 +167,7 @@ ph-ee-g2psandbox:
                   name: "ph-ee-operations-app"
                   port:
                     number: 80
-      extraEnvs:
-        - name: CLOUD_AWS_MINIO_PUBLIC_HOST
-          value: "http://minio.sandbox.fynarfin.io"
+
 
     operations_web:
       enabled: true
