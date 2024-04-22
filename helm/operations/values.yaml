@@ -19,7 +19,7 @@ grafana:
   datasources:
     datasources.yaml:
       apiVersion: 1
-      Datasources:  # configure Grafana to read metrics from Prometheus
+      datasources:  # configure Grafana to read metrics from Prometheus
         - name: Prometheus
           type: prometheus
           url: http://operate-prometheus-server # Since Prometheus is deployed in
@@ -47,4 +47,20 @@ grafana:
         datasource: Prometheus
       kic-dash:
         gnetId: 15662
+        datasource: Prometheus
+      kubernetes-cluster-monitoring:
+        gnetId: 1621
+        revision: 1
+        datasource: Prometheus
+      kubernetes-resource-requests:
+        gnetId: 7187
+        revision: 1
+        datasource: Prometheus
+      kubernetes-pods:
+        gnetId: 6336
+        revision: 1
+        datasource: Prometheus
+      kubernetes-cluster:
+        gnetId: 6417
+        revision: 1
         datasource: Prometheus
