@@ -10,3 +10,17 @@ grafana:
     path: /
     tls:
       - secretName: sandbox-secret
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+        - name: 'default'
+          orgId: 1
+          folder: ''
+          type: file
+          disableDeletion: false
+          editable: true
+          options:
+            path: /var/lib/operations/dashboards/default
+  dashboardsConfigMaps:
+    default: "grafana-dashboards"
