@@ -3,6 +3,8 @@ prometheus:
   server:
     global:
       scrape_interval: 10s
+    retention: "7d"
+    retentionSize: "7GB"
 
 grafana:
   enabled: true
