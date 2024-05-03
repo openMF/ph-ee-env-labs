@@ -35,6 +35,7 @@ ph-ee-g2psandbox:
     camunda-platform:
       zeebe:
         prometheus:
+          enabled: true
           servicemonitor:
             enabled: true
           ## @param prometheusServiceMonitor.enabled if true then a service monitor will be deployed, which allows an installed prometheus controller to scrape metrics from the deployed pods
