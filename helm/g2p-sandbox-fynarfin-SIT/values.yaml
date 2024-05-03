@@ -16,7 +16,8 @@ ph-ee-g2psandbox:
 
     global:
       DFSPIDS: "gorilla,rhino,wakanda,pluto,venus,jupiter"
-      
+
+
     kibana:
       ingress:
         enabled: true
