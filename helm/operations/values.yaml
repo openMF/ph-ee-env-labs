@@ -66,3 +66,7 @@ grafana:
         gnetId: 6417
         revision: 1
         datasource: Prometheus
+      zeebe:
+        gnetId: 5210
+        revision: 1
+        datasource: Prometheus
