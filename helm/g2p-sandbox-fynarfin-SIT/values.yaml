@@ -33,11 +33,12 @@ ph-ee-g2psandbox:
     operations:
 
     camunda-platform:
+      zeebe:
       prometheusServiceMonitor:
         enabled: true
         scrapeInterval: 10s
         labels:
-          release: g2p-sandbox
+          release: operate
 
     ph_ee_connector_ams_mifos:
       enabled: true
@@ -286,7 +287,7 @@ ph-ee-g2psandbox:
                 service:
                   name: "ph-ee-connector-bulk"
                   port:
-                    number: 8443   
+                    number: 8443
           
     zeebe_ops:
       enabled: true
