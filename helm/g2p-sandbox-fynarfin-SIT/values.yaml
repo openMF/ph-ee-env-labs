@@ -430,7 +430,7 @@ ph-ee-g2psandbox:
                     name: "ph-ee-vouchers"
                     port:
                       number: 80
-    connector:
+    ph-ee-connector:
       enabled: true
       image: docker.io/openmf/ph-ee-connector-bulk:latest
       deployment:
