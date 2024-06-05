@@ -50,7 +50,50 @@ jobs:
             ssh -i b64encoded.pem -o StrictHostKeyChecking=No ec2-user@13.233.68.128 sudo mkdir -p /apps/apache-tomcat-7.0.82/webapps/ROOT/images$JIRA_STORY_DIR/ph-ee-g2psandbox-fynarfin$JIRA_STORY
             scp -o StrictHostKeyChecking=No -i b64encoded.pem index.yaml ph-ee-g2psandbox-fynarfin-0.2.0$JIRA_STORY.tgz ec2-user@13.233.68.128:~/
             ssh -i b64encoded.pem -o StrictHostKeyChecking=No ec2-user@13.233.68.128 sudo mv -t /apps/apache-tomcat-7.0.82/webapps/ROOT/images$JIRA_STORY_DIR/ph-ee-g2psandbox-fynarfin$JIRA_STORY index.yaml ph-ee-g2psandbox-fynarfin-0.2.0$JIRA_STORY.tgz
-
+  build-g2p-sandbox-ci-chart:
+    docker:
+      - image: cimg/python:3.10
+    working_directory: ~/repo
+    environment:
+      TERM: dumb
+    steps:
+      - checkout
+      - run: rm -f helm/ph-ee-g2p-sandbox-ci/Chart.lock helm/ph-ee-g2p-sandbox-ci/requirements.lock helm/ph-ee-g2p-sandbox-ci/charts/*
+      - helm/install-helm-client:
+          version: "v3.8.2"
+      # - run: "sed -i '12s/.*/version: 0.0.0/' helm/ph-ee-g2p-sandbox-ci/Chart.yaml"
+      - run:
+          name: build-and-host-ph-ee-g2p-sandbox-ci
+          environment:
+            JIRA_STORY: ''
+            JIRA_STORY_DIR: ''
+          command: |
+            if [ "$CIRCLE_BRANCH" != "master" ]; then
+                PR_NUMBER=$(basename $CIRCLE_PULL_REQUEST)
+                PR_TITLE=$(curl -sSL "https://api.github.com/repos/openmf/$CIRCLE_PROJECT_REPONAME/pulls/$PR_NUMBER" | jq -r '.title')
+                JIRA_STORY=-$(echo $PR_TITLE | cut -d "[" -f2 | cut -d "]" -f1 | tr '[A-Z]' '[a-z]')
+                if [ -z "$JIRA_STORY" ]; then echo "Invalid PR title" && exit 1; else echo "Ticket NO: $JIRA_STORY" && JIRA_STORY_DIR=$(echo /jira-story-version); fi
+                echo Charts will save in https://fynarfin.io/images$JIRA_STORY_DIR
+            fi
+            CHART_URL="https://fynarfin.io/images$JIRA_STORY_DIR/ph-ee-g2p-sandbox-ci-0.0.0$JIRA_STORY"
+            if curl --output /dev/null --silent --head --fail "$CHART_URL"; then
+              sed -i "11s@^ *repository:.*\$@  repository: $CHART_URL@" helm/ph-ee-g2p-sandbox-ci/Chart.yaml
+              sed -i "12s@^ *version:.*\$@  version: 0.0.0$JIRA_STORY@" helm/ph-ee-g2p-sandbox-ci/Chart.yaml
+              echo "chart used: < $CHART_URL >"
+            else
+              CHART_URL="https://fynarfin.io/images/ph-ee-g2p-sandbox-ci-0.0.0"
+              echo "chart used: < $CHART_URL >"
+            fi
+            sed -i "6s/.*/version: 0.0.0$JIRA_STORY/" helm/ph-ee-g2p-sandbox-ci/Chart.yaml
+            cat helm/ph-ee-g2p-sandbox-ci/Chart.yaml
+            helm dep up helm/ph-ee-g2p-sandbox-ci
+            helm package helm/ph-ee-g2p-sandbox-ci
+            helm repo index .
+            echo "$CERT_FILE" | base64 --decode > b64encoded.pem
+            chmod 400 b64encoded.pem
+            ssh -i b64encoded.pem -o StrictHostKeyChecking=No ec2-user@13.233.68.128 sudo mkdir -p /apps/apache-tomcat-7.0.82/webapps/ROOT/images$JIRA_STORY_DIR/ph-ee-g2p-sandbox-ci$JIRA_STORY
+            scp -o StrictHostKeyChecking=No -i b64encoded.pem index.yaml ph-ee-g2p-sandbox-ci-0.0.0$JIRA_STORY.tgz ec2-user@13.233.68.128:~/
+            ssh -i b64encoded.pem -o StrictHostKeyChecking=No ec2-user@13.233.68.128 sudo mv -t /apps/apache-tomcat-7.0.82/webapps/ROOT/images$JIRA_STORY_DIR/ph-ee-g2p-sandbox-ci$JIRA_STORY index.yaml ph-ee-g2p-sandbox-ci-0.0.0$JIRA_STORY.tgz
   upgrade-g2psandbox-helm-chart:
     docker:
       - image: cimg/python:3.10
@@ -381,6 +424,13 @@ workflows:
   deploy:
     jobs:
       - build:
+          context:
+            - AWS
+            - Helm
+            - slack
+      - build-g2p-sandbox-ci-chart:
+          requires:
+            - build
           context:
             - AWS
             - Helm

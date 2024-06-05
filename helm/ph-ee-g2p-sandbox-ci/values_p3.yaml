@@ -1,0 +1,15 @@
+ ph-ee-g2psandbox:
+   ph-ee-engine:
+     elasticsearch:
+       enabled: false
+     kibana:
+       enabled: false
+     messagegateway:
+       enabled: false
+     notifications:
+       enabled: false
+     operations_web:
+       enabled: false
+     kafka:
+       provisioning:
+         enabled: false

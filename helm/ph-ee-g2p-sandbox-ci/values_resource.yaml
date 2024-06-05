@@ -1,0 +1,182 @@
+ph-ee-g2psandbox:
+  account_mapper:
+    LOGGING_LEVEL_ROOT: INFO
+    limits:
+      cpu: "400m"
+      memory: "512M"
+    requests:
+      cpu: "150m"
+      memory: "256M"
+    livenessProbe:
+      initialDelaySeconds: 20
+      periodSeconds: 30
+    readinessProbe:
+      initialDelaySeconds: 180
+      periodSeconds: 30
+
+  ph-ee-engine:
+    camunda-platform:
+      zeebe:
+        pvcSize: "5Gi"
+        resources:
+          limits:
+            cpu: "250m"
+            memory: "768Mi"
+          requests:
+            cpu: "150m"
+            memory: "500Mi"
+      zeebe-gateway:
+        readinessProbe:
+          initialDelaySeconds: 180
+    channel:
+      readinessProbe:
+        initialDelaySeconds: 180
+      limits:
+        memory: "512M"
+        cpu: "300m"
+      requests:
+        memory: "256M"
+        cpu: "150m"
+    operationsmysql:
+      primary:
+        persistence:
+          size: 3Gi
+        readinessProbe:
+          initialDelaySeconds: 180
+    ph_ee_connector_ams_mifos:
+      limits:
+        memory: "384M"
+        cpu: "150m"
+      requests:
+        memory: "256M"
+        cpu: "100m"
+    ph_ee_connector_mojaloop:
+      readinessProbe:
+        initialDelaySeconds: 120
+      limits:
+        memory: "384M"
+        cpu: "150m"
+      requests:
+        memory: "256M"
+        cpu: "100m"
+    operations_app:
+      readinessProbe:
+        initialDelaySeconds: 180
+      limits:
+        memory: "384M"
+        cpu: "350m"
+      requests:
+        memory: "256M"
+        cpu: "200m"
+    zeebe_ops:
+      readinessProbe:
+        initialDelaySeconds: 180
+      limits:
+        memory: "384M"
+        cpu: "300m"
+      requests:
+        memory: "256M"
+        cpu: "150m"
+    mockpayment:
+      limits:
+        memory: "384M"
+        cpu: "250m"
+      requests:
+        memory: "256M"
+        cpu: "150m"
+    kafka:
+      controller:
+        persistence:
+          size: "4Gi"
+        readinessProbe:
+          initialDelaySeconds: 5
+    importer_rdbms:
+      readinessProbe:
+        initialDelaySeconds: 180
+      limits:
+        memory: "384M"
+        cpu: "250m"
+      requests:
+        memory: "256M"
+        cpu: "150m"
+    connector_bulk:
+      readinessProbe:
+        initialDelaySeconds: 180
+      limits:
+        memory: "384M"
+        cpu: "150m"
+      requests:
+        memory: "256M"
+        cpu: "100m"
+    ph_ee_connector_gsma:
+      limits:
+        memory: "256M"
+        cpu: "150m"
+      requests:
+        memory: "256M"
+        cpu: "100m"
+    ph-ee-connector:
+      limits:
+        cpu: "250m"
+        memory: "384M"
+      requests:
+        cpu: "150m"
+        memory: "256M"
+    integration_test:
+      limits:
+        cpu: "800m"
+        memory: "1.2Gi"
+      requests:
+        cpu: "250m"
+        memory: "256Mi"
+    redis:
+      master:
+        resources:
+          limits:
+            cpu: "200m"
+            memory: "256M"
+          requests:
+            cpu: "100m"
+            memory: "100M"
+        persistence:
+          size: "3Gi"
+        readinessProbe:
+          initialDelaySeconds: 180
+      replica:
+        replicaCount: 0
+    vouchers:
+      readinessProbe:
+        initialDelaySeconds: 180
+      livenessProbe:
+        initialDelaySeconds: 180
+      limits:
+        cpu: "250m"
+        memory: "512M"
+      requests:
+        cpu: "150m"
+        memory: "256M"
+    billPay:
+      readinessProbe:
+        initialDelaySeconds: 180
+      limits:
+        memory: "384M"
+        cpu: "250m"
+      requests:
+        memory: "256M"
+        cpu: "100m"
+    crm:
+      readinessProbe:
+        initialDelaySeconds: 180
+      limits:
+        memory: "384M"
+        cpu: "150m"
+      requests:
+        memory: "256M"
+        cpu: "100m"
+    minio:
+      resources:
+        requests:
+          memory: 150Mi
+      persistence:
+        enabled: true
+        size: 512Mi

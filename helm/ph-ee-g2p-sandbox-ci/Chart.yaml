@@ -1,0 +1,12 @@
+apiVersion: v2
+name: ph-ee-g2p-sandbox-ci
+description: A Helm chart for CI/CD
+
+type: application
+version: 0.0.0
+appVersion: 0.0.0
+
+dependencies:
+  - name: ph-ee-g2psandbox
+    repository: https://fynarfin.io/images/ph-ee-g2psandbox-0.0.0
+    version: 0.0.0
