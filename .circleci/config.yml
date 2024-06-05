@@ -61,9 +61,9 @@ jobs:
       - run: rm -f helm/ph-ee-g2p-sandbox-ci/Chart.lock helm/ph-ee-g2p-sandbox-ci/requirements.lock helm/ph-ee-g2p-sandbox-ci/charts/*
       - helm/install-helm-client:
           version: "v3.8.2"
-      # - run: "sed -i '12s/.*/version: 0.0.0/' helm/g2p-sandbox-fynarfin-SIT/Chart.yaml"
+      # - run: "sed -i '12s/.*/version: 0.0.0/' helm/ph-ee-g2p-sandbox-ci/Chart.yaml"
       - run:
-          name: build-and-host-g2p-fynarfin-sit
+          name: build-and-host-ph-ee-g2p-sandbox-ci
           environment:
             JIRA_STORY: ''
             JIRA_STORY_DIR: ''
