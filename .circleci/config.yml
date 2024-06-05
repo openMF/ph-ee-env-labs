@@ -429,6 +429,8 @@ workflows:
             - Helm
             - slack
       - build-g2p-sandbox-ci-chart:
+          requires:
+            - build
           context:
             - AWS
             - Helm
