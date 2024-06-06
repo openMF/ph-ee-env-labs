@@ -437,7 +437,7 @@ workflows:
             - slack
       - host-g2-sandbox-security-fynarfin-chart:
           requires:
-            - build
+            - build-g2p-sandbox-ci-chart
           context:
             - AWS
             - Helm
