@@ -90,6 +90,10 @@ ph-ee-g2psandbox:
           size: "4Gi"
         readinessProbe:
           initialDelaySeconds: 5
+      global:
+        storageClass: standard
+      provisioning:
+        enabled: false
     importer_rdbms:
       readinessProbe:
         initialDelaySeconds: 180
