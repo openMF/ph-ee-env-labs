@@ -20,19 +20,12 @@ ph-ee-g2psandbox:
       enabled: false
     importer_rdbms:
       enabled: false
-    importer_es:
-      enabled: false
     mockpayment:
       enabled: false
     post_installation_job:
       enabled: false
     kibana:
       enabled: false
-    kafka:
-      global:
-        storageClass: standard
-      provisioning:
-        enabled: false
     messagegateway:
       enabled: false
     notifications:
