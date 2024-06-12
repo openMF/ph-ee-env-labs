@@ -66,3 +66,19 @@ grafana:
         gnetId: 6417
         revision: 1
         datasource: Prometheus
+      zeebe:
+        gnetId: 5210
+        revision: 1
+        datasource: Prometheus
+#      zeebe-overview:
+#        url: https://raw.githubusercontent.com/camunda/zeebe/main/monitor/grafana/zeebe-overview.json
+
+
+
+
+
+
+
+
+
+
