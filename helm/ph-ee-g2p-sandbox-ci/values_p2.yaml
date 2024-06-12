@@ -1,22 +1,8 @@
 ph-ee-g2psandbox:
   ph-ee-engine:
-    importer_es:
+    post_installation_job:
       enabled: false
     elasticsearch:
-      enabled: false
-      volumeClaimTemplate:
-        storageClassName: standard
-    ph-ee-connector:
-      enabled: false
-    ph_ee_connector_gsma:
-      enabled: false
-    ph_ee_connector_mojaloop:
-      enabled: false
-    vouchers:
-      enabled: false
-    importer_rdbms:
-      enabled: false
-    mockpayment:
       enabled: false
     kibana:
       enabled: false
@@ -26,3 +12,11 @@ ph-ee-g2psandbox:
       enabled: false
     operations_web:
       enabled: false
+    importer_es:
+      enabled: false
+    ph_ee_connector_ams_mifos:
+      enabled: true
+      ams_local_interop_host: "https://fynams.sandbox.fynarfin.io/"
+      ams_local_account_host: "https://fynams.sandbox.fynarfin.io/"
+      ams_local_customer_host: "https://fynams.sandbox.fynarfin.io/"
+      ams_local_auth_host: "https://fynams.sandbox.fynarfin.io/"

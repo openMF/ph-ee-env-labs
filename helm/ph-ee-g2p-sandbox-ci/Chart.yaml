@@ -7,6 +7,6 @@ version: 0.0.0
 appVersion: 0.0.0
 
 dependencies:
-  - name: ph-ee-g2psandbox
-    repository: https://fynarfin.io/images/ph-ee-g2psandbox-0.0.0
-    version: 0.0.0
+- name: ph-ee-g2psandbox
+  repository: https://fynarfin.io/images/ph-ee-g2psandbox-0.0.0
+  version: 0.0.0
