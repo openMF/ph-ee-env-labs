@@ -314,10 +314,12 @@ ph-ee-engine:
     enabled: false
    
   mpesa:
-    enabled: false
+    enabled: true
+    tenant: "gorilla"
     
   airtelPay:
     enabled: true
+
   roster_connector:
     enabled: false
     
@@ -355,39 +357,41 @@ ph-ee-engine:
         deployTime: "{{ .Values.deployTime }}"
 
   connector_bulk:
-    enabled: true
-    image: docker.io/openmf/ph-ee-bulk-processor:latest
-    tenant: "rhino,gorilla"
-    hostname: bulk-connector.sandbox.mifos.io
-    operations_app:
-      contactpoint: "http://ph-ee-operations-app:80"
-      endpoints:
-        batch_transaction: "/api/v1/batch/transactions"
-    identity_account_mapper:
-      hostname: "http://ph-ee-identity-account-mapper:80"
-    service:
-      annotations:
-        konghq.com/protocol: "https"
-    ingress:
-      enabled: false
-      annotations:
-        konghq.com/plugins: cors
-        kubernetes.io/ingress.class: kong
-      tls:
-        - secretName: sandbox-secret
-      hosts:
-        - host: bulk-connector.sandbox.mifos.io     
-          paths: 
-          - path: "/"
-            backend:
-              service:
-                name: "ph-ee-connector-bulk"
-                port:
-                  number: 8443
-    deployment:
-      annotations:
-        deployTime: "{{ .Values.deployTime }}"
-        
+    enabled: false
+#  connector_bulk:
+#    enabled: true
+#    image: docker.io/openmf/ph-ee-bulk-processor:latest
+#    tenant: "rhino,gorilla"
+#    hostname: bulk-connector.sandbox.mifos.io
+#    operations_app:
+#      contactpoint: "http://ph-ee-operations-app:80"
+#      endpoints:
+#        batch_transaction: "/api/v1/batch/transactions"
+#    identity_account_mapper:
+#      hostname: "http://ph-ee-identity-account-mapper:80"
+#    service:
+#      annotations:
+#        konghq.com/protocol: "https"
+#    ingress:
+#      enabled: false
+#      annotations:
+#        konghq.com/plugins: cors
+#        kubernetes.io/ingress.class: kong
+#      tls:
+#        - secretName: sandbox-secret
+#      hosts:
+#        - host: bulk-connector.sandbox.mifos.io
+#          paths:
+#          - path: "/"
+#            backend:
+#              service:
+#                name: "ph-ee-connector-bulk"
+#                port:
+#                  number: 8443
+#    deployment:
+#      annotations:
+#        deployTime: "{{ .Values.deployTime }}"
+#
   zeebe_ops:
     enabled: true
     image: docker.io/openmf/ph-ee-zeebe-ops:latest
