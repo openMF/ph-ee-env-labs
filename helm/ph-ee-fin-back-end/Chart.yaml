@@ -11,8 +11,8 @@ dependencies:
   version: 1.7.2-SNAPSHOT
   condition: "ph-ee-engine.enabled"
 - name: fin-engine
-  repository: "https://fynarfin.io/images/fineract/"
-  version: 1.0.0-SNAPSHOT
+  repository: "https://fynarfin.io/images/fin-engine/"
+  version: 1.3.0-SNAPSHOT
   condition: "fin-engine.enabled"
 - name: operations
   repository: "https://fynarfin.io/images/operations/"
