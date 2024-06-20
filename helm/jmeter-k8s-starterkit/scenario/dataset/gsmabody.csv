@@ -1,0 +1,7 @@
+requestingOrganisationTransactionReference,subType,type,amount,currency,descriptionText,requestDate,customData,key,value,payerPartyIdType,payerPartyIdIdentifier,payeePartyIdType,payeePartyIdIdentifier
+string,inbound,transfer,400,USD,string,2023-07-05T12:51:19.260+00:00,,string,string,MSISDN,44999911,accountId,L000000001
+string,inbound,transfer,401,USD,string,2023-07-05T12:51:19.260+00:01,,string,string,MSISDN,44999911,accountId,L000000001
+string,inbound,transfer,402,USD,string,2023-07-05T12:51:19.260+00:02,,string,string,MSISDN,44999911,accountId,L000000001
+string,inbound,transfer,403,USD,string,2023-07-05T12:51:19.260+00:03,,string,string,MSISDN,44999911,accountId,L000000001
+string,inbound,transfer,404,USD,string,2023-07-05T12:51:19.260+00:04,,string,string,MSISDN,44999911,accountId,L000000001
+string,inbound,transfer,405,USD,string,2023-07-05T12:51:19.260+00:05,,string,string,MSISDN,44999911,accountId,L000000001
