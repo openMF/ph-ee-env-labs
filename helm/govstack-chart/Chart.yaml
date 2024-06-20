@@ -1,0 +1,12 @@
+apiVersion: v2
+name: ph-ee-govstack
+description: PaymentHub GovStack Edition
+
+type: application
+version: 1.0.0
+appVersion: 1.0.0
+
+dependencies:
+- name: ph-ee-g2psandbox
+  repository: https://fynarfin.io/images/ph-ee-g2psandbox-0.0.0
+  version: 0.0.0
