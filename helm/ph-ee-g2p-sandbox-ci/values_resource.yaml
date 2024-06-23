@@ -107,8 +107,8 @@ ph-ee-g2psandbox:
       readinessProbe:
         initialDelaySeconds: 180
       limits:
-        memory: "384M"
-        cpu: "150m"
+        memory: "448M"
+        cpu: "250m"
       requests:
         memory: "256M"
         cpu: "100m"
@@ -129,10 +129,10 @@ ph-ee-g2psandbox:
     integration_test:
       limits:
         cpu: "800m"
-        memory: "1.2Gi"
+        memory: "1200M"
       requests:
         cpu: "250m"
-        memory: "256Mi"
+        memory: "256M"
     redis:
       master:
         resources:
