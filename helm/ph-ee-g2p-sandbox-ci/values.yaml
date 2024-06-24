@@ -3,7 +3,7 @@ ph-ee-g2psandbox:
     LOGGING_LEVEL_ROOT: INFO
     limits:
       cpu: "400m"
-      memory: "512M"
+      memory: "384M"
     requests:
       cpu: "150m"
       memory: "256M"
@@ -44,12 +44,13 @@ ph-ee-g2psandbox:
         readinessProbe:
           initialDelaySeconds: 180
     ph_ee_connector_ams_mifos:
-      limits:
-        memory: "384M"
-        cpu: "150m"
-      requests:
-        memory: "256M"
-        cpu: "100m"
+      resources:
+        limits:
+          memory: "384M"
+          cpu: "150m"
+        requests:
+          memory: "256M"
+          cpu: "100m"
     ph_ee_connector_mojaloop:
       readinessProbe:
         initialDelaySeconds: 120
@@ -79,7 +80,7 @@ ph-ee-g2psandbox:
         cpu: "150m"
     mockpayment:
       limits:
-        memory: "384M"
+        memory: "512M"
         cpu: "250m"
       requests:
         memory: "256M"
@@ -107,8 +108,8 @@ ph-ee-g2psandbox:
       readinessProbe:
         initialDelaySeconds: 180
       limits:
-        memory: "384M"
-        cpu: "150m"
+        memory: "448M"
+        cpu: "250m"
       requests:
         memory: "256M"
         cpu: "100m"
@@ -129,10 +130,10 @@ ph-ee-g2psandbox:
     integration_test:
       limits:
         cpu: "800m"
-        memory: "1.2Gi"
+        memory: "1200M"
       requests:
         cpu: "250m"
-        memory: "256Mi"
+        memory: "256M"
     redis:
       master:
         resources:
