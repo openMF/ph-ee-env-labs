@@ -6,18 +6,18 @@ ph-ee-g2psandbox:
       enabled: false
       volumeClaimTemplate:
         storageClassName: standard
-      ph-ee-connector:
-        enabled: false
-      ph_ee_connector_gsma:
-        enabled: false
-      ph_ee_connector_mojaloop:
-        enabled: false
-      vouchers:
-        enabled: false
-      importer_rdbms:
-        enabled: false
-      mockpayment:
-        enabled: false
+    ph-ee-connector:
+      enabled: false
+    ph_ee_connector_gsma:
+      enabled: false
+    ph_ee_connector_mojaloop:
+      enabled: false
+    vouchers:
+      enabled: false
+    importer_rdbms:
+      enabled: false
+    mockpayment:
+      enabled: false
     kibana:
       enabled: false
     messagegateway:
