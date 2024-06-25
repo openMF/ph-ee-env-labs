@@ -10,6 +10,22 @@ ph-ee-g2psandbox:
       enabled: false
     billPay:
       enabled: false
+    connector_bulk:
+      enabled: false
+    ph-ee-connector:
+      enabled: false
+    ph_ee_connector_gsma:
+      enabled: false
+    ph_ee_connector_mojaloop:
+      enabled: false
+    vouchers:
+      enabled: false
+    importer_rdbms:
+      enabled: false
+    mockpayment:
+      enabled: false
+    post_installation_job:
+      enabled: false
     kibana:
       enabled: false
     messagegateway:
