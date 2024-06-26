@@ -1,0 +1,13 @@
+apiVersion: v2
+name: sup-mojaloop
+description: Mojaloop Sandbox Environment
+
+type: application
+version: 15.1.0
+appVersion: 15.1.0
+
+dependencies:
+  - name: mojaloop
+    repository: https://mojaloop.io/helm/repo
+    version: 15.1.0
+

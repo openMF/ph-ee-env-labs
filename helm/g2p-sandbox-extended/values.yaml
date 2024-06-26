@@ -1,0 +1,103 @@
+ph-ee-g2psandbox:
+  ph-ee-engine:
+    global:
+      DFSPIDS: "<YOUR_DFSPIDS>"
+
+    post_installation_job:
+      enabled: true
+
+    ph_ee_connector_mojaloop:
+      image: docker.io/openmf/ph-ee-connector-mojaloop:latest
+      imageTag: "<YOUR_IMAGE_TAG>"
+      hostname: "<YOUR_MOJALOOP_HOSTNAME>"
+      switch:
+        quotes:
+          host: "<YOUR_QUOTES_HOST>"
+          service: "<YOUR_QUOTES_SERVICE>"
+        als:
+          host: "<YOUR_ALS_HOST>"
+          service: "<YOUR_ALS_SERVICE>"
+        transfers:
+          host: "<YOUR_TRANSFERS_HOST>"
+          service: "<YOUR_TRANSFERS_SERVICE>"
+        transactions:
+          host: "<YOUR_TRANSACTIONS_HOST>"
+          service: "<YOUR_TRANSACTIONS_SERVICE>"
+        oracle:
+          host: "<YOUR_ORACLE_HOST>"
+
+      ingress:
+        enabled: true
+        tls:
+          - secretName: <YOUR_TLS_SECRET_NAME>
+        hosts:
+          - host: <YOUR_MOJALOOP_INGRESS_HOST>
+            paths:
+              - path: "/"
+                backend:
+                  service:
+                    name: ph-ee-connector-mojaloop-java
+                    port:
+                      number: 80
+      deployment:
+        extraEnvs:
+          - name: parties_0_domain
+            value: "<YOUR_PARTIES_0_DOMAIN>"
+          - name: parties_1_domain
+            value: "<YOUR_PARTIES_1_DOMAIN>"
+          - name: parties_0_tenantId
+            value: "<YOUR_PARTIES_0_TENANTID>"
+          - name: parties_1_tenantId
+            value: "<YOUR_PARTIES_1_TENANTID>"
+          - name: parties_0_fspId
+            value: "<YOUR_PARTIES_0_FSPID>"
+          - name: parties_1_fspId
+            value: "<YOUR_PARTIES_1_FSPID>"
+
+    connector_bulk:
+      tenants: "<YOUR_TENANTS>"
+
+    importer_rdbms:
+      image: docker.io/openmf/ph-ee-importer-rdbms:v1.14.1
+
+    zeebe_ops:
+      tenants: "<YOUR_TENANTS>"
+
+    operations_app:
+      tenants: "<YOUR_TENANTS>"
+
+    ph_ee_connector_ams_mifos:
+      enabled: true
+      ams_local_interop_host: "<YOUR_AMS_LOCAL_INTEROP_HOST>"
+      ams_local_account_host: "<YOUR_AMS_LOCAL_ACCOUNT_HOST>"
+      ams_local_customer_host: "<YOUR_AMS_LOCAL_CUSTOMER_HOST>"
+      ams_local_auth_host: "<YOUR_AMS_LOCAL_AUTH_HOST>"
+      ams_local_loan_host: "<YOUR_AMS_LOCAL_LOAN_HOST>"
+      dfspids: "<YOUR_DFSPIDS>"
+      ingress:
+        enabled: true
+        hosts:
+          - host: "<YOUR_AMS_MIFOS_INGRESS_HOST>"
+            paths:
+              - path: "/"
+                backend:
+                  service:
+                    name: ph-ee-connector-ams-mifos
+                    port:
+                      number: 80
+
+    mockpayment:
+      enabled: true
+      ingress:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: nginx
+        hosts:
+          - host: <YOUR_MOCKPAYMENT_INGRESS_HOST>
+            paths:
+              - path: "/"
+                backend:
+                  service:
+                    name: "ph-ee-connector-mock-payment-schema"
+                    port:
+                      number: 8080

@@ -1,0 +1,11 @@
+apiVersion: v2
+name: g2p-sandbox-extended
+description: A Helm chart for extending g2psandbox
+type: application
+version: 1.0.0
+appVersion: 1.0.0
+dependencies:
+  - name: ph-ee-g2psandbox
+    repository: "https://fynarfin.io/images/ph-ee-g2psandbox-1.5.1"
+    version: 1.5.1
+

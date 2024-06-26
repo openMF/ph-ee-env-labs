@@ -1,0 +1,9 @@
+fin-engine:
+  fineract:
+    ingress:
+      hostname: "<HOST-NAME>"
+
+  webapp:
+    ingress:
+      hostname: "<HOST-NAME>"
+

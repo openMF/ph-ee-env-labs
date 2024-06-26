@@ -1,0 +1,11 @@
+example-mojaloop-backend:
+  kafka:
+    listeners:
+      client:
+        protocol: "PLAINTEXT"
+      controller:
+        protocol: "PLAINTEXT"
+      external:
+        protocol: "PLAINTEXT"
+      interbroker:
+        protocol: "PLAINTEXT"
