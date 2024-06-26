@@ -24,4 +24,4 @@ dependencies:
   - name: example-mojaloop-backend
     repository: https://mojaloop.io/helm/repo
     version: 15.7.0
-    cofndition: example-mojaloop-backend.enabled
+    condition: example-mojaloop-backend.enabled

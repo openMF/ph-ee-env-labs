@@ -8,6 +8,7 @@ ph-ee-g2psandbox:
       enabled: true
 
     ph_ee_connector_mojaloop:
+      enabled: true
       image: docker.io/openmf/ph-ee-connector-mojaloop:latest
       imageTag: "<YOUR_IMAGE_TAG>"
       hostname: "<YOUR_MOJALOOP_HOSTNAME>"
@@ -86,6 +87,15 @@ ph-ee-g2psandbox:
                     name: ph-ee-connector-ams-mifos
                     port:
                       number: 80
+          - host: "<YOUR_AMS_MIFOS_INGRESS_HOST>"
+            paths:
+              - path: "/"
+                backend:
+                  service:
+                    name: ph-ee-connector-ams-mifos
+                    port:
+                      number: 7070
+
 
     mockpayment:
       enabled: true
