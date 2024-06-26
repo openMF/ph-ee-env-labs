@@ -1,4 +1,5 @@
 ph-ee-g2psandbox:
+  enabled: false
   ph-ee-engine:
     global:
       DFSPIDS: "<YOUR_DFSPIDS>"
@@ -103,6 +104,7 @@ ph-ee-g2psandbox:
                       number: 8080
 
 fin-engine:
+  enabled: false
   fineract:
     ingress:
       hostname: "<HOST-NAME>"
@@ -112,6 +114,7 @@ fin-engine:
       hostname: "<HOST-NAME>"
 
 mojaloop:
+  enabled: false
   centralledger:
     enabled: true
     centralledger-service:
@@ -376,3 +379,16 @@ mojaloop:
             host: <YOUR_TESTING_TOOLKIT_UI_HOSTNAME>
       config:
         API_BASE_URL: <YOUR_TESTING_TOOLKIT_API_BASE_URL>
+
+example-mojaloop-backend:
+  enabled: false
+  kafka:
+    listeners:
+      client:
+        protocol: "PLAINTEXT"
+      controller:
+        protocol: "PLAINTEXT"
+      external:
+        protocol: "PLAINTEXT"
+      interbroker:
+        protocol: "PLAINTEXT"
