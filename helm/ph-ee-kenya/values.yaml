@@ -209,7 +209,15 @@ ph-ee-engine:
     hostname: "channel.sandbox.mifos.io"
     stub_hostname: "channel-gsma.sandbox.mifos.io"
     SPRING_PROFILES_ACTIVE: "bb,tenants"
+#    tenantPrimary:
+#      clientId: "mifos"
+#      clientSecret: "password"
+#      tenant: "gorilla"
     tenantPrimary:
+      clientId: "mifos"
+      clientSecret: "password"
+      tenant: "rhino"
+    tenantSecondary:
       clientId: "mifos"
       clientSecret: "password"
       tenant: "gorilla"
