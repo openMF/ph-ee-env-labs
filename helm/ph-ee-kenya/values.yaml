@@ -1,6 +1,6 @@
 ph-ee-engine:
   ingress:
-    apiversion: "networking.k8s.io/v2"
+    apiversion: "networking.k8s.io/v1"
 
   deployment:
     apiversion: "apps/v1"
@@ -209,10 +209,6 @@ ph-ee-engine:
     hostname: "channel.sandbox.mifos.io"
     stub_hostname: "channel-gsma.sandbox.mifos.io"
     SPRING_PROFILES_ACTIVE: "bb,tenants"
-#    tenantPrimary:
-#      clientId: "mifos"
-#      clientSecret: "password"
-#      tenant: "gorilla"
     tenantPrimary:
       clientId: "mifos"
       clientSecret: "password"
@@ -323,10 +319,7 @@ ph-ee-engine:
     enabled: false
 
   mpesa:
-    enabled: true
-
-  airtelPay:
-    enabled: true
+    enabled: false
 
   roster_connector:
     enabled: false
