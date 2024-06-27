@@ -1,0 +1,27 @@
+apiVersion: v2
+name: g2p-sandbox-extended
+description: A Helm chart for installing paymenthub
+version: 0.1.0
+dependencies:
+#G2P Sandbox Setup
+  - name: ph-ee-g2psandbox
+    repository: "https://fynarfin.io/images/ph-ee-g2psandbox-1.5.1"
+    version: 1.5.1
+    condition: ph-ee-g2psandbox.enabled
+
+#Finereact Setup
+  - name: fin-engine
+    repository: "https://fynarfin.io/images/fin-engine"
+    version: 1.4.1-SNAPSHOT
+    condition: fin-engine.enabled
+
+#Mojaloop Setup
+  - name: mojaloop
+    repository: https://mojaloop.io/helm/repo
+    version: 15.1.0
+    condition: mojaloop.enabled
+
+  - name: example-mojaloop-backend
+    repository: https://mojaloop.io/helm/repo
+    version: 15.7.0
+    condition: example-mojaloop-backend.enabled

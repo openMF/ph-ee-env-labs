@@ -1,0 +1,404 @@
+ph-ee-g2psandbox:
+  enabled: false
+  ph-ee-engine:
+    global:
+      DFSPIDS: "<YOUR_DFSPIDS>"
+
+    post_installation_job:
+      enabled: true
+
+    ph_ee_connector_mojaloop:
+      enabled: true
+      image: docker.io/openmf/ph-ee-connector-mojaloop:latest
+      imageTag: "<YOUR_IMAGE_TAG>"
+      hostname: "<YOUR_MOJALOOP_HOSTNAME>"
+      switch:
+        quotes:
+          host: "<YOUR_QUOTES_HOST>"
+          service: "<YOUR_QUOTES_SERVICE>"
+        als:
+          host: "<YOUR_ALS_HOST>"
+          service: "<YOUR_ALS_SERVICE>"
+        transfers:
+          host: "<YOUR_TRANSFERS_HOST>"
+          service: "<YOUR_TRANSFERS_SERVICE>"
+        transactions:
+          host: "<YOUR_TRANSACTIONS_HOST>"
+          service: "<YOUR_TRANSACTIONS_SERVICE>"
+        oracle:
+          host: "<YOUR_ORACLE_HOST>"
+
+      ingress:
+        enabled: true
+        tls:
+          - secretName: <YOUR_TLS_SECRET_NAME>
+        hosts:
+          - host: <YOUR_MOJALOOP_INGRESS_HOST>
+            paths:
+              - path: "/"
+                backend:
+                  service:
+                    name: ph-ee-connector-mojaloop-java
+                    port:
+                      number: 80
+      deployment:
+        extraEnvs:
+          - name: parties_0_domain
+            value: "<YOUR_PARTIES_0_DOMAIN>"
+          - name: parties_1_domain
+            value: "<YOUR_PARTIES_1_DOMAIN>"
+          - name: parties_0_tenantId
+            value: "<YOUR_PARTIES_0_TENANTID>"
+          - name: parties_1_tenantId
+            value: "<YOUR_PARTIES_1_TENANTID>"
+          - name: parties_0_fspId
+            value: "<YOUR_PARTIES_0_FSPID>"
+          - name: parties_1_fspId
+            value: "<YOUR_PARTIES_1_FSPID>"
+
+    connector_bulk:
+      tenants: "<YOUR_TENANTS>"
+
+    importer_rdbms:
+      image: docker.io/openmf/ph-ee-importer-rdbms:v1.14.1
+
+    zeebe_ops:
+      tenants: "<YOUR_TENANTS>"
+
+    operations_app:
+      tenants: "<YOUR_TENANTS>"
+
+    ph_ee_connector_ams_mifos:
+      enabled: true
+      ams_local_interop_host: "<YOUR_AMS_LOCAL_INTEROP_HOST>"
+      ams_local_account_host: "<YOUR_AMS_LOCAL_ACCOUNT_HOST>"
+      ams_local_customer_host: "<YOUR_AMS_LOCAL_CUSTOMER_HOST>"
+      ams_local_auth_host: "<YOUR_AMS_LOCAL_AUTH_HOST>"
+      ams_local_loan_host: "<YOUR_AMS_LOCAL_LOAN_HOST>"
+      dfspids: "<YOUR_DFSPIDS>"
+      ingress:
+        enabled: true
+        hosts:
+          - host: "<YOUR_AMS_MIFOS_INGRESS_HOST>"
+            paths:
+              - path: "/"
+                backend:
+                  service:
+                    name: ph-ee-connector-ams-mifos
+                    port:
+                      number: 80
+          - host: "<YOUR_AMS_MIFOS_INGRESS_HOST>"
+            paths:
+              - path: "/"
+                backend:
+                  service:
+                    name: ph-ee-connector-ams-mifos
+                    port:
+                      number: 7070
+
+
+    mockpayment:
+      enabled: true
+      ingress:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: nginx
+        hosts:
+          - host: <YOUR_MOCKPAYMENT_INGRESS_HOST>
+            paths:
+              - path: "/"
+                backend:
+                  service:
+                    name: "ph-ee-connector-mock-payment-schema"
+                    port:
+                      number: 8080
+
+fin-engine:
+  enabled: false
+  fineract:
+    ingress:
+      hostname: "<HOST-NAME>"
+
+  webapp:
+    ingress:
+      hostname: "<HOST-NAME>"
+
+mojaloop:
+  enabled: false
+  centralledger:
+    enabled: true
+    centralledger-service:
+      ingress:
+        enabled: true
+        hostname: <YOUR_CENTRAL_LEDGER_HOSTNAME>
+    centralledger-handler-transfer-prepare:
+      ingress:
+        enabled: true
+        hostname: <YOUR_TRANSFER_PREPARE_HOSTNAME>
+    centralledger-handler-admin-transfer:
+      ingress:
+        enabled: true
+        hostname: <YOUR_ADMIN_TRANSFER_HOSTNAME>
+    centralledger-handler-transfer-position:
+      ingress:
+        enabled: true
+        hostname: <YOUR_TRANSFER_POSITION_HOSTNAME>
+    centralledger-handler-transfer-get:
+      ingress:
+        enabled: true
+        hostname: <YOUR_TRANSFER_GET_HOSTNAME>
+    centralledger-handler-transfer-fulfil:
+      ingress:
+        enabled: true
+        hostname: <YOUR_TRANSFER_FULFIL_HOSTNAME>
+    centralledger-handler-timeout:
+      ingress:
+        enabled: true
+        hostname: <YOUR_TIMEOUT_HOSTNAME>
+  centralsettlement:
+    centralsettlement-service:
+      ingress:
+        enabled: true
+        hostname: <YOUR_CENTRAL_SETTLEMENT_SERVICE_HOSTNAME>
+    centralsettlement-handler-deferredsettlement:
+      ingress:
+        enabled: true
+        hostname: <YOUR_DEFERRED_SETTLEMENT_HOSTNAME>
+    centralsettlement-handler-grosssettlement:
+      ingress:
+        enabled: true
+        hostname: <YOUR_GROSS_SETTLEMENT_HOSTNAME>
+    centralsettlement-handler-rules:
+      ingress:
+        enabled: true
+        hostname: <YOUR_SETTLEMENT_RULES_HOSTNAME>
+  centraleventprocessor:
+    ingress:
+      enabled: true
+      hostname: <YOUR_EVENT_PROCESSOR_HOSTNAME>
+
+  ml-api-adapter:
+    enabled: true
+    ml-api-adapter-service:
+      ingress:
+        enabled: true
+        hostname: <YOUR_ML_API_ADAPTER_HOSTNAME>
+    ml-api-adapter-handler-notification:
+      ingress:
+        enabled: true
+        hostname: <YOUR_NOTIFICATION_HANDLER_HOSTNAME>
+
+  emailnotifier:
+    enabled: false
+    ingress:
+      enabled: true
+      hostname: <YOUR_EMAIL_NOTIFIER_HOSTNAME>
+
+  account-lookup-service:
+    account-lookup-service:
+      ingress:
+        enabled: true
+        hostname: <YOUR_ACCOUNT_LOOKUP_SERVICE_HOSTNAME>
+    account-lookup-service-admin:
+      ingress:
+        enabled: true
+        hostname: <YOUR_ACCOUNT_LOOKUP_SERVICE_ADMIN_HOSTNAME>
+    als-oracle-pathfinder:
+      ingress:
+        hostname: <YOUR_ALS_ORACLE_PATHFINDER_HOSTNAME>
+
+  quoting-service:
+    ingress:
+      enabled: true
+      hostname: <YOUR_QUOTING_SERVICE_HOSTNAME>
+
+  transaction-requests-service:
+    enabled: false
+    ingress:
+      enabled: true
+      hostname: <YOUR_TRANSACTION_REQUEST_SERVICE_HOSTNAME>
+
+  thirdparty:
+    enabled: false
+    auth-svc:
+      ingress:
+        enabled: false
+        hostname: <YOUR_AUTH_SERVICE_HOSTNAME>
+
+    consent-oracle:
+      ingress:
+        enabled: false
+        hostname: <YOUR_CONSENT_ORACLE_HOSTNAME>
+
+    tp-api-svc:
+      ingress:
+        enabled: false
+        hostname: <YOUR_TP_API_SERVICE_HOSTNAME>
+
+  simulator:
+    enabled: true
+    ingress:
+      enabled: true
+      hostname: <YOUR_SIMULATOR_HOSTNAME>
+
+  mojaloop-simulator:
+    enabled: false
+    simulators:
+      payerfsp:
+        ingress:
+          enabled: true
+          hosts:
+            - <YOUR_SIM_PAYERFSP_HOSTNAME>
+      payeefsp:
+        ingress:
+          enabled: true
+          hosts:
+            - <YOUR_SIM_PAYEEFSP_HOSTNAME>
+      testfsp1:
+        ingress:
+          enabled: true
+          hosts:
+            - <YOUR_SIM_TESTFSP1_HOSTNAME>
+      testfsp2:
+        ingress:
+          enabled: true
+          hosts:
+            - <YOUR_SIM_TESTFSP2_HOSTNAME>
+      testfsp3:
+        ingress:
+          enabled: true
+          hosts:
+            - <YOUR_SIM_TESTFSP3_HOSTNAME>
+      testfsp4:
+        ingress:
+          enabled: true
+          hosts:
+            - <YOUR_SIM_TESTFSP4_HOSTNAME>
+    defaults:
+      ingress:
+        enabled: true
+        path: /
+        hosts:
+          - <YOUR_MOJALOOP_SIMULATORS_HOSTNAME>
+
+  mojaloop-ttk-simulators:
+    enabled: false
+    mojaloop-ttk-sim1-svc:
+      ml-testing-toolkit:
+        ml-testing-toolkit-backend:
+          ingress:
+            enabled: true
+            hosts:
+              specApi:
+                host: <YOUR_TTK_SIM1_SPECAPI_HOSTNAME>
+              adminApi:
+                host: <YOUR_TTK_SIM1_ADMINAPI_HOSTNAME>
+        ml-testing-toolkit-frontend:
+          ingress:
+            enabled: true
+            hosts:
+              ui:
+                host: <YOUR_TTK_SIM1_UI_HOSTNAME>
+          config:
+            API_BASE_URL: <YOUR_TTK_SIM1_API_BASE_URL>
+
+    mojaloop-ttk-sim2-svc:
+      ml-testing-toolkit:
+        ml-testing-toolkit-backend:
+          ingress:
+            enabled: true
+            hosts:
+              specApi:
+                host: <YOUR_TTK_SIM2_SPECAPI_HOSTNAME>
+              adminApi:
+                host: <YOUR_TTK_SIM2_ADMINAPI_HOSTNAME>
+        ml-testing-toolkit-frontend:
+          ingress:
+            enabled: true
+            hosts:
+              ui:
+                host: <YOUR_TTK_SIM2_UI_HOSTNAME>
+          config:
+            API_BASE_URL: <YOUR_TTK_SIM2_API_BASE_URL>
+
+    mojaloop-ttk-sim3-svc:
+      ml-testing-toolkit:
+        ml-testing-toolkit-backend:
+          ingress:
+            enabled: true
+            hosts:
+              specApi:
+                host: <YOUR_TTK_SIM3_SPECAPI_HOSTNAME>
+              adminApi:
+                host: <YOUR_TTK_SIM3_ADMINAPI_HOSTNAME>
+        ml-testing-toolkit-frontend:
+          ingress:
+            enabled: true
+            hosts:
+              ui:
+                host: <YOUR_TTK_SIM3_UI_HOSTNAME>
+          config:
+            API_BASE_URL: <YOUR_TTK_SIM3_API_BASE_URL>
+
+  mojaloop-bulk:
+    enabled: false
+    bulk-api-adapter:
+      bulk-api-adapter-service:
+        ingress:
+          enabled: true
+          hostname: <YOUR_BULK_API_ADAPTER_HOSTNAME>
+
+      bulk-api-adapter-handler-notification:
+        ingress:
+          enabled: true
+          hostname: <YOUR_BULK_API_ADAPTER_NOTIFICATION_HOSTNAME>
+
+    bulk-centralledger:
+      cl-handler-bulk-transfer-prepare:
+        ingress:
+          enabled: true
+          hostname: <YOUR_BULK_TRANSFER_PREPARE_HOSTNAME>
+      cl-handler-bulk-transfer-fulfil:
+        ingress:
+          enabled: true
+          hostname: <YOUR_BULK_TRANSFER_FULFIL_HOSTNAME>
+      cl-handler-bulk-transfer-processing:
+        ingress:
+          enabled: true
+          hostname: <YOUR_BULK_TRANSFER_PROCESSING_HOSTNAME>
+      cl-handler-bulk-transfer-get:
+        ingress:
+          enabled: true
+          hostname: <YOUR_BULK_TRANSFER_GET_HOSTNAME>
+
+  ml-testing-toolkit:
+    enabled: false
+    ml-testing-toolkit-backend:
+      ingress:
+        enabled: true
+        hosts:
+          specApi:
+            host: <YOUR_TESTING_TOOLKIT_SPECAPI_HOSTNAME>
+          adminApi:
+            host: <YOUR_TESTING_TOOLKIT_ADMINAPI_HOSTNAME>
+    ml-testing-toolkit-frontend:
+      ingress:
+        enabled: true
+        hosts:
+          ui:
+            host: <YOUR_TESTING_TOOLKIT_UI_HOSTNAME>
+      config:
+        API_BASE_URL: <YOUR_TESTING_TOOLKIT_API_BASE_URL>
+
+example-mojaloop-backend:
+  enabled: false
+  kafka:
+    listeners:
+      client:
+        protocol: "PLAINTEXT"
+      controller:
+        protocol: "PLAINTEXT"
+      external:
+        protocol: "PLAINTEXT"
+      interbroker:
+        protocol: "PLAINTEXT"
