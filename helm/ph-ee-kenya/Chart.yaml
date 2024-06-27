@@ -1,4 +1,4 @@
-apiVersion: v1
+apiVersion: v2
 name: ph-ee-kenya
 description: PaymentHub EE Barebone Edition
 type: application

@@ -1,6 +1,6 @@
 ph-ee-engine:
   ingress:
-    apiversion: "networking.k8s.io/v1"
+    apiversion: "networking.k8s.io/v2"
 
   deployment:
     apiversion: "apps/v1"
