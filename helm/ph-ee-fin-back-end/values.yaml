@@ -1,11 +1,21 @@
 ph-ee-engine:
   enabled: true
-
-  zeebe-operate-helm:
-    enabled: true
-
+  global:
+    SPRING_PROFILES_ACTIVE: "bb"
+    imagePullPolicy: "Always"
+    LOGGING_LEVEL_ROOT: "INFO"
+    LOGGING_PATTERN_CONSOLE: "%d{dd-MM-yyyy HH:mm:ss.SSS} %magenta([%thread]) %highlight(%-5level) %logger.%M - %msg%n"
+    tenants: "rhino,gorilla,wakanda,pluto,venus,jupiter"
+    DFSPIDS: "wakanda,pluto,venus,jupiter,gorilla"
   elasticsearch:
     enabled: true
+    resources:
+      requests:
+        cpu: "100m"
+        memory: "1024M"
+      limits:
+        cpu: "1000m"
+        memory: "1024M"
 
   kibana:
     enabled: false
@@ -15,30 +25,99 @@ ph-ee-engine:
 
   ph_ee_connector_ams_mifos:
     enabled: true
+    SPRING_PROFILES_ACTIVE: "fin12,bb"
+    ams_local_enabled: true
+    ams_local_interop_host: "https://fineract-server:8443"
+    ams_local_account_host: "https://fineract-server:8443"
+    ams_local_customer_host: "https://fineract-server:8443"
+    ams_local_auth_host: "https://fineract-server:8443"
+    ams_local_loan_host: "https://fineract-server:8443"
 
   ph_ee_connector_mojaloop:
     enabled: false
 
   kafka:
     enabled: true
+    provisioning:
+      enabled: false
 
   channel:
     enabled: true
+    server:
+      ssl:
+        keyPassword: "password"
+        keyStorePassword: "password"
+    ingress:
+      enabled: false
+      tls:
+        - secretName: sandbox-secret
+      hosts:
+        - host: channel.sandbox.mifos.io
+          paths:
+            - path: "/"
+              backend:
+                service:
+                  name: "ph-ee-connector-channel"
+                  port:
+                    number: 8443
+        - host: channel-gsma.sandbox.mifos.io
+          paths:
+            - path: "/"
+              backend:
+                service:
+                  name: "ph-ee-connector-channel-gsma"
+                  port:
+                    number: 82
 
   mockpayment:
     enabled: true
-
-  gsmachannel:
-    enabled: false
+    ingress:
+      enabled: false
+      hosts:
+        - host: ""
+          paths:
+            - path: "/"
+              backend:
+                service:
+                  name: ph-ee-connector-mock-payment-schema
+                  port:
+                    number: 80
 
   operations_app:
     enabled: true
+
+  operationsmysql:
+    auth:
+      database: "tenants"
+    initdbScripts:
+      setup.sql: |-
+        CREATE DATABASE messagegateway;
+        CREATE DATABASE `rhino`;
+        CREATE DATABASE `gorilla`;
+        CREATE DATABASE `wakanda`;
+        CREATE DATABASE `identity_account_mapper`;
+        CREATE DATABASE `voucher_management`;
+        CREATE DATABASE `pluto`;
+        CREATE DATABASE `venus`;
+        CREATE DATABASE `jupiter`;
+        CREATE DATABASE `lion`;
+        GRANT ALL ON *.* TO 'root'@'%';
+        GRANT ALL PRIVILEGES ON `rhino`.* TO 'mifos';
+        GRANT ALL PRIVILEGES ON `gorilla`.* TO 'mifos';
+        GRANT ALL PRIVILEGES ON `lion`.* TO 'mifos';
+        GRANT ALL PRIVILEGES ON `wakanda`.* TO 'mifos';
+        GRANT ALL PRIVILEGES ON messagegateway.* TO 'mifos';
+        GRANT ALL PRIVILEGES ON `identity_account_mapper`.* TO 'mifos';
+        GRANT ALL PRIVILEGES ON `voucher_management`.* TO 'mifos';
+        GRANT ALL PRIVILEGES ON `pluto`.* TO 'mifos';
+        GRANT ALL PRIVILEGES ON `venus`.* TO 'mifos';
+        GRANT ALL PRIVILEGES ON `jupiter`.* TO 'mifos';
 
   operations_web:
     enabled: false
 
   ph_ee_connector_gsma:
-    enabled: false
+    enabled: true
 
   ph_ee_connector_slcb:
     enabled: true
@@ -49,32 +128,47 @@ ph-ee-engine:
     enabled: true
 
   roster_connector:
-    enabled: true
-    pesacore:
-      auth_header: "PaymentHub"
+    enabled: false
 
   paygops_connector:
-    enabled: true
-    paygops:
-      authheader: "PaymentHubTest"
+    enabled: false
 
   notifications:
     enabled: true
 
   connector_bulk:
     enabled: true
+    operations_app:
+      contactpoint: "http://ph-ee-operations-app:80"
+      endpoints:
+        batch_transaction: "/api/v1/batch/transactions"
 
   zeebe_ops:
     enabled: true
 
+  ph-ee-connector:
+    enabled: true
+
   messagegateway:
     enabled: true
+    ingress:
+      enabled: false
+      hosts:
+          paths:
+            - path: "/"
+              backend:
+                service:
+                  name: "message-gateway"
+                  port:
+                    number: 80
 
   importer_es:
     enabled: true
 
   importer_rdbms:
     enabled: true
+    LOGGING_LEVEL_ROOT: "DEBUG"
+    SPRING_PROFILES_ACTIVE: "local,tenants"
 
   kong:
     enabled: false
@@ -87,6 +181,23 @@ ph-ee-engine:
 
   redis:
     enabled: true
+    replica:
+      replicaCount: 0
+
+  billPay:
+    enabled: false
+
+  crm:
+    enabled: false
+
+  vouchers:
+    enabled: false
+
+  minio:
+    enabled: true
+
+  post_installation_job:
+    enabled: true
 
 fin-engine:
   enabled: true
@@ -95,7 +206,12 @@ fin-engine:
 
   fineract:
     enabled: true
-
+    ingress:
+      enabled: false
+      hostname: "fynams.sandbox.mifos.io"
+      wildcardhostname: "*.sandbox.mifos.io"
+  post_installation_job:
+    enabled: true
   mariadb:
     enabled: true
     fullnameOverride: mysql

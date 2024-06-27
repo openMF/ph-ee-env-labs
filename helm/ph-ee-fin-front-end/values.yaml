@@ -1,15 +1,16 @@
 ph-ee-engine:
-  zeebe-cluster-helm:
+  camunda-platform:
+    zeebe:
+      enabled: false
+    zeebe-gateway:
+      replicas: 0
+  minio:
     enabled: false
-
-  zeebe-operate-helm:
-    enabled: false
-
   elasticsearch:
     enabled: false
 
   kibana:
-    enabled: true
+    enabled: false
 
   operations:
     mysql:
@@ -34,7 +35,7 @@ ph-ee-engine:
   mockpayment:
     enabled: false
 
-  gsmachannel:
+  ph_ee_connector_gsma:
     enabled: false
 
   operations_app:
@@ -42,9 +43,6 @@ ph-ee-engine:
 
   operations_web:
     enabled: true
-
-  ph_ee_connector_gsma:
-    enabled: false
 
   ph_ee_connector_slcb:
     enabled: false
@@ -97,16 +95,37 @@ ph-ee-engine:
   redis:
     enabled: false
 
+  billPay:
+    enabled: false
+
+  crm:
+    enabled: false
+
+  vouchers:
+    enabled: false
+
+  post_installation_job:
+    enabled: false
+
 fin-engine:
   communityapp:
+    lookforservice: false
     enabled: true
+    ingress:
+      enabled: false
+      hostname: "communityapp.sandbox.mifos.io"
+      wildcardhostname: "communityapp.sandbox.mifos.io"
   fineract:
     enabled: false
   mariadb:
+    enabled: false
+  post_tenant_installation_job:
     enabled: false
 
 operations:
   grafana:
     enabled: true
+    ingress:
+      enabled: false
   prometheus:
     enabled: false
