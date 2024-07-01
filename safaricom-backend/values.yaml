@@ -1,0 +1,4 @@
+back-end:
+  ph-ee-engine:
+    connector_bulk:
+      enabled: false

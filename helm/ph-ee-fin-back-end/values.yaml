@@ -139,7 +139,7 @@ ph-ee-engine:
   connector_bulk:
     enabled: true
     operations_app:
-      contactpoint: "http://ph-ee-operations-app:80"
+      contactpoint: "https://ph-ee-operations-app:80"
       endpoints:
         batch_transaction: "/api/v1/batch/transactions"
 
@@ -168,7 +168,7 @@ ph-ee-engine:
   importer_rdbms:
     enabled: true
     LOGGING_LEVEL_ROOT: "DEBUG"
-    SPRING_PROFILES_ACTIVE: "local,tenants"
+    SPRING_PROFILES_ACTIVE: "local,tenants,tenantsConnection"
 
   kong:
     enabled: false
@@ -222,3 +222,6 @@ operations:
     enabled: false
   prometheus:
     enabled: true
+
+integration_test:
+  image: "docker.io/openmf/ph-ee-integration-test:v1.6.5"

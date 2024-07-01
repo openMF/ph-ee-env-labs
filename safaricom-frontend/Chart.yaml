@@ -1,0 +1,12 @@
+apiVersion: v2
+name: safaricom-frontend
+description: A Helm chart for Kubernetes
+
+type: application
+version: 0.1.0
+appVersion: "1.16.0"
+
+dependencies:
+  - name: front-end
+    repository: "https://fynarfin.io/images/front-end-2.0.0/"
+    version: 2.0.0
