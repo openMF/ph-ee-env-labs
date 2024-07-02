@@ -2,16 +2,19 @@ apiVersion: v2
 name: front-end
 description: A Helm chart for front-end services
 type: application
-version: 1.0.0
+version: 2.0.0
 appVersion: "ph-ee-superset: v1.16.0; ph-ee-engine:v1.16.0; fin-engine: v1.0.0; operations: 1.0.0;"
 
 dependencies:
 - name: ph-ee-engine
-  repository: "https://fynarfin.io/images/ph-ee-engine-1.7.2-SNAPSHOT/"
-  version: 1.7.2-SNAPSHOT
+  repository: "https://fynarfin.io/images/ph-ee-engine-1.13.1-SNAPSHOT/"
+  version: 1.13.1-SNAPSHOT
+  condition: "ph-ee-engine.enabled"
 - name: fin-engine
-  repository: "https://fynarfin.io/images/fineract/"
-  version: 1.0.0-SNAPSHOT
+  repository: "https://fynarfin.io/images/fin-engine/"
+  version: 1.4.1-SNAPSHOT
+  condition: "fin-engine.enabled"
 - name: operations
   repository: "https://fynarfin.io/images/operations/"
-  version: "0.1.0"
+  version: "0.2.0"
+  condition: "operations.enabled"
