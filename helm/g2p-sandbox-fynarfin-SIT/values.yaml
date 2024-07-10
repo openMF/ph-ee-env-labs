@@ -89,14 +89,26 @@ ph-ee-g2psandbox:
             value: "https://fynams.sandbox.fynarfin.io/"
           - name: parties_1_domain
             value: "mojaloop.sandbox.fynarfin.io"
+          - name: parties_2_domain
+            value: "mojaloop.sandbox.fynarfin.io"
+          - name: parties_3_domain
+            value: "mojaloop.sandbox.fynarfin.io"
           - name: parties_0_tenantId
             value: "wakanda"
           - name: parties_1_tenantId
             value: "jupiter"
+          - name: parties_2_tenantId
+            value: "pluto"
+          - name: parties_3_tenantId
+            value: "venus"
           - name: parties_0_fspId
             value: "payerfsp"
           - name: parties_1_fspId
             value: "payeefsp"
+          - name: parties_2_fspId
+            value: "payeefsp2"
+          - name: parties_3_fspId
+            value: "payeefsp3"
 
       ingress:
         enabled: true
