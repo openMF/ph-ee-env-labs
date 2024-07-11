@@ -1,7 +1,7 @@
 apiVersion: v2
 name: g2p-sandbox-extended
 description: A Helm chart for installing paymenthub
-version: 0.1.0
+version: 1.0.0
 dependencies:
 #G2P Sandbox Setup
   - name: ph-ee-g2psandbox

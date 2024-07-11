@@ -62,6 +62,9 @@ ph-ee-g2psandbox:
     importer_rdbms:
       image: docker.io/openmf/ph-ee-importer-rdbms:v1.14.1
 
+    integration_test:
+      image: "docker.io/openmf/ph-ee-integration-test:v1.6.6"
+
     zeebe_ops:
       tenants: "<YOUR_TENANTS>"
 
