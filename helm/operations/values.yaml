@@ -62,9 +62,6 @@ grafana:
         gnetId: 6417
         revision: 1
         datasource: Prometheus
-#        Only few query working in below given Dashboard for Zeebe
-#      zeebe-overview:
-#        url: https://raw.githubusercontent.com/camunda/zeebe/main/monitor/grafana/zeebe-overview.json
 
 
 
