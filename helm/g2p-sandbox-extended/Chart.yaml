@@ -1,12 +1,12 @@
 apiVersion: v2
 name: g2p-sandbox-extended
 description: A Helm chart for installing paymenthub
-version: 0.1.0
+version: 1.0.0
 dependencies:
 #G2P Sandbox Setup
   - name: ph-ee-g2psandbox
-    repository: "https://fynarfin.io/images/ph-ee-g2psandbox-1.5.1"
-    version: 1.5.1
+    repository: "https://fynarfin.io/images/ph-ee-g2psandbox-1.5.2"
+    version: 1.5.2
     condition: ph-ee-g2psandbox.enabled
 
 #Finereact Setup

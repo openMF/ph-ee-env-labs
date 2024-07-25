@@ -45,15 +45,27 @@ ph-ee-g2psandbox:
         extraEnvs:
           - name: parties_0_domain
             value: "<YOUR_PARTIES_0_DOMAIN>"
-          - name: parties_1_domain
-            value: "<YOUR_PARTIES_1_DOMAIN>"
           - name: parties_0_tenantId
             value: "<YOUR_PARTIES_0_TENANTID>"
-          - name: parties_1_tenantId
-            value: "<YOUR_PARTIES_1_TENANTID>"
           - name: parties_0_fspId
             value: "<YOUR_PARTIES_0_FSPID>"
+          - name: parties_1_domain
+            value: "<YOUR_PARTIES_1_DOMAIN>"
+          - name: parties_1_tenantId
+            value: "<YOUR_PARTIES_1_TENANTID>"
           - name: parties_1_fspId
+            value: "<YOUR_PARTIES_1_FSPID>"
+          - name: parties_2_domain
+            value: "<YOUR_PARTIES_1_DOMAIN>"
+          - name: parties_2_tenantId
+            value: "<YOUR_PARTIES_1_TENANTID>"
+          - name: parties_2_fspId
+            value: "<YOUR_PARTIES_1_FSPID>"
+          - name: parties_3_domain
+            value: "<YOUR_PARTIES_1_DOMAIN>"
+          - name: parties_3_tenantId
+            value: "<YOUR_PARTIES_1_TENANTID>"
+          - name: parties_3_fspId
             value: "<YOUR_PARTIES_1_FSPID>"
 
     connector_bulk:
@@ -61,6 +73,9 @@ ph-ee-g2psandbox:
 
     importer_rdbms:
       image: docker.io/openmf/ph-ee-importer-rdbms:v1.14.1
+
+    integration_test:
+      image: "docker.io/openmf/ph-ee-integration-test:v1.6.6"
 
     zeebe_ops:
       tenants: "<YOUR_TENANTS>"

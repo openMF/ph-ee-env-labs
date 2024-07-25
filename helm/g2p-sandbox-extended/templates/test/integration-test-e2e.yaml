@@ -9,7 +9,7 @@ metadata:
 spec:
   containers:
     - name: g2p-sandbox-test-e2e
-      image: "docker.io/openmf/ph-ee-integration-test:v1.6.4"
+      image: "docker.io/openmf/ph-ee-integration-test:v1.6.6"
       imagePullPolicy: "Always"
       command: [ "/bin/bash" , "-c" ]
       args:
