@@ -120,12 +120,12 @@ ph-ee-engine:
     enabled: true
 
   ph_ee_connector_slcb:
-    enabled: true
+    enabled: false
     image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/ph-ee-slcb"
     imageTag: latest
 
   mpesa:
-    enabled: true
+    enabled: false
 
   roster_connector:
     enabled: false
