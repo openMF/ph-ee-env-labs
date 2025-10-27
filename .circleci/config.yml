@@ -29,15 +29,15 @@ jobs:
                 PR_TITLE=$(curl -sSL "https://api.github.com/repos/openmf/$CIRCLE_PROJECT_REPONAME/pulls/$PR_NUMBER" | jq -r '.title')
                 JIRA_STORY=-$(echo $PR_TITLE | cut -d "[" -f2 | cut -d "]" -f1 | tr '[A-Z]' '[a-z]')
                 if [ -z "$JIRA_STORY" ]; then echo "Invalid PR title" && exit 1; else echo "Ticket NO: $JIRA_STORY" && JIRA_STORY_DIR=$(echo /jira-story-version); fi
-                echo Charts will save in https://fynarfin.io/images$JIRA_STORY_DIR
+                echo Charts will save in https://openmf.github.io/helm-charts/payment-hub/images$JIRA_STORY_DIR
             fi
-            CHART_URL="https://fynarfin.io/images$JIRA_STORY_DIR/ph-ee-g2psandbox-0.0.0$JIRA_STORY"
+            CHART_URL="https://openmf.github.io/helm-charts/payment-hub/images$JIRA_STORY_DIR/ph-ee-g2psandbox-0.0.0$JIRA_STORY"
             if curl --output /dev/null --silent --head --fail "$CHART_URL"; then
               sed -i "11s@^ *repository:.*\$@  repository: $CHART_URL@" helm/g2p-sandbox-fynarfin-SIT/Chart.yaml
               sed -i "12s@^ *version:.*\$@  version: 0.0.0$JIRA_STORY@" helm/g2p-sandbox-fynarfin-SIT/Chart.yaml
               echo "chart used: < $CHART_URL >"
             else
-              CHART_URL="https://fynarfin.io/images/ph-ee-g2psandbox-0.0.0"
+              CHART_URL="https://openmf.github.io/helm-charts/payment-hub/images/ph-ee-g2psandbox-0.0.0"
               echo "chart used: < $CHART_URL >"
             fi
             sed -i "6s/.*/version: 0.2.0$JIRA_STORY/" helm/g2p-sandbox-fynarfin-SIT/Chart.yaml
@@ -73,15 +73,15 @@ jobs:
                 PR_TITLE=$(curl -sSL "https://api.github.com/repos/openmf/$CIRCLE_PROJECT_REPONAME/pulls/$PR_NUMBER" | jq -r '.title')
                 JIRA_STORY=-$(echo $PR_TITLE | cut -d "[" -f2 | cut -d "]" -f1 | tr '[A-Z]' '[a-z]')
                 if [ -z "$JIRA_STORY" ]; then echo "Invalid PR title" && exit 1; else echo "Ticket NO: $JIRA_STORY" && JIRA_STORY_DIR=$(echo /jira-story-version); fi
-                echo Charts will save in https://fynarfin.io/images$JIRA_STORY_DIR
+                echo Charts will save in https://openmf.github.io/helm-charts/payment-hub/images$JIRA_STORY_DIR
             fi
-            CHART_URL="https://fynarfin.io/images$JIRA_STORY_DIR/ph-ee-g2psandbox-0.0.0$JIRA_STORY"
+            CHART_URL="https://openmf.github.io/helm-charts/payment-hub/images$JIRA_STORY_DIR/ph-ee-g2psandbox-0.0.0$JIRA_STORY"
             if curl --output /dev/null --silent --head --fail "$CHART_URL"; then
               sed -i "11s@^ *repository:.*\$@  repository: $CHART_URL@" helm/ph-ee-g2p-sandbox-ci/Chart.yaml
               sed -i "12s@^ *version:.*\$@  version: 0.0.0$JIRA_STORY@" helm/ph-ee-g2p-sandbox-ci/Chart.yaml
               echo "chart used: < $CHART_URL >"
             else
-              CHART_URL="https://fynarfin.io/images/ph-ee-g2p-sandbox-ci-0.0.0"
+              CHART_URL="https://openmf.github.io/helm-charts/payment-hub/images/ph-ee-g2p-sandbox-ci-0.0.0"
               echo "chart used: < $CHART_URL >"
             fi
             sed -i "6s/.*/version: 0.0.0$JIRA_STORY/" helm/ph-ee-g2p-sandbox-ci/Chart.yaml
@@ -102,12 +102,12 @@ jobs:
     steps:
       - mifos-orb/docker-image-availability-check-and-upgrade:
           namespace: paymenthub
-          chart-base-url: https://fynarfin.io/images
+          chart-base-url: https://openmf.github.io/helm-charts/payment-hub/images
           chart-name: ph-ee-g2psandbox-fynarfin
           chart-version: 0.2.0
-          #          chart: "https://fynarfin.io/images/ph-ee-g2psandbox-fynarfin/ph-ee-g2psandbox-fynarfin-0.2.0.tgz"
+          #          chart: "https://openmf.github.io/helm-charts/payment-hub/images/ph-ee-g2psandbox-fynarfin/ph-ee-g2psandbox-fynarfin-0.2.0.tgz"
           release-name: g2p-sandbox
-          #          add-repo: "https://fynarfin.io/images/ph-ee-g2psandbox-fynarfin"
+          #          add-repo: "https://openmf.github.io/helm-charts/payment-hub/images/ph-ee-g2psandbox-fynarfin"
           cluster-name: "sit"
           aws-region: "$REGION"
           service-file-path: https://raw.githubusercontent.com/openMF/ph-ee-env-labs/master/.circleci/services.txt
@@ -135,13 +135,13 @@ jobs:
               JIRA_STORY=-$(echo $PR_TITLE | cut -d "[" -f2 | cut -d "]" -f1 | tr '[A-Z]' '[a-z]')
               if [ -z "$JIRA_STORY" ]; then echo "Invalid PR title" && exit 1; else echo "Ticket NO: $JIRA_STORY" && JIRA_STORY_DIR=$(echo /jira-story-version); fi
             fi
-            CHART_URL="https://fynarfin.io/images$JIRA_STORY_DIR/ph-ee-g2psandbox-security$JIRA_STORY"
+            CHART_URL="https://openmf.github.io/helm-charts/payment-hub/images$JIRA_STORY_DIR/ph-ee-g2psandbox-security$JIRA_STORY"
             if curl --output /dev/null --silent --head --fail "$CHART_URL"; then
               sed -i "10s@^ *repository:.*\$@  repository: $CHART_URL@" helm/g2p-sandbox-security-fynarfin-SIT/Chart.yaml
               sed -i "11s@^ *version:.*\$@  version: 0.0.0$JIRA_STORY@" helm/g2p-sandbox-security-fynarfin-SIT/Chart.yaml
               echo "chart used: < $CHART_URL >"
             else
-              CHART_URL="https://fynarfin.io/images/ph-ee-g2psandbox-security"
+              CHART_URL="https://openmf.github.io/helm-charts/payment-hub/images/ph-ee-g2psandbox-security"
               echo "chart used: < $CHART_URL >"
             fi
             sed -i "5s/.*/version: 0.0.0$JIRA_STORY/" helm/g2p-sandbox-security-fynarfin-SIT/Chart.yaml
@@ -170,11 +170,11 @@ jobs:
           fi
       - mifos-orb/docker-image-availability-check-and-upgrade:
           namespace: ph-infrastructure
-          chart-base-url: https://fynarfin.io/images
+          chart-base-url: https://openmf.github.io/helm-charts/payment-hub/images
           chart-name: ph-ee-g2psandbox-security-fynarfin
           chart-version: 0.0.0
-          #          chart: "https://fynarfin.io/images/ph-ee-g2psandbox-security-fynarfin/ph-ee-g2psandbox-security-fynarfin-0.0.0.tgz"
-          #          add-repo: "https://fynarfin.io/images/ph-ee-g2psandbox-security-fynarfin"
+          #          chart: "https://openmf.github.io/helm-charts/payment-hub/images/ph-ee-g2psandbox-security-fynarfin/ph-ee-g2psandbox-security-fynarfin-0.0.0.tgz"
+          #          add-repo: "https://openmf.github.io/helm-charts/payment-hub/images/ph-ee-g2psandbox-security-fynarfin"
           release-name: g2p-sandbox-security
           cluster-name: "sit"
           aws-region: "$REGION"
@@ -243,11 +243,11 @@ jobs:
           fi
       - mifos-orb/docker-image-availability-check-and-upgrade:
           namespace: paymenthub-dpg
-          chart-base-url: https://fynarfin.io/images
+          chart-base-url: https://openmf.github.io/helm-charts/payment-hub/images
           chart-name: dpga-barebone
           chart-version: 1.0.0
-          #          chart: "https://fynarfin.io/images/dpga-barebone/dpga-barebone-1.0.0.tgz"
-          #          add-repo: "https://fynarfin.io/images/dpga-barebone"
+          #          chart: "https://openmf.github.io/helm-charts/payment-hub/images/dpga-barebone/dpga-barebone-1.0.0.tgz"
+          #          add-repo: "https://openmf.github.io/helm-charts/payment-hub/images/dpga-barebone"
           release-name: dpga-release
           cluster-name: "sit"
           aws-region: "$REGION"
@@ -318,7 +318,7 @@ jobs:
       - run: "kubectl delete clusterrolebinding `kubectl get clusterrolebinding |grep c-role|cut -d ' ' -f1` || echo ' ' "
       - mifos-orb/docker-image-availability-check-and-upgrade:
           namespace: paymenthub-demo
-          chart-base-url: https://fynarfin.io/images
+          chart-base-url: https://openmf.github.io/helm-charts/payment-hub/images
           chart-name: ph-ee-g2psandbox-fynarfin-demo
           chart-version: 1.0.0
           release-name: g2p-sandbox-demo

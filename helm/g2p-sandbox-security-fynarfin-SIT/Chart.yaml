@@ -7,5 +7,5 @@ appVersion: 1.0.0
 
 dependencies:
 - name: ph-ee-g2psandbox-security
-  repository: https://fynarfin.io/images/ph-ee-g2psandbox-security
+  repository: https://openmf.github.io/helm-charts/payment-hub/images/ph-ee-g2psandbox-security
   version: 0.0.0

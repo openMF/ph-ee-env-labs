@@ -5,13 +5,13 @@ version: 1.0.0
 dependencies:
 #G2P Sandbox Setup
   - name: ph-ee-g2psandbox
-    repository: "https://fynarfin.io/images/ph-ee-g2psandbox-1.5.2"
+    repository: "https://openmf.github.io/helm-charts/payment-hub/images/ph-ee-g2psandbox-1.5.2"
     version: 1.5.2
     condition: ph-ee-g2psandbox.enabled
 
 #Finereact Setup
   - name: fin-engine
-    repository: "https://fynarfin.io/images/fin-engine"
+    repository: "https://openmf.github.io/helm-charts/payment-hub/images/fin-engine"
     version: 1.4.1-SNAPSHOT
     condition: fin-engine.enabled
 

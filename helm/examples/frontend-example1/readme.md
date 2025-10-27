@@ -18,7 +18,7 @@
     
     dependencies:
     - name: front-end
-      repository: "https://fynarfin.io/images/front-end-2.0.0/"
+      repository: "https://openmf.github.io/helm-charts/payment-hub/images/front-end-2.0.0/"
       version: 2.0.0
 
    ```

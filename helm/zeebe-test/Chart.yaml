@@ -8,5 +8,5 @@ appVersion: 1.16.0
 
 dependencies:
 - name: ph-ee-engine
-  repository: https://fynarfin.io/images/
+  repository: https://openmf.github.io/helm-charts/payment-hub/images/
   version: 0.0.0-SNAPSHOT
